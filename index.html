@@ -230,6 +230,13 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .rw[data-ex="ielts"] { text-decoration-style: dashed } .rw[data-ex="gre"] { text-decoration-style: wavy; text-decoration-thickness: 1.5px }
 .rw.saved { background: linear-gradient(transparent 58%, var(--tint-yellow) 58%) }
 .rw.on { background: var(--tone-yellow); color: var(--on-tone) }
+.art-words, .chick { display: grid; gap: var(--space-2); padding-top: var(--space-3); border-top: var(--border-width) solid var(--line) }
+.article .art-words h3 { font: 700 13px/18px var(--font-body); letter-spacing: .04em; color: var(--accent-text); margin-top: 0 }
+.art-words .c-item b { font: 700 16px/24px var(--font-body); overflow-wrap: anywhere }
+.art-words .c-item span { overflow-wrap: anywhere }
+.art-words .c-item > .btn { align-self: center }
+.chick .btn { justify-self: start }
+.news-item .cl { color: var(--ink) }
 .legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) }
 .legend .rw { cursor: inherit }
 #v-read { padding-bottom: 50vh }
@@ -535,6 +542,14 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <p class="muted"><span id="readMeta"></span> · <a id="readSrc" target="_blank" rel="noopener">Original</a></p>
       <div class="legend" id="readLegend" hidden></div>
       <div class="article" id="readBody"></div>
+      <div class="art-words" id="artWordsBox" hidden>
+        <h3>Words from this article</h3>
+        <div class="list" id="artWords"></div>
+      </div>
+      <div class="chick" id="chickBox" hidden>
+        <button class="btn accent" id="chickSave">Save to Chicklist</button>
+        <p class="muted" id="chickNote" aria-live="polite">Needs Chicklist on this iPhone or Mac</p>
+      </div>
     </article>
     <div class="look" id="look" role="dialog" aria-label="Dictionary" hidden>
       <div class="head"><b id="lookWord" lang="en"></b><button class="btn c-save" id="lookSay" aria-label="Read aloud">▶</button><span class="muted" id="lookTags"></span><button class="del" id="lookClose">Close</button></div>
@@ -617,9 +632,9 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 
 
 <!-- Bump ?v= whenever app.js or reader.js changes, so browsers drop the cached copy. -->
-<script src="app.js?v=2026-11-04-brief2"></script>
+<script src="app.js?v=2026-11-04-chick1"></script>
 <!-- reader.js has its own ?v= (bump it when reader.js changes); this line keeps the two version edits from colliding in merges. -->
-<script src="reader.js?v=2026-11-04-read16"></script>
+<script src="reader.js?v=2026-11-04-read17"></script>
 <!-- brief.js (Today in brief) has its own ?v=; bump it when brief.js changes. -->
 <script src="brief.js?v=2026-11-04-brief2"></script>
 </body>

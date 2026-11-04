@@ -273,9 +273,64 @@ function renderArticle(art, it) {
   $("readSrc").hidden = !it; if (it) $("readSrc").href = it.link;
   const body = $("readBody"); body.replaceChildren();
   for (const p of art.paras) { const el = document.createElement(p.h ? "h3" : "p"); wordify(el, p.t); body.append(el) }
+  current.words = it?.link ? artWords(it.link) : [];
+  renderArtWords(); renderChick();
   renderLegend();
   $("readBox").hidden = false; $("pasteBox").hidden = true; closeLook();
 }
+
+/* ---------- words from this article + Save to Chicklist ---------- */
+// Words added while reading an article are kept per article (key = its link), so they're still there next time it's opened.
+// "Save to Chicklist" opens chicklist://note?v=1&… (format agreed with the Chicklist app; change both sides together).
+const ART_WORDS = "englishDesk.articleWords", CHICK = "englishDesk.chicklist";
+const readJSON = k => { try { return JSON.parse(localStorage.getItem(k) || "{}") || {} } catch { return {} } };
+const writeJSON = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)) } catch { toast("The browser refused to save.") } };
+const artWords = link => { const v = readJSON(ART_WORDS)[link]; return Array.isArray(v) ? v : [] };
+function keepArtWords() {
+  const link = current?.it?.link; if (!link) return;
+  const all = readJSON(ART_WORDS);
+  if (current.words.length) all[link] = current.words; else delete all[link];
+  writeJSON(ART_WORDS, all);
+}
+const inArticle = w => !!current?.words?.some(x => x.w === w);
+function renderArtWords() {
+  const list = current.words, box = $("artWords");
+  $("artWordsBox").hidden = !list.length;
+  box.replaceChildren(...list.map(x => {
+    const el = document.createElement("div"); el.className = "c-item";
+    const t = document.createElement("div");
+    const w = document.createElement("b"); w.textContent = x.w; t.append(w);
+    if (x.d) { const d = document.createElement("span"); d.lang = "zh-Hant"; d.textContent = x.d; t.append(d) }
+    if (x.s) { const s = document.createElement("span"); s.className = "muted"; s.textContent = x.s; t.append(s) }
+    const rm = document.createElement("button"); rm.className = "btn small"; rm.textContent = "Remove";
+    rm.setAttribute("aria-label", "Remove " + x.w + " from this article");
+    rm.onclick = () => { current.words = current.words.filter(y => y !== x); keepArtWords(); renderArtWords() };
+    el.append(t, rm); return el }));
+}
+const chickSaved = link => readJSON(CHICK)[link];
+function renderChick() {
+  const link = current?.it?.link, ok = !!link && /^https?:/i.test(link);
+  $("chickBox").hidden = !ok; if (!ok) return;
+  const at = chickSaved(link);
+  $("chickNote").textContent = at ? `✓ Saved to Chicklist on ${new Date(at).toLocaleDateString("en-US", { month: "short", day: "numeric" })}. Save again to add new words.` : "Needs Chicklist on this iPhone or Mac";
+}
+function chicklistUrl(art, it, words) {
+  const q = new URLSearchParams({
+    v: "1",
+    title: (art.title || it.title || it.link).slice(0, 300),
+    url: it.link,
+    source: it.source || "",
+    words: JSON.stringify(words.slice(0, 200).map(x => ({ w: x.w, d: x.d || "", s: x.s || "" }))),
+    body: art.paras.map(p => (p.h ? "## " : "") + p.t).join("\n\n").slice(0, 200000),
+  });
+  return "chicklist://note?" + q.toString().replace(/\+/g, "%20");
+}
+$("chickSave").onclick = () => {
+  const it = current?.it; if (!it?.link) return;
+  const all = readJSON(CHICK); all[it.link] = new Date().toISOString(); writeJSON(CHICK, all);
+  renderChick(); ED()?.markChicklist?.(it.link);
+  location.href = chicklistUrl(current, it, current.words);
+};
 
 // Which exam lists to underline: the reader picks any combination (or none); remembered per browser.
 let shown = new Set(EXAMS.map(([k]) => k));
@@ -391,7 +446,9 @@ function openLook(span) {
 async function showWord(word, sentence) {
   const seq = ++lookSeq, ex = examsOf(word);
   picked = { word: word.toLowerCase(), sentence: sentence ?? picked?.sentence ?? "", def: "" };
-  const setAdd = () => { $("lookAdd").disabled = saved.has(picked.word); $("lookAdd").textContent = $("lookAdd").disabled ? "In word list" : "Add to word list" };
+  // A word already in the word list (from another article) can still be added to this article's list.
+  const setAdd = () => { const b = $("lookAdd"), inList = saved.has(picked.word), here = !current?.it?.link || inArticle(picked.word);
+    b.disabled = inList && here; b.textContent = b.disabled ? "In word list" : inList ? "Add to this article" : "Add to word list" };
   $("lookWord").textContent = word;
   $("lookTags").textContent = ex.map(k => EXAMS.find(e => e[0] === k)[1]).join(" · ");
   $("lookDef").className = "def"; $("lookDef").innerHTML = '<p class="muted">Looking up…</p>';
@@ -418,9 +475,10 @@ $("lookAdd").onclick = () => {
   if (!picked || !ED()) return;
   const ok = ED().addWord({ word: picked.word, def: picked.def, sentence: picked.sentence, source: current?.it?.source || "" });
   saved.add(picked.word);
+  if (current && !inArticle(picked.word)) { current.words.push({ w: picked.word, d: picked.def, s: picked.sentence }); keepArtWords(); renderArtWords() }
   document.querySelectorAll("#v-read .rw").forEach(s => { if (forms(s.textContent).includes(picked.word)) s.classList.add("saved") });
   $("lookAdd").disabled = true; $("lookAdd").textContent = "In word list";
-  toast(ok ? "Added to your word list. It will show up in Cards." : "This word is already in your word list.");
+  toast(ok ? "Added to your word list. It will show up in Cards." : "Added to this article. It was already in your word list.");
 };
 
 /* ---------- settings: import dictionary + word lists ---------- */
