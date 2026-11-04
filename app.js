@@ -21,10 +21,13 @@ function load() {
   if (!cfg.claudeGrade || cfg.claudeGrade === "claude-sonnet-5-5") cfg.claudeGrade = "claude-opus-5-5";
   delete cfg.claudeChat;
 }
-function persist() {
+// Things that want to know about every save (sync.js pushes a few seconds later). `quiet` skips them, for saves that came from sync itself.
+const saveHooks = [];
+function persist(quiet) {
   try { localStorage.setItem(STORE, JSON.stringify({ cards: st.cards, logs: st.logs, deleted: st.deleted })) }
   catch { toast("The browser refused to save. Export a backup first.") }
   renderList(); renderLogs(); if (!$("v-cards").hidden) renderFlash();
+  if (!quiet) saveHooks.forEach(f => f());
 }
 /* Merging two copies of the data (backup import now, cloud sync later). Pure: returns new arrays, changes nothing.
    Cards: one per id, the newer `updated` wins; on a tie (old cards have no `updated`) the later `due`, then the higher `box`.
@@ -1077,7 +1080,14 @@ const DEF = { geminiModel: "gemini-3.5-flash-lite", liveModel: LIVE_DEFAULT, cla
 const NAME = { gemini: "Gemini", claude: "Claude", azure: "Azure" };
 const KEYS = { gemini: ["geminiKey"], claude: ["claudeKey"], azure: ["azureKey", "azureRegion"] };
 const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" }, useBrief: { opts: ["gemini", "claude"], key: "brief" } };
-function storeCfg() { try { localStorage.setItem(CFG, JSON.stringify(cfg)); return true } catch { toast("The browser refused to save your settings."); return false } }
+// Settings that sync across devices (never the keys). `changed` marks a user edit to one of them, so the newest edit wins on every device.
+const SYNC_CFG = ["use", "geminiModel", "liveModel", "claudeGrade"];
+function storeCfg(changed) {
+  if (changed) cfg.updated = Date.now();
+  try { localStorage.setItem(CFG, JSON.stringify(cfg)) } catch { toast("The browser refused to save your settings."); return false }
+  if (changed) saveHooks.forEach(f => f());
+  return true;
+}
 function renderKeys() {
   for (const p of Object.keys(KEYS)) {
     const P = NAME[p], tag = $("st" + P), has = keyFor(p), open = !$("k" + P).hidden;
@@ -1092,7 +1102,7 @@ function renderUse() {
     $(id).replaceChildren(...f.opts.map(p => { const b = document.createElement("button"); b.className = "chip"; b.textContent = NAME[p];
       b.disabled = !keyFor(p); if (b.disabled) b.title = "Add a " + NAME[p] + " key first";
       b.setAttribute("aria-pressed", keyFor(p) && p === cur ? "true" : "false");
-      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief" }[f.key]} now uses ${NAME[p]}`) };
+      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(true); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief" }[f.key]} now uses ${NAME[p]}`) };
       return b }));
   }
   $("advSum").textContent = "Advanced: model names (grading uses " + (use("grade") === "claude" ? cfg.claudeGrade : cfg.geminiModel) + ")";
@@ -1128,7 +1138,7 @@ document.querySelectorAll("[data-test]").forEach(b => b.onclick = async () => {
 });
 $("saveModels").onclick = () => {
   for (const f of Object.keys(DEF)) cfg[f] = $(f).value.trim() || DEF[f];
-  if (storeCfg()) { renderSettings(); toast("Saved") }
+  if (storeCfg(true)) { renderSettings(); toast("Saved") }
 };
 function afterSettings() { liveAvailability(); if (anyTextKey()) banner(""); if (!$("echoPlayer").hidden) renderScore() }
 $("exportBackup").onclick = () => {
@@ -1154,6 +1164,20 @@ function backupInfo() { $("backupInfo").textContent = `${st.cards.length} cards 
 /* ---------- word book (used by reader.js) ---------- */
 // A saved word is a card with kind "word": front = the word, back = definition, note = the sentence it came from.
 window.EnglishDesk = {
+  // For sync.js: run after every save; merge what came from the gist into this browser and return everything that should be up there.
+  onSave: f => saveHooks.push(f),
+  syncApply(remote) {
+    if (remote) {
+      Object.assign(st, mergeData(st, remote)); persist(true); backupInfo(); renderToday(); renderRedo();
+      const rs = remote.settings;
+      if (rs && (rs.updated || 0) > (cfg.updated || 0)) {
+        for (const f of SYNC_CFG) if (rs[f] !== undefined) cfg[f] = f === "use" ? { ...cfg.use, ...rs.use } : rs[f];
+        cfg.updated = rs.updated; storeCfg(); renderSettings();
+      }
+    }
+    const settings = { updated: cfg.updated || 0 }; for (const f of SYNC_CFG) settings[f] = cfg[f];
+    return { cards: st.cards, logs: st.logs, deleted: st.deleted, settings };
+  },
   toast,
   // For brief.js: the AI picked for "News brief" and its display name.
   ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
