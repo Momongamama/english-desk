@@ -573,20 +573,43 @@ async function setEchoSource(blob, name) {
   $("echoRange").hidden = false; $("echoGo").disabled = false; echoHint("");
 }
 $("echoFile").onchange = e => { const f = e.target.files[0]; e.target.value = ""; if (f) setEchoSource(f, f.name) };
-$("echoLoadUrl").onclick = async () => {
+$("echoLoadUrl").onclick = () => {
   const url = $("echoUrl").value.trim();
+  if (/spotify\.(com|link)/i.test(url)) { echoHint("Spotify 的音檔有加密，網頁讀不到。到 Apple Podcasts 或節目官網找同一集的 mp3，或用上面的節目清單。"); return }
   if (!/^https?:\/\//i.test(url)) { toast("貼上以 https:// 開頭的音檔連結"); return }
-  const b = $("echoLoadUrl"); b.disabled = true; echoHint("下載中…");
+  loadAudioUrl(url, $("echoLoadUrl"));
+};
+async function loadAudioUrl(url, b, name) {
+  b.disabled = true; echoHint("下載中，一集約 10–20 MB…");
   try {
     const res = await fetch(url);
     if (!res.ok) throw new Error("這個連結打不開（" + res.status + "），確認是音檔本身的網址。");
     const blob = await res.blob();
     if (!/audio|octet-stream|mpeg|mp4/i.test(blob.type) && blob.size < 200000) throw new Error("這個連結看起來不是音檔。要用結尾是 .mp3 之類的直接連結，不是節目網頁。");
-    await setEchoSource(blob, decodeURIComponent(new URL(res.url || url).pathname.split("/").pop() || "podcast"));
+    await setEchoSource(blob, name || decodeURIComponent(new URL(res.url || url).pathname.split("/").pop() || "podcast"));
   } catch (e) {
     echoHint(e instanceof TypeError ? "這個網站不讓別的網頁直接讀它的音檔。先把音檔下載下來，再按「上傳音檔」。" : e.message);
   } finally { b.disabled = false }
-};
+}
+// podcasts.json is refreshed daily by .github/workflows/news.yml: latest episodes of one UK and one US show, links only.
+let pods = null, podPick = 0;
+async function loadPodcasts() {
+  try { const r = await fetch("podcasts.json?d=" + today(), { cache: "no-cache" }); if (r.ok) pods = (await r.json()).shows?.filter(s => s.episodes?.length) } catch { }
+  if (pods?.length) renderPods();
+}
+function renderPods() {
+  $("podBox").hidden = false;
+  $("podShows").replaceChildren(...pods.map((s, k) => { const c = el("button", "chip", `${s.name}（${s.accent}）`); c.setAttribute("aria-pressed", k === podPick); c.onclick = () => { podPick = k; renderPods() }; return c }));
+  const s = pods[podPick];
+  $("podEps").replaceChildren(...s.episodes.slice(0, 4).map(ep => { const it = el("div", "news-item"), d = ep.published ? new Date(ep.published) : null;
+    const t = el("p", "pod-title", ep.title); t.lang = "en";
+    it.append(el("h3", "", s.by + (d ? ` · ${d.getMonth() + 1}/${d.getDate()}` : "") + (ep.duration ? ` · ${Math.round(ep.duration / 60)} 分鐘` : "")), t);
+    const row = el("div", "row");
+    if (s.cors !== false) { const b = el("button", "btn c-save", "用這集"); b.onclick = () => loadAudioUrl(ep.url, b, s.name + " · " + ep.title); row.append(b) }
+    const a = el("a", "btn c-save", "下載這集"); a.href = ep.url; a.target = "_blank"; a.rel = "noopener"; a.download = ""; row.append(a);
+    if (s.cors === false) row.append(el("span", "muted", "這個節目不讓網頁直接讀音檔，下載後按「上傳音檔」。"));
+    it.append(row); return it }));
+}
 document.querySelectorAll("#echoLens .chip").forEach(c => c.onclick = () => {
   echo.len = +c.dataset.len; document.querySelectorAll("#echoLens .chip").forEach(x => x.setAttribute("aria-pressed", x === c));
 });
@@ -965,7 +988,7 @@ $("importFile").onchange = async e => {
 function backupInfo() { $("backupInfo").textContent = `目前 ${st.cards.length} 張卡片、${st.logs.length} 筆紀錄` }
 
 /* ---------- boot ---------- */
-load(); fillSettings(); loadNews(); renderToday(); renderLogs(); renderList(); backupInfo(); renderRedo();
+load(); fillSettings(); loadNews(); loadPodcasts(); renderToday(); renderLogs(); renderList(); backupInfo(); renderRedo();
 try { $("essay").value = localStorage.getItem("englishDesk.draft") || "" } catch { }
 wc(); setSpeakMode("live"); route();
 if (!hasKey()) banner("第一次使用：先填一組 API key。", true);
