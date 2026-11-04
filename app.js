@@ -1092,7 +1092,9 @@ async function tatoeba(word) {
   for (const x of d.data || []) {
     const a = (x.audios || []).find(a => a.download_url);
     const n = String(x.text || "").split(/\s+/).length;
-    if (a && n >= 5) out.push({ s: x.text, url: a.download_url, by: a.author || "", lic: a.licence || "", link: a.attribution_url || "https://tatoeba.org/en/sentences/show/" + x.id });
+    // Two addresses for the same recording: the API's file link (refused when the recorder doesn't allow reuse outside
+    // Tatoeba) and the audio server the Tatoeba site itself plays from.
+    if (a && n >= 5) out.push({ s: x.text, urls: [a.download_url, `https://audio.tatoeba.org/sentences/eng/${x.id}.mp3`], by: a.author || "", lic: a.licence || "", link: a.attribution_url || "https://tatoeba.org/en/sentences/show/" + x.id });
   }
   return out.sort((p, q) => Math.abs(p.s.length - 70) - Math.abs(q.s.length - 70)); // everyday-length sentences first
 }
@@ -1104,25 +1106,31 @@ function voiceShow(c) {
   const a = document.createElement("a"); a.href = v.link; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Tatoeba";
   credit.append(`Recorded by ${v.by || "a Tatoeba member"}${v.lic ? " (" + v.lic + ")" : ""} · `, a);
   const row = document.createElement("div"); row.className = "row"; row.style.justifyContent = "center";
-  const again = document.createElement("button"); again.className = "btn"; again.textContent = "Play again"; again.onclick = () => voicePlay();
+  const again = document.createElement("button"); again.className = "btn"; again.textContent = "Play again"; again.onclick = () => voicePlay(c);
   row.append(again);
-  if (voice.list.length > 1) { const nx = document.createElement("button"); nx.className = "btn"; nx.textContent = `Another sentence (${voice.i % voice.list.length + 1}/${voice.list.length})`; nx.onclick = () => { voice.i++; voiceShow(c); voicePlay() }; row.append(nx) }
+  if (voice.list.length > 1) { const nx = document.createElement("button"); nx.className = "btn"; nx.textContent = `Another sentence (${voice.i % voice.list.length + 1}/${voice.list.length})`; nx.onclick = () => { voice.i++; voiceShow(c); voicePlay(c) }; row.append(nx) }
   box.append(s, row, credit);
 }
-function voicePlay() {
+// Try each address of this recording; if none plays, move on to the next sentence (once round the list at most).
+function voicePlay(c, tries = 0) {
   voiceStop();
   const v = voice.list[voice.i % voice.list.length]; if (!v) return;
-  voice.el.src = v.url; voice.el.play().catch(e => toast(e && e.name === "NotAllowedError" ? "Tap Play again to hear it." : "Couldn't play this recording. Try Another sentence."));
+  let k = 0;
+  const next = () => {
+    if (k < v.urls.length) { voice.el.src = v.urls[k++]; voice.el.play().catch(e => e && e.name === "NotAllowedError" ? toast("Tap Play again to hear it.") : next()); return }
+    if (c && tries + 1 < voice.list.length) { voice.i++; voiceShow(c); voicePlay(c, tries + 1) } else toast("Couldn't play these recordings. Try Video clip.");
+  };
+  next();
 }
 async function voiceOpen(c) {
   ygClose(); voiceUnlock(); const box = $("ygBox"); box.hidden = false;
-  if (voice.card === c.id && voice.list.length) { voiceShow(c); voicePlay(); return }
+  if (voice.card === c.id && voice.list.length) { voiceShow(c); voicePlay(c); return }
   voice.card = c.id; voice.list = []; voice.i = 0;
   box.innerHTML = '<p class="muted">Finding a real recording…</p>';
   try { voice.list = await tatoeba(c.mine) } catch { if (voice.card === c.id) box.innerHTML = '<p class="muted">Couldn\'t reach Tatoeba. Check your connection, or try Video clip.</p>'; return }
   if (voice.card !== c.id) return;
   if (!voice.list.length) { box.innerHTML = '<p class="muted">No real recording with this word yet. Try Video clip.</p>'; return }
-  voiceShow(c); voicePlay();
+  voiceShow(c); voicePlay(c);
 }
 
 const yg = { ready: null, w: null, card: null, n: 0, heard: false };
