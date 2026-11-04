@@ -59,7 +59,7 @@ nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; backgrou
 nav a { flex: none; display: inline-flex; align-items: center; gap: var(--space-1); min-height: 34px; padding: 0 var(--space-3); white-space: nowrap;
   border: var(--border-width) solid var(--line); border-radius: var(--radius-pill); color: var(--ink); text-decoration: none; font: 700 14px/1 var(--font-body) }
 nav a[aria-current="page"] { background: var(--tab-tone); color: var(--on-tone); box-shadow: var(--shadow-hard) }
-nav a[data-v="today"], nav a[data-v="settings"] { --tab-tone: var(--tone-green) } nav a[data-v="speak"] { --tab-tone: var(--tone-coral) }
+nav a[data-v="today"], nav a[data-v="echo"], nav a[data-v="settings"] { --tab-tone: var(--tone-green) } nav a[data-v="speak"] { --tab-tone: var(--tone-coral) }
 nav a[data-v="write"] { --tab-tone: var(--tone-lilac) } nav a[data-v="cards"] { --tab-tone: var(--tone-yellow) }
 nav .count { color: var(--accent-text) }
 nav a[aria-current="page"] .count { color: var(--on-tone) }
@@ -166,6 +166,26 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .logs time { color: var(--ink-muted); font-size: 13px; font-variant-numeric: tabular-nums }
 .logs .level { background: none; border-color: transparent; padding: 0; color: var(--accent-text) }
 
+/* Shadowing */
+.echo-line { margin: 0; font: 700 18px/26px var(--font-body); overflow-wrap: anywhere }
+.w[data-q="mid"] { background: linear-gradient(transparent 58%, var(--tone-yellow) 58%) }
+.w[data-q="bad"] { text-decoration: underline wavy var(--strike); text-decoration-thickness: 2px; text-underline-offset: 5px }
+.w[data-q="miss"] { color: var(--ink-muted); text-decoration: line-through var(--strike); text-decoration-thickness: 2px }
+.rec { width: 100%; min-height: 56px; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-touch-callout: none }
+.btn.accent.rec.on { background: var(--ink); color: var(--bg); border-color: var(--ink); box-shadow: none; transform: translate(2px, 2px) }
+.scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(88px, 1fr)); gap: var(--space-2) }
+.scores div { display: grid; gap: 2px; padding: var(--space-2) var(--space-3); border: var(--border-width) solid var(--line); border-radius: var(--radius-sm) }
+.scores b { font: 800 28px/30px var(--font-display) }
+.scores span { color: var(--ink-muted); font-size: 13px; line-height: 20px }
+.tips { margin: 0; padding-left: var(--space-5); display: grid; gap: var(--space-1); font-size: 14px }
+.sents { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--space-1); max-height: 50vh; overflow-y: auto }
+.sents button { width: 100%; display: grid; grid-template-columns: 2rem minmax(0, 1fr) auto; gap: var(--space-2); align-items: baseline; text-align: left; padding: var(--space-2) var(--space-3);
+  background: none; color: var(--ink); border: var(--border-width) solid transparent; border-radius: var(--radius-sm); font: 400 15px/24px var(--font-body); cursor: pointer }
+.sents button[aria-current="true"] { background: var(--tint-green); border-color: var(--line) }
+.sents .num { color: var(--ink-muted); font-size: 13px; font-variant-numeric: tabular-nums }
+.sents button[aria-current="true"] .num { color: var(--ink) }
+.sents .sc { font: 700 13px/18px var(--font-body); color: var(--accent-text); white-space: nowrap }
+
 /* Notices */
 .banner { padding: var(--space-3) var(--space-4); background: var(--tint-yellow); border: var(--border-width) solid var(--line); border-radius: var(--radius-sm); font-size: 14px }
 .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); padding: var(--space-2) var(--space-4);
@@ -187,6 +207,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
     <a href="#today" data-v="today">今天</a>
     <a href="#speak" data-v="speak">口說</a>
     <a href="#write" data-v="write">寫作</a>
+    <a href="#echo" data-v="echo">跟讀</a>
     <a href="#cards" data-v="cards">卡片<span class="count" id="dueCount"></span></a>
     <a href="#settings" data-v="settings">設定</a>
   </nav>
@@ -199,10 +220,10 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <div class="task">
         <h3 id="todayLabel">今天</h3>
         <p id="todayTask">—</p>
-        <a class="btn primary" id="todayGo" href="#speak">開始</a>
+        <div class="row"><a class="btn primary" id="todayGo" href="#speak">開始</a><a class="btn" id="todayEnjoy" href="https://enjoy.bot/" target="_blank" rel="noopener" hidden>打開 Enjoy</a></div>
       </div>
       <div class="week" id="week"></div>
-      <p class="muted">每天另外花 5 分鐘複習卡片。週六的跟讀用 Enjoy 的 Echo 模式。</p>
+      <p class="muted">每天另外花 5 分鐘複習卡片。週六跟讀可以用「跟讀」分頁，也可以照舊用 Enjoy 的 Echo 模式。</p>
     </div>
     <div class="sheet">
       <div class="row" style="justify-content:space-between"><h2>今日新聞</h2><span class="muted" id="newsMeta"></span></div>
@@ -305,6 +326,66 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
     </div>
   </section>
 
+  <!-- ECHO -->
+  <section class="view" id="v-echo" hidden>
+    <div class="sheet">
+      <h2>選一段 podcast 來跟讀</h2>
+      <p class="muted">貼音檔的直接連結（通常結尾是 .mp3），或上傳手機裡的音檔。選 1–3 分鐘就好，Gemini 會轉成帶時間的逐句稿。</p>
+      <input type="text" id="echoUrl" inputmode="url" lang="en" placeholder="https://…/episode.mp3">
+      <div class="row">
+        <button class="btn" id="echoLoadUrl">用這個連結</button>
+        <label class="btn" for="echoFile">上傳音檔</label>
+        <input type="file" id="echoFile" accept="audio/*,.mp3,.m4a,.wav" hidden>
+        <a class="btn" href="https://enjoy.bot/" target="_blank" rel="noopener">打開 Enjoy</a>
+      </div>
+      <p class="muted" id="echoSrc"></p>
+      <div class="field" id="echoRange" hidden>
+        <label for="echoStart">從第幾分鐘開始</label>
+        <input type="text" id="echoStart" inputmode="decimal" placeholder="0:00，例如 12:30">
+        <div class="row" id="echoLens"><span class="muted">長度</span>
+          <button class="chip" data-len="60" aria-pressed="false">1 分鐘</button>
+          <button class="chip" data-len="120" aria-pressed="true">2 分鐘</button>
+          <button class="chip" data-len="180" aria-pressed="false">3 分鐘</button>
+        </div>
+      </div>
+      <div class="row"><button class="btn primary" id="echoGo" disabled>轉成逐句稿</button><button class="btn" id="echoStop" hidden>停止</button><span class="muted" id="echoHint" aria-live="polite"></span></div>
+    </div>
+
+    <div class="sheet" id="echoPlayer" hidden>
+      <div class="row" style="justify-content:space-between"><h3 id="echoPos">第 1 句</h3><span class="muted" id="echoClip"></span></div>
+      <p class="echo-line" id="echoLine" lang="en"></p>
+      <div class="row">
+        <button class="btn" id="echoPrev">上一句</button>
+        <button class="btn" id="echoPlay">▶ 原音</button>
+        <button class="btn" id="echoNext">下一句</button>
+      </div>
+      <div class="row">
+        <button class="chip" id="echoLoop" aria-pressed="false">循環這句</button>
+        <span class="row" id="echoSpeeds"><button class="chip" data-speed="0.8" aria-pressed="false">0.8 倍</button><button class="chip" data-speed="1" aria-pressed="true">原速</button></span>
+      </div>
+      <p class="muted">循環時每遍中間會停一下，讓你跟著說。準備好就按住下面的按鈕錄一遍，放開就停。</p>
+      <button class="btn accent rec" id="echoRec">按住錄音</button>
+      <div class="row" id="echoMineRow" hidden>
+        <button class="btn" id="echoMine">▶ 我的錄音</button>
+        <button class="btn" id="echoBoth">▶ 原音接我的</button>
+        <span class="muted" id="echoDur"></span>
+      </div>
+      <div class="row"><button class="btn" id="echoScore" disabled>評分發音</button><span class="muted" id="echoEngine"></span></div>
+      <div class="corr" id="echoResult" hidden>
+        <div class="scores" id="echoTiles"></div>
+        <p class="muted">黃底：還可以 · 紅色波浪線：要再練 · 刪除線：漏掉了。字上停一下可以看分數或說明。</p>
+        <div id="echoWeak"></div>
+        <ul class="tips" id="echoTips"></ul>
+        <p class="muted" id="echoSummary"></p>
+      </div>
+    </div>
+
+    <div class="sheet" id="echoListBox" hidden>
+      <div class="row" style="justify-content:space-between"><h2>逐句稿</h2><button class="btn" id="echoDone">完成這次跟讀</button></div>
+      <ol class="sents" id="echoList"></ol>
+    </div>
+  </section>
+
   <!-- CARDS -->
   <section class="view" id="v-cards" hidden>
     <div class="sheet" id="reviewCard">
@@ -338,7 +419,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
         <input type="text" id="geminiModel" placeholder="gemini-3.5-flash-lite">
         <label for="liveModel">語音對話模型（Live API）</label>
         <input type="text" id="liveModel" placeholder="gemini-3.8-live">
-        <p class="muted">到 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> 取得 key，免費額度足夠日常練習。語音對話用同一組 key。</p>
+        <p class="muted">到 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> 取得 key，免費額度足夠日常練習。語音對話和跟讀的逐句稿只能用 Gemini，選 Claude 時也請填這組。</p>
       </div>
       <div class="field" id="fClaude" hidden>
         <label for="claudeKey">Claude API key</label>
@@ -350,6 +431,18 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
         <p class="muted">到 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Claude Console</a> 取得 key。API 按用量計費，和 claude.ai 訂閱分開。</p>
       </div>
       <div class="row"><button class="btn primary" id="saveSettings">儲存</button><button class="btn" id="testAi">測試連線</button><span class="muted" id="testOut"></span></div>
+    </div>
+    <div class="sheet">
+      <h2>發音評分（選填）</h2>
+      <p class="muted">跟讀時用 Azure 發音評估，每個字都有分數。沒填就改用 Gemini 聽了給建議。Azure 免費方案（F0）每月有 5 小時語音額度，一句幾秒鐘，練很久也用不完。</p>
+      <div class="field">
+        <label for="azureKey">Azure Speech key</label>
+        <input type="password" id="azureKey" autocomplete="off" placeholder="32 個字元的 key">
+        <label for="azureRegion">地區（Location / Region）</label>
+        <input type="text" id="azureRegion" placeholder="eastasia">
+        <p class="muted">到 <a href="https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices" target="_blank" rel="noopener">Azure 入口網站</a> 建立「Speech」資源，定價層選 Free F0。建好後在「Keys and Endpoint」複製 KEY 1 和 Location/Region。</p>
+      </div>
+      <div class="row"><button class="btn" id="saveAzure">儲存</button><button class="btn" id="testAzure">測試 Azure</button><span class="muted" id="azureOut"></span></div>
     </div>
     <div class="sheet">
       <h2>備份</h2>
