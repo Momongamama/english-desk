@@ -186,6 +186,18 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .sents button[aria-current="true"] .num { color: var(--ink) }
 .sents .sc { font: 700 13px/18px var(--font-body); color: var(--accent-text); white-space: nowrap }
 
+/* Monthly redo */
+.redo-item { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border-top: var(--border-width) solid var(--line); min-width: 0 }
+.redo-item:first-child { border-top: 0; padding-top: 0 }
+.redo-item p:not(.muted) { font: 700 16px/24px var(--font-body); overflow-wrap: anywhere }
+.cmp { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-3) }
+.cmp-col { display: grid; align-content: start; gap: var(--space-2); padding: var(--space-3) var(--space-4); border: var(--border-width) solid var(--line); border-radius: var(--radius-md); min-width: 0 }
+.cmp-col:last-child { background: var(--tint-green) }
+.cmp-col:last-child .muted { color: var(--ink) }
+.cmp-text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px }
+.cmp-list { display: grid; gap: var(--space-1) }
+@media (max-width: 640px) { .cmp { grid-template-columns: minmax(0, 1fr) } }
+
 /* Notices */
 .banner { padding: var(--space-3) var(--space-4); background: var(--tint-yellow); border: var(--border-width) solid var(--line); border-radius: var(--radius-sm); font-size: 14px }
 .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); padding: var(--space-2) var(--space-4);
@@ -225,6 +237,12 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <div class="week" id="week"></div>
       <p class="muted">每天另外花 5 分鐘複習卡片。週六跟讀可以用「跟讀」分頁，也可以照舊用 Enjoy 的 Echo 模式。</p>
     </div>
+    <div class="sheet" id="redoSheet" hidden>
+      <h3 id="redoEyebrow">每月同題重做</h3>
+      <h2>用上個月的題目再做一次</h2>
+      <p class="muted" id="redoIntro"></p>
+      <div class="news" id="redoList"></div>
+    </div>
     <div class="sheet">
       <div class="row" style="justify-content:space-between"><h2>今日新聞</h2><span class="muted" id="newsMeta"></span></div>
       <div class="news" id="newsList"><p class="muted">新聞載入中…</p></div>
@@ -245,6 +263,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <h2>今天聊什麼</h2>
       <div class="row topics" id="topics"></div>
       <p class="muted" id="topicNote" hidden></p>
+      <p class="banner" id="speakRedoNote" hidden></p>
       <input type="text" id="topicCustom" placeholder="或自己輸入題目，例如 the theme I'm designing">
       <div class="row">
         <span class="muted">練習方式</span>
@@ -289,6 +308,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <div class="corr" id="speakCorr"></div>
       <div class="row"><button class="btn accent" id="saveAllSpeak">全部存成卡片</button></div>
     </div>
+    <div class="sheet" id="speakCompare" hidden></div>
   </section>
 
   <!-- WRITE -->
@@ -297,6 +317,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <h2>寫一段 150–200 字</h2>
       <div class="row topics" id="wtopics"></div>
       <p class="muted" id="wtopicNote" hidden></p>
+      <p class="banner" id="writeRedoNote" hidden></p>
       <input type="text" id="wtopicCustom" placeholder="或自己輸入題目，例如 婉拒一個邀請的 email">
       <textarea class="ruled" id="essay" placeholder="Start writing here. Don't look anything up."></textarea>
       <div class="row">
@@ -316,6 +337,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <div class="habit" id="wHabit"></div>
       <div class="row"><button class="btn accent" id="saveAllWrite">全部存成卡片</button></div>
     </div>
+    <div class="sheet" id="writeCompare" hidden></div>
 
     <div class="sheet" id="redoBox" hidden>
       <h2>關掉上面的版本，自己再寫一次</h2>

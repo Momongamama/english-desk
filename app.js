@@ -126,7 +126,7 @@ function renderLogs() {
     const s = document.createElement("span"); s.textContent = ({ write: "寫作 · ", echo: "跟讀 · " }[l.type] || "口說 · ") + (l.topic || "");
     el.append(t, lv, s); return el }));
 }
-function addLog(l) { st.logs.push({ ...l, date: today(), ts: Date.now() }); if (st.logs.length > 500) st.logs.splice(0, st.logs.length - 500); persist() }
+function addLog(l) { st.logs.push({ ...l, date: today(), ts: Date.now() }); if (st.logs.length > 500) st.logs.splice(0, st.logs.length - 500); persist(); if (st.redo) renderRedo() }
 
 /* ---------- news + topics ---------- */
 // news.json is refreshed daily by .github/workflows/news.yml (BBC + CNN, or NPR when CNN is down).
@@ -158,7 +158,7 @@ function renderTopics(kind) {
   if (!list.includes(picked[kind])) picked[kind] = list[0];
   $(rowId).replaceChildren(...list.map(t => { const b = document.createElement("button"); b.className = "chip"; b.textContent = t.title;
     b.setAttribute("aria-pressed", t === picked[kind] ? "true" : "false");
-    b.onclick = () => { picked[kind] = t; renderTopics(kind) }; return b }));
+    b.onclick = () => { picked[kind] = t; renderTopics(kind); if (st.redo) renderRedo() }; return b }));
   const note = noteFor(picked[kind]);
   $(noteId).replaceChildren(...(note ? [note] : [])); $(noteId).hidden = !note;
 }
@@ -400,6 +400,7 @@ $("stopPaste").onclick = () => st.ctl?.abort();
 /* review: CEFR level + 5 corrections, shared by both modes */
 async function review(transcript, btn, label, pasted) {
   btn.disabled = true; btn.textContent = "整理中…";
+  const prevRedo = activeRedo("speak");
   st.ctl = new AbortController(); if (pasted) $("stopPaste").hidden = false;
   try {
     const r = await ai("You are a strict but kind English speaking coach. You reply with JSON only.", [{ role: "user", content: `Here's a transcript of me speaking English with a conversation partner. I'm around B2, aiming for C1. Topic: ${st.topic.title}.
@@ -412,17 +413,94 @@ Reply with only JSON of this shape:
 {"level":"B2","summary":"一兩句繁體中文的整體評語，說明這個等級的依據","items":[{"mine":"my original phrase","natural":"the natural version","why":"一行繁體中文說明"}]}
 "level" is your CEFR estimate of my speaking from this sample (A2, B1, B2, C1 or C2).
 
+${redoPrompt("speak", prevRedo)}
 Transcript:
 ${transcript.slice(-12000)}` }], { json: true, heavy: true, signal: st.ctl.signal });
     st.speakItems = Array.isArray(r.items) ? r.items.filter(i => i && i.mine && i.natural).slice(0, 5) : [];
     $("speakLevel").textContent = r.level || "—"; $("speakSummary").textContent = r.summary || "";
     renderCorr($("speakCorr"), st.speakItems, "speak");
     $("reviewBox").hidden = false; $("reviewBox").scrollIntoView({ behavior: "smooth", block: "start" });
-    addLog({ type: "speak", topic: st.topic.title, level: r.level || "" });
+    renderCompare("speak", prevRedo, { level: r.level, summary: r.summary, compare: r.compare });
+    addLog({ type: "speak", topic: st.topic.title, ctx: topicCtx(st.topic), level: r.level || "", summary: r.summary || "",
+      items: st.speakItems.map(i => ({ mine: i.mine, natural: i.natural })), ...(prevRedo ? { redoOf: prevRedo.ts } : {}) });
+    if (prevRedo) { st.redo.speak = null; renderRedo() }
   } catch (e) { if (e.code !== "cancelled") { toast(errText(e)); if (e.code === "nokey" || e.code === "auth" || e.code === "model") banner(errText(e), true) } }
   finally { btn.disabled = false; btn.textContent = label; $("stopPaste").hidden = true; liveAvailability() }
 }
 $("saveAllSpeak").onclick = () => saveAll(st.speakItems, "speak", $("speakCorr"));
+
+/* ---------- monthly redo ---------- */
+// Once a month, do last month's speaking / writing topics again and put the two results side by side.
+st.redo = { speak: null, write: null };
+const CEFR = ["A1", "A2", "B1", "B2", "C1", "C2"];
+const cefrIdx = l => CEFR.indexOf(String(l || "").trim().slice(0, 2).toUpperCase());
+function cefrDiff(a, b) {
+  const x = cefrIdx(a), y = cefrIdx(b); if (x < 0 || y < 0) return "";
+  return y > x ? `進步 ${y - x} 級` : y < x ? `退了 ${x - y} 級` : "等級持平";
+}
+const ym = d => d.slice(0, 7);
+function lastMonth() { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - 1); return d.toLocaleDateString("sv-SE").slice(0, 7) }
+const topicCtx = t => t && t.summary ? { summary: t.summary, source: t.source, section: t.section, link: t.link } : undefined;
+// Up to 2 topics per kind from last month, latest first, one per topic title.
+function redoCandidates() {
+  const lm = lastMonth(), out = [];
+  for (const type of ["speak", "write"]) {
+    const seen = new Set();
+    for (const l of [...st.logs].filter(l => l.type === type && l.level && l.topic && ym(l.date) === lm).sort((a, b) => b.ts - a.ts)) {
+      if (seen.has(l.topic)) continue; seen.add(l.topic); out.push(l); if (seen.size === 2) break;
+    }
+  }
+  return out;
+}
+const redoneBy = l => st.logs.find(x => x.redoOf === l.ts);
+function activeRedo(kind) { const r = st.redo[kind]; return r && currentTopic(kind).title === r.topic ? r : null }
+function startRedo(l) {
+  const kind = l.type, t = { title: l.topic, ...(l.ctx || {}) };
+  st.redo[kind] = l;
+  topicLists[kind] = [t, ...topicLists[kind].filter(x => x.title !== t.title)].slice(0, SHOW); picked[kind] = t;
+  $(kind === "speak" ? "topicCustom" : "wtopicCustom").value = ""; renderTopics(kind); renderRedo(); location.hash = kind;
+}
+function redoPrompt(kind, prev) {
+  if (!prev) return "";
+  const shape = `Also add a field "compare": 一兩句繁體中文，和上個月比：哪裡進步了、哪個問題還在。`;
+  if (kind === "write") return `\nI wrote on this same topic last month and it was graded ${prev.level}.` + (prev.text ? ` Here is last month's paragraph:\n${prev.text.slice(0, 3000)}\n` : "\n") + shape + "\n";
+  return `\nI talked about this same topic last month and was rated ${prev.level}.` + (prev.summary ? ` The feedback then: ${prev.summary}` : "")
+    + (prev.items?.length ? ` My mistakes then: ${prev.items.map(i => `"${i.mine}" → "${i.natural}"`).join("; ")}. Note whether any of them came back.` : "") + "\n" + shape + "\n";
+}
+function el(tag, cls, text) { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e }
+// Today: the redo list. Shown all month while last month has results; moved to the top on the 1st.
+function renderRedo() {
+  const box = $("redoSheet"), list = redoCandidates();
+  box.hidden = !list.length; if (!list.length) return;
+  const lm = lastMonth(), first = new Date().getDate() === 1, undone = list.some(l => !redoneBy(l));
+  $("redoEyebrow").textContent = first && undone ? "今天是月初，先做這個" : "每月同題重做";
+  $("redoIntro").textContent = `把 ${+lm.slice(5)} 月練過的題目再做一次，做完會和上個月的結果並排對照。一樣先自己說、自己寫，不要先看舊版。`;
+  $("redoList").replaceChildren(...list.map(l => {
+    const row = el("div", "redo-item"), done = redoneBy(l);
+    const meta = el("h3", "", (l.type === "write" ? "寫作" : "口說") + " · " + l.date.slice(5).replace("-", "/") + " · " + l.level);
+    const t = el("p", "", l.topic); t.lang = "en";
+    row.append(meta, t);
+    if (done) row.append(el("p", "muted", `已重做：${l.level} → ${done.level || "—"}` + (cefrDiff(l.level, done.level) ? "，" + cefrDiff(l.level, done.level) : "")));
+    else { const b = el("button", "btn c-save", st.redo[l.type] === l ? "進行中，前往" : "重做這題"); b.onclick = () => startRedo(l); row.append(b) }
+    return row }));
+  if (first && undone) $("v-today").prepend(box);
+  ["speak", "write"].forEach(k => { const r = st.redo[k], n = $(k === "speak" ? "speakRedoNote" : "writeRedoNote");
+    n.hidden = !activeRedo(k); if (r) n.textContent = `每月同題重做：${r.date.slice(5).replace("-", "/")} 做過這題，當時 ${r.level}。先照平常練，結束後會並排對照。` });
+}
+// Result side by side: last month | this time, plus the level change and the AI's comparison.
+function renderCompare(kind, prev, now) {
+  const box = $(kind === "speak" ? "speakCompare" : "writeCompare");
+  box.hidden = !prev; if (!prev) return;
+  const col = (title, level, body, extra) => { const c = el("div", "cmp-col"); const h = el("div", "verdict"); h.append(el("h3", "", title), el("span", "level", level || "—")); c.append(h);
+    if (body) { const p = el("p", kind === "write" ? "cmp-text" : "muted", body); if (kind === "write") p.lang = "en"; c.append(p) } if (extra) c.append(extra); return c };
+  let old = null;
+  if (kind === "speak" && prev.items?.length) { old = el("div", "cmp-list"); for (const i of prev.items) { const p = el("p", "c-mine", i.mine); p.lang = "en"; old.append(p) } }
+  const grid = el("div", "cmp");
+  grid.append(col(`上個月 · ${prev.date.slice(5).replace("-", "/")}`, prev.level, kind === "write" ? (prev.text || "（這筆紀錄是舊版，沒有存原文）") : prev.summary || "", old),
+    col("這次", now.level, kind === "write" ? now.text : now.summary || ""));
+  const diff = cefrDiff(prev.level, now.level);
+  box.replaceChildren(el("h2", "", "和上個月對照" + (diff ? "：" + diff : "")), grid, ...(now.compare ? [el("div", "habit", now.compare)] : []));
+}
 
 /* ---------- writing ---------- */
 function wc() { const n = ($("essay").value.match(/[A-Za-z’']+/g) || []).length; $("wc").textContent = n + " 字" + (n && (n < 150 || n > 200) ? "（目標 150–200）" : "") }
@@ -431,18 +509,19 @@ $("grade").onclick = async () => {
   const text = $("essay").value.trim();
   if ((text.match(/[A-Za-z]+/g) || []).length < 30) { toast("先寫至少 30 個字"); return }
   if (!hasKey()) { banner("先填好 API key 才能批改。", true); return }
-  const topic = currentTopic("write"); st.writeTopic = topic.title;
+  const topic = currentTopic("write"); st.writeTopic = topic; st.writeText = text; st.writeWhy = ""; st.writeRedo = activeRedo("write");
   st.ctl = new AbortController(); $("grade").disabled = true; $("grade").textContent = "批改中…"; $("stopGrade").hidden = false;
   try {
     const r = await ai("You are a strict English writing examiner. You reply with JSON only.", [{ role: "user", content: `I'm a B2-high English writer aiming for C1. Assess my paragraph (topic: ${topic.title}).
 ${topic.summary ? newsContext(topic) + "\nI was asked to give my opinion on this story. Judge how well I respond to it, but grade my English, not my opinion.\n" : ""}Reply with only JSON of this shape:
 {"level":"B2","levelWhy":"一兩句繁體中文，說明這個等級的依據（文法範圍、用字、連貫、準確度）","rewrite":"the paragraph rewritten as a C1 writer would, keeping my meaning","changes":[{"mine":"my original phrase","natural":"the better version","why":"一行繁體中文說明為什麼"}],"habit":"一句繁體中文：我反覆出現、最該改的一個習慣"}
 Give 3–5 changes, the ones that matter most. Be strict, not encouraging.
-
+${redoPrompt("write", st.writeRedo)}
 My paragraph:
 ${text.slice(0, 6000)}` }], { json: true, heavy: true, signal: st.ctl.signal });
     st.writeItems = Array.isArray(r.changes) ? r.changes.filter(i => i && i.mine && i.natural) : [];
-    st.writeLevel = r.level || "";
+    st.writeLevel = r.level || ""; st.writeWhy = r.levelWhy || "";
+    renderCompare("write", st.writeRedo, { level: r.level, text, compare: r.compare });
     $("wLevel").textContent = r.level || "—"; $("wLevelWhy").textContent = r.levelWhy || "";
     $("wRewrite").textContent = r.rewrite || ""; $("wRewrite").hidden = false; $("hideModel").textContent = "先收起 C1 版本";
     $("wHabit").textContent = r.habit ? "要改的習慣：" + r.habit : ""; $("wHabit").hidden = !r.habit;
@@ -457,7 +536,9 @@ $("saveAllWrite").onclick = () => saveAll(st.writeItems, "write", $("wCorr"));
 $("hideModel").onclick = () => { const h = !$("wRewrite").hidden; $("wRewrite").hidden = h; $("hideModel").textContent = h ? "再看一次 C1 版本" : "先收起 C1 版本" };
 $("redoDone").onclick = () => {
   if (!$("redo").value.trim()) { toast("先重寫一次再按完成"); return }
-  addLog({ type: "write", topic: st.writeTopic, level: st.writeLevel });
+  const prev = st.writeRedo;
+  addLog({ type: "write", topic: st.writeTopic.title, ctx: topicCtx(st.writeTopic), level: st.writeLevel, why: st.writeWhy, text: st.writeText.slice(0, 3000), ...(prev ? { redoOf: prev.ts } : {}) });
+  if (prev) { st.redo.write = null; st.writeRedo = null; renderRedo() }
   try { localStorage.removeItem("englishDesk.draft") } catch { }
   $("essay").value = ""; wc(); $("redoBox").hidden = true; toast("已記錄");
 };
@@ -884,7 +965,7 @@ $("importFile").onchange = async e => {
 function backupInfo() { $("backupInfo").textContent = `目前 ${st.cards.length} 張卡片、${st.logs.length} 筆紀錄` }
 
 /* ---------- boot ---------- */
-load(); fillSettings(); loadNews(); renderToday(); renderLogs(); renderList(); backupInfo();
+load(); fillSettings(); loadNews(); renderToday(); renderLogs(); renderList(); backupInfo(); renderRedo();
 try { $("essay").value = localStorage.getItem("englishDesk.draft") || "" } catch { }
 wc(); setSpeakMode("live"); route();
 if (!hasKey()) banner("第一次使用：先填一組 API key。", true);
