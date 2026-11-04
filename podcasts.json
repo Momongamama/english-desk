@@ -1,6 +1,57 @@
 {
- "updated": "2026-11-04T06:49:42.645Z",
+ "updated": "2026-11-04T07:19:20.330Z",
  "shows": [
+  {
+   "id": "business-daily",
+   "name": "Business Daily",
+   "by": "BBC World Service",
+   "accent": "英國",
+   "cors": false,
+   "episodes": [
+    {
+     "title": "Founders: The entrepreneur betting AI will replace apps",
+     "summary": "Jerry Yue is the entrepreneur behind Brain Technologies. He believes artificial intelligence could replace many of the apps we use every day, changing how we…",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pl2w95.mp3",
+     "published": "2026-11-03T21:30:00.000Z",
+     "duration": 1048
+    },
+    {
+     "title": "Follow the money: Your Diwali gold necklace",
+     "summary": "Gold is worth about twice what it was four years ago, so who profits when a Hindu family buys gold during the Diwali festive period?",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkwx5v.mp3",
+     "published": "2026-11-02T21:30:00.000Z",
+     "duration": 1048
+    },
+    {
+     "title": "Can businesses trust AI?",
+     "summary": "Why does artificial intelligence sometimes make things up? From law firms to consultants, businesses are grappling with the risks of AI hallucinations.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkc14d.mp3",
+     "published": "2026-11-01T21:30:00.000Z",
+     "duration": 1377
+    },
+    {
+     "title": "Power Players special: Searching for answers on Google",
+     "summary": "Rahul Tandon and Will Bain are joined by the BBC's Silicon Valley correspondent Lily Jamali to look at issues being faced by Google and if it's a sign of wider…",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkhq5d.mp3",
+     "published": "2026-10-30T16:16:00.000Z",
+     "duration": 1090
+    },
+    {
+     "title": "Taking Stock: Anthropic's mega-IPO, US mid-term battle and peak pumpkin spice",
+     "summary": "This week on Taking Stock, Rahul Tandon is joined by Katrine Kielos, journalist for Swedish financial broadcaster EFN based in London and Dan Ives, tech…",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkbmpz.mp3",
+     "published": "2026-10-29T21:30:00.000Z",
+     "duration": 1278
+    },
+    {
+     "title": "Power Players: Can Meta reinvent itself for the AI age?",
+     "summary": "Meta is a social media giant. It's so big, a second Hollywood movie about the company was released just last month.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pk63hj.mp3",
+     "published": "2026-10-28T23:01:00.000Z",
+     "duration": 1625
+    }
+   ]
+  },
   {
    "id": "the-indicator",
    "name": "The Indicator",
