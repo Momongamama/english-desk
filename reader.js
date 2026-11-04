@@ -206,7 +206,7 @@ const SOURCES = [
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error("timeout")), ms))]);
 const SOURCE_NAMES = ["jina", "corsproxy", "allorigins"];
 async function fetchArticle(it) {
-  const cache = "englishDesk.read10:" + it.link;
+  const cache = CACHE + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
   const urls = [it.link, ...(it.source === "NPR" && textNpr(it.link) ? [textNpr(it.link)] : [])];
   const jobs = urls.flatMap(u => SOURCES.map((src, i) => ({ name: SOURCE_NAMES[i] + (u === it.link ? "" : " (text.npr.org)"), run: () => withTimeout(src(u).then(html => html ? extract(html, it) : { note: { bytes: 0 } }), 20000) })));
@@ -308,6 +308,15 @@ $("pasteRead").onclick = () => {
   $("readStatus").hidden = true;
   renderArticle({ title: $("pasteArticle").dataset.title || "貼上的文章", paras }, null);
 };
+// Any article by its address, e.g. a BBC live page that isn't in today's list. Fetched fresh each time.
+const CACHE = "englishDesk.read10:"; // bump when extraction changes so old results are dropped
+function sourceOf(host) { return /bbc\./.test(host) ? "BBC" : /npr\.org/.test(host) ? "NPR" : /cnn\.com/.test(host) ? "CNN" : host.replace(/^www\./, "") }
+$("readUrlGo").onclick = () => {
+  let u; try { u = new URL($("readUrl").value.trim()) } catch { toast("請貼上完整網址（https://…）"); return }
+  try { sessionStorage.removeItem(CACHE + u.href) } catch {}
+  openReader({ source: sourceOf(u.hostname), link: u.href, title: "" });
+};
+$("readUrl").onkeydown = e => { if (e.key === "Enter") $("readUrlGo").click() };
 $("readPasteOwn").onclick = () => { $("readStatus").hidden = true; $("readBox").hidden = true; showPaste(null) };
 
 /* ---------- look-up sheet ---------- */
