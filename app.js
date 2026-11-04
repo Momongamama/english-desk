@@ -1124,6 +1124,8 @@ function backupInfo() { $("backupInfo").textContent = `目前 ${st.cards.length}
 // A saved word is a card with kind "word": front = the word, back = definition, note = the sentence it came from.
 window.EnglishDesk = {
   toast,
+  // For brief.js: the grading AI and its display name.
+  ai, hasKey, aiName: () => NAME[use("grade")],
   words: () => st.cards.filter(c => c.kind === "word").map(c => c.mine),
   addWord({ word, def, sentence, source }) {
     if (st.cards.some(c => c.kind === "word" && c.mine.toLowerCase() === word)) return false;

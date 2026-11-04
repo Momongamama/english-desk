@@ -119,6 +119,10 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .bars i.zero { background: transparent; border-style: dashed; border-color: var(--ink-muted) }
 .bars .n { font: 800 13px/16px var(--font-display); color: var(--ink) }
 
+/* Today in brief: AI summary of today's news */
+.brief { display: grid; gap: var(--space-3) }
+.brief:not(.muted) p { text-wrap: pretty }
+
 /* News: headline list on Today, headline chips as topics */
 .news { display: grid }
 .news-item { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border-top: var(--border-width) solid var(--line); min-width: 0 }
@@ -313,6 +317,11 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       </div>
       <div class="week" id="week"></div>
       <p class="muted">每天另外花 5 分鐘複習卡片。週六跟讀可以用「跟讀」分頁，也可以照舊用 Enjoy 的 Echo 模式。</p>
+    </div>
+    <div class="sheet" id="briefSheet">
+      <h3>Today in brief</h3>
+      <div class="brief" id="briefBody"><p class="muted">Loading today's news…</p></div>
+      <div class="row" style="justify-content:space-between"><span class="muted" id="briefMeta"></span><div class="row" id="briefActions" hidden></div></div>
     </div>
     <div class="sheet" id="redoSheet" hidden>
       <h3 id="redoEyebrow">每月同題重做</h3>
@@ -613,8 +622,10 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 
 
 <!-- Bump ?v= whenever app.js or reader.js changes, so browsers drop the cached copy. -->
-<script src="app.js?v=2026-11-04-script1"></script>
+<script src="app.js?v=2026-11-04-brief1"></script>
 <!-- reader.js has its own ?v= (bump it when reader.js changes); this line keeps the two version edits from colliding in merges. -->
 <script src="reader.js?v=2026-11-04-read13"></script>
+<!-- brief.js (Today in brief) has its own ?v=; bump it when brief.js changes. -->
+<script src="brief.js?v=2026-11-04-brief1"></script>
 </body>
 </html>
