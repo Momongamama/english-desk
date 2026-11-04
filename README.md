@@ -40,6 +40,6 @@
 
 - 「今天」的新聞按「閱讀全文」：瀏覽器當場透過 r.jina.ai 取得原文 HTML，自己挑出內文（BBC／NPR／CNN 用網站規則，其他用 Mozilla Readability，最後才用 jina 的 markdown）並重新排版，全文不存進這個 repo。抓不到時可以貼上文章。
 - 點任何字先查「設定 → 字典與考試單字」匯入的個人字典（存在瀏覽器 IndexedDB，不上傳），再查內建字典 `dict/`（ECDICT＋自己的筆記，見 dict/README.md），都沒有才用 Free Dictionary。
-- 「加入單字本」會存成卡片（kind: word）。卡片正面是你讀到這個字的新聞原句（字會標出來），同一個字在別篇再加一次，就多收一句（最多 5 句，複習時輪流出現）。「Hear real people say it」用 YouGlish 官方嵌入元件播放 YouTube 上真人說這個字的片段（附字幕、可調速），點了才載入，不下載也不儲存影片。
+- 「加入單字本」會存成卡片（kind: word）。卡片正面是你讀到這個字的新聞原句（字會標出來），同一個字在別篇再加一次，就多收一句（最多 5 句，複習時輪流出現）。「Real voice」只播聲音：從 Tatoeba（開放授權的真人錄音句子）找一句含這個字的句子播放，顯示錄音者和授權。「Video clip」用 YouGlish 官方嵌入元件播 YouTube 片段，播完含這個字的那句就暫停（YouTube 規定不能隱藏播放器，所以影片會顯示）。都是點了才載入，不下載也不儲存。
 - 托福／雅思／GRE 單字畫底線：實線托福、虛線雅思、波浪線 GRE。預設用內建的個人總表（dict/_exam.json）；匯入總表 CSV（word,TOEFL,IELTS,GRE）後改用自己的清單。
 - 個人字典（商業字典內容）和清單不放進 repo。重建內建字典：`python3 scripts/build-dict.py ecdict.csv [個人 MDX 匯出的 txt]`，只會取出「我的筆記」。
