@@ -232,8 +232,6 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .rw.on { background: var(--tone-yellow); color: var(--on-tone) }
 .legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) }
 .legend .rw { cursor: inherit }
-#readLog summary { cursor: pointer }
-#readLogText { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: 400 13px/20px var(--font-body) }
 #v-read { padding-bottom: 50vh }
 .look { position: fixed; z-index: 15; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   max-width: 760px; margin: 0 auto; max-height: 50vh; overflow-y: auto; overscroll-behavior: contain; display: grid; gap: var(--space-2);
@@ -538,10 +536,6 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <div class="legend" id="readLegend" hidden></div>
       <div class="article" id="readBody"></div>
     </article>
-    <details class="sheet" id="readLog" hidden>
-      <summary class="muted">Fetch log (if the article is incomplete, open this and send me a screenshot)</summary>
-      <pre class="muted" id="readLogText" lang="en"></pre>
-    </details>
     <div class="look" id="look" role="dialog" aria-label="Dictionary" hidden>
       <div class="head"><b id="lookWord" lang="en"></b><button class="btn c-save" id="lookSay" aria-label="Read aloud">▶</button><span class="muted" id="lookTags"></span><button class="del" id="lookClose">Close</button></div>
       <div class="def" id="lookDef"></div>
@@ -625,7 +619,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 <!-- Bump ?v= whenever app.js or reader.js changes, so browsers drop the cached copy. -->
 <script src="app.js?v=2026-11-04-brief2"></script>
 <!-- reader.js has its own ?v= (bump it when reader.js changes); this line keeps the two version edits from colliding in merges. -->
-<script src="reader.js?v=2026-11-04-read14-en"></script>
+<script src="reader.js?v=2026-11-04-read16"></script>
 <!-- brief.js (Today in brief) has its own ?v=; bump it when brief.js changes. -->
 <script src="brief.js?v=2026-11-04-brief2"></script>
 </body>

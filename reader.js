@@ -205,15 +205,27 @@ const SOURCES = [
 ];
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error("timeout")), ms))]);
 const SOURCE_NAMES = ["jina", "corsproxy", "allorigins"];
+// Like Promise.allSettled, but once one source gives a full story (site rule, 150+ words) wait only GRACE ms
+// more for the others, instead of up to 20 s for a slow or hanging service. Unfinished ones come back "pending".
+const GRACE = 1500, full = v => v?.rule && words(v.paras) >= 150;
+function settleFast(ps) {
+  return new Promise(done => {
+    const got = ps.map(() => ({ status: "pending" })); let left = ps.length, timer = null;
+    const finish = () => { clearTimeout(timer); done(got.map(g => ({ ...g }))) };
+    ps.forEach((p, i) => p.then(value => { got[i] = { status: "fulfilled", value }; if (full(value) && !timer) timer = setTimeout(finish, GRACE) },
+      reason => { got[i] = { status: "rejected", reason } })
+      .finally(() => { if (--left === 0) finish() }));
+  });
+}
 async function fetchArticle(it) {
   const cache = CACHE + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
   const urls = [it.link, ...(it.source === "NPR" && textNpr(it.link) ? [textNpr(it.link)] : [])];
   const jobs = urls.flatMap(u => SOURCES.map((src, i) => ({ name: SOURCE_NAMES[i] + (u === it.link ? "" : " (text.npr.org)"), run: () => withTimeout(src(u).then(html => html ? extract(html, it) : { note: { bytes: 0 } }), 20000) })));
-  const got = await Promise.allSettled(jobs.map(j => j.run()));
+  const got = await settleFast(jobs.map(j => j.run()));
   const log = got.map((g, i) => {
     const v = g.status === "fulfilled" ? g.value : null, ps = v?.paras;
-    return { source: jobs[i].name, error: g.status === "rejected" ? (g.reason?.status || g.reason?.message || "error") : "", via: v?.via || "", ...(v?.note || {}),
+    return { source: jobs[i].name, error: g.status === "rejected" ? (g.reason?.status || g.reason?.message || "error") : g.status === "pending" ? "skipped (already had the full story)" : "", skipped: g.status === "pending", via: v?.via || "", ...(v?.note || {}),
       first: ps ? ps.find(p => !p.h)?.t.split(" ").slice(0, 6).join(" ") : "", last: ps ? [...ps].reverse().find(p => !p.h)?.t.split(" ").slice(-6).join(" ") : "" };
   });
   const ok = got.map(g => g.status === "fulfilled" && g.value?.paras ? g.value : null).filter(Boolean), byLen = (x, y) => words(y.paras) - words(x.paras);
@@ -234,12 +246,8 @@ async function fetchArticle(it) {
   return out;
 }
 let lastLog = [];
-function renderLog(log) {
-  const box = $("readLog"); if (!box) return;
-  box.hidden = !log?.length;
-  $("readLogText").textContent = (log || []).map(l => l.words != null || (l.source === "jina markdown" && l.error) ? `${l.source} | ${l.error ? "failed " + l.error : "markdown " + l.words + " words"}` : [l.source, l.error ? "failed " + l.error : `HTML ${l.bytes || 0} chars`, l.nextData ? "has JSON" : "no JSON", l.ps ? "p " + l.ps : "",
-    `json ${l.json || 0} / rules ${l.rule || 0} / Readability ${l.readability || 0}${l.words != null ? " / markdown " + l.words : ""}`, l.via ? "used " + l.via : "", l.first ? `"${l.first} … ${l.last}"` : ""].filter(Boolean).join(" | ")).join("\n");
-}
+// The fetch log is no longer shown on the page; it goes to the browser console for debugging.
+function renderLog(log) { if (log?.length) console.info("English Desk fetch log", log) }
 
 /* ---------- rendering: every word is a tappable span ---------- */
 const WORD = /[A-Za-z]+(?:['’-][A-Za-z]+)*/g;
