@@ -1,11 +1,11 @@
 {
- "updated": "2026-11-04T08:05:28.232Z",
+ "updated": "2026-11-04T08:14:07.720Z",
  "shows": [
   {
    "id": "business-daily",
    "name": "Business Daily",
    "by": "BBC World Service",
-   "accent":"UK",
+   "accent": "UK",
    "cors": false,
    "episodes": [
     {
@@ -56,7 +56,7 @@
    "id": "the-indicator",
    "name": "The Indicator",
    "by": "NPR Planet Money",
-   "accent":"US",
+   "accent": "US",
    "cors": true,
    "episodes": [
     {
