@@ -1142,7 +1142,12 @@ async function ygOpen(c) {
   if (yg.card !== c.id) return;
   // components: caption 8 + control buttons 64 (no search box, title or speed panel). Captions mark the word as [[[word]]]:
   // once a caption with the word has been shown and the next caption doesn't have it, the sentence is over, so pause.
-  yg.w = new YG.Widget(id, { components: 72, autoStart: 1, restrictionMode: 1, events: {
+  // Colours from the site's own tokens (so dark mode matches too); captions at body size instead of YouGlish's 40px.
+  const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+  yg.w = new YG.Widget(id, { components: 72, autoStart: 1, restrictionMode: 1, captionSize: 18,
+    backgroundColor: tok("--surface"), panelsBackgroundColor: tok("--surface"), textColor: tok("--ink-muted"), titleColor: tok("--ink"),
+    captionColor: tok("--ink"), keywordColor: tok("--accent-text"), queryColor: tok("--accent-text"), markerColor: tok("--tint-yellow"), linkColor: tok("--ink"),
+    events: {
     onFetchDone: e => { note.textContent = e.totalResult ? "Stops after the sentence. Use the arrows for another speaker." : "No clips for this word." },
     onVideoChange: () => { yg.heard = false },
     onCaptionChange: e => { const has = String(e.caption || "").includes("[[["); if (has) yg.heard = true; else if (yg.heard) { yg.heard = false; try { yg.w.pause() } catch { } } } } });
