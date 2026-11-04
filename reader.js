@@ -275,7 +275,7 @@ function renderArticle(art, it) {
   for (const p of art.paras) { const el = document.createElement(p.h ? "h3" : "p"); wordify(el, p.t); body.append(el) }
   current.words = it?.link ? artWords(it.link) : [];
   renderArtWords(); renderChick();
-  renderLegend();
+  renderLegend(); resetTimer();
   $("readBox").hidden = false; $("pasteBox").hidden = true; closeLook();
 }
 
@@ -441,6 +441,7 @@ function sentenceOf(span) {
 let lookSeq = 0, picked = null;
 function openLook(span) {
   document.querySelectorAll(".rw.on").forEach(s => s.classList.remove("on")); span.classList.add("on");
+  if (tm.run) tm.lookups++;
   showWord(span.textContent, sentenceOf(span));
 }
 async function showWord(word, sentence) {
@@ -565,6 +566,185 @@ function renderDictStatus() {
 }
 $("dictFile").onchange = e => { const f = e.target.files[0]; if (f) importDict(f); e.target.value = "" };
 $("listFile").onchange = e => { const f = [...e.target.files]; if (f.length) importLists(f); e.target.value = "" };
+
+/* ---------- reading timer, speed check and progress ----------
+   Start → read → "I'm done": words per minute from the article's own word count. While she reads, the AI picked for
+   "Reading speed" writes 3 quick questions; after them it judges the speed for her level. Each timed read is a log
+   of type "read" (synced with everything else); the quiz result and verdict are patched in, with `updated`, when they arrive. */
+const LEARNER = "The learner is an adult Taiwanese professional. TOEIC 915 (listening and reading around high B2), aiming for C1. They read English news (BBC, NPR, CNN) on a phone or laptop.";
+const MIN_SECS = 20, CHART_MAX = 30;
+const tm = { run: false, acc: 0, since: 0, tick: 0, lookups: 0, quiz: null, quizP: null, ts: 0, ctl: null };
+const elapsed = () => tm.acc + (tm.run ? Date.now() - tm.since : 0);
+const mmss = ms => { const s = Math.floor(ms / 1000); return Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0") };
+const wordsIn = art => art.paras.map(p => p.t).join(" ").match(WORD)?.length || 0;
+const articleText = art => art.paras.map(p => (p.h ? "## " : "") + p.t).join("\n\n").slice(0, 14000);
+const sp = () => ED() || {};
+
+function drawClock() {
+  $("tClock").textContent = mmss(elapsed());
+  $("timerBar").classList.toggle("on", tm.run);
+}
+function resetTimer() {
+  clearInterval(tm.tick); tm.ctl?.abort();
+  Object.assign(tm, { run: false, acc: 0, since: 0, lookups: 0, quiz: null, quizP: null, ts: 0, ctl: null });
+  $("tStart").textContent = "Start timer"; $("tStart").hidden = false; $("tPause").hidden = true;
+  $("tNote").textContent = "Time your reading, then see your speed."; $("timerEnd").hidden = true; $("speedBox").hidden = true;
+  drawClock();
+}
+function pauseTimer(note) {
+  if (!tm.run) return;
+  tm.acc = elapsed(); tm.run = false; clearInterval(tm.tick);
+  $("tPause").textContent = "Resume"; $("tNote").textContent = note || "Paused."; drawClock();
+}
+function resumeTimer() {
+  tm.since = Date.now(); tm.run = true; clearInterval(tm.tick); tm.tick = setInterval(drawClock, 1000);
+  $("tStart").hidden = true; $("tPause").hidden = false; $("tPause").textContent = "Pause";
+  $("tNote").textContent = "Read at your normal pace. Looking up words is fine; pause if you stop for a while.";
+  $("timerEnd").hidden = false; $("tEndNote").textContent = ""; drawClock();
+}
+$("tStart").onclick = () => {
+  if (!current) return;
+  if (tm.ts || !$("speedBox").hidden) resetTimer();
+  $("speedBox").hidden = true; tm.lookups = 0; resumeTimer();
+  // Write the questions while she reads, so they're ready the moment she finishes.
+  if (sp().speedHasKey?.()) { tm.ctl = new AbortController(); tm.quizP = makeQuiz(current, tm.ctl.signal).then(q => tm.quiz = q, () => tm.quiz = null) }
+};
+$("tPause").onclick = () => tm.run ? pauseTimer() : resumeTimer();
+document.addEventListener("visibilitychange", () => { if (document.visibilityState === "hidden") pauseTimer("Paused while you were away. Tap Resume to go on.") });
+addEventListener("hashchange", () => { if (location.hash !== "#read") pauseTimer("Paused while you were on another page."); else renderProgress() });
+
+$("tDone").onclick = async () => {
+  const ms = elapsed(); pauseTimer();
+  if (ms < MIN_SECS * 1000) { $("tEndNote").textContent = `That was under ${MIN_SECS} seconds, so it won't count. Resume, or start again.`; return }
+  const words = wordsIn(current), mins = ms / 60000, wpm = Math.round(words / mins);
+  const log = { type: "read", topic: current.title || "Article", link: current.it?.link || "", source: current.it?.source || "pasted",
+    words, secs: Math.round(ms / 1000), wpm, lookups: tm.lookups };
+  tm.ts = sp().addLog?.(log) || 0;
+  $("tPause").hidden = true; $("tStart").hidden = false; $("tStart").textContent = "Time it again";
+  $("tNote").textContent = "Saved to your reading progress."; $("timerEnd").hidden = true;
+  showResult(log); renderProgress();
+  $("speedBox").scrollIntoView({ behavior: "smooth", block: "start" });
+  if (!sp().speedHasKey?.()) { $("speedAi").replaceChildren(para("Add a Gemini or Claude key in Settings to get a quick comprehension check and AI feedback on your speed.", "muted")); return }
+  $("speedAi").replaceChildren(para("Getting your questions…", "muted"));
+  if (!tm.quiz && tm.quizP) await tm.quizP;
+  if (!tm.quiz) { try { tm.ctl = new AbortController(); tm.quiz = await makeQuiz(current, tm.ctl.signal) } catch { tm.quiz = null } }
+  if (tm.quiz?.length) showQuiz(log); else { $("speedAi").replaceChildren(); judge(log, null) }
+};
+$("speedVoid").onclick = () => {
+  if (!tm.ts) return;
+  sp().patchLog?.(tm.ts, { void: true }); tm.ctl?.abort(); tm.ts = 0;
+  $("speedBox").hidden = true; $("tNote").textContent = "Removed from your progress."; renderProgress();
+};
+
+function para(text, cls) { const p = document.createElement("p"); if (cls) p.className = cls; p.textContent = text; return p }
+function scoreBox(n, label) { const d = document.createElement("div"); const b = document.createElement("b"); b.textContent = n; const s = document.createElement("span"); s.textContent = label; d.append(b, s); return d }
+function showResult(l) {
+  $("speedBox").hidden = false; $("quizBox").hidden = true; $("speedAi").replaceChildren();
+  $("speedScores").replaceChildren(scoreBox(l.wpm, "words per minute"), scoreBox(l.words, "words"), scoreBox(mmss(l.secs * 1000), "time"),
+    ...(l.lookups ? [scoreBox(l.lookups, l.lookups === 1 ? "word looked up" : "words looked up")] : []));
+}
+
+/* ---------- comprehension check ---------- */
+async function makeQuiz(art, signal) {
+  const sys = `You write a quick comprehension check for an English learner who has just read a news article once at normal speed. ${LEARNER}
+Write exactly 3 multiple-choice questions, answerable from memory after one reading: the main point, one key detail that matters to the story, and one about cause, consequence or the writer's angle. Don't ask about exact numbers, dates or names unless they are central. Each has 4 short options, only one clearly right, wrong options plausible. Mix the position of the right answer.
+Reply with JSON only: {"questions":[{"q":"…","options":["…","…","…","…"],"answer":0}]}  ("answer" is the 0-based index of the right option).`;
+  const r = await sp().speedAi(sys, [{ role: "user", content: `Title: ${art.title}\n\n${articleText(art)}` }], { json: true, signal });
+  const qs = (r?.questions || []).filter(q => q && q.q && Array.isArray(q.options) && q.options.length >= 2 && Number.isInteger(q.answer) && q.answer >= 0 && q.answer < q.options.length);
+  return qs.slice(0, 3);
+}
+function showQuiz(log) {
+  const box = $("quizBox"), picks = [];
+  box.hidden = false; $("speedAi").replaceChildren();
+  const intro = para("Quick check from memory. Don't scroll back up.", "muted");
+  const sets = tm.quiz.map((q, i) => {
+    const fs = document.createElement("fieldset"); const lg = document.createElement("legend"); lg.textContent = `${i + 1}. ${q.q}`; fs.append(lg);
+    q.options.forEach((o, k) => { const b = document.createElement("button"); b.className = "chip"; b.textContent = o; b.setAttribute("aria-pressed", "false");
+      b.onclick = () => { if (box.dataset.done) return; picks[i] = k; fs.querySelectorAll(".chip").forEach((c, j) => c.setAttribute("aria-pressed", j === k)) };
+      fs.append(b) });
+    return fs });
+  const row = document.createElement("div"); row.className = "row";
+  const check = document.createElement("button"); check.className = "btn accent"; check.textContent = "Check my answers";
+  const skip = document.createElement("button"); skip.className = "btn"; skip.textContent = "Skip the quiz";
+  row.append(check, skip); delete box.dataset.done;
+  box.replaceChildren(intro, ...sets, row);
+  check.onclick = () => {
+    if (tm.quiz.some((_, i) => picks[i] == null)) { toast("Answer all 3 first, or skip the quiz."); return }
+    box.dataset.done = 1; row.remove();
+    let right = 0;
+    tm.quiz.forEach((q, i) => { if (picks[i] === q.answer) right++;
+      sets[i].querySelectorAll(".chip").forEach((c, k) => { if (k === q.answer) c.dataset.r = "right"; else if (k === picks[i]) c.dataset.r = "wrong"; c.disabled = k !== q.answer && k !== picks[i] }) });
+    intro.textContent = `You got ${right} of ${tm.quiz.length}. The right answers are marked green.`;
+    judge(log, { right, of: tm.quiz.length });
+  };
+  skip.onclick = () => { box.hidden = true; judge(log, null) };
+}
+
+/* ---------- the AI's verdict ---------- */
+const VERDICT = { speed: "Work on speed", ok: "Good pace", accuracy: "Slow down a little" };
+async function judge(log, quiz) {
+  const out = $("speedAi"), ts = tm.ts;
+  if (quiz) sp().patchLog?.(ts, { quiz: quiz.right, quizOf: quiz.of });
+  out.replaceChildren(para(`Asking ${sp().speedAiName?.() || "the AI"} about your speed…`, "muted"));
+  const past = history().filter(l => l.ts !== ts).slice(-10).map(l => `${l.date}: ${l.wpm} wpm, ${l.words} words` + (l.quizOf ? `, quiz ${l.quiz}/${l.quizOf}` : "") + (l.lookups ? `, ${l.lookups} lookups` : "")).join("\n") || "(none yet: this is the first timed read)";
+  const sys = `You are a reading coach. ${LEARNER}
+Judge whether this reading speed needs work, for this learner and this text. Reference points for silent reading of non-fiction: adult native speakers average about 240 words per minute (Brysbaert 2019, range roughly 175–300); a comfortable C1 reader of news is usually around 200–250; under about 150 usually means slow word recognition or vocabulary gaps; well over 300 with weak comprehension means skimming. Adjust for how hard the text is (vocabulary, sentence length, topic) and for words looked up while the timer ran. Comprehension matters more than speed: if the quiz was weak, say so even if the speed is fine. Use the history to say whether the speed is improving, flat or dropping (only if there are at least 3 earlier reads; otherwise say it's too early to tell).
+Write in plain, friendly English, short sentences, no emoji, speak to the learner as "you".
+Reply with JSON only: {"verdict":"speed"|"ok"|"accuracy","headline":"one sentence","feedback":"2-3 sentences on this read: speed for this text, comprehension, trend","tips":["1-2 concrete things to do next time"]}
+verdict: "speed" = reading is slower than it should be for this text, practise reading faster; "ok" = pace and comprehension fit the C1 goal; "accuracy" = too fast for good understanding, slow down.`;
+  const user = `This read: ${log.words} words in ${mmss(log.secs * 1000)} = ${log.wpm} wpm. Words looked up while timing: ${log.lookups}. Quiz: ${quiz ? `${quiz.right}/${quiz.of}` : "skipped"}.
+Earlier timed reads (oldest first):\n${past}\n\nThe article:\nTitle: ${current.title}\n\n${articleText(current).slice(0, 8000)}`;
+  try {
+    tm.ctl = new AbortController();
+    const r = await sp().speedAi(sys, [{ role: "user", content: user }], { json: true, signal: tm.ctl.signal });
+    if (tm.ts !== ts) return;
+    const v = VERDICT[r.verdict] ? r.verdict : "ok";
+    sp().patchLog?.(ts, { verdict: v });
+    const head = document.createElement("div"); head.className = "verdict";
+    const tag = document.createElement("span"); tag.className = "tag" + (v === "ok" ? " ok" : ""); tag.textContent = VERDICT[v];
+    const h = document.createElement("b"); h.textContent = r.headline || ""; head.append(tag, h);
+    const tips = document.createElement("ul"); tips.className = "tips";
+    for (const t of (Array.isArray(r.tips) ? r.tips : []).slice(0, 3)) { const li = document.createElement("li"); li.textContent = t; tips.append(li) }
+    out.replaceChildren(head, para("✎ " + (r.feedback || "")), ...(tips.children.length ? [tips] : []));
+  } catch (e) {
+    if (e?.code === "cancelled" || tm.ts !== ts) return;
+    out.replaceChildren(para((e?.message || "Something went wrong.") + " Your speed is saved either way.", "muted"));
+  } finally { renderProgress() }
+}
+
+/* ---------- progress over time ---------- */
+const history = () => (sp().logs?.("read") || []).filter(l => !l.void && l.wpm > 0).sort((a, b) => a.ts - b.ts);
+const avg = a => a.length ? Math.round(a.reduce((x, y) => x + y, 0) / a.length) : 0;
+function renderProgress() {
+  const h = history(), box = $("speedProgress");
+  box.hidden = !h.length; if (!h.length) return;
+  const w = h.map(l => l.wpm), last5 = w.slice(-5), first5 = w.slice(0, 5);
+  const quizzed = h.filter(l => l.quizOf).slice(-5);
+  const stats = [scoreBox(w.at(-1), "latest wpm"), scoreBox(avg(last5), `average, last ${last5.length}`), scoreBox(h.length, h.length === 1 ? "timed read" : "timed reads")];
+  if (h.length >= 6) { const d = avg(last5) - avg(first5); stats.splice(2, 0, scoreBox((d > 0 ? "+" : "") + d, "wpm vs your first 5")) }
+  if (quizzed.length) stats.push(scoreBox(Math.round(100 * quizzed.reduce((a, l) => a + l.quiz, 0) / quizzed.reduce((a, l) => a + l.quizOf, 0)) + "%", "quiz, recent"));
+  $("speedStats").replaceChildren(...stats);
+  $("speedChart").replaceChildren(chart(h.slice(-CHART_MAX)));
+  $("speedChartNote").textContent = h.length < 3 ? "Time a few more articles to see a trend." : "Each dot is one timed read. A hollow dot means the quiz went badly (under 2 of 3), so that speed may be too fast to count.";
+}
+function chart(h) {
+  const NS = "http://www.w3.org/2000/svg", W = 360, H = 170, L = 34, R = 12, T = 12, B = 28;
+  const el = (n, a, t) => { const e = document.createElementNS(NS, n); for (const k in a) e.setAttribute(k, a[k]); if (t != null) e.textContent = t; return e };
+  const vals = h.map(l => l.wpm), step = 50;
+  const lo = Math.max(0, Math.floor((Math.min(...vals) - 20) / step) * step), hi = Math.ceil((Math.max(...vals) + 20) / step) * step;
+  const x = i => h.length === 1 ? (L + W - R) / 2 : L + i * (W - L - R) / (h.length - 1), y = v => T + (hi - v) * (H - T - B) / (hi - lo || 1);
+  const svg = el("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": `Reading speed for your last ${h.length} timed reads, from ${vals[0]} to ${vals.at(-1)} words per minute` });
+  for (let v = lo; v <= hi; v += step) { svg.append(el("line", { class: "grid", x1: L, x2: W - R, y1: y(v), y2: y(v) }), el("text", { x: L - 6, y: y(v) + 4, "text-anchor": "end" }, v)) }
+  if (h.length > 1) svg.append(el("polyline", { class: "ln", points: h.map((l, i) => `${x(i)},${y(l.wpm)}`).join(" ") }));
+  h.forEach((l, i) => { const c = el("circle", { class: "dot" + (l.quizOf && l.quiz / l.quizOf < .6 ? " low" : ""), cx: x(i), cy: y(l.wpm), r: 5 });
+    c.append(el("title", {}, `${l.date} · ${l.wpm} wpm${l.quizOf ? ` · quiz ${l.quiz}/${l.quizOf}` : ""} · ${l.topic || ""}`)); svg.append(c) });
+  const fmt = d => new Date(d + "T00:00").toLocaleDateString("en-US", { month: "short", day: "numeric" });
+  svg.append(el("text", { x: x(0), y: H - 6, "text-anchor": h.length === 1 ? "middle" : "start" }, fmt(h[0].date)));
+  if (h.length > 1) svg.append(el("text", { x: x(h.length - 1), y: H - 6, "text-anchor": "end" }, fmt(h.at(-1).date)));
+  return svg;
+}
+sp().onChange?.(() => { if (location.hash === "#read") renderProgress() });
+renderProgress();
 
 window.EnglishDeskReader = { open: openReader };
 loadMeta();
