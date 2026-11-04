@@ -246,12 +246,8 @@ async function fetchArticle(it) {
   return out;
 }
 let lastLog = [];
-function renderLog(log) {
-  const box = $("readLog"); if (!box) return;
-  box.hidden = !log?.length;
-  $("readLogText").textContent = (log || []).map(l => l.words != null || (l.source === "jina markdown" && l.error) ? `${l.source} | ${l.error ? "failed " + l.error : "markdown " + l.words + " words"}` : [l.source, l.error ? (l.skipped ? "" : "failed ") + l.error : `HTML ${l.bytes || 0} chars`, l.nextData ? "has JSON" : "no JSON", l.ps ? "p " + l.ps : "",
-    `json ${l.json || 0} / rules ${l.rule || 0} / Readability ${l.readability || 0}${l.words != null ? " / markdown " + l.words : ""}`, l.via ? "used " + l.via : "", l.first ? `"${l.first} … ${l.last}"` : ""].filter(Boolean).join(" | ")).join("\n");
-}
+// The fetch log is no longer shown on the page; it goes to the browser console for debugging.
+function renderLog(log) { if (log?.length) console.info("English Desk fetch log", log) }
 
 /* ---------- rendering: every word is a tappable span ---------- */
 const WORD = /[A-Za-z]+(?:['’-][A-Za-z]+)*/g;
