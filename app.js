@@ -1077,8 +1077,12 @@ function say(text) { try { speechSynthesis.cancel(); const u = new SpeechSynthes
 // 2. "Video clip": YouGlish's official embed plays a YouTube clip of someone saying the word. YouTube's rules don't allow
 //    hiding its player, so the video stays visible, but it pauses as soon as the sentence with the word is over.
 // Nothing is downloaded or stored; both load only when tapped.
-const voice = { card: null, list: [], i: 0, audio: null };
-function voiceStop() { try { voice.audio?.pause() } catch { } voice.audio = null }
+// One audio element for all recordings. iPhone Safari only lets a page play sound that starts during a tap, and the
+// recording arrives after the lookup, so the tap first plays a moment of silence on this element; after that it may play.
+const voice = { card: null, list: [], i: 0, el: new Audio() };
+const SILENCE = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
+function voiceUnlock() { try { voice.el.src = SILENCE; voice.el.play().catch(() => { }) } catch { } }
+function voiceStop() { try { voice.el.pause() } catch { } }
 async function tatoeba(word) {
   const u = "https://api.tatoeba.org/v1/sentences?lang=eng&has_audio=yes&include=audios&sort=relevance&limit=20&q=" + encodeURIComponent(word);
   let d;
@@ -1108,10 +1112,10 @@ function voiceShow(c) {
 function voicePlay() {
   voiceStop();
   const v = voice.list[voice.i % voice.list.length]; if (!v) return;
-  voice.audio = new Audio(v.url); voice.audio.play().catch(() => toast("Couldn't play the recording."));
+  voice.el.src = v.url; voice.el.play().catch(e => toast(e && e.name === "NotAllowedError" ? "Tap Play again to hear it." : "Couldn't play this recording. Try Another sentence."));
 }
 async function voiceOpen(c) {
-  ygClose(); const box = $("ygBox"); box.hidden = false;
+  ygClose(); voiceUnlock(); const box = $("ygBox"); box.hidden = false;
   if (voice.card === c.id && voice.list.length) { voiceShow(c); voicePlay(); return }
   voice.card = c.id; voice.list = []; voice.i = 0;
   box.innerHTML = '<p class="muted">Finding a real recording…</p>';
