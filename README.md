@@ -10,6 +10,7 @@
 
 - `.github/workflows/news.yml` 每天台灣時間 05:30 跑 `scripts/fetch-news.mjs`，把 BBC（Business／Technology／World）和 CNN 的 RSS 整理成 `news.json` 並 commit 回 main。也可以在 Actions 分頁按「Run workflow」手動更新。
 - CNN 的 RSS 很多已經停更。腳本會檢查：最新一則超過 3 天、或三個分類有兩個抓不到，就自動改抓 NPR。
+- 挑「重要」的新聞，不是最新的：同時出現在該來源首頁頭條（BBC 首頁、CNN 頭條、NPR Home Page Top Stories）的排最前面；其餘照 RSS 的編輯排序；只收 48 小時內的（每類不到 3 則才放寬）；略過直播、影片和音檔頁。每個來源每類取 6 則。
 - 只存標題、一句摘要、連結，不存全文。
 - 「今天」分頁顯示今日新聞；口說和寫作的題目改用新聞標題（仍可自己輸入），AI 會拿到該則的標題和摘要當背景。`news.json` 不存在時改用預設題目。
 - 口說有兩種方式：「語音對話」用 Gemini Live API（預設 `gemini-3.8-live`，可在設定改）直接在瀏覽器說話，聊完自動用逐字稿評 CEFR、挑 5 個重點；「貼稿評分」把在 Gemini App 等處聊完的逐字稿貼進來評分，Gemini 和 Claude 都能用。語音對話只支援 Gemini，需要允許麥克風（iPhone 用 Safari，iOS 14.5 以上）。
