@@ -77,7 +77,9 @@ function examsOf(w) {
    the story out ourselves: site rules for BBC / NPR / CNN, Mozilla Readability for anything else,
    and jina's own markdown as the last resort. */
 const RULES = {
-  BBC: '[data-component="text-block"] p, [data-component="text-block"] li, [data-component="subheadline-block"] :is(h2, h3)',
+  // Older BBC pages mark blocks with data-component; the current ones don't, so also read every <p>/<h2> in the
+  // article (or main) in order, and stop at "More on this story" / "Related topics" (see END and pick()).
+  BBC: '[data-component="text-block"] p, [data-component="text-block"] li, [data-component="subheadline-block"] :is(h2, h3), article :is(p, h2, h3), main :is(p, h2, h3)',
   NPR: '#storytext > p, #storytext > :is(h2, h3), #storytext > ul > li, .paragraphs-container > p, .paragraphs-container > :is(h2, h3)',
   CNN: '.article__content :is(p.paragraph, h2, h3), .article__content .list li',
 };
@@ -91,7 +93,10 @@ function pick(nodes) {
   const out = [], seen = new Set();
   for (const n of nodes) {
     if (n.closest("li") && n.tagName !== "LI") continue; // a <p> inside a list item is read through the <li>
-    const t = tidy(n.textContent || ""); if (!t || seen.has(t) || (t.length < 80 && JUNK.test(t))) continue; seen.add(t);
+    if (n.closest?.("a, figure, figcaption, nav, footer, aside")) continue; // teaser cards, captions, menus
+    const t = tidy(n.textContent || "");
+    if (t.length < 80 && END.test(t)) break; // "More on this story", "Related topics"… the story is over
+    if (!t || seen.has(t) || (t.length < 80 && JUNK.test(t))) continue; seen.add(t);
     out.push(/^H[1-6]$/.test(n.tagName) ? { h: true, t } : { t });
   }
   while (out.length && out[out.length - 1].h) out.pop();
@@ -161,7 +166,7 @@ async function extract(html, it) {
       }
     } catch { }
   }
-  const note = { bytes: html.length, nextData: !!doc.querySelector("script#__NEXT_DATA__"), ...Object.fromEntries(Object.entries(found).map(([k, v]) => [k, v ? words(v) : 0])) };
+  const note = { bytes: html.length, nextData: !!doc.querySelector("script#__NEXT_DATA__"), ps: doc.querySelectorAll("article p").length + "/" + doc.querySelectorAll("main p").length + "/" + doc.querySelectorAll("p").length, ...Object.fromEntries(Object.entries(found).map(([k, v]) => [k, v ? words(v) : 0])) };
   const order = it.source === "BBC" ? ["json", "rule", "readability"] : ["json", "rule"];
   let best = order.map(k => found[k]).filter(Boolean).sort((x, y) => words(y) - words(x))[0];
   const rule = !!best;
@@ -171,7 +176,7 @@ async function extract(html, it) {
 }
 // Last resort: jina's markdown, minus obvious boilerplate.
 // Everything from the first "More stories" / "Popular" / cookie block onwards is page furniture, not the story.
-const END = /^(more stories from|popular on|related stories|more from|editors'? picks|read (&|and) listen|cookie settings|top stories|you may also like)/i;
+const END = /^(more stories from|popular on|related stories|related topics|related internet links|more on this story|more from|elsewhere (on|in) the bbc|most read|editors'? picks|read (&|and) listen|cookie settings|top stories|you may also like)/i;
 function clean(md) {
   return md.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\((?:[^()]|\([^)]*\))*\)/g, "$1").replace(/(\*{1,3})([^*\n]+)\1/g, "$2")
     .split(/\n\s*\n/).map(b => b.replace(/\s*\n\s*/g, " ").trim()).filter(Boolean)
@@ -197,7 +202,7 @@ const SOURCES = [
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error("timeout")), ms))]);
 const SOURCE_NAMES = ["jina", "corsproxy", "allorigins"];
 async function fetchArticle(it) {
-  const cache = "englishDesk.read8:" + it.link;
+  const cache = "englishDesk.read9:" + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
   const urls = [it.link, ...(it.source === "NPR" && textNpr(it.link) ? [textNpr(it.link)] : [])];
   const jobs = urls.flatMap(u => SOURCES.map((src, i) => ({ name: SOURCE_NAMES[i] + (u === it.link ? "" : " (text.npr.org)"), run: () => withTimeout(src(u).then(html => html ? extract(html, it) : { note: { bytes: 0 } }), 20000) })));
@@ -228,7 +233,7 @@ let lastLog = [];
 function renderLog(log) {
   const box = $("readLog"); if (!box) return;
   box.hidden = !log?.length;
-  $("readLogText").textContent = (log || []).map(l => l.words != null || (l.source === "jina markdown" && l.error) ? `${l.source}｜${l.error ? "失敗 " + l.error : "markdown " + l.words + " 字"}` : [l.source, l.error ? "失敗 " + l.error : `HTML ${l.bytes || 0} 字元`, l.nextData ? "有 JSON" : "無 JSON",
+  $("readLogText").textContent = (log || []).map(l => l.words != null || (l.source === "jina markdown" && l.error) ? `${l.source}｜${l.error ? "失敗 " + l.error : "markdown " + l.words + " 字"}` : [l.source, l.error ? "失敗 " + l.error : `HTML ${l.bytes || 0} 字元`, l.nextData ? "有 JSON" : "無 JSON", l.ps ? "p " + l.ps : "",
     `json ${l.json || 0} / 規則 ${l.rule || 0} / Readability ${l.readability || 0}${l.words != null ? " / markdown " + l.words : ""}`, l.via ? "採用 " + l.via : "", l.first ? `「${l.first} … ${l.last}」` : ""].filter(Boolean).join("｜")).join("\n");
 }
 
