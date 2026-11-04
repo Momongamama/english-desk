@@ -55,7 +55,7 @@ function meta(s, all) {
 function matches(s) {
   if (filter !== "all" && s.type !== filter) return false;
   if (!query) return true;
-  const hay = [s.topic, s.text, s.transcript, s.attempt, s.summary, ...(s.items || []).map(i => i.mine + " " + i.natural), ...(s.changes || []).map(i => i.mine + " " + i.natural)].join("\n").toLowerCase();
+  const hay = [s.topic, s.ctx && s.ctx.summary, s.text, s.transcript, s.attempt, s.summary, ...(s.items || []).map(i => i.mine + " " + i.natural), ...(s.changes || []).map(i => i.mine + " " + i.natural)].join("\n").toLowerCase();
   return hay.includes(query);
 }
 async function renderList() {
@@ -94,10 +94,35 @@ function head(s, extra) {
   if (mins(s.secs)) eb.push(mins(s.secs));
   const v = el("div", "verdict spread"), h = el("h2", "", s.topic || "(No topic)"); h.lang = "en"; v.append(h, levelTag(s.level));
   card.append(el("span", "eyebrow", eb.filter(Boolean).join(" · ")), v);
-  if (s.ctx && s.ctx.source) { const p = el("p", "muted", "From " + s.ctx.source + (s.ctx.section ? " " + s.ctx.section : "") + " "); if (s.ctx.link) { const a = el("a", "", "Open the story"); a.href = s.ctx.link; a.target = "_blank"; a.rel = "noopener"; p.append(a) } card.append(p) }
   const why = s.type === "write" ? s.why : s.summary; if (why) card.append(el("p", "", why));
   if (s.older) card.append(el("p", "muted", "This session is from before History was added, so only " + (s.type === "write" && s.text ? "your paragraph and the level were" : "the level and summary were") + " kept."));
   if (extra) card.append(...extra);
+  return card;
+}
+// The news story the topic came from: title, source, link, summary and, when it could be fetched, the full text.
+function articleCard(s) {
+  const c = s.ctx || {}, a = s.article || {}, card = el("div", "sheet");
+  const top = el("div", "row"); top.style.justifyContent = "space-between";
+  top.append(el("h2", "", "The news story"), el("span", "muted", [c.source, c.section && c.section[0].toUpperCase() + c.section.slice(1)].filter(Boolean).join(" · ")));
+  const t = el("p", "art-title", a.title || s.topic); t.lang = "en";
+  card.append(top, t);
+  if (c.summary) { const p = el("p", "muted", c.summary); p.lang = "en"; card.append(p) }
+  if (a.paras && a.paras.length) {
+    const body = el("div", "art-body"); body.lang = "en";
+    const draw = n => body.replaceChildren(...a.paras.slice(0, n).map(p => el(p.h ? "h4" : "p", "", p.t)));
+    const FEW = 3; draw(FEW); card.append(body);
+    const n = a.paras.filter(p => !p.h).reduce((k, p) => k + wordsIn(p.t), 0);
+    if (a.paras.length > FEW) { const m = el("button", "link", `Show the whole story (${n} words) ▾`); m.onclick = () => { draw(a.paras.length); m.remove() }; card.append(m) }
+  }
+  const row = el("div", "row");
+  if (c.link) { const o = el("a", "btn small", "Open the original"); o.href = c.link; o.target = "_blank"; o.rel = "noopener"; row.append(o) }
+  if (!(a.paras && a.paras.length) && c.link) {
+    const b = el("button", "btn small", "Save the story's text");
+    b.onclick = async () => { b.disabled = true; b.textContent = "Getting the story…";
+      if (await ED.attachArticle(s.ts)) render(); else { b.disabled = false; b.textContent = "Try again"; ED.toast("Couldn't get the story's text. The link is still saved.") } };
+    row.append(b);
+  }
+  card.append(row);
   return card;
 }
 function fixes(title, items, source) {
@@ -152,6 +177,7 @@ async function renderOne(ts) {
     parts.push(head(s, s.compare ? [el("div", "habit", "Compared with last time: " + s.compare)] : null));
     if (s.items && s.items.length) parts.push(fixes(s.items.length === 5 ? "5 things to fix" : "Things to fix", s.items, "speak"));
     if (s.transcript) parts.push(transcriptCard(s));
+    if (s.ctx && s.ctx.link) parts.push(articleCard(s));
   } else {
     parts.push(head(s, writing(s)));
     const extra = [];
@@ -159,6 +185,7 @@ async function renderOne(ts) {
     if (s.habit) extra.push(el("div", "habit", "Habit to fix: " + s.habit));
     if (s.compare) extra.push(el("div", "habit", "Compared with last time: " + s.compare));
     if (extra.length) { const c = el("div", "sheet"); c.append(...extra); parts.push(c) }
+    if (s.ctx && s.ctx.link) parts.push(articleCard(s));
   }
   parts.push(actions(s, all));
   box.replaceChildren(...parts);

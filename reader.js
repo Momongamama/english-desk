@@ -746,6 +746,8 @@ function chart(h) {
 sp().onChange?.(() => { if (location.hash === "#read") renderProgress() });
 renderProgress();
 
-window.EnglishDeskReader = { open: openReader };
+// `text` is for History: the story's paragraphs to keep with a speaking or writing session on that headline.
+window.EnglishDeskReader = { open: openReader,
+  text: async it => { const a = await fetchArticle(it); return { title: a.title, paras: a.paras.map(p => p.h ? { h: true, t: p.t } : { t: p.t }) } } };
 loadMeta();
 })();
