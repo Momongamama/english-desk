@@ -116,7 +116,7 @@ function wordify(el, text) {
     if (m.index > i) el.append(text.slice(i, m.index));
     const s = document.createElement("span"); s.className = "rw"; s.textContent = m[0];
     const ex = m[0].length > 2 ? examsOf(m[0]) : [];
-    if (ex.length) s.dataset.ex = ex[ex.length - 1];
+    if (ex.length) s.dataset.exams = ex.join(" ");
     if (saved.has(m[0].toLowerCase())) s.classList.add("saved");
     el.append(s); i = m.index + m[0].length;
   }
@@ -131,13 +131,32 @@ function renderArticle(art, it) {
   $("readSrc").hidden = !it; if (it) $("readSrc").href = it.link;
   const body = $("readBody"); body.replaceChildren();
   for (const p of art.paras) { const el = document.createElement(p.h ? "h3" : "p"); wordify(el, p.t); body.append(el) }
-  const n = {}; for (const [k] of EXAMS) n[k] = new Set([...body.querySelectorAll(`.rw[data-ex="${k}"]`)].map(s => s.textContent.toLowerCase())).size;
-  const any = EXAMS.some(([k]) => lists[k].size);
-  $("readLegend").hidden = !any;
-  $("readLegend").replaceChildren(...EXAMS.filter(([k]) => lists[k].size).map(([k, name]) => { const s = document.createElement("span"); s.className = "rw"; s.dataset.ex = k; s.textContent = `${name} ${n[k]}`; return s }));
+  renderLegend();
   $("readBox").hidden = false; $("pasteBox").hidden = true; closeLook();
 }
 
+// Which exam lists to underline: the reader picks any combination (or none); remembered per browser.
+let shown = new Set(EXAMS.map(([k]) => k));
+try { const v = JSON.parse(localStorage.getItem("englishDesk.examShow")); if (Array.isArray(v)) shown = new Set(v) } catch { }
+function applyExams() {
+  for (const s of document.querySelectorAll("#v-read .rw[data-exams]")) {
+    const on = s.dataset.exams.split(" ").filter(k => shown.has(k));
+    if (on.length) s.dataset.ex = on[on.length - 1]; else delete s.dataset.ex;
+  }
+}
+function renderLegend() {
+  const body = $("readBody"), box = $("readLegend");
+  const n = {}; for (const [k] of EXAMS) n[k] = new Set([...body.querySelectorAll(".rw[data-exams]")].filter(s => s.dataset.exams.split(" ").includes(k)).map(s => s.textContent.toLowerCase())).size;
+  box.hidden = !EXAMS.some(([k]) => lists[k].size);
+  const label = document.createElement("span"); label.className = "muted"; label.textContent = "標示";
+  box.replaceChildren(label, ...EXAMS.filter(([k]) => lists[k].size).map(([k, name]) => {
+    const b = document.createElement("button"); b.className = "chip"; b.setAttribute("aria-pressed", shown.has(k));
+    const sample = document.createElement("span"); sample.className = "rw"; sample.dataset.ex = k; sample.textContent = name;
+    b.append(sample, ` ${n[k]}`);
+    b.onclick = () => { shown.has(k) ? shown.delete(k) : shown.add(k); try { localStorage.setItem("englishDesk.examShow", JSON.stringify([...shown])) } catch { } b.setAttribute("aria-pressed", shown.has(k)); applyExams() };
+    return b }));
+  applyExams();
+}
 async function openReader(it) {
   location.hash = "read";
   $("readBox").hidden = true; $("pasteBox").hidden = true; $("readStatus").hidden = false; $("readStatus").textContent = "抓文章中…";
