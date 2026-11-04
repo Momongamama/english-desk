@@ -1070,10 +1070,58 @@ function markWord(el, sentence, word) {
 }
 function say(text) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .95; speechSynthesis.speak(u) } catch { toast("This browser can't read aloud.") } }
 
-/* ---------- real voices (YouGlish) ---------- */
-// "Hear real people" plays YouTube clips (news, talks, interviews, shows) where someone says the word, with captions, through
-// YouGlish's official embed widget. Nothing is downloaded or stored; the widget loads only when tapped.
-const yg = { ready: null, w: null, card: null, n: 0 };
+/* ---------- real voices ---------- */
+// Two ways to hear a real person say the word in one sentence:
+// 1. "Real voice": sound only. Tatoeba (tatoeba.org) has sentences recorded by real people, shared under open licences;
+//    we play one recording of one sentence that has the word, and show the sentence and who recorded it.
+// 2. "Video clip": YouGlish's official embed plays a YouTube clip of someone saying the word. YouTube's rules don't allow
+//    hiding its player, so the video stays visible, but it pauses as soon as the sentence with the word is over.
+// Nothing is downloaded or stored; both load only when tapped.
+const voice = { card: null, list: [], i: 0, audio: null };
+function voiceStop() { try { voice.audio?.pause() } catch { } voice.audio = null }
+async function tatoeba(word) {
+  const u = "https://api.tatoeba.org/v1/sentences?lang=eng&has_audio=yes&include=audios&sort=relevance&limit=20&q=" + encodeURIComponent(word);
+  let d;
+  try { const r = await fetch(u); if (!r.ok) throw 0; d = await r.json() }
+  catch { const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(u)); if (!r.ok) throw new Error("net"); d = await r.json() }
+  const out = [];
+  for (const x of d.data || []) {
+    const a = (x.audios || []).find(a => a.download_url);
+    const n = String(x.text || "").split(/\s+/).length;
+    if (a && n >= 5) out.push({ s: x.text, url: a.download_url, by: a.author || "", lic: a.licence || "", link: a.attribution_url || "https://tatoeba.org/en/sentences/show/" + x.id });
+  }
+  return out.sort((p, q) => Math.abs(p.s.length - 70) - Math.abs(q.s.length - 70)); // everyday-length sentences first
+}
+function voiceShow(c) {
+  const box = $("ygBox"), v = voice.list[voice.i % voice.list.length];
+  box.replaceChildren(); box.hidden = false;
+  const s = document.createElement("p"); s.className = "ex voice"; s.lang = "en"; markWord(s, v.s, c.mine);
+  const credit = document.createElement("p"); credit.className = "muted";
+  const a = document.createElement("a"); a.href = v.link; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Tatoeba";
+  credit.append(`Recorded by ${v.by || "a Tatoeba member"}${v.lic ? " (" + v.lic + ")" : ""} · `, a);
+  const row = document.createElement("div"); row.className = "row"; row.style.justifyContent = "center";
+  const again = document.createElement("button"); again.className = "btn"; again.textContent = "Play again"; again.onclick = () => voicePlay();
+  row.append(again);
+  if (voice.list.length > 1) { const nx = document.createElement("button"); nx.className = "btn"; nx.textContent = `Another sentence (${voice.i % voice.list.length + 1}/${voice.list.length})`; nx.onclick = () => { voice.i++; voiceShow(c); voicePlay() }; row.append(nx) }
+  box.append(s, row, credit);
+}
+function voicePlay() {
+  voiceStop();
+  const v = voice.list[voice.i % voice.list.length]; if (!v) return;
+  voice.audio = new Audio(v.url); voice.audio.play().catch(() => toast("Couldn't play the recording."));
+}
+async function voiceOpen(c) {
+  ygClose(); const box = $("ygBox"); box.hidden = false;
+  if (voice.card === c.id && voice.list.length) { voiceShow(c); voicePlay(); return }
+  voice.card = c.id; voice.list = []; voice.i = 0;
+  box.innerHTML = '<p class="muted">Finding a real recording…</p>';
+  try { voice.list = await tatoeba(c.mine) } catch { if (voice.card === c.id) box.innerHTML = '<p class="muted">Couldn\'t reach Tatoeba. Check your connection, or try Video clip.</p>'; return }
+  if (voice.card !== c.id) return;
+  if (!voice.list.length) { box.innerHTML = '<p class="muted">No real recording with this word yet. Try Video clip.</p>'; return }
+  voiceShow(c); voicePlay();
+}
+
+const yg = { ready: null, w: null, card: null, n: 0, heard: false };
 function ygLoad() {
   if (yg.ready) return yg.ready;
   yg.ready = new Promise((ok, no) => {
@@ -1083,18 +1131,21 @@ function ygLoad() {
   });
   return yg.ready;
 }
-function ygClose() { const box = $("ygBox"); try { yg.w?.close?.() } catch { } yg.w = null; yg.card = null; box.replaceChildren(); box.hidden = true }
+function ygClose() { voiceStop(); const box = $("ygBox"); try { yg.w?.close?.() } catch { } yg.w = null; yg.card = null; box.replaceChildren(); box.hidden = true }
 async function ygOpen(c) {
   const box = $("ygBox"), id = "yg" + ++yg.n;
-  ygClose(); yg.card = c.id; box.hidden = false;
-  const note = document.createElement("p"); note.className = "muted"; note.textContent = "Loading clips of real people saying it…";
+  ygClose(); yg.card = c.id; yg.heard = false; box.hidden = false;
+  const note = document.createElement("p"); note.className = "muted"; note.textContent = "Loading a clip…";
   const el = document.createElement("div"); el.id = id;
   box.append(note, el);
   try { await ygLoad() } catch { note.textContent = "Couldn't reach YouGlish. Check your connection and try again."; return }
   if (yg.card !== c.id) return;
-  // components: title 4 + caption 8 + speed 16 + control buttons 64 (no search box)
-  yg.w = new YG.Widget(id, { components: 92, autoStart: 1, restrictionMode: 1, events: {
-    onFetchDone: e => { note.textContent = e.totalResult ? `${e.totalResult} clips. Use the arrows for the next one; slow it down with the speed control.` : "No clips for this word. Try the sentence above with Play." } } });
+  // components: caption 8 + control buttons 64 (no search box, title or speed panel). Captions mark the word as [[[word]]]:
+  // once a caption with the word has been shown and the next caption doesn't have it, the sentence is over, so pause.
+  yg.w = new YG.Widget(id, { components: 72, autoStart: 1, restrictionMode: 1, events: {
+    onFetchDone: e => { note.textContent = e.totalResult ? "Stops after the sentence. Use the arrows for another speaker." : "No clips for this word." },
+    onVideoChange: () => { yg.heard = false },
+    onCaptionChange: e => { const has = String(e.caption || "").includes("[[["); if (has) yg.heard = true; else if (yg.heard) { yg.heard = false; try { yg.w.pause() } catch { } } } } });
   yg.w.fetch(c.mine, "english", "us");
 }
 
@@ -1107,7 +1158,7 @@ function renderFlash() {
   $("dueLabel").textContent = list.length ? `${list.length} left` : "";
   if (!list.length) { ygClose(); f.innerHTML = st.cards.length ? '<p class="muted">All done for today.</p>' : '<p class="muted">No cards yet. Tap a word while reading the news and add it to your word list, or tap Save as card after a speaking or writing review.</p>'; btns.replaceChildren(); return }
   const c = list[0], word = c.kind === "word";
-  if (yg.card && yg.card !== c.id) ygClose();
+  if ((yg.card && yg.card !== c.id) || (voice.card && voice.card !== c.id && !$("ygBox").hidden)) ygClose();
   f.replaceChildren();
   const mk = (t, cls, fn, label) => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = t; b.onclick = fn; if (label) b.setAttribute("aria-label", label); return b };
   if (word) {
@@ -1122,7 +1173,10 @@ function renderFlash() {
       meta.append(mk("Play", "say", () => say(ex.s), "Read this sentence aloud with the computer voice"));
       f.append(s, meta);
     }
-    f.append(mk("Hear real people say it", "real", () => ygOpen(c), "Play video clips of real people saying this word"));
+    const real = document.createElement("div"); real.className = "row"; real.style.justifyContent = "center";
+    real.append(mk("Real voice", "", () => voiceOpen(c), "Hear a real person say one sentence with this word, sound only"),
+      mk("Video clip", "", () => ygOpen(c), "Watch one sentence from a YouTube clip with this word"));
+    f.append(real);
     if (flashShown) { const a = document.createElement("div"); a.className = "a"; a.textContent = c.natural; f.append(a) }
   } else {
     const hint = document.createElement("p"); hint.className = "muted"; hint.textContent = "This is what you said. What's the natural way to say it?";
