@@ -68,7 +68,7 @@ nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; backgrou
 nav a { flex: none; display: inline-flex; align-items: center; gap: var(--space-1); min-height: 34px; padding: 0 var(--space-3); white-space: nowrap;
   border: var(--border-width) solid var(--line); border-radius: var(--radius-pill); color: var(--ink); text-decoration: none; font: 700 14px/1 var(--font-body) }
 nav a[aria-current="page"] { background: var(--tab-tone); color: var(--on-tone); box-shadow: var(--shadow-hard) }
-nav a[data-v="today"], nav a[data-v="echo"], nav a[data-v="settings"] { --tab-tone: var(--tone-green) } nav a[data-v="speak"] { --tab-tone: var(--tone-coral) }
+nav a[data-v="today"], nav a[data-v="echo"], nav a[data-v="history"], nav a[data-v="settings"] { --tab-tone: var(--tone-green) } nav a[data-v="speak"] { --tab-tone: var(--tone-coral) }
 nav a[data-v="write"] { --tab-tone: var(--tone-lilac) } nav a[data-v="cards"] { --tab-tone: var(--tone-yellow) }
 nav .count { color: var(--accent-text) }
 nav a[aria-current="page"] .count { color: var(--on-tone) }
@@ -180,6 +180,34 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .logs div { display: grid; grid-template-columns: 6rem 2.75rem minmax(0, 1fr); gap: var(--space-2); align-items: baseline; font-size: 14px }
 .logs time { color: var(--ink-muted); font-size: 13px; font-variant-numeric: tabular-nums }
 .logs .level { background: none; border-color: transparent; padding: 0; color: var(--accent-text) }
+
+/* History */
+.lvl { display: grid; grid-template-columns: 4rem repeat(4, minmax(0, 1fr)); gap: var(--space-2) var(--space-1); align-items: center; font-size: 13px }
+.lvl .h { color: var(--ink-muted); text-align: center }
+.lvl .level, .lvl .none { justify-self: center } .lvl .none { color: var(--ink-muted) }
+.kind { display: inline-flex; align-items: center; min-height: 24px; padding: 0 var(--space-2); border: var(--border-width) solid var(--line); border-radius: var(--radius-pill); font: 700 13px/18px var(--font-body); white-space: nowrap; color: var(--on-tone) }
+.kind.speak { background: var(--tint-coral) } .kind.write { background: var(--tint-lilac) }
+.lvl .kind { justify-self: start }
+.hist { display: grid }
+.hist-month { margin-top: var(--space-3); padding-bottom: var(--space-1); font: 700 13px/18px var(--font-body); letter-spacing: .04em; color: var(--accent-text) }
+.hist-month:first-child { margin-top: 0 }
+.hist-item { display: grid; grid-template-columns: 3rem minmax(0, 1fr) auto; gap: var(--space-2); align-items: center; padding: var(--space-3) 0; border-top: var(--border-width) solid var(--line);
+  color: var(--ink); text-decoration: none; font-weight: 400 }
+.hist-month + .hist-item { border-top: 0 }
+.hist-item time { color: var(--ink-muted); font-size: 13px; font-variant-numeric: tabular-nums }
+.hist-item > div { display: grid; gap: 2px; min-width: 0 }
+.hist-item b { font: 700 15px/22px var(--font-body); overflow: hidden; text-overflow: ellipsis; white-space: nowrap }
+.hist-item .meta { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center; font-size: 13px; line-height: 20px; color: var(--ink-muted) }
+.eyebrow { font: 700 13px/18px var(--font-body); letter-spacing: .04em; color: var(--accent-text); text-transform: uppercase }
+.verdict.spread { justify-content: space-between; flex-wrap: nowrap; align-items: flex-start }
+.verdict.spread .level { margin-top: 1px }
+.essay-text { white-space: pre-wrap; overflow-wrap: anywhere }
+.chat { display: grid; gap: var(--space-3) }
+button.link { justify-self: start; border: 0; background: none; padding: var(--space-1) 0 0; color: var(--ink-muted); font: 400 13px/20px var(--font-body); cursor: pointer }
+.transcript { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 14px }
+label.mins { display: inline-flex; align-items: center; gap: var(--space-2); font-size: 13px; color: var(--ink-muted) }
+label.mins input { width: 6.5rem; min-height: 40px; padding: 0 var(--space-3); background: var(--surface); color: var(--ink); border: var(--border-width) solid var(--line); border-radius: var(--radius-md); font: 400 15px/24px var(--font-body) }
+#histList { display: grid; gap: var(--space-5) } #histDetail { display: grid; gap: var(--space-5) }
 
 /* Shadowing */
 .echo-line { margin: 0; font: 700 18px/26px var(--font-body); overflow-wrap: anywhere }
@@ -336,6 +364,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
     <a href="#speak" data-v="speak">Speak</a>
     <a href="#write" data-v="write">Write</a>
     <a href="#echo" data-v="echo">Echo</a>
+    <a href="#history" data-v="history">History</a>
     <a href="#cards" data-v="cards">Cards<span class="count" id="dueCount"></span></a>
     <a href="#read" data-v="read">Read</a>
     <a href="#settings" data-v="settings">Settings</a>
@@ -374,7 +403,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <div class="bars" id="bars" aria-label="Sessions per day this week"></div>
     </div>
     <div class="sheet">
-      <h2>Recent sessions</h2>
+      <div class="row" style="justify-content:space-between"><h2>Recent sessions</h2><a class="btn small" href="#history">See all in History</a></div>
       <div class="logs" id="logs"><p class="muted">No sessions yet. After each speaking or writing session, the CEFR level the AI gives you is saved here so you can compare month to month.</p></div>
     </div>
   </section>
@@ -421,7 +450,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <p class="muted">After a chat in the Gemini app or anywhere else, copy and paste the whole conversation here. Tap "Copy setup prompt" and paste it to your partner before you start, so you don't have to explain it every time.</p>
       <div class="row"><button class="btn" id="copyOpening">Copy setup prompt</button></div>
       <textarea id="pasteIn" rows="10" lang="en" placeholder="Paste the whole conversation here, both sides."></textarea>
-      <div class="row"><button class="btn primary" id="pasteGrade">Grade it</button><button class="btn" id="stopPaste" hidden>Stop</button><span class="muted" id="pasteCount"></span></div>
+      <div class="row"><button class="btn primary" id="pasteGrade">Grade it</button><button class="btn" id="stopPaste" hidden>Stop</button><label class="mins">Minutes talked <input type="number" id="pasteMins" min="1" max="180" inputmode="numeric" placeholder="optional"></label><span class="muted" id="pasteCount"></span></div>
     </div>
 
     <div class="sheet" id="reviewBox" hidden>
@@ -463,11 +492,31 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 
     <div class="sheet" id="redoBox" hidden>
       <h2>Hide the version above and write it again</h2>
-      <p class="muted">This is the step where you really improve. Tap Done when you finish and it will be saved.</p>
+      <p class="muted">This is the step where you really improve. The feedback above is already saved in History; tap Done to add your rewrite to it.</p>
       <button class="btn" id="hideModel">Hide C1 version</button>
       <textarea class="ruled" id="redo" placeholder="Rewrite it in your own words."></textarea>
       <div class="row"><button class="btn primary" id="redoDone">Done</button></div>
     </div>
+  </section>
+
+  <!-- HISTORY: every speaking and writing session in full (history.js) -->
+  <section class="view" id="v-history" hidden>
+    <div id="histList">
+      <div class="sheet">
+        <h2>Level by month</h2>
+        <div class="lvl" id="histLevels"></div>
+        <p class="muted">Each month shows your most common level.</p>
+      </div>
+      <div class="sheet">
+        <div class="row" id="histFilter">
+          <button class="chip" data-f="all" aria-pressed="true">All</button><button class="chip" data-f="speak" aria-pressed="false">Speak</button><button class="chip" data-f="write" aria-pressed="false">Write</button>
+        </div>
+        <input type="text" id="histSearch" placeholder="Search topics and your words" autocomplete="off">
+        <div class="hist" id="histItems"></div>
+      </div>
+      <p class="muted" id="histFoot"></p>
+    </div>
+    <div id="histDetail" hidden></div>
   </section>
 
   <!-- ECHO -->
@@ -679,9 +728,11 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 
 <!-- Each ?v= is a hash of the file, set by .github/workflows/cache-version.yml after every push to main. No need to edit by hand;
      a PR may leave it stale and the workflow fixes it on merge. Keep one script per line so merges don't collide. -->
-<script src="app.js?v=285450a960"></script>
+<script src="practice.js?v=fd71e5e126"></script>
+<script src="app.js?v=a5f17981c3"></script>
 <script src="reader.js?v=f32f3235c4"></script>
 <script src="brief.js?v=9fd98cc169"></script>
-<script src="sync.js?v=5cc49f609d"></script>
+<script src="history.js?v=e9c630f771"></script>
+<script src="sync.js?v=0646913520"></script>
 </body>
 </html>

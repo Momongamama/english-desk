@@ -10,6 +10,15 @@
 - 快取版本號：`index.html` 裡每個 `?v=` 是該 js 檔內容的 hash，由 `.github/workflows/cache-version.yml` 在每次 push 到 main 後自動更新（`scripts/bump-versions.mjs`），不用手動改
 - 卡片用 Anki 的 SM-2 間隔複習（Again / Hard / Good / Easy，按鈕上顯示下次間隔），可以匯出成 Anki 能匯入的 CSV（正面、背面、標籤三欄）
 
+## 練習紀錄（History）
+
+- 每次口說和寫作都完整保存：口說存逐字稿、總評、CEFR、5 個修正（含原因）、即時或貼稿、幾點開始、聊幾分鐘（貼稿可選填）；寫作存原文、等級理由、修正、習慣、C1 範本、關範本後的重寫，以及打字時間（只算 90 秒內有打字的時間）。
+- 寫作一拿到批改就存；同一篇改了再批改會更新同一筆，按 Done 再把重寫加進去。
+- 完整內容在 `practice.js`（IndexedDB `englishDesk.practice`，以 `ts` 為鍵），localStorage 的 `logs` 照舊當摘要索引（首頁長條圖、每月同題重做）。只存文字，不存錄音。
+- History 分頁（`history.js`）：按月份列出、Speak/Write 篩選、搜尋、每月最常見等級；點一筆看全部；同一題可並排比較（`#history/compare/<ts>`）。
+- 刪除一筆記成 `deleted["log:" + ts]`，同步和匯入都會跟著刪。
+- 同步：gist 裡每月一個檔 `english-desk-practice-YYYY-MM.json`，只上傳有變的月份；備份匯出也包含 `practice`。
+
 ## 每日新聞題目
 
 - `.github/workflows/news.yml` 每天台灣時間 05:30 跑 `scripts/fetch-news.mjs`，把 BBC（Business／Technology／World）和 CNN 的 RSS 整理成 `news.json` 並 commit 回 main。也可以在 Actions 分頁按「Run workflow」手動更新。
