@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>English Desk</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,600;1,6..72,400;1,6..72,500&family=Noto+Sans+TC:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+:root { padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px) }
+body { margin: 0 }
+[hidden] { display: none !important }
+
+/* Layout: an exercise book — a narrow ruled column, red-pen corrections over blue-black ink, tabs as notebook dividers */
+:root {
+  --paper: #f7f8fb;
+  --sheet: #ffffff;
+  --rule: #dde3ee;
+  --ink: #1d2433;
+  --ink-soft: #5b6578;
+  --pen: #c4352b;          /* correction red */
+  --fix: #1f4fa8;          /* corrected text, fountain-pen blue */
+  --fix-tint: #e8eefb;
+  --pen-tint: #fbeceb;
+  --ok: #2f7a4f;
+  --line: #d3d9e4;
+  --f-display: "Newsreader", "Iowan Old Style", Georgia, serif;
+  --f-ui: "Noto Sans TC", "PingFang TC", "Heiti TC", system-ui, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --r: 10px;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --paper: #12151c; --sheet: #191d26; --rule: #262c38; --ink: #e6e9f0; --ink-soft: #9aa3b5;
+  --pen: #ff7a6e; --fix: #8fb3ff; --fix-tint: #1c2740; --pen-tint: #3a1f1e; --ok: #6cc896; --line: #2c3240;
+  color-scheme: dark } }
+:root[data-theme="dark"] {
+  --paper: #12151c; --sheet: #191d26; --rule: #262c38; --ink: #e6e9f0; --ink-soft: #9aa3b5;
+  --pen: #ff7a6e; --fix: #8fb3ff; --fix-tint: #1c2740; --pen-tint: #3a1f1e; --ok: #6cc896; --line: #2c3240;
+  color-scheme: dark }
+
+* { box-sizing: border-box }
+body { background: var(--paper); color: var(--ink); font: 15px/1.6 var(--f-ui);
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0 48px }
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--paper) }
+.wrap { max-width: 760px; margin: 0 auto }
+button, textarea, input { font: inherit; color: inherit }
+:focus-visible { outline: 2px solid var(--fix); outline-offset: 2px }
+
+header { padding-block: 28px 8px; display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px }
+h1 { font: italic 500 2rem/1.1 var(--f-display); margin: 0; letter-spacing: -0.01em }
+h1 small { display: block; font: 400 .8rem/1.4 var(--f-ui); font-style: normal; color: var(--ink-soft); margin-top: 6px; letter-spacing: .02em }
+.level { font: 500 .75rem var(--f-mono); letter-spacing: .08em; padding: 3px 8px; border: 1px solid currentColor; border-radius: 4px; color: var(--fix); white-space: nowrap }
+
+nav { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: var(--paper); display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-top: 12px; overflow-x: auto }
+nav a { padding: 10px 14px; text-decoration: none; color: var(--ink-soft); border-bottom: 2px solid transparent; white-space: nowrap; font-weight: 500 }
+nav a[aria-current="page"] { color: var(--ink); border-bottom-color: var(--pen) }
+nav .count { font: 500 .7rem var(--f-mono); margin-left: 4px; color: var(--pen) }
+
+section.view { padding-top: 24px; display: grid; gap: 20px }
+h2 { font: 600 1.05rem/1.4 var(--f-ui); margin: 0 }
+h3 { font: 600 .8rem var(--f-ui); margin: 0; color: var(--ink-soft); letter-spacing: .06em }
+p { margin: 0 }
+.muted { color: var(--ink-soft); font-size: .88rem }
+.sheet { background: var(--sheet); border: 1px solid var(--line); border-radius: var(--r); padding: 18px; display: grid; gap: 14px; min-width: 0 }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center }
+
+.btn { border: 1px solid var(--line); background: var(--sheet); padding: 8px 14px; border-radius: 8px; cursor: pointer; font-weight: 500 }
+.btn:hover { border-color: var(--ink-soft) }
+.btn.primary { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.btn.primary:hover { opacity: .88 }
+.btn.red { color: var(--pen); border-color: var(--pen) }
+.btn:disabled { opacity: .45; cursor: default }
+.chip { border: 1px solid var(--line); background: transparent; padding: 5px 12px; border-radius: 999px; cursor: pointer; font-size: .88rem }
+.chip[aria-pressed="true"] { background: var(--fix-tint); border-color: var(--fix); color: var(--fix) }
+
+textarea, input[type=text] { width: 100%; border: 1px solid var(--line); background: var(--sheet); border-radius: 8px; padding: 10px 12px; resize: vertical }
+textarea.ruled { font: 1.05rem/2rem var(--f-display); padding: 0 14px; min-height: 12rem;
+  background: var(--sheet) repeating-linear-gradient(to bottom, transparent 0 calc(2rem - 1px), var(--rule) calc(2rem - 1px) 2rem); background-attachment: local }
+
+/* Schedule */
+.week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px }
+.day { border: 1px solid var(--line); border-radius: 8px; padding: 8px 6px; text-align: center; display: grid; gap: 2px; background: var(--sheet) }
+.day b { font-size: .78rem; color: var(--ink-soft); font-weight: 500 }
+.day span { font-size: .85rem }
+.day.today { border-color: var(--pen); box-shadow: inset 0 -3px 0 var(--pen) }
+@media (max-width: 520px) { .week { grid-template-columns: repeat(4, minmax(0, 1fr)) } }
+.todo { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px }
+.todo p { font: italic 1.25rem/1.4 var(--f-display) }
+
+/* Chat */
+.log { display: grid; gap: 12px; max-height: 60vh; overflow-y: auto; padding-right: 4px }
+.msg { max-width: 88%; padding: 10px 14px; border-radius: 12px; font: 1.02rem/1.55 var(--f-display); white-space: pre-wrap; min-width: 0; overflow-wrap: anywhere }
+.msg.me { justify-self: end; background: var(--fix-tint) }
+.msg.ai { justify-self: start; background: var(--paper); border: 1px solid var(--line) }
+.msg .note { display: block; font: .9rem/1.5 var(--f-display); color: var(--pen); border-left: 2px solid var(--pen); padding-left: 8px; margin-bottom: 8px }
+.msg .speak { font: .75rem var(--f-ui); border: 0; background: none; color: var(--ink-soft); cursor: pointer; padding: 4px 0 0; display: block }
+.thinking { color: var(--ink-soft); font-style: italic }
+
+/* Corrections: the signature — strike in red, rewrite in blue */
+.corr { display: grid; gap: 10px }
+.c-item { border-top: 1px dashed var(--line); padding-top: 10px; display: grid; gap: 4px; min-width: 0 }
+.c-item:first-child { border-top: 0; padding-top: 0 }
+.c-mine { font: 1rem/1.5 var(--f-display); color: var(--ink-soft); text-decoration: line-through; text-decoration-color: var(--pen); text-decoration-thickness: 1.5px }
+.c-nat { font: 1.05rem/1.5 var(--f-display); color: var(--fix) }
+.c-why { font-size: .86rem; color: var(--ink-soft) }
+.c-save { justify-self: start; font-size: .8rem; padding: 3px 10px }
+.verdict { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap }
+.verdict .level { font-size: .9rem }
+.rewrite { font: 1.05rem/1.7 var(--f-display); white-space: pre-wrap; background: var(--fix-tint); padding: 12px 14px; border-radius: 8px; overflow-wrap: anywhere }
+.habit { background: var(--pen-tint); color: var(--ink); padding: 10px 14px; border-radius: 8px; font-size: .92rem }
+
+/* Cards */
+.flash { min-height: 180px; display: grid; gap: 10px; align-content: center; text-align: center; padding: 24px }
+.flash .q { font: 1.25rem/1.5 var(--f-display); color: var(--ink-soft); text-decoration: line-through; text-decoration-color: var(--pen) }
+.flash .a { font: 1.3rem/1.5 var(--f-display); color: var(--fix) }
+.list { display: grid; gap: 0 }
+.list .c-item { grid-template-columns: minmax(0, 1fr) auto; column-gap: 12px; padding-block: 10px; border-top: 1px solid var(--line) }
+.list .c-item > div { display: grid; gap: 2px; min-width: 0 }
+.del { border: 0; background: none; color: var(--ink-soft); cursor: pointer; font-size: .8rem; align-self: start }
+.del:hover { color: var(--pen) }
+
+.logs { display: grid; gap: 8px }
+.logs div { display: grid; grid-template-columns: 5.5rem 3rem minmax(0, 1fr); gap: 10px; font-size: .88rem; align-items: baseline }
+.logs time, .logs .level { font-family: var(--f-mono); font-size: .75rem }
+.logs .level { padding: 1px 5px; text-align: center }
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); background: var(--ink); color: var(--paper); padding: 8px 16px; border-radius: 8px; font-size: .9rem; z-index: 20 }
+.banner { background: var(--pen-tint); padding: 10px 14px; border-radius: 8px; font-size: .9rem }
+@media (prefers-reduced-motion: no-preference) { .msg, .c-item { animation: in .25s ease-out } @keyframes in { from { opacity: .4; transform: translateY(4px) } } }
+
+.field { display: grid; gap: 6px }
+.field label { font-size: .85rem; font-weight: 500; margin-top: 6px }
+a { color: var(--fix) }
+label.btn { display: inline-block }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header>
+    <h1>English Desk<small>口說・寫作・修正卡片，一個地方練完</small></h1>
+    <span class="level" id="levelTag" title="聽讀依多益 915 換算">TOEIC 915 · B2+</span>
+  </header>
+
+  <nav aria-label="練習項目">
+    <a href="#today" data-v="today">今天</a>
+    <a href="#speak" data-v="speak">口說</a>
+    <a href="#write" data-v="write">寫作</a>
+    <a href="#cards" data-v="cards">卡片<span class="count" id="dueCount"></span></a>
+    <a href="#settings" data-v="settings">設定</a>
+  </nav>
+
+  <p class="banner" id="banner" hidden></p>
+
+  <!-- TODAY -->
+  <section class="view" id="v-today">
+    <div class="sheet">
+      <div class="todo">
+        <div>
+          <h3 id="todayLabel">今天</h3>
+          <p id="todayTask">—</p>
+        </div>
+        <a class="btn primary" id="todayGo" href="#speak">開始</a>
+      </div>
+      <div class="week" id="week"></div>
+      <p class="muted">每天另外花 5 分鐘複習卡片。週六的跟讀用 Enjoy 的 Echo 模式。</p>
+    </div>
+    <div class="sheet">
+      <h2>最近的紀錄</h2>
+      <div class="logs" id="logs"><p class="muted">還沒有紀錄。練完一次口說或寫作後，AI 估的 CEFR 等級會記在這裡，方便每個月對照。</p></div>
+    </div>
+  </section>
+
+  <!-- SPEAK -->
+  <section class="view" id="v-speak" hidden>
+    <div class="sheet">
+      <h2>今天聊什麼</h2>
+      <div class="row" id="topics"></div>
+      <input type="text" id="topicCustom" placeholder="或自己輸入題目，例如 the theme I'm designing">
+      <div class="row">
+        <span class="muted">糾錯方式</span>
+        <button class="chip" id="modeInline" aria-pressed="true">邊聊邊糾正</button>
+        <button class="chip" id="modeAfter" aria-pressed="false">聊完再整理</button>
+      </div>
+      <div class="row"><button class="btn primary" id="startChat">開始對話</button><span class="muted" id="chatHint"></span></div>
+    </div>
+
+    <div class="sheet" id="chatBox" hidden>
+      <div class="log" id="log" aria-live="polite"></div>
+      <textarea id="chatIn" rows="3" placeholder="用英文回覆。iPhone 上點鍵盤的麥克風就能用說的。"></textarea>
+      <div class="row">
+        <button class="btn primary" id="send">送出</button>
+        <button class="btn" id="stopChat" hidden>停止</button>
+        <span style="flex:1"></span>
+        <button class="btn red" id="review">結束並檢討</button>
+      </div>
+      <p class="muted">⌘/Ctrl + Enter 也能送出。說錯就說錯，卡住就用簡單的字繞過去。</p>
+    </div>
+
+    <div class="sheet" id="reviewBox" hidden>
+      <div class="verdict"><h2>這次對話的 5 個重點</h2><span class="level" id="speakLevel"></span></div>
+      <p class="muted" id="speakSummary"></p>
+      <div class="corr" id="speakCorr"></div>
+      <div class="row"><button class="btn primary" id="saveAllSpeak">全部存成卡片</button></div>
+    </div>
+  </section>
+
+  <!-- WRITE -->
+  <section class="view" id="v-write" hidden>
+    <div class="sheet">
+      <h2>寫一段 150–200 字</h2>
+      <div class="row" id="wtopics"></div>
+      <textarea class="ruled" id="essay" placeholder="Start writing here. Don't look anything up."></textarea>
+      <div class="row">
+        <button class="btn primary" id="grade">請 AI 批改</button>
+        <button class="btn" id="stopGrade" hidden>停止</button>
+        <span class="muted" id="wc">0 字</span>
+      </div>
+    </div>
+
+    <div class="sheet" id="gradeBox" hidden>
+      <div class="verdict"><h2>批改</h2><span class="level" id="wLevel"></span></div>
+      <p class="muted" id="wLevelWhy"></p>
+      <h3>C1 版本</h3>
+      <div class="rewrite" id="wRewrite"></div>
+      <h3>最重要的修改</h3>
+      <div class="corr" id="wCorr"></div>
+      <div class="habit" id="wHabit"></div>
+      <div class="row"><button class="btn primary" id="saveAllWrite">全部存成卡片</button></div>
+    </div>
+
+    <div class="sheet" id="redoBox" hidden>
+      <h2>關掉上面的版本，自己再寫一次</h2>
+      <p class="muted">真正的進步發生在這一步。寫完按完成，會存進紀錄。</p>
+      <button class="btn" id="hideModel">先收起 C1 版本</button>
+      <textarea class="ruled" id="redo" placeholder="Rewrite it in your own words."></textarea>
+      <div class="row"><button class="btn primary" id="redoDone">完成</button></div>
+    </div>
+  </section>
+
+  <!-- CARDS -->
+  <section class="view" id="v-cards" hidden>
+    <div class="sheet" id="reviewCard">
+      <div class="row" style="justify-content:space-between"><h2>今天要複習</h2><span class="muted" id="dueLabel"></span></div>
+      <div class="flash" id="flash"></div>
+      <div class="row" id="flashBtns" style="justify-content:center"></div>
+    </div>
+    <div class="sheet">
+      <div class="row" style="justify-content:space-between">
+        <h2>全部卡片</h2>
+        <div class="row"><button class="btn" id="exportAnki">匯出成 Anki 檔</button></div>
+      </div>
+      <div class="list" id="cardList"></div>
+    </div>
+  </section>
+
+  <!-- SETTINGS -->
+  <section class="view" id="v-settings" hidden>
+    <div class="sheet">
+      <h2>AI 設定</h2>
+      <p class="muted">API key 只存在這台裝置的瀏覽器裡，不會上傳到 GitHub 或任何其他地方。不要在別人的電腦上填。</p>
+      <div class="row">
+        <span class="muted">使用</span>
+        <button class="chip" id="pvGemini" aria-pressed="true">Gemini</button>
+        <button class="chip" id="pvClaude" aria-pressed="false">Claude</button>
+      </div>
+      <div class="field" id="fGemini">
+        <label for="geminiKey">Gemini API key</label>
+        <input type="password" id="geminiKey" autocomplete="off" placeholder="AIza…">
+        <label for="geminiModel">模型</label>
+        <input type="text" id="geminiModel" placeholder="gemini-3.5-flash-lite">
+        <p class="muted">到 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> 取得 key，免費額度足夠日常練習。</p>
+      </div>
+      <div class="field" id="fClaude" hidden>
+        <label for="claudeKey">Claude API key</label>
+        <input type="password" id="claudeKey" autocomplete="off" placeholder="sk-ant-…">
+        <label for="claudeChat">對話用模型</label>
+        <input type="text" id="claudeChat" placeholder="claude-haiku-5-5">
+        <label for="claudeGrade">批改用模型</label>
+        <input type="text" id="claudeGrade" placeholder="claude-sonnet-5-5">
+        <p class="muted">到 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Claude Console</a> 取得 key。API 按用量計費，和 claude.ai 訂閱分開。</p>
+      </div>
+      <div class="row"><button class="btn primary" id="saveSettings">儲存</button><button class="btn" id="testAi">測試連線</button><span class="muted" id="testOut"></span></div>
+    </div>
+    <div class="sheet">
+      <h2>備份</h2>
+      <p class="muted">卡片和紀錄存在這個瀏覽器裡。換裝置、換瀏覽器或清除網站資料前，先匯出備份；在新的地方用匯入還原。</p>
+      <div class="row">
+        <button class="btn" id="exportBackup">匯出備份</button>
+        <label class="btn" for="importFile">匯入備份</label>
+        <input type="file" id="importFile" accept=".json,application/json" hidden>
+        <span class="muted" id="backupInfo"></span>
+      </div>
+    </div>
+  </section>
+</div>
+
+
+<script src="app.js"></script>
+</body>
+</html>
