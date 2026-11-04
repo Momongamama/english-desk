@@ -74,29 +74,36 @@ function examsOf(w) {
 
 /* ---------- fetching the article ---------- */
 const SELECTOR = { BBC: "article", NPR: "#storytext", CNN: ".article__content" };
-const JUNK = /^(image source|image caption|getty images|share|save|related|more on this story|listen|watch|follow|sign up|advertisement|copyright|read more|this article|top stories|you may also)/i;
+// Boilerplate lines only count as junk when they are short, so "Shares fell 5%..." or "Follow-up talks..." stay.
+const JUNK = /^(image source|image caption|getty images|share|save|related|more on this story|listen|watch|follow|sign up|advertisement|copyright|read more|this article|top stories|you may also)(?=[\s:]|$)/i;
 function clean(md) {
-  return md.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[*_]{1,3}([^*_]+)[*_]{1,3}/g, "$1")
+  return md.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\((?:[^()]|\([^)]*\))*\)/g, "$1").replace(/(\*{1,3})([^*\n]+)\1/g, "$2")
     .split(/\n\s*\n/).map(b => b.replace(/\s*\n\s*/g, " ").trim()).filter(Boolean)
     .map(b => { const h = b.match(/^#{1,6}\s+(.*)/); return h ? { h: true, t: h[1].trim() } : { t: b.replace(/^[-*>]\s+/, "") } })
-    .filter(p => p.t && !JUNK.test(p.t) && !/^https?:\/\//.test(p.t) && !/^[=\-_|\s]+$/.test(p.t) && (p.h || p.t.length > 60 || /[.!?"”]$/.test(p.t)));
+    .filter(p => p.t && !(p.t.length < 80 && JUNK.test(p.t)) && !/^https?:\/\//.test(p.t) && !/^[=\-_|\s]+$/.test(p.t)
+      && (p.h || p.t.split(/\s+/).length >= 6 || /[.!?"”')]$/.test(p.t)));
 }
+const words = paras => paras.reduce((n, p) => n + (p.h ? 0 : p.t.split(/\s+/).length), 0);
 async function fetchArticle(it) {
-  const cache = "englishDesk.read:" + it.link;
+  const cache = "englishDesk.read2:" + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
   const tries = [{ "X-Target-Selector": SELECTOR[it.source] || "article", "X-Retain-Images": "none" }, {}];
-  let last;
+  let last, best = null;
   for (const h of tries) {
     try {
       const res = await fetch("https://r.jina.ai/" + it.link, { headers: { Accept: "application/json", ...h } });
       if (!res.ok) { last = res.status; continue }
       const j = await res.json(), paras = clean(j.data?.content || "");
       if (paras.filter(p => !p.h).length < 3) { last = "short"; continue }
+      // The site-specific selector can miss later parts of the story; if it looks short, keep looking.
+      if (h["X-Target-Selector"] && words(paras) < 150) { best = { title: j.data?.title || it.title, paras }; continue }
+      if (best && words(best.paras) >= words(paras)) paras.splice(0, paras.length, ...best.paras);
       const out = { title: j.data?.title || it.title, paras };
       try { sessionStorage.setItem(cache, JSON.stringify(out)) } catch { }
       return out;
     } catch (e) { last = e }
   }
+  if (best) return best;
   throw new Error(last === 429 ? "抓文章的服務暫時太忙，等 1 分鐘再試，或直接貼上文章。" : "抓不到這篇文章的內文，可以打開原文複製後貼上。");
 }
 
