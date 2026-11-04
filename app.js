@@ -1178,24 +1178,29 @@ function say(text) { try { speechSynthesis.cancel(); const u = new SpeechSynthes
 // Nothing is downloaded or stored; both load only when tapped.
 // One audio element for all recordings. iPhone Safari only lets a page play sound that starts during a tap, and the
 // recording arrives after the lookup, so the tap first plays a moment of silence on this element; after that it may play.
-const voice = { card: null, list: [], i: 0, el: new Audio() };
+const voice = { card: null, list: [], i: 0, seq: 0, el: new Audio() };
 const SILENCE = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
 function voiceUnlock() { try { voice.el.src = SILENCE; voice.el.play().catch(() => { }) } catch { } }
-function voiceStop() { try { voice.el.pause() } catch { } }
+function voiceStop() { voice.seq++; try { voice.el.pause() } catch { } }
 async function tatoeba(word) {
-  const u = "https://api.tatoeba.org/v1/sentences?lang=eng&has_audio=yes&include=audios&sort=relevance&limit=20&q=" + encodeURIComponent(word);
+  const u = "https://api.tatoeba.org/v1/sentences?lang=eng&has_audio=yes&include=audios&sort=relevance&limit=50&q=" + encodeURIComponent(word);
   let d;
   try { const r = await fetch(u); if (!r.ok) throw 0; d = await r.json() }
   catch { const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(u)); if (!r.ok) throw new Error("net"); d = await r.json() }
   const out = [];
   for (const x of d.data || []) {
-    const a = (x.audios || []).find(a => a.download_url);
-    const n = String(x.text || "").split(/\s+/).length;
-    // Two addresses for the same recording: the API's file link (refused when the recorder doesn't allow reuse outside
-    // Tatoeba) and the audio server the Tatoeba site itself plays from.
-    if (a && n >= 5) out.push({ s: x.text, urls: [a.download_url, `https://audio.tatoeba.org/sentences/eng/${x.id}.mp3`], by: a.author || "", lic: a.licence || "", link: a.attribution_url || "https://tatoeba.org/en/sentences/show/" + x.id });
+    const n = String(x.text || "").split(/\s+/).length, aus = (x.audios || []).filter(a => a.download_url || a.id);
+    if (!aus.length || n < 5) continue;
+    // Several addresses per sentence, tried in order: each recording's API file link (refused when the recorder doesn't
+    // allow reuse outside Tatoeba), the download link the Tatoeba site uses, and the older audio server.
+    const urls = [];
+    for (const a of aus) { if (a.download_url) urls.push(a.download_url); if (a.id) urls.push(`https://tatoeba.org/audio/download/${a.id}`) }
+    urls.push(`https://audio.tatoeba.org/sentences/eng/${x.id}.mp3`);
+    const a = aus.find(a => a.licence) || aus[0];
+    out.push({ s: x.text, urls, by: a.author || "", lic: a.licence || "", link: a.attribution_url || "https://tatoeba.org/en/sentences/show/" + x.id });
   }
-  return out.sort((p, q) => Math.abs(p.s.length - 70) - Math.abs(q.s.length - 70)); // everyday-length sentences first
+  // Recordings with an open licence first (they can be played outside Tatoeba), then everyday-length sentences.
+  return out.sort((p, q) => (!p.lic - !q.lic) || Math.abs(p.s.length - 70) - Math.abs(q.s.length - 70));
 }
 function voiceShow(c) {
   const box = $("ygBox"), v = voice.list[voice.i % voice.list.length];
@@ -1211,13 +1216,23 @@ function voiceShow(c) {
   box.append(s, row, credit);
 }
 // Try each address of this recording; if none plays, move on to the next sentence (once round the list at most).
-function voicePlay(c, tries = 0) {
+// Try each address of this sentence (8 s each at most). A sentence none of them plays is dropped from the list, and the
+// next one is tried, so a word only gives up when no sentence for it plays.
+function voicePlay(c) {
   voiceStop();
   const v = voice.list[voice.i % voice.list.length]; if (!v) return;
-  let k = 0;
+  const seq = ++voice.seq; let k = 0, timer;
   const next = () => {
-    if (k < v.urls.length) { voice.el.src = v.urls[k++]; voice.el.play().catch(e => e && e.name === "NotAllowedError" ? toast("Tap Play again to hear it.") : next()); return }
-    if (c && tries + 1 < voice.list.length) { voice.i++; voiceShow(c); voicePlay(c, tries + 1) } else toast("Couldn't play these recordings. Try Video clip.");
+    clearTimeout(timer); if (seq !== voice.seq) return;
+    if (k < v.urls.length) {
+      voice.el.src = v.urls[k++];
+      timer = setTimeout(next, 8000);
+      voice.el.play().then(() => clearTimeout(timer), e => e && e.name === "NotAllowedError" ? (clearTimeout(timer), toast("Tap Play again to hear it.")) : next());
+      return;
+    }
+    voice.list.splice(voice.i % voice.list.length, 1);
+    if (c && voice.list.length) { voiceShow(c); voicePlay(c) }
+    else { $("ygBox").innerHTML = '<p class="muted">None of the recordings for this word would play. Try Video clip.</p>' }
   };
   next();
 }
