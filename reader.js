@@ -118,33 +118,34 @@ function paragraphsOf(block, heading) {
   walk(block, heading);
   return out;
 }
+// BBC splits a story into several block lists (one per section, around images and subheadings), so gather
+// every paragraph in document order instead of trusting one list; skip teaser areas and repeated text.
+const SKIP_KEYS = /related|promo|onward|mostread|most_read|recommend|topstories|features|teaser|navigation|footer|header|seo|metadata/i;
 function fromNextData(doc) {
   const raw = doc.querySelector("script#__NEXT_DATA__")?.textContent;
   if (!raw) return null;
   let data; try { data = JSON.parse(raw) } catch { return null }
-  let best = null;
-  const seen = new Set();
-  const visit = v => {
-    if (!v || typeof v !== "object" || seen.has(v)) return; seen.add(v);
-    if (Array.isArray(v)) {
-      if (v.some(b => b?.type === "text" && b.model?.blocks)) {
-        const paras = pick(v.flatMap(b => paragraphsOf(b)).map(p => ({ tagName: p.h ? "H3" : "P", textContent: p.t, closest: () => null })));
-        if (!best || words(paras) > words(best)) best = paras;
-      }
-      v.forEach(visit);
-    } else Object.values(v).forEach(visit);
+  const found = [], seen = new Set();
+  const visit = (v, key) => {
+    if (!v || typeof v !== "object" || seen.has(v) || SKIP_KEYS.test(key || "")) return; seen.add(v);
+    if (!Array.isArray(v) && v.type === "text" && v.model?.blocks) { found.push(...paragraphsOf(v)); return }
+    if (!Array.isArray(v) && /subheadline|crosshead/i.test(v.type || "")) { found.push(...paragraphsOf(v, true)); return }
+    if (!Array.isArray(v) && SKIP_BLOCKS.test(v.type || "")) return;
+    if (Array.isArray(v)) v.forEach(x => visit(x, key)); else for (const [k, x] of Object.entries(v)) visit(x, k);
   };
-  visit(data);
-  return best && words(best) >= 25 ? best : null;
+  visit(data, "");
+  const paras = pick(found.map(p => ({ tagName: p.h ? "H3" : "P", textContent: p.t, closest: () => null })));
+  return words(paras) >= 25 ? paras : null;
 }
 async function extract(html, it) {
   const doc = new DOMParser().parseFromString(html, "text/html");
   const title = tidy(doc.querySelector("article h1, main h1, h1")?.textContent || doc.querySelector('meta[property="og:title"]')?.content || it.title);
   const nd = fromNextData(doc);
-  if (nd) return { title, paras: nd, rule: true };
+  if (nd && !RULES[it.source]) return { title, paras: nd, rule: true };
   if (RULES[it.source]) {
     const d = doc.cloneNode(true); d.querySelectorAll(NOISE).forEach(n => n.remove());
-    const paras = pick(d.querySelectorAll(RULES[it.source]));
+    let paras = pick(d.querySelectorAll(RULES[it.source]));
+    if (nd && words(nd) >= words(paras)) paras = nd;
     // A site rule that finds the story wins even when it is short: Readability would pull in transcripts and promos.
     if (paras.filter(p => !p.h).length >= 2 && words(paras) >= 25) return { title, paras, rule: true };
   }
@@ -186,7 +187,7 @@ const SOURCES = [
 ];
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error("timeout")), ms))]);
 async function fetchArticle(it) {
-  const cache = "englishDesk.read6:" + it.link;
+  const cache = "englishDesk.read7:" + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
   const urls = [it.link, ...(it.source === "NPR" && textNpr(it.link) ? [textNpr(it.link)] : [])];
   const got = await Promise.allSettled(urls.flatMap(u => SOURCES.map(src => withTimeout(src(u).then(html => html && extract(html, it)), 20000))));
