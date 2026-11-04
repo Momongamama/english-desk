@@ -5,8 +5,8 @@ import { writeFileSync, readFileSync, existsSync } from "node:fs";
 import { clean, oneLine } from "./fetch-news.mjs";
 
 const SHOWS = [
-  { id: "business-daily", name: "Business Daily", by: "BBC World Service", accent: "英國", feed: "https://podcasts.files.bbci.co.uk/p002vsxs.rss" },
-  { id: "the-indicator", name: "The Indicator", by: "NPR Planet Money", accent: "美國", feed: "https://feeds.npr.org/510325/podcast.xml" },
+  { id: "business-daily", name: "Business Daily", by: "BBC World Service", accent: "UK", feed: "https://podcasts.files.bbci.co.uk/p002vsxs.rss" },
+  { id: "the-indicator", name: "The Indicator", by: "NPR Planet Money", accent: "US", feed: "https://feeds.npr.org/510325/podcast.xml" },
 ];
 const PER_SHOW = 6;
 const OUT = process.argv[2] || "podcasts.json";
