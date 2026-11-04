@@ -23,9 +23,11 @@ export function parseFeed(xml) {
     const enc = it.match(/<enclosure\b[^>]*\burl\s*=\s*["']([^"']+)["'][^>]*>/i);
     const date = new Date(tag(it, "pubDate"));
     return { title: tag(it, "title"), summary: oneLine(tag(it, "itunes:summary") || tag(it, "description"), 160),
-      url: enc ? enc[1].replace(/&amp;/g, "&") : "", published: isNaN(date) ? null : date.toISOString(), duration: seconds(tag(it, "itunes:duration")) };
+      url: enc ? https(enc[1].replace(/&amp;/g, "&")) : "", published: isNaN(date) ? null : date.toISOString(), duration: seconds(tag(it, "itunes:duration")) };
   }).filter(i => i.title && /^https:\/\//.test(i.url));
 }
+// BBC feeds still list http:// links (mediaselector ".../proto/http/..."); an https page can't load those, so ask for https.
+export function https(u) { return u.replace(/^http:\/\//i, "https://").replace(/\/proto\/http\//, "/proto/https/") }
 
 // Follow redirects by hand: a browser needs Access-Control-Allow-Origin on every hop, not just the last one.
 async function corsOk(url) {
@@ -44,8 +46,12 @@ async function corsOk(url) {
 async function show(s) {
   const res = await fetch(s.feed, { headers: UA, redirect: "follow", signal: AbortSignal.timeout(20000) });
   if (!res.ok) throw new Error(`${res.status} ${s.feed}`);
-  const items = parseFeed(await res.text()).sort((a, b) => (b.published || "").localeCompare(a.published || "")).slice(0, PER_SHOW);
-  if (!items.length) throw new Error(`no episodes in ${s.feed}`);
+  const xml = await res.text();
+  const items = parseFeed(xml).sort((a, b) => (b.published || "").localeCompare(a.published || "")).slice(0, PER_SHOW);
+  if (!items.length) {
+    const first = (xml.match(/<item[\s>][\s\S]*?<\/item>/i) || [""])[0];
+    throw new Error(`no episodes in ${s.feed} (${(xml.match(/<item[\s>]/gi) || []).length} items; first: ${first.slice(0, 400).replace(/\s+/g, " ")})`);
+  }
   // Episodes of one show share a host, so checking the newest is enough.
   const cors = await corsOk(items[0].url);
   console.log(`${s.name}: ${items.length} episodes, newest ${items[0].published?.slice(0, 10)}, browser can read mp3: ${cors}`);
