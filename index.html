@@ -213,8 +213,8 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .rw[data-ex="ielts"] { text-decoration-style: dashed } .rw[data-ex="gre"] { text-decoration-style: wavy; text-decoration-thickness: 1.5px }
 .rw.saved { background: linear-gradient(transparent 58%, var(--tint-yellow) 58%) }
 .rw.on { background: var(--tone-yellow); color: var(--on-tone) }
-.legend { display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: 13px; line-height: 20px }
-.legend .rw { cursor: default }
+.legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) }
+.legend .rw { cursor: inherit }
 #v-read { padding-bottom: 50vh }
 .look { position: fixed; z-index: 15; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   max-width: 760px; margin: 0 auto; max-height: 50vh; overflow-y: auto; overscroll-behavior: contain; display: grid; gap: var(--space-2);
@@ -555,7 +555,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
         <input type="file" id="listFile" accept=".csv,.txt,.tsv" multiple hidden>
         <span class="muted" id="listInfo"></span>
       </div>
-      <p class="muted">底線樣式：實線是托福、虛線是雅思、波浪線是 GRE。同一個字在多份清單時，以 GRE 的樣式顯示。</p>
+      <p class="muted">底線樣式：實線是托福、虛線是雅思、波浪線是 GRE。閱讀頁上方可以選要標示哪幾種，或全部關掉。</p>
     </div>
     <div class="sheet">
       <h2>發音評分（選填）</h2>
@@ -585,6 +585,6 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 
 <!-- Bump ?v= whenever app.js or reader.js changes, so browsers drop the cached copy. -->
 <script src="app.js?v=2026-11-04-read"></script>
-<script src="reader.js?v=2026-11-04-read"></script>
+<script src="reader.js?v=2026-11-04-read4"></script>
 </body>
 </html>

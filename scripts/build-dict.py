@@ -5,7 +5,9 @@ Sources (both allowed in a public repo):
   - The owner's own study notes ("我的筆記") taken from their personal MDX. Only that section is kept;
     every other section of the MDX comes from licensed dictionaries and must never be committed.
 
-Usage: python3 scripts/build-dict.py ecdict.csv [mdx-export.txt]
+Usage: python3 scripts/build-dict.py ecdict.csv [mdx-export.txt] [exam-words.csv]
+  exam-words.csv: the owner's list, header word,TOEFL,IELTS,GRE with a mark in each exam column.
+  When given, dict/_exam.json uses it instead of ECDICT's exam tags (phrases are skipped).
 Output: dict/<first two letters>.json, each {word: [phonetic, zh, en, tags, notes_html] | "@lemma"}
 """
 import csv, json, os, re, sys, collections
@@ -58,5 +60,13 @@ for name in os.listdir("dict"):
 for k, d in shards.items():
     json.dump(d, open(f"dict/{k}.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 exam = {w: v[3] for w, v in entries.items() if isinstance(v, list) and v[3]}
+if len(sys.argv) > 3:
+    exam = {}
+    with open(sys.argv[3], encoding="utf-8-sig") as f:
+        for r in csv.DictReader(f):
+            w = (r.get("word") or "").strip().lower()
+            if not WORD.match(w): continue
+            t = "".join(c for col, c in (("TOEFL", "t"), ("IELTS", "i"), ("GRE", "g")) if (r.get(col) or "").strip())
+            if t: exam[w] = t
 json.dump(exam, open("dict/_exam.json", "w", encoding="utf-8"), ensure_ascii=False, separators=(",", ":"))
 print(len(entries), "entries,", sum(1 for v in entries.values() if isinstance(v, list) and v[4]), "with notes,", len(shards), "shards,", len(exam), "exam words")

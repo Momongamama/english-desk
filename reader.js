@@ -43,7 +43,7 @@ async function loadMeta() {
   // No list imported: fall back to the exam tags that ship with the built-in dictionary (ECDICT).
   if (!EXAMS.some(([k]) => lists[k].size)) {
     try {
-      const tags = await (await fetch("dict/_exam.json?v=1")).json();
+      const tags = await (await fetch("dict/_exam.json?v=2")).json();
       for (const [w, t] of Object.entries(tags)) for (const [k, , c] of EXAMS) if (t.includes(c.toLowerCase())) lists[k].add(w);
       builtinLists = true;
     } catch { }
@@ -74,29 +74,36 @@ function examsOf(w) {
 
 /* ---------- fetching the article ---------- */
 const SELECTOR = { BBC: "article", NPR: "#storytext", CNN: ".article__content" };
-const JUNK = /^(image source|image caption|getty images|share|save|related|more on this story|listen|watch|follow|sign up|advertisement|copyright|read more|this article|top stories|you may also)/i;
+// Boilerplate lines only count as junk when they are short, so "Shares fell 5%..." or "Follow-up talks..." stay.
+const JUNK = /^(image source|image caption|getty images|share|save|related|more on this story|listen|watch|follow|sign up|advertisement|copyright|read more|this article|top stories|you may also)(?=[\s:]|$)/i;
 function clean(md) {
-  return md.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\([^)]*\)/g, "$1").replace(/[*_]{1,3}([^*_]+)[*_]{1,3}/g, "$1")
+  return md.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\((?:[^()]|\([^)]*\))*\)/g, "$1").replace(/(\*{1,3})([^*\n]+)\1/g, "$2")
     .split(/\n\s*\n/).map(b => b.replace(/\s*\n\s*/g, " ").trim()).filter(Boolean)
     .map(b => { const h = b.match(/^#{1,6}\s+(.*)/); return h ? { h: true, t: h[1].trim() } : { t: b.replace(/^[-*>]\s+/, "") } })
-    .filter(p => p.t && !JUNK.test(p.t) && !/^https?:\/\//.test(p.t) && !/^[=\-_|\s]+$/.test(p.t) && (p.h || p.t.length > 60 || /[.!?"”]$/.test(p.t)));
+    .filter(p => p.t && !(p.t.length < 80 && JUNK.test(p.t)) && !/^https?:\/\//.test(p.t) && !/^[=\-_|\s]+$/.test(p.t)
+      && (p.h || p.t.split(/\s+/).length >= 6 || /[.!?"”')]$/.test(p.t)));
 }
+const words = paras => paras.reduce((n, p) => n + (p.h ? 0 : p.t.split(/\s+/).length), 0);
 async function fetchArticle(it) {
-  const cache = "englishDesk.read:" + it.link;
+  const cache = "englishDesk.read2:" + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
   const tries = [{ "X-Target-Selector": SELECTOR[it.source] || "article", "X-Retain-Images": "none" }, {}];
-  let last;
+  let last, best = null;
   for (const h of tries) {
     try {
       const res = await fetch("https://r.jina.ai/" + it.link, { headers: { Accept: "application/json", ...h } });
       if (!res.ok) { last = res.status; continue }
       const j = await res.json(), paras = clean(j.data?.content || "");
       if (paras.filter(p => !p.h).length < 3) { last = "short"; continue }
+      // The site-specific selector can miss later parts of the story; if it looks short, keep looking.
+      if (h["X-Target-Selector"] && words(paras) < 150) { best = { title: j.data?.title || it.title, paras }; continue }
+      if (best && words(best.paras) >= words(paras)) paras.splice(0, paras.length, ...best.paras);
       const out = { title: j.data?.title || it.title, paras };
       try { sessionStorage.setItem(cache, JSON.stringify(out)) } catch { }
       return out;
     } catch (e) { last = e }
   }
+  if (best) return best;
   throw new Error(last === 429 ? "抓文章的服務暫時太忙，等 1 分鐘再試，或直接貼上文章。" : "抓不到這篇文章的內文，可以打開原文複製後貼上。");
 }
 
@@ -109,7 +116,7 @@ function wordify(el, text) {
     if (m.index > i) el.append(text.slice(i, m.index));
     const s = document.createElement("span"); s.className = "rw"; s.textContent = m[0];
     const ex = m[0].length > 2 ? examsOf(m[0]) : [];
-    if (ex.length) s.dataset.ex = ex[ex.length - 1];
+    if (ex.length) s.dataset.exams = ex.join(" ");
     if (saved.has(m[0].toLowerCase())) s.classList.add("saved");
     el.append(s); i = m.index + m[0].length;
   }
@@ -124,13 +131,32 @@ function renderArticle(art, it) {
   $("readSrc").hidden = !it; if (it) $("readSrc").href = it.link;
   const body = $("readBody"); body.replaceChildren();
   for (const p of art.paras) { const el = document.createElement(p.h ? "h3" : "p"); wordify(el, p.t); body.append(el) }
-  const n = {}; for (const [k] of EXAMS) n[k] = new Set([...body.querySelectorAll(`.rw[data-ex="${k}"]`)].map(s => s.textContent.toLowerCase())).size;
-  const any = EXAMS.some(([k]) => lists[k].size);
-  $("readLegend").hidden = !any;
-  $("readLegend").replaceChildren(...EXAMS.filter(([k]) => lists[k].size).map(([k, name]) => { const s = document.createElement("span"); s.className = "rw"; s.dataset.ex = k; s.textContent = `${name} ${n[k]}`; return s }));
+  renderLegend();
   $("readBox").hidden = false; $("pasteBox").hidden = true; closeLook();
 }
 
+// Which exam lists to underline: the reader picks any combination (or none); remembered per browser.
+let shown = new Set(EXAMS.map(([k]) => k));
+try { const v = JSON.parse(localStorage.getItem("englishDesk.examShow")); if (Array.isArray(v)) shown = new Set(v) } catch { }
+function applyExams() {
+  for (const s of document.querySelectorAll("#v-read .rw[data-exams]")) {
+    const on = s.dataset.exams.split(" ").filter(k => shown.has(k));
+    if (on.length) s.dataset.ex = on[on.length - 1]; else delete s.dataset.ex;
+  }
+}
+function renderLegend() {
+  const body = $("readBody"), box = $("readLegend");
+  const n = {}; for (const [k] of EXAMS) n[k] = new Set([...body.querySelectorAll(".rw[data-exams]")].filter(s => s.dataset.exams.split(" ").includes(k)).map(s => s.textContent.toLowerCase())).size;
+  box.hidden = !EXAMS.some(([k]) => lists[k].size);
+  const label = document.createElement("span"); label.className = "muted"; label.textContent = "標示";
+  box.replaceChildren(label, ...EXAMS.filter(([k]) => lists[k].size).map(([k, name]) => {
+    const b = document.createElement("button"); b.className = "chip"; b.setAttribute("aria-pressed", shown.has(k));
+    const sample = document.createElement("span"); sample.className = "rw"; sample.dataset.ex = k; sample.textContent = name;
+    b.append(sample, ` ${n[k]}`);
+    b.onclick = () => { shown.has(k) ? shown.delete(k) : shown.add(k); try { localStorage.setItem("englishDesk.examShow", JSON.stringify([...shown])) } catch { } b.setAttribute("aria-pressed", shown.has(k)); applyExams() };
+    return b }));
+  applyExams();
+}
 async function openReader(it) {
   location.hash = "read";
   $("readBox").hidden = true; $("pasteBox").hidden = true; $("readStatus").hidden = false; $("readStatus").textContent = "抓文章中…";
