@@ -178,7 +178,7 @@ function renderLogs() {
 function addLog(l, full) {
   const log = { ...l, date: today(), ts: Date.now() };
   st.logs.push(log); if (st.logs.length > LOG_MAX) st.logs.splice(0, st.logs.length - LOG_MAX);
-  if (full) savePractice({ ...log, ...full });
+  if (full) savePractice({ ...log, ...full }).then(() => { if (log.ctx && log.ctx.link) attachArticle(log.ts) });
   persist(); if (st.redo) renderRedo(); return log.ts;
 }
 /* ---------- practice history ---------- */
@@ -192,6 +192,17 @@ async function savePractice(rec) {
 async function updatePractice(ts, patch) {
   const log = st.logs.find(l => l.ts === ts), have = await EDPractice.get(ts).catch(() => null);
   await savePractice({ ...(log || {}), ...(have || {}), ...patch, ts });
+}
+// A news topic: keep the story itself (title, link, full text) with the session, fetched the same way the reader does.
+// If that fails, the session still has the headline, summary and link, and History offers to try again.
+async function attachArticle(ts) {
+  const r = (await EDPractice.get(ts).catch(() => null)) || st.logs.find(l => l.ts === +ts), c = r && r.ctx;
+  if (!c || !c.link || (r.article && r.article.paras) || !window.EnglishDeskReader?.text) return false;
+  try {
+    const a = await EnglishDeskReader.text({ title: r.topic, link: c.link, source: c.source, section: c.section, summary: c.summary });
+    await updatePractice(ts, { article: { title: a.title || r.topic, link: c.link, source: c.source || "", section: c.section || "", paras: a.paras, saved: Date.now() } });
+    return true;
+  } catch { return false }
 }
 function deleteSession(ts) {
   st.logs = st.logs.filter(l => l.ts !== +ts); st.deleted["log:" + ts] = Date.now();
@@ -1532,7 +1543,7 @@ window.EnglishDesk = {
   // For sync.js: merge sessions from the gist's monthly files into this browser; returns every session kept here.
   practiceMerge: async incoming => { const all = await mergePractice(incoming); if (typeof EDHistory !== "undefined") EDHistory.refresh(); return all },
   // For history.js.
-  logs: () => st.logs, renderCorr, saveAll, startRedo, cefrDiff, deleteSession, hasSync: () => { try { return !!JSON.parse(localStorage.getItem("englishDesk.sync") || "{}").token } catch { return false } },
+  logs: () => st.logs, renderCorr, saveAll, startRedo, cefrDiff, deleteSession, attachArticle, hasSync: () => { try { return !!JSON.parse(localStorage.getItem("englishDesk.sync") || "{}").token } catch { return false } },
   // For brief.js: the AI picked for "News brief" and its display name.
   ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
   // For reader.js: timed reads are logs of type "read"; their quiz and AI verdict are patched in afterwards.
