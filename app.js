@@ -2,7 +2,7 @@
 const $ = id => document.getElementById(id);
 const STORE = "englishDesk.v1", CFG = "englishDesk.cfg";
 const st = { cards: [], logs: [], speakMode: "live", inline: false, topic: "", ctl: null, speakItems: [], writeItems: [], writeLevel: "", writeTopic: "" };
-let cfg = { provider: "gemini", geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeChat: "claude-haiku-5-5", claudeGrade: "claude-sonnet-5-5", azureKey: "", azureRegion: "" };
+let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null }, keyOk: {} };
 
 const today = () => new Date().toLocaleDateString("sv-SE");
 const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString("sv-SE") };
@@ -15,6 +15,11 @@ function banner(msg, link) { const b = $("banner"); b.replaceChildren(msg); if (
 function load() {
   try { const d = JSON.parse(localStorage.getItem(STORE) || "{}"); st.cards = d.cards || []; st.logs = d.logs || [] } catch { }
   try { cfg = { ...cfg, ...JSON.parse(localStorage.getItem(CFG) || "{}") } } catch { }
+  // Older versions had one site-wide provider and Sonnet as the default grader.
+  cfg.use = { grade: null, pron: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
+  if ("provider" in cfg) { if (cfg.claudeKey) cfg.use.grade = cfg.provider === "claude" ? "claude" : "gemini"; delete cfg.provider }
+  if (!cfg.claudeGrade || cfg.claudeGrade === "claude-sonnet-5-5") cfg.claudeGrade = "claude-opus-5-5";
+  delete cfg.claudeChat;
 }
 function persist() {
   try { localStorage.setItem(STORE, JSON.stringify({ cards: st.cards, logs: st.logs })) }
@@ -28,7 +33,15 @@ function download(name, text, type) {
 }
 
 /* ---------- AI ---------- */
-function hasKey() { return cfg.provider === "claude" ? !!cfg.claudeKey : !!cfg.geminiKey }
+const keyFor = p => p === "azure" ? !!(cfg.azureKey && cfg.azureRegion) : !!cfg[p + "Key"];
+const anyTextKey = () => keyFor("gemini") || keyFor("claude");
+// Which provider a feature uses: the one picked if it still has a key, otherwise the best one that does.
+function use(f) {
+  const opts = f === "grade" ? ["claude", "gemini"] : ["azure", "gemini"], pick = cfg.use[f];
+  return pick && keyFor(pick) ? pick : opts.find(keyFor) || opts.at(-1);
+}
+const DEF_CLAUDE = "claude-opus-5-5";
+function hasKey() { return keyFor(use("grade")) }
 class AiError extends Error { constructor(msg, code) { super(msg); this.code = code } }
 async function callApi(url, headers, body, signal) {
   let res;
@@ -49,12 +62,20 @@ function finish(text, json) {
   if (!text.trim()) throw new AiError("AI 沒有回覆內容，再試一次。", "empty");
   return json ? parseJson(text) : text.trim();
 }
-async function ai(system, turns, { json = false, heavy = false, signal } = {}) {
+// Grading and review: whichever provider "評分、批改" uses.
+async function ai(system, turns, { json = false, signal } = {}) {
   if (!hasKey()) throw new AiError("還沒有設定 API key。", "nokey");
-  if (cfg.provider !== "claude") return gemini(system, null, { json, signal, turns });
+  if (use("grade") === "gemini") return gemini(system, null, { json, signal, turns });
+  return claude(system, turns, { json, signal });
+}
+// Opus thinks before it answers, and thinking counts toward max_tokens, so leave plenty of room.
+async function claude(system, turns, { json = false, signal, max = 16000 } = {}) {
+  if (!cfg.claudeKey) throw new AiError("這裡要用 Claude，先到設定填 Claude API key。", "nokey");
   const data = await callApi("https://api.anthropic.com/v1/messages",
     { "x-api-key": cfg.claudeKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
-    { model: heavy ? cfg.claudeGrade : cfg.claudeChat, max_tokens: heavy ? 3000 : 600, system, messages: turns }, signal);
+    { model: cfg.claudeGrade || DEF_CLAUDE, max_tokens: max, system, messages: turns }, signal);
+  if (data.stop_reason === "refusal") throw new AiError("Claude 拒絕回答這段內容，換 Gemini 試試。", "refusal");
+  if (data.stop_reason === "max_tokens") throw new AiError("回覆太長被截斷了，再按一次試試。", "length");
   return finish((data.content || []).filter(b => b.type === "text").map(b => b.text).join(""), json);
 }
 // Gemini directly, whatever provider is picked: audio (shadowing) only works here. `parts` may hold inlineData audio.
@@ -225,8 +246,7 @@ function setCorr(inline) { st.inline = inline; $("corrInline").setAttribute("ari
 $("corrInline").onclick = () => setCorr(true);
 $("corrAfter").onclick = () => setCorr(false);
 function liveAvailability() {
-  const why = cfg.provider !== "gemini" ? "語音對話只支援 Gemini。到設定切換成 Gemini，或改用貼稿評分。"
-    : !cfg.geminiKey ? "先到設定填 Gemini API key。"
+  const why = !cfg.geminiKey ? "語音對話要用 Gemini，先到設定填 Gemini key。"
     : !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.WebSocket && (window.AudioContext || window.webkitAudioContext)) ? "這個瀏覽器不支援麥克風錄音，改用貼稿評分。" : "";
   $("liveStart").disabled = !!why || !!live.ws; $("liveHint").textContent = why;
 }
@@ -416,7 +436,7 @@ Reply with only JSON of this shape:
 
 ${redoPrompt("speak", prevRedo)}
 Transcript:
-${transcript.slice(-12000)}` }], { json: true, heavy: true, signal: st.ctl.signal });
+${transcript.slice(-12000)}` }], { json: true, signal: st.ctl.signal });
     st.speakItems = Array.isArray(r.items) ? r.items.filter(i => i && i.mine && i.natural).slice(0, 5) : [];
     $("speakLevel").textContent = r.level || "—"; $("speakSummary").textContent = r.summary || "";
     renderCorr($("speakCorr"), st.speakItems, "speak");
@@ -519,7 +539,7 @@ ${topic.summary ? newsContext(topic) + "\nI was asked to give my opinion on this
 Give 3–5 changes, the ones that matter most. Be strict, not encouraging.
 ${redoPrompt("write", st.writeRedo)}
 My paragraph:
-${text.slice(0, 6000)}` }], { json: true, heavy: true, signal: st.ctl.signal });
+${text.slice(0, 6000)}` }], { json: true, signal: st.ctl.signal });
     st.writeItems = Array.isArray(r.changes) ? r.changes.filter(i => i && i.mine && i.natural) : [];
     st.writeLevel = r.level || ""; st.writeWhy = r.levelWhy || "";
     renderCompare("write", st.writeRedo, { level: r.level, text, compare: r.compare });
@@ -821,7 +841,7 @@ Reply with only JSON: {"words":[{"word":"each word of the reference sentence, in
 }
 $("echoScore").onclick = async () => {
   const i = echo.i, m = echo.mine[i]; if (!m) return;
-  const azure = !!(cfg.azureKey && cfg.azureRegion);
+  const azure = use("pron") === "azure";
   if (!azure && !cfg.geminiKey) { banner("發音評分要 Azure key 或 Gemini key，先到設定填一組。", true); return }
   const btn = $("echoScore"); btn.disabled = true; btn.textContent = "評分中…"; echo.ctl = new AbortController();
   try {
@@ -834,7 +854,7 @@ const ERR = { Mispronunciation: "發音不準", Omission: "漏掉了", Insertion
 const QUALITY = { good: "", unclear: "mid", wrong: "bad", missing: "miss" };
 function renderScore() {
   const r = echo.scores[echo.i], box = $("echoResult"), line = $("echoLine"), s = echo.sents[echo.i];
-  $("echoEngine").textContent = cfg.azureKey && cfg.azureRegion ? "用 Azure 發音評估" : "沒填 Azure key，改用 Gemini 給建議";
+  $("echoEngine").textContent = use("pron") === "azure" ? "用 Azure 發音評估" : keyFor("azure") ? "用 Gemini 給建議（設定裡選了 Gemini）" : "沒填 Azure key，改用 Gemini 給建議";
   box.hidden = !r;
   if (!r) { line.textContent = s ? s.text : ""; return }
   // Words: colour plus a text list below, so colour is never the only signal.
@@ -942,37 +962,65 @@ $("exportAnki").onclick = () => {
 };
 
 /* ---------- settings + backup ---------- */
-function setProvider(p) { cfg.provider = p; $("pvGemini").setAttribute("aria-pressed", p === "gemini"); $("pvClaude").setAttribute("aria-pressed", p === "claude"); $("fClaude").hidden = p !== "claude" }
-$("pvGemini").onclick = () => setProvider("gemini");
-$("pvClaude").onclick = () => setProvider("claude");
-const FIELDS = ["geminiKey", "geminiModel", "liveModel", "claudeKey", "claudeChat", "claudeGrade", "azureKey", "azureRegion"];
-function fillSettings() { FIELDS.forEach(f => $(f).value = cfg[f] || ""); setProvider(cfg.provider) }
-function saveSettings() {
-  FIELDS.forEach(f => cfg[f] = $(f).value.trim());
-  if (!cfg.geminiModel) cfg.geminiModel = "gemini-3.5-flash-lite";
-  if (!cfg.liveModel) cfg.liveModel = LIVE_DEFAULT;
-  if (!cfg.claudeChat) cfg.claudeChat = "claude-haiku-5-5";
-  if (!cfg.claudeGrade) cfg.claudeGrade = "claude-sonnet-5-5";
-  cfg.azureRegion = cfg.azureRegion.toLowerCase().replace(/\s+/g, "");
-  try { localStorage.setItem(CFG, JSON.stringify(cfg)) } catch { toast("瀏覽器拒絕儲存設定"); return }
-  fillSettings(); liveAvailability(); if (hasKey()) banner(""); if (!$("echoPlayer").hidden) renderScore();
-  toast("已儲存");
+// Keys: one line per provider. Features: each picks a provider that can do it; null means "auto" (best one with a key).
+const DEF = { geminiModel: "gemini-3.5-flash-lite", liveModel: LIVE_DEFAULT, claudeGrade: "claude-opus-5-5" };
+const NAME = { gemini: "Gemini", claude: "Claude", azure: "Azure" };
+const KEYS = { gemini: ["geminiKey"], claude: ["claudeKey"], azure: ["azureKey", "azureRegion"] };
+const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" } };
+function storeCfg() { try { localStorage.setItem(CFG, JSON.stringify(cfg)); return true } catch { toast("瀏覽器拒絕儲存設定"); return false } }
+function renderKeys() {
+  for (const p of Object.keys(KEYS)) {
+    const P = NAME[p], tag = $("st" + P), has = keyFor(p), open = !$("k" + P).hidden;
+    tag.textContent = !has ? "還沒填" : cfg.keyOk[p] ? "✓ 可以用" : "已填，還沒測試";
+    tag.className = "tag" + (!has ? " no" : cfg.keyOk[p] ? " ok" : "");
+    const b = document.querySelector(`[data-open="k${P}"]`); b.textContent = open ? "收起" : has ? "修改" : "填入"; b.setAttribute("aria-expanded", open);
+  }
 }
-$("saveSettings").onclick = saveSettings;
-$("testAi").onclick = async () => {
-  saveSettings(); $("testOut").textContent = "測試中…";
-  try { const t = await ai("Reply with exactly: OK", [{ role: "user", content: "Say OK." }]); $("testOut").textContent = "連線成功（" + t.slice(0, 20) + "）" }
-  catch (e) { $("testOut").textContent = errText(e) }
+function renderUse() {
+  for (const [id, f] of Object.entries(FEATURES)) {
+    const cur = f.key ? use(f.key) : "gemini";
+    $(id).replaceChildren(...f.opts.map(p => { const b = document.createElement("button"); b.className = "chip"; b.textContent = NAME[p];
+      b.disabled = !keyFor(p); if (b.disabled) b.title = "先填 " + NAME[p] + " key";
+      b.setAttribute("aria-pressed", keyFor(p) && p === cur ? "true" : "false");
+      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(); renderUse(); toast(`${f.key === "grade" ? "評分、批改" : "發音評分"}改用 ${NAME[p]}`) };
+      return b }));
+  }
+  $("advSum").textContent = "進階：模型名稱（" + (use("grade") === "claude" ? "評分用 " + cfg.claudeGrade : "評分用 " + cfg.geminiModel) + "）";
+}
+function renderSettings() {
+  for (const f of ["geminiKey", "claudeKey", "azureKey", "azureRegion", "geminiModel", "liveModel", "claudeGrade"]) $(f).value = cfg[f] || "";
+  if (!anyTextKey()) $("kGemini").hidden = false;
+  renderKeys(); renderUse();
+}
+// Re-read one provider's inputs; a changed key needs a fresh test.
+function takeKey(p) {
+  let changed = false;
+  for (const f of KEYS[p]) { let v = $(f).value.trim(); if (f === "azureRegion") v = v.toLowerCase().replace(/\s+/g, ""); if (v !== (cfg[f] || "")) { cfg[f] = v; changed = true } }
+  if (changed) cfg.keyOk[p] = false;
+}
+document.querySelectorAll("[data-open]").forEach(b => b.onclick = () => { const el = $(b.dataset.open); el.hidden = !el.hidden; renderKeys(); if (!el.hidden) el.querySelector("input").focus() });
+async function testKey(p) {
+  switch (p) {
+    case "gemini": await gemini("Reply with exactly: OK", [{ text: "Say OK." }]); break;
+    case "claude": await claude("Reply with exactly: OK", [{ role: "user", content: "Say OK." }], { max: 2000 }); break;
+    case "azure": if (!cfg.azureKey || !cfg.azureRegion) throw new Error("key 和地區都要填。");
+      await azureAssess(wav16k(new Float32Array(16000), 16000), "Hello.", undefined); break; // one second of silence: a good key answers 200
+  }
+}
+document.querySelectorAll("[data-test]").forEach(b => b.onclick = async () => {
+  const p = b.dataset.test, out = $("out" + NAME[p]);
+  takeKey(p);
+  if (!keyFor(p)) { cfg.keyOk[p] = false; storeCfg(); renderKeys(); renderUse(); out.textContent = "已清除。"; return }
+  b.disabled = true; out.textContent = "測試中…";
+  try { await testKey(p); cfg.keyOk[p] = true; out.textContent = ""; $("k" + NAME[p]).hidden = true; toast(NAME[p] + " 可以用了") }
+  catch (e) { cfg.keyOk[p] = false; out.textContent = errText(e) }
+  finally { b.disabled = false; storeCfg(); renderKeys(); renderUse(); afterSettings() }
+});
+$("saveModels").onclick = () => {
+  for (const f of Object.keys(DEF)) cfg[f] = $(f).value.trim() || DEF[f];
+  if (storeCfg()) { renderSettings(); toast("已儲存") }
 };
-$("saveAzure").onclick = saveSettings;
-// One second of silence: a working key answers 200 with "no speech", a wrong key or region answers 401 or fails to connect.
-$("testAzure").onclick = async () => {
-  saveSettings();
-  if (!cfg.azureKey || !cfg.azureRegion) { $("azureOut").textContent = "key 和地區都要填。"; return }
-  $("azureOut").textContent = "測試中…";
-  try { await azureAssess(wav16k(new Float32Array(16000), 16000), "Hello.", undefined); $("azureOut").textContent = "連線成功，可以用 Azure 評分了" }
-  catch (e) { $("azureOut").textContent = e.message }
-};
+function afterSettings() { liveAvailability(); if (anyTextKey()) banner(""); if (!$("echoPlayer").hidden) renderScore() }
 $("exportBackup").onclick = () => {
   download(`english-desk-backup-${today()}.json`, JSON.stringify({ app: "english-desk", version: 1, exported: new Date().toISOString(), cards: st.cards, logs: st.logs }, null, 2), "application/json");
   toast("已匯出備份（不含 API key）");
@@ -1003,8 +1051,8 @@ window.EnglishDesk = {
 };
 
 /* ---------- boot ---------- */
-load(); fillSettings(); loadNews(); loadPodcasts(); renderToday(); renderLogs(); renderList(); backupInfo(); renderRedo();
+load(); renderSettings(); loadNews(); loadPodcasts(); renderToday(); renderLogs(); renderList(); backupInfo(); renderRedo();
 try { $("essay").value = localStorage.getItem("englishDesk.draft") || "" } catch { }
 wc(); setSpeakMode("live"); route();
-if (!hasKey()) banner("第一次使用：先填一組 API key。", true);
+if (!anyTextKey()) banner("第一次使用：先填一組 API key。", true);
 })();

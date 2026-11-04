@@ -200,6 +200,19 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .cmp-list { display: grid; gap: var(--space-1) }
 @media (max-width: 640px) { .cmp { grid-template-columns: minmax(0, 1fr) } }
 
+/* Settings: one line per key or feature */
+.kline { display: flex; align-items: center; justify-content: space-between; gap: var(--space-2); min-height: 48px; padding: var(--space-2) 0; border-top: var(--border-width) solid var(--line) }
+.kline:first-of-type { border-top: 0 }
+.kline b { font: 700 15px/24px var(--font-body) }
+.kline .row { flex-wrap: nowrap; gap: var(--space-1); justify-content: flex-end }
+.kopen { display: grid; gap: var(--space-2); padding: 0 0 var(--space-3) }
+.row.nowrap { flex-wrap: nowrap } .row.nowrap input { flex: 1; min-width: 0; width: auto } .row.nowrap input.short { flex: .5 }
+.tag { display: inline-flex; align-items: center; min-height: 24px; padding: 0 var(--space-2); border: var(--border-width) solid var(--line); border-radius: var(--radius-pill); font: 700 13px/18px var(--font-body); white-space: nowrap }
+.tag.ok { background: var(--tint-green) } .tag.no { color: var(--ink-muted); border-style: dashed }
+.btn.small, .kline .chip { min-height: 30px; padding: 0 var(--space-3); font-size: 13px }
+.chip:disabled { opacity: .45; cursor: default; border-style: dashed }
+.adv summary { cursor: pointer; font: 700 13px/18px var(--font-body); color: var(--ink-muted); padding-top: var(--space-2) }
+
 /* Notices */
 .banner { padding: var(--space-3) var(--space-4); background: var(--tint-yellow); border: var(--border-width) solid var(--line); border-radius: var(--radius-sm); font-size: 14px }
 .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); padding: var(--space-2) var(--space-4);
@@ -515,32 +528,45 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
   <!-- SETTINGS -->
   <section class="view" id="v-settings" hidden>
     <div class="sheet">
-      <h2>AI 設定</h2>
-      <p class="muted">API key 只存在這台裝置的瀏覽器裡，不會上傳到 GitHub 或任何其他地方。不要在別人的電腦上填。</p>
-      <div class="row">
-        <span class="muted">使用</span>
-        <button class="chip" id="pvGemini" aria-pressed="true">Gemini</button>
-        <button class="chip" id="pvClaude" aria-pressed="false">Claude</button>
+      <h2>AI 金鑰</h2>
+      <div class="kline"><b>Gemini</b><div class="row"><span class="tag" id="stGemini"></span><button class="btn small" data-open="kGemini" aria-expanded="false"></button></div></div>
+      <div class="kopen" id="kGemini" hidden>
+        <input type="password" id="geminiKey" autocomplete="off" placeholder="AIza…" aria-label="Gemini API key">
+        <div class="row"><button class="btn" data-test="gemini">測試並儲存</button><a class="muted" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">怎麼申請？</a><span class="muted" id="outGemini" aria-live="polite"></span></div>
+        <p class="muted">語音對話、跟讀逐句稿只有 Gemini 能做。免費額度足夠日常練習。</p>
       </div>
-      <div class="field" id="fGemini">
-        <label for="geminiKey">Gemini API key</label>
-        <input type="password" id="geminiKey" autocomplete="off" placeholder="AIza…">
-        <label for="geminiModel">模型</label>
-        <input type="text" id="geminiModel" placeholder="gemini-3.5-flash-lite">
-        <label for="liveModel">語音對話模型（Live API）</label>
-        <input type="text" id="liveModel" placeholder="gemini-3.8-live">
-        <p class="muted">到 <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Google AI Studio</a> 取得 key，免費額度足夠日常練習。語音對話和跟讀的逐句稿只能用 Gemini，選 Claude 時也請填這組。</p>
+      <div class="kline"><b>Claude</b><div class="row"><span class="tag" id="stClaude"></span><button class="btn small" data-open="kClaude" aria-expanded="false"></button></div></div>
+      <div class="kopen" id="kClaude" hidden>
+        <input type="password" id="claudeKey" autocomplete="off" placeholder="sk-ant-…" aria-label="Claude API key">
+        <div class="row"><button class="btn" data-test="claude">測試並儲存</button><a class="muted" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">怎麼申請？</a><span class="muted" id="outClaude" aria-live="polite"></span></div>
+        <p class="muted">只處理文字，適合評分和批改。按用量計費，和 claude.ai 訂閱分開。</p>
       </div>
-      <div class="field" id="fClaude" hidden>
-        <label for="claudeKey">Claude API key</label>
-        <input type="password" id="claudeKey" autocomplete="off" placeholder="sk-ant-…">
-        <label for="claudeChat">對話用模型</label>
-        <input type="text" id="claudeChat" placeholder="claude-haiku-5-5">
-        <label for="claudeGrade">批改用模型</label>
-        <input type="text" id="claudeGrade" placeholder="claude-sonnet-5-5">
-        <p class="muted">到 <a href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">Claude Console</a> 取得 key。API 按用量計費，和 claude.ai 訂閱分開。</p>
+      <div class="kline"><b>Azure</b><div class="row"><span class="tag" id="stAzure"></span><button class="btn small" data-open="kAzure" aria-expanded="false"></button></div></div>
+      <div class="kopen" id="kAzure" hidden>
+        <div class="row nowrap"><input type="password" id="azureKey" autocomplete="off" placeholder="Speech key" aria-label="Azure Speech key"><input type="text" id="azureRegion" placeholder="地區" aria-label="Azure 地區" class="short"></div>
+        <div class="row"><button class="btn" data-test="azure">測試並儲存</button><a class="muted" href="https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices" target="_blank" rel="noopener">怎麼申請？</a><span class="muted" id="outAzure" aria-live="polite"></span></div>
+        <p class="muted">建立「Speech」資源、定價層選 Free F0，每月 5 小時免費。在「Keys and Endpoint」複製 KEY 1 和 Location/Region（例如 eastasia）。</p>
       </div>
-      <div class="row"><button class="btn primary" id="saveSettings">儲存</button><button class="btn" id="testAi">測試連線</button><span class="muted" id="testOut"></span></div>
+      <p class="muted">key 只存在這台裝置的瀏覽器裡，不要在別人的電腦上填。</p>
+    </div>
+    <div class="sheet">
+      <h2>每個功能用誰</h2>
+      <div class="kline"><b>語音對話</b><div class="row" id="useLive"></div></div>
+      <div class="kline"><b>評分、批改</b><div class="row" id="useGrade"></div></div>
+      <div class="kline"><b>跟讀逐句稿</b><div class="row" id="useTrans"></div></div>
+      <div class="kline"><b>發音評分</b><div class="row" id="usePron"></div></div>
+      <details class="adv">
+        <summary id="advSum">進階：模型名稱</summary>
+        <div class="field">
+          <label for="claudeGrade">Claude 評分模型</label>
+          <input type="text" id="claudeGrade" placeholder="claude-opus-5-5">
+          <label for="geminiModel">Gemini 文字模型（評分、逐句稿）</label>
+          <input type="text" id="geminiModel" placeholder="gemini-3.5-flash-lite">
+          <label for="liveModel">Gemini 語音對話模型</label>
+          <input type="text" id="liveModel" placeholder="gemini-3.8-live">
+          <div class="row"><button class="btn" id="saveModels">儲存</button><span class="muted">留空會用預設值。</span></div>
+        </div>
+      </details>
     </div>
     <div class="sheet">
       <h2>字典與考試單字</h2>
@@ -556,18 +582,6 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
         <span class="muted" id="listInfo"></span>
       </div>
       <p class="muted">底線樣式：實線是托福、虛線是雅思、波浪線是 GRE。閱讀頁上方可以選要標示哪幾種，或全部關掉。</p>
-    </div>
-    <div class="sheet">
-      <h2>發音評分（選填）</h2>
-      <p class="muted">跟讀時用 Azure 發音評估，每個字都有分數。沒填就改用 Gemini 聽了給建議。Azure 免費方案（F0）每月有 5 小時語音額度，一句幾秒鐘，練很久也用不完。</p>
-      <div class="field">
-        <label for="azureKey">Azure Speech key</label>
-        <input type="password" id="azureKey" autocomplete="off" placeholder="32 個字元的 key">
-        <label for="azureRegion">地區（Location / Region）</label>
-        <input type="text" id="azureRegion" placeholder="eastasia">
-        <p class="muted">到 <a href="https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices" target="_blank" rel="noopener">Azure 入口網站</a> 建立「Speech」資源，定價層選 Free F0。建好後在「Keys and Endpoint」複製 KEY 1 和 Location/Region。</p>
-      </div>
-      <div class="row"><button class="btn" id="saveAzure">儲存</button><button class="btn" id="testAzure">測試 Azure</button><span class="muted" id="azureOut"></span></div>
     </div>
     <div class="sheet">
       <h2>備份</h2>
