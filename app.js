@@ -2,7 +2,7 @@
 const $ = id => document.getElementById(id);
 const STORE = "englishDesk.v1", CFG = "englishDesk.cfg";
 const st = { cards: [], logs: [], speakMode: "live", inline: false, topic: "", ctl: null, speakItems: [], writeItems: [], writeLevel: "", writeTopic: "" };
-let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null }, keyOk: {} };
+let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null, brief: null }, keyOk: {} };
 
 const today = () => new Date().toLocaleDateString("sv-SE");
 const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString("sv-SE") };
@@ -16,7 +16,7 @@ function load() {
   try { const d = JSON.parse(localStorage.getItem(STORE) || "{}"); st.cards = d.cards || []; st.logs = d.logs || [] } catch { }
   try { cfg = { ...cfg, ...JSON.parse(localStorage.getItem(CFG) || "{}") } } catch { }
   // Older versions had one site-wide provider and Sonnet as the default grader.
-  cfg.use = { grade: null, pron: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
+  cfg.use = { grade: null, pron: null, brief: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
   if ("provider" in cfg) { if (cfg.claudeKey) cfg.use.grade = cfg.provider === "claude" ? "claude" : "gemini"; delete cfg.provider }
   if (!cfg.claudeGrade || cfg.claudeGrade === "claude-sonnet-5-5") cfg.claudeGrade = "claude-opus-5-5";
   delete cfg.claudeChat;
@@ -37,11 +37,11 @@ const keyFor = p => p === "azure" ? !!(cfg.azureKey && cfg.azureRegion) : !!cfg[
 const anyTextKey = () => keyFor("gemini") || keyFor("claude");
 // Which provider a feature uses: the one picked if it still has a key, otherwise the best one that does.
 function use(f) {
-  const opts = f === "grade" ? ["claude", "gemini"] : ["azure", "gemini"], pick = cfg.use[f];
+  const opts = f === "grade" || f === "brief" ? ["claude", "gemini"] : ["azure", "gemini"], pick = cfg.use[f];
   return pick && keyFor(pick) ? pick : opts.find(keyFor) || opts.at(-1);
 }
 const DEF_CLAUDE = "claude-opus-5-5";
-function hasKey() { return keyFor(use("grade")) }
+function hasKey(f = "grade") { return keyFor(use(f)) }
 class AiError extends Error { constructor(msg, code) { super(msg); this.code = code } }
 async function callApi(url, headers, body, signal) {
   let res;
@@ -63,9 +63,10 @@ function finish(text, json) {
   return json ? parseJson(text) : text.trim();
 }
 // Grading and review: whichever provider "Grading and feedback" uses.
-async function ai(system, turns, { json = false, signal } = {}) {
-  if (!hasKey()) throw new AiError("No API key set yet.", "nokey");
-  if (use("grade") === "gemini") return gemini(system, null, { json, signal, turns });
+// `feature` lets another text feature (the news brief) use its own pick.
+async function ai(system, turns, { json = false, signal, feature = "grade" } = {}) {
+  if (!hasKey(feature)) throw new AiError("No API key set yet.", "nokey");
+  if (use(feature) === "gemini") return gemini(system, null, { json, signal, turns });
   return claude(system, turns, { json, signal });
 }
 // Opus thinks before it answers, and thinking counts toward max_tokens, so leave plenty of room.
@@ -1048,7 +1049,7 @@ $("exportAnki").onclick = () => {
 const DEF = { geminiModel: "gemini-3.5-flash-lite", liveModel: LIVE_DEFAULT, claudeGrade: "claude-opus-5-5" };
 const NAME = { gemini: "Gemini", claude: "Claude", azure: "Azure" };
 const KEYS = { gemini: ["geminiKey"], claude: ["claudeKey"], azure: ["azureKey", "azureRegion"] };
-const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" } };
+const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" }, useBrief: { opts: ["gemini", "claude"], key: "brief" } };
 function storeCfg() { try { localStorage.setItem(CFG, JSON.stringify(cfg)); return true } catch { toast("The browser refused to save your settings."); return false } }
 function renderKeys() {
   for (const p of Object.keys(KEYS)) {
@@ -1064,7 +1065,7 @@ function renderUse() {
     $(id).replaceChildren(...f.opts.map(p => { const b = document.createElement("button"); b.className = "chip"; b.textContent = NAME[p];
       b.disabled = !keyFor(p); if (b.disabled) b.title = "Add a " + NAME[p] + " key first";
       b.setAttribute("aria-pressed", keyFor(p) && p === cur ? "true" : "false");
-      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(); renderUse(); toast(`${f.key === "grade" ? "Grading and feedback" : "Pronunciation"} now uses ${NAME[p]}`) };
+      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief" }[f.key]} now uses ${NAME[p]}`) };
       return b }));
   }
   $("advSum").textContent = "Advanced: model names (grading uses " + (use("grade") === "claude" ? cfg.claudeGrade : cfg.geminiModel) + ")";
@@ -1124,8 +1125,8 @@ function backupInfo() { $("backupInfo").textContent = `${st.cards.length} cards 
 // A saved word is a card with kind "word": front = the word, back = definition, note = the sentence it came from.
 window.EnglishDesk = {
   toast,
-  // For brief.js: the grading AI and its display name.
-  ai, hasKey, aiName: () => NAME[use("grade")],
+  // For brief.js: the AI picked for "News brief" and its display name.
+  ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
   words: () => st.cards.filter(c => c.kind === "word").map(c => c.mine),
   addWord({ word, def, sentence, source }) {
     if (st.cards.some(c => c.kind === "word" && c.mine.toLowerCase() === word)) return false;
