@@ -33,7 +33,7 @@
 
 ## 新聞閱讀器與查字典
 
-- 「今天」的新聞按「閱讀全文」：瀏覽器當場透過 r.jina.ai 抓原文並重新排版，全文不存進這個 repo。抓不到時可以貼上文章。
+- 「今天」的新聞按「閱讀全文」：瀏覽器當場透過 r.jina.ai 取得原文 HTML，自己挑出內文（BBC／NPR／CNN 用網站規則，其他用 Mozilla Readability，最後才用 jina 的 markdown）並重新排版，全文不存進這個 repo。抓不到時可以貼上文章。
 - 點任何字先查「設定 → 字典與考試單字」匯入的個人字典（存在瀏覽器 IndexedDB，不上傳），再查內建字典 `dict/`（ECDICT＋自己的筆記，見 dict/README.md），都沒有才用 Free Dictionary。
 - 「加入單字本」會存成卡片（kind: word），照原本的間隔複習，也能匯出 Anki。
 - 托福／雅思／GRE 單字畫底線：實線托福、虛線雅思、波浪線 GRE。預設用內建的個人總表（dict/_exam.json）；匯入總表 CSV（word,TOEFL,IELTS,GRE）後改用自己的清單。
