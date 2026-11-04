@@ -5,7 +5,7 @@ name: Cache versions
 on:
   push:
     branches: [main]
-    paths: [app.js, reader.js, brief.js, index.html, scripts/bump-versions.mjs]
+    paths: [app.js, reader.js, brief.js, sync.js, index.html, scripts/bump-versions.mjs]
   workflow_dispatch:
 
 permissions:
