@@ -231,6 +231,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .def .hd .hw, .def .tg { display: none }
 .def .hd { display: flex; gap: var(--space-2) } .def .hd:has(.hw:only-child) { display: none }
 .def .fq { color: var(--accent-text); font-size: 13px; line-height: 20px }
+.def .pt { margin-right: var(--space-2) }
 .def .also, .def .fm, .def .pr, .def .pt, .def .gl, .def .et, .def .sup { color: var(--ink-muted); font-size: 13px; line-height: 20px; font-style: normal }
 .def .pr { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3) }
 .def .pr i { font-style: normal; font-weight: 700; margin-right: var(--space-1) }
@@ -543,7 +544,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
     </div>
     <div class="sheet">
       <h2>字典與考試單字</h2>
-      <p class="muted">閱讀新聞時點字會查這裡匯入的字典，考試單字會在文章裡畫底線。字典用 english-desk-dict.ndjson.gz，考試單字用總表 CSV。檔案只存在這個瀏覽器，不會上傳；Mac 和 iPhone 要各匯入一次。</p>
+      <p class="muted">閱讀新聞時點字就能查。網站內建開源的 ECDICT 中文翻譯、英英解釋和你的筆記，不用匯入也能用。想看完整解釋和例句，就匯入你自己的字典（例如 english-desk-dict.ndjson.gz），之後會優先查它。考試單字也一樣：沒匯入就用內建清單，匯入總表 CSV 後改用你的清單。匯入的檔案只存在這個瀏覽器，不會上傳；Mac 和 iPhone 要各匯入一次。</p>
       <div class="row">
         <label class="btn" for="dictFile">匯入字典</label>
         <input type="file" id="dictFile" accept=".gz,.ndjson,.json,.txt,.tsv,.csv" hidden>

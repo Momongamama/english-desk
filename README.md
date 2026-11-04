@@ -34,7 +34,7 @@
 ## 新聞閱讀器與查字典
 
 - 「今天」的新聞按「閱讀全文」：瀏覽器當場透過 r.jina.ai 抓原文並重新排版，全文不存進這個 repo。抓不到時可以貼上文章。
-- 點任何字會查「設定 → 字典與考試單字」匯入的字典（存在瀏覽器 IndexedDB，不上傳），沒匯入時用 Free Dictionary 英英解釋。
+- 點任何字先查「設定 → 字典與考試單字」匯入的個人字典（存在瀏覽器 IndexedDB，不上傳），再查內建字典 `dict/`（ECDICT＋自己的筆記，見 dict/README.md），都沒有才用 Free Dictionary。
 - 「加入單字本」會存成卡片（kind: word），照原本的間隔複習，也能匯出 Anki。
-- 托福／雅思／GRE 單字畫底線：實線托福、虛線雅思、波浪線 GRE。清單用總表 CSV（word,TOEFL,IELTS,GRE）匯入。
-- 字典和清單是個人檔案，不放進 repo。
+- 托福／雅思／GRE 單字畫底線：實線托福、虛線雅思、波浪線 GRE。預設用 ECDICT 的考試標記；匯入總表 CSV（word,TOEFL,IELTS,GRE）後改用自己的清單。
+- 個人字典（商業字典內容）和清單不放進 repo。重建內建字典：`python3 scripts/build-dict.py ecdict.csv [個人 MDX 匯出的 txt]`，只會取出「我的筆記」。

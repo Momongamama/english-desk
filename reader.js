@@ -34,12 +34,20 @@ async function getEntry(k) {
 
 const EXAMS = [["toefl", "托福", "T"], ["ielts", "雅思", "I"], ["gre", "GRE", "G"]];
 const lists = { toefl: new Set(), ielts: new Set(), gre: new Set() };
-let dictInfo = null;
+let dictInfo = null, builtinLists = false;
 async function loadMeta() {
   try {
     dictInfo = await getMeta("dict") || null;
     for (const [k] of EXAMS) lists[k] = new Set(await getMeta("list:" + k) || []);
   } catch { }
+  // No list imported: fall back to the exam tags that ship with the built-in dictionary (ECDICT).
+  if (!EXAMS.some(([k]) => lists[k].size)) {
+    try {
+      const tags = await (await fetch("dict/_exam.json?v=1")).json();
+      for (const [w, t] of Object.entries(tags)) for (const [k, , c] of EXAMS) if (t.includes(c.toLowerCase())) lists[k].add(w);
+      builtinLists = true;
+    } catch { }
+  }
   renderDictStatus();
 }
 
@@ -159,8 +167,29 @@ function safeHtml(html) {
   } };
   walk(doc.body, out); return out;
 }
+/* Built-in dictionary: dict/<first two letters>.json, {word: [phonetic, zh, en, exam tags, owner's notes html] | "@lemma"}.
+   Made by scripts/build-dict.py from ECDICT (MIT) plus the owner's own "我的筆記". */
+const shards = {};
+const shardOf = w => shards[w.slice(0, 2).padEnd(2, "_")] ||= fetch(`dict/${encodeURIComponent(w.slice(0, 2).padEnd(2, "_"))}.json?v=1`).then(r => r.ok ? r.json() : {}).catch(() => { delete shards[w.slice(0, 2).padEnd(2, "_")]; return {} });
+async function builtin(w) {
+  for (let hop = 0; hop < 3; hop++) {
+    const v = (await shardOf(w))[w];
+    if (typeof v === "string" && v.startsWith("@")) { w = v.slice(1); continue }
+    return Array.isArray(v) ? { head: w, v } : null;
+  }
+  return null;
+}
+const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;");
+function builtinHtml([ph, zh, en, , notes]) {
+  const lines = t => t.split("\n").filter(Boolean).map(l => { const m = l.match(/^([a-z]+\.)\s*(.*)$/); return `<li>${m ? `<span class="pt">${esc(m[1])}</span>` : ""}<span class="${zh === t ? "zh" : "df"}">${esc(m ? m[2] : l)}</span></li>` }).join("");
+  return `<div class="rd">${ph ? `<div class="pr"><span>/${esc(ph)}/</span></div>` : ""}`
+    + (zh ? `<details class="s" open><summary>中文義</summary><ol class="sn one">${lines(zh)}</ol></details>` : "")
+    + (notes ? `<details class="s" open><summary>我的筆記</summary>${notes}</details>` : "")
+    + (en ? `<details class="s"><summary>英英釋義</summary><ol class="sn one">${lines(en)}</ol></details>` : "") + "</div>";
+}
 async function lookUp(word) {
   for (const f of forms(word)) { try { const e = await getEntry(f); if (e) return { ...e, mine: true } } catch { } }
+  for (const f of forms(word)) { const e = await builtin(f); if (e) return { head: e.head, html: builtinHtml(e.v), mine: true, builtin: true } }
   try {
     const res = await fetch("https://api.dictionaryapi.dev/api/v2/entries/en/" + encodeURIComponent(forms(word)[0]));
     if (res.ok) {
@@ -198,7 +227,7 @@ async function showWord(word, sentence) {
   box.append(safeHtml(r.html)); box.classList.toggle("mine", r.mine);
   const senses = [...box.querySelectorAll(".zh")].map(e => e.textContent.trim()).filter(Boolean);
   picked.def = (senses.length ? senses.slice(0, 4).join("；") : [...box.querySelectorAll(".df, p")].map(e => e.textContent.trim()).slice(0, 2).join(" · ")).slice(0, 240);
-  if (!r.mine) { const n = document.createElement("p"); n.className = "muted"; n.textContent = dictInfo ? "你的字典沒有這個字，先用 Free Dictionary 的英英解釋。" : "還沒匯入你的字典，先用 Free Dictionary 的英英解釋。到設定可以匯入。"; box.append(n) }
+  if (!r.mine) { const n = document.createElement("p"); n.className = "muted"; n.textContent = "字典裡沒有這個字，先用 Free Dictionary 的英英解釋。"; box.append(n) }
   setAdd();
 }
 function closeLook() { $("look").hidden = true; lookSeq++; document.querySelectorAll(".rw.on").forEach(s => s.classList.remove("on")) }
@@ -289,14 +318,15 @@ async function importLists(files) {
   }
   const keys = Object.keys(got).filter(k => got[k].length);
   if (!keys.length) { toast("讀不懂這個清單，請用總表 CSV，或檔名含 TOEFL／IELTS／GRE 的文字檔"); return }
+  if (builtinLists) { for (const [k] of EXAMS) lists[k] = new Set(); builtinLists = false }
   for (const k of keys) { const words = [...new Set(got[k])]; await setMeta("list:" + k, words); lists[k] = new Set(words) }
   renderDictStatus(); toast("匯入了 " + keys.map(k => `${EXAMS.find(e => e[0] === k)[1]} ${lists[k].size}`).join("、"));
   if (current && location.hash === "#read") renderArticle(current, current.it);
 }
 function renderDictStatus() {
   if (!$("dictInfo")) return;
-  $("dictInfo").textContent = dictInfo ? `已匯入「${dictInfo.name}」，${dictInfo.count} 筆（${dictInfo.date}）` : "還沒匯入字典，查字會先用 Free Dictionary 的英英解釋。";
-  $("listInfo").textContent = EXAMS.some(([k]) => lists[k].size) ? "考試單字：" + EXAMS.map(([k, n]) => `${n} ${lists[k].size || "—"}`).join("、") : "還沒匯入考試單字。";
+  $("dictInfo").textContent = dictInfo ? `已匯入「${dictInfo.name}」，${dictInfo.count} 筆（${dictInfo.date}）` : "還沒匯入，目前用內建字典。";
+  $("listInfo").textContent = (builtinLists ? "目前用內建清單：" : "已匯入：") + EXAMS.map(([k, n]) => `${n} ${lists[k].size || "—"}`).join("、");
 }
 $("dictFile").onchange = e => { const f = e.target.files[0]; if (f) importDict(f); e.target.value = "" };
 $("listFile").onchange = e => { const f = [...e.target.files]; if (f.length) importLists(f); e.target.value = "" };
