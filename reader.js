@@ -79,7 +79,7 @@ function examsOf(w) {
 const RULES = {
   // Older BBC pages mark blocks with data-component; the current ones don't, so also read every <p>/<h2> in the
   // article (or main) in order, and stop at "More on this story" / "Related topics" (see END and pick()).
-  BBC: '[data-component="text-block"] p, [data-component="text-block"] li, [data-component="subheadline-block"] :is(h2, h3), article :is(p, h2, h3), main :is(p, h2, h3)',
+  BBC: '[data-component="text-block"] p, [data-component="text-block"] li, [data-component="subheadline-block"] :is(h2, h3), article :is(p, h2, h3), main :is(p, h2, h3), main ul > li:not(:has(p, h2, h3, article, a))',
   NPR: '#storytext > p, #storytext > :is(h2, h3), #storytext > ul > li, .paragraphs-container > p, .paragraphs-container > :is(h2, h3)',
   CNN: '.article__content :is(p.paragraph, h2, h3), .article__content .list li',
 };
@@ -90,11 +90,14 @@ const JUNK = /^(image source|image caption|getty images|share|save|related|more 
 const tidy = t => t.replace(/\s+/g, " ").replace(/\s+([,.;:!?])/g, "$1").trim();
 const words = paras => paras.reduce((n, p) => n + (p.h ? 0 : p.t.split(/\s+/).length), 0);
 function pick(nodes) {
-  const out = [], seen = new Set();
+  const out = [], seen = new Set(), all = new Set(nodes);
   for (const n of nodes) {
-    if (n.closest("li") && n.tagName !== "LI") continue; // a <p> inside a list item is read through the <li>
+    // A <p> inside a list item that is itself picked is read through the <li>. BBC live pages put every post in
+    // an <li>, and those <li>s aren't picked, so their paragraphs must stay.
+    const li = n.closest("li"); if (li && li !== n && all.has(li)) continue;
     if (n.closest?.("a, figure, figcaption, nav, footer, aside")) continue; // teaser cards, captions, menus
-    const t = tidy(n.textContent || "");
+    const t = tidy(n.textContent || "").replace(/, external(?=[,.;]|$)/g, ""); // BBC's hidden "external link" label
+    if (FOLLOW.test(t)) continue;
     if (t.length < 80 && END.test(t)) break; // "More on this story", "Related topics"… the story is over
     if (!t || seen.has(t) || (t.length < 80 && JUNK.test(t))) continue; seen.add(t);
     out.push(/^H[1-6]$/.test(n.tagName) ? { h: true, t } : { t });
@@ -176,6 +179,7 @@ async function extract(html, it) {
 }
 // Last resort: jina's markdown, minus obvious boilerplate.
 // Everything from the first "More stories" / "Popular" / cookie block onwards is page furniture, not the story.
+const FOLLOW = /^follow (bbc|us|npr|cnn)\b/i; // "Follow BBC Hereford & Worcester on BBC Sounds, Facebook…"
 const END = /^(more stories from|popular on|related stories|related topics|related internet links|more on this story|more from|elsewhere (on|in) the bbc|most read|editors'? picks|read (&|and) listen|cookie settings|top stories|you may also like)/i;
 function clean(md) {
   return md.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\((?:[^()]|\([^)]*\))*\)/g, "$1").replace(/(\*{1,3})([^*\n]+)\1/g, "$2")
@@ -202,7 +206,7 @@ const SOURCES = [
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error("timeout")), ms))]);
 const SOURCE_NAMES = ["jina", "corsproxy", "allorigins"];
 async function fetchArticle(it) {
-  const cache = "englishDesk.read9:" + it.link;
+  const cache = "englishDesk.read10:" + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
   const urls = [it.link, ...(it.source === "NPR" && textNpr(it.link) ? [textNpr(it.link)] : [])];
   const jobs = urls.flatMap(u => SOURCES.map((src, i) => ({ name: SOURCE_NAMES[i] + (u === it.link ? "" : " (text.npr.org)"), run: () => withTimeout(src(u).then(html => html ? extract(html, it) : { note: { bytes: 0 } }), 20000) })));
