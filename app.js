@@ -592,7 +592,69 @@ async function setEchoSource(blob, name) {
   echo.dur = await audioDuration(blob);
   $("echoSrc").textContent = name + (echo.dur ? " · 全長 " + fmt(echo.dur) : "") + " · " + (blob.size / 1e6).toFixed(1) + " MB";
   $("echoRange").hidden = false; $("echoGo").disabled = false; echoHint("");
+  $("echoScript").value = ""; scriptInfo();
 }
+/* your own transcript: .srt / .vtt / "0:12 text" lines keep their times; plain text gets timed by Gemini against the clip */
+const tsec = t => { const p = t.replace(",", ".").split(":").map(Number); return p.reduce((a, b) => a * 60 + b, 0) };
+const cleanCue = t => t.replace(/<[^>]*>/g, "").replace(/\[[^\]]*\]|\([A-Z ]+\)/g, " ").replace(/^\s*(>>|-)\s*/gm, "").replace(/^[A-Z][A-Z .'-]{1,30}:\s*/gm, "")
+  .replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&nbsp;/g, " ");
+function parseScript(raw) {
+  const txt = String(raw || "").replace(/^\uFEFF/, "").replace(/\r/g, "").trim();
+  if (!txt) return null;
+  const cues = [], arrow = /((?:\d+:)?\d{1,2}:\d{2}[.,]\d{1,3})\s*-->\s*((?:\d+:)?\d{1,2}:\d{2}[.,]\d{1,3})/;
+  if (arrow.test(txt)) {
+    let prev = "";
+    for (const block of txt.split(/\n\s*\n/)) {
+      const lines = block.split("\n"), k = lines.findIndex(l => arrow.test(l)); if (k < 0) continue;
+      const m = lines[k].match(arrow);
+      let body = lines.slice(k + 1).map(l => cleanCue(l).trim()).filter(Boolean);
+      // rolling captions (YouTube) repeat the previous cue's last line on top
+      while (body.length && body[0] === prev) body.shift();
+      if (!body.length) continue; prev = body[body.length - 1];
+      cues.push({ start: tsec(m[1]), end: tsec(m[2]), text: body.join(" ") });
+    }
+  } else {
+    // "0:12 text", "[00:12] text", or a time on its own line with the text below (copied YouTube / Apple transcripts)
+    const lines = txt.split("\n"), stamp = /^\s*\[?((?:\d+:)?\d{1,2}:\d{2}(?:\.\d+)?)\]?\s*(.*)$/;
+    if (lines.filter(l => stamp.test(l)).length >= 3) {
+      let cur = null;
+      for (const l of lines) { const m = l.match(stamp);
+        if (m) { cur = { start: tsec(m[1]), text: m[2] }; cues.push(cur) } else if (cur) cur.text += " " + l }
+      cues.forEach((c, i) => { c.text = cleanCue(c.text).trim(); c.end = cues[i + 1] ? cues[i + 1].start : c.start + Math.max(2, c.text.split(/\s+/).length / 2.8) });
+    }
+  }
+  const timed = cues.filter(c => c.text && c.end > c.start).sort((a, b) => a.start - b.start);
+  if (timed.length >= 2) return { timed: toSentences(timed) };
+  const plain = cleanCue(txt.split("\n").filter(l => !/^\d+$|^WEBVTT/.test(l.trim())).join("\n")).replace(/\s+/g, " ").trim();
+  return plain ? { plain } : null;
+}
+// Cues are caption chunks, not sentences: cut each cue at sentence ends (timing split by length), then join pieces into sentences of up to ~20 words.
+function toSentences(cues) {
+  const pieces = [];
+  for (const c of cues) {
+    const parts = c.text.replace(/\s+/g, " ").trim().match(/[^.?!]+(?:[.?!]+["')\]]*|$)/g) || [c.text], total = parts.join("").length || 1;
+    let t = c.start;
+    for (const p of parts) { const d = (c.end - c.start) * p.length / total, x = p.trim(); if (x) pieces.push({ start: t, end: t + d, text: x }); t += d }
+  }
+  const out = []; let acc = null;
+  for (const p of pieces) {
+    if (!acc) acc = { ...p }; else { acc.text += " " + p.text; acc.end = p.end }
+    if (/[.?!]["')\]]*$/.test(acc.text) || acc.text.split(" ").length >= 20) { out.push(acc); acc = null }
+  }
+  if (acc) out.push(acc);
+  return out;
+}
+function scriptInfo() {
+  const s = parseScript($("echoScript").value);
+  $("echoScriptInfo").textContent = !s ? "有時間碼（.srt、.vtt）就直接用，不必再叫 AI 聽寫。"
+    : s.timed ? `有時間碼，共 ${s.timed.length} 句，會直接切出你選的那段，不用 AI。`
+    : "沒有時間碼。按「轉成逐句稿」時 Gemini 會照你的逐字稿對齊時間，不重新聽寫。";
+}
+$("echoScript").oninput = scriptInfo;
+$("echoScriptFile").onchange = async e => { const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  if (f.size > 3e6) { toast("逐字稿檔案太大了，3 MB 以內"); return }
+  $("echoScript").value = await f.text(); scriptInfo() };
+function strHash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36) }
 $("echoFile").onchange = e => { const f = e.target.files[0]; e.target.value = ""; if (f) setEchoSource(f, f.name) };
 $("echoLoadUrl").onclick = () => {
   const url = $("echoUrl").value.trim();
@@ -635,13 +697,19 @@ document.querySelectorAll("#echoLens .chip").forEach(c => c.onclick = () => {
   echo.len = +c.dataset.len; document.querySelectorAll("#echoLens .chip").forEach(x => x.setAttribute("aria-pressed", x === c));
 });
 
+// An ID3 tag (cover art can be hundreds of KB) sits before the audio and would push every byte-offset cut late.
+async function id3Size(blob) {
+  try { const h = new Uint8Array(await blob.slice(0, 10).arrayBuffer());
+    if (h[0] !== 73 || h[1] !== 68 || h[2] !== 51) return 0;
+    return 10 + ((h[6] & 127) << 21 | (h[7] & 127) << 14 | (h[8] & 127) << 7 | (h[9] & 127)) + (h[5] & 16 ? 10 : 0) } catch { return 0 }
+}
 // Decode just the chosen stretch. Big MP3s are cut by byte offset first (MP3 frames resync), so a phone never decodes an hour of audio.
 async function decodeClip(start, len) {
   const blob = echo.blob, ctx = echoCtx();
   const mp3 = /mpeg|mp3/i.test(blob.type) || /\.mp3$/i.test(echo.name);
   let part = blob, off = 0;
   if (echo.dur && blob.size > 6e6) {
-    if (mp3) { const bps = blob.size / echo.dur; part = blob.slice(Math.floor(start * bps), Math.ceil((start + len + 2) * bps)); off = start }
+    if (mp3) { const id3 = await id3Size(blob), bps = (blob.size - id3) / echo.dur; part = blob.slice(id3 + Math.floor(start * bps), id3 + Math.ceil((start + len + 2) * bps)); off = start }
     else if (blob.size > 12e6) throw new Error("檔案太大了。mp3 以外的格式請先剪成 10 分鐘以內再上傳，或改用 mp3。");
   }
   let audio;
@@ -678,21 +746,35 @@ $("echoGo").onclick = async () => {
   echoStopPlay(); echo.ctl = new AbortController(); $("echoStop").hidden = false;
   try {
     const clip = await decodeClip(start, Math.min(len, echo.dur ? echo.dur - start : len));
-    const key = cacheKey(start, len); let sents = cacheGet(key);
-    if (!sents) {
-      if (!cfg.geminiKey) throw new AiError("逐句稿要用 Gemini 轉，先到設定填 Gemini API key。", "nokey");
-      echoHint("Gemini 正在聽寫並斷句，約 20–60 秒…");
-      const r = await gemini("You transcribe English audio for a shadowing exercise. You reply with JSON only.", [
-        { inlineData: { mimeType: "audio/wav", data: b64(wav16k(clip.data, clip.rate)) } },
-        { text: `Transcribe this clip word for word and split it into sentences for shadowing practice. If a sentence runs past about 20 words, split it at a natural pause. Drop fillers like "um" and "uh".
+    const dur = clip.data.length / clip.rate, script = parseScript($("echoScript").value);
+    const key = cacheKey(start, len) + (script?.plain ? "|" + strHash(script.plain) : ""); let sents = script?.timed ? null : cacheGet(key);
+    if (script?.timed) {
+      // Times in the file are from the start of the episode; keep the sentences that sit inside this clip.
+      sents = script.timed.filter(s => s.start >= start - .3 && s.end <= start + dur + .3).map(s => ({ start: Math.max(0, s.start - start), end: Math.min(dur, s.end - start), text: s.text }));
+      if (!sents.length) throw new Error(`逐字稿的時間碼沒有落在 ${fmt(start)}–${fmt(start + dur)} 這段。檢查開始時間，或逐字稿是不是同一集。`);
+      sents = snapTimes(sents, clip.data, clip.rate);
+    } else if (!sents) {
+      if (!cfg.geminiKey) throw new AiError(script ? "沒有時間碼的逐字稿要用 Gemini 對齊時間，先到設定填 Gemini API key，或改上傳 .srt / .vtt。" : "逐句稿要用 Gemini 轉，先到設定填 Gemini API key。", "nokey");
+      echoHint(script ? "Gemini 正在照你的逐字稿對齊時間，約 20–60 秒…" : "Gemini 正在聽寫並斷句，約 20–60 秒…");
+      const ask = script ? `Here is my own transcript of the episode this clip comes from. It may cover much more than the clip.
+Find the part of it that is spoken in this clip and split that part into sentences for shadowing practice. If a sentence runs past about 20 words, split it at a natural pause.
+Keep the transcript's own wording and spelling: don't rewrite, correct or re-transcribe it. Leave out speaker names and notes like [music].
 For each piece give its start and end time in seconds from the start of this clip, to 0.1 s: start right as the first word begins, end right after the last word.
 Leave out a sentence that is cut off at the very start or the very end of the clip.
-Reply with only JSON: {"sentences":[{"start":0.0,"end":3.2,"text":"..."}]}` }], { json: true, signal: echo.ctl.signal });
-      const dur = clip.data.length / clip.rate;
+Reply with only JSON: {"sentences":[{"start":0.0,"end":3.2,"text":"..."}]}
+
+Transcript:
+${script.plain.slice(0, 60000)}` : `Transcribe this clip word for word and split it into sentences for shadowing practice. If a sentence runs past about 20 words, split it at a natural pause. Drop fillers like "um" and "uh".
+For each piece give its start and end time in seconds from the start of this clip, to 0.1 s: start right as the first word begins, end right after the last word.
+Leave out a sentence that is cut off at the very start or the very end of the clip.
+Reply with only JSON: {"sentences":[{"start":0.0,"end":3.2,"text":"..."}]}`;
+      const r = await gemini(script ? "You line up a given transcript with English audio for a shadowing exercise. You reply with JSON only." : "You transcribe English audio for a shadowing exercise. You reply with JSON only.", [
+        { inlineData: { mimeType: "audio/wav", data: b64(wav16k(clip.data, clip.rate)) } },
+        { text: ask }], { json: true, signal: echo.ctl.signal });
       sents = (Array.isArray(r.sentences) ? r.sentences : []).map(s => ({ start: +s.start, end: +s.end, text: String(s.text || "").trim() }))
         .filter(s => s.text && isFinite(s.start) && isFinite(s.end) && s.end > s.start && s.start < dur).sort((a, b) => a.start - b.start);
       sents = snapTimes(sents, clip.data, clip.rate);
-      if (!sents.length) throw new Error("Gemini 沒有聽出句子，換一段有人說話的地方試試。");
+      if (!sents.length) throw new Error(script ? "Gemini 在這段找不到逐字稿裡的句子。檢查開始時間，或逐字稿是不是同一集。" : "Gemini 沒有聽出句子，換一段有人說話的地方試試。");
       cachePut(key, sents);
     }
     const ab = echo.ctx.createBuffer(1, clip.data.length, clip.rate); ab.getChannelData(0).set(clip.data);
