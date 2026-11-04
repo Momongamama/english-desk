@@ -2,7 +2,7 @@
 const $ = id => document.getElementById(id);
 const STORE = "englishDesk.v1", CFG = "englishDesk.cfg";
 const st = { cards: [], logs: [], deleted: {}, speakMode: "live", inline: false, topic: "", ctl: null, speakItems: [], writeItems: [], writeLevel: "", writeTopic: "" };
-let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null, brief: null }, keyOk: {} };
+let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null, brief: null, speed: null }, keyOk: {} };
 
 const today = () => new Date().toLocaleDateString("sv-SE");
 const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString("sv-SE") };
@@ -16,22 +16,24 @@ function load() {
   try { const d = JSON.parse(localStorage.getItem(STORE) || "{}"); st.cards = d.cards || []; st.logs = d.logs || []; st.deleted = d.deleted || {} } catch { }
   try { cfg = { ...cfg, ...JSON.parse(localStorage.getItem(CFG) || "{}") } } catch { }
   // Older versions had one site-wide provider and Sonnet as the default grader.
-  cfg.use = { grade: null, pron: null, brief: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
+  cfg.use = { grade: null, pron: null, brief: null, speed: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
   if ("provider" in cfg) { if (cfg.claudeKey) cfg.use.grade = cfg.provider === "claude" ? "claude" : "gemini"; delete cfg.provider }
   if (!cfg.claudeGrade || cfg.claudeGrade === "claude-sonnet-5-5") cfg.claudeGrade = "claude-opus-5-5";
   delete cfg.claudeChat;
 }
 // Things that want to know about every save (sync.js pushes a few seconds later). `quiet` skips them, for saves that came from sync itself.
-const saveHooks = [];
+const saveHooks = [], changeHooks = []; // changeHooks: every change, including ones that came from sync (reader.js redraws its speed chart)
 function persist(quiet) {
   try { localStorage.setItem(STORE, JSON.stringify({ cards: st.cards, logs: st.logs, deleted: st.deleted })) }
   catch { toast("The browser refused to save. Export a backup first.") }
   renderList(); renderLogs(); if (!$("v-cards").hidden) renderFlash();
   if (!quiet) saveHooks.forEach(f => f());
+  changeHooks.forEach(f => { try { f() } catch { } });
 }
 /* Merging two copies of the data (backup import now, cloud sync later). Pure: returns new arrays, changes nothing.
    Cards: one per id, the newer `updated` wins; on a tie (old cards have no `updated`) the later `due`, then the higher `box`.
-   A deletion (`deleted[id]` = when) removes the card unless the card was changed after that. Logs: union by `ts`, newest 500.
+   A deletion (`deleted[id]` = when) removes the card unless the card was changed after that. Logs: union by `ts`, newest 500;
+   a log changed after it was made (a timed read gets its quiz and AI verdict later) carries `updated`, and the newer copy wins.
    Deletion marks older than 90 days are dropped; by then every device has seen them. */
 const TOMB_DAYS = 90, LOG_MAX = 500;
 function mergeData(local, incoming) {
@@ -47,7 +49,7 @@ function mergeData(local, incoming) {
   }
   const cards = [...byId.values()].filter(c => !(deleted[c.id] >= (c.updated || 0)));
   const logs = new Map();
-  for (const l of [...(local.logs || []), ...(incoming.logs || [])]) if (l && l.ts && !logs.has(l.ts)) logs.set(l.ts, l);
+  for (const l of [...(local.logs || []), ...(incoming.logs || [])]) if (l && l.ts && (!logs.has(l.ts) || (l.updated || 0) > (logs.get(l.ts).updated || 0))) logs.set(l.ts, l);
   return { cards, logs: [...logs.values()].sort((a, b) => a.ts - b.ts).slice(-LOG_MAX), deleted };
 }
 function download(name, text, type) {
@@ -61,7 +63,7 @@ const keyFor = p => p === "azure" ? !!(cfg.azureKey && cfg.azureRegion) : !!cfg[
 const anyTextKey = () => keyFor("gemini") || keyFor("claude");
 // Which provider a feature uses: the one picked if it still has a key, otherwise the best one that does.
 function use(f) {
-  const opts = f === "grade" || f === "brief" ? ["claude", "gemini"] : ["azure", "gemini"], pick = cfg.use[f];
+  const opts = f === "grade" || f === "brief" || f === "speed" ? ["claude", "gemini"] : ["azure", "gemini"], pick = cfg.use[f];
   return pick && keyFor(pick) ? pick : opts.find(keyFor) || opts.at(-1);
 }
 const DEF_CLAUDE = "claude-opus-5-5";
@@ -168,11 +170,11 @@ function renderLogs() {
   if (!st.logs.length) return;
   box.replaceChildren(...[...st.logs].sort((a, b) => b.ts - a.ts).slice(0, 12).map(l => { const el = document.createElement("div");
     const t = document.createElement("time"); t.textContent = l.date;
-    const lv = document.createElement("span"); lv.className = "level"; lv.textContent = l.level || (l.score != null ? l.score + " pts" : "—");
-    const s = document.createElement("span"); s.textContent = ({ write: "Write · ", echo: "Echo · " }[l.type] || "Speak · ") + (l.topic || "");
+    const lv = document.createElement("span"); lv.className = "level"; lv.textContent = l.type === "read" ? (l.wpm || "—") : l.level || (l.score != null ? l.score + " pts" : "—");
+    const s = document.createElement("span"); s.textContent = ({ write: "Write · ", echo: "Echo · ", read: "Read wpm · " }[l.type] || "Speak · ") + (l.topic || "");
     el.append(t, lv, s); return el }));
 }
-function addLog(l) { st.logs.push({ ...l, date: today(), ts: Date.now() }); if (st.logs.length > LOG_MAX) st.logs.splice(0, st.logs.length - LOG_MAX); persist(); if (st.redo) renderRedo() }
+function addLog(l) { const ts = Date.now(); st.logs.push({ ...l, date: today(), ts }); if (st.logs.length > LOG_MAX) st.logs.splice(0, st.logs.length - LOG_MAX); persist(); if (st.redo) renderRedo(); return ts }
 
 /* ---------- news + topics ---------- */
 // news.json is refreshed daily by .github/workflows/news.yml (BBC + CNN, or NPR when CNN is down).
@@ -1353,7 +1355,7 @@ $("exportAnki").onclick = () => {
 const DEF = { geminiModel: "gemini-3.5-flash-lite", liveModel: LIVE_DEFAULT, claudeGrade: "claude-opus-5-5" };
 const NAME = { gemini: "Gemini", claude: "Claude", azure: "Azure" };
 const KEYS = { gemini: ["geminiKey"], claude: ["claudeKey"], azure: ["azureKey", "azureRegion"] };
-const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" }, useBrief: { opts: ["gemini", "claude"], key: "brief" } };
+const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" }, useBrief: { opts: ["gemini", "claude"], key: "brief" }, useSpeed: { opts: ["gemini", "claude"], key: "speed" } };
 // Settings that sync across devices (never the keys). `changed` marks a user edit to one of them, so the newest edit wins on every device.
 const SYNC_CFG = ["use", "geminiModel", "liveModel", "claudeGrade"];
 function storeCfg(changed) {
@@ -1376,7 +1378,7 @@ function renderUse() {
     $(id).replaceChildren(...f.opts.map(p => { const b = document.createElement("button"); b.className = "chip"; b.textContent = NAME[p];
       b.disabled = !keyFor(p); if (b.disabled) b.title = "Add a " + NAME[p] + " key first";
       b.setAttribute("aria-pressed", keyFor(p) && p === cur ? "true" : "false");
-      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(true); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief" }[f.key]} now uses ${NAME[p]}`) };
+      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(true); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief", speed: "Reading speed" }[f.key]} now uses ${NAME[p]}`) };
       return b }));
   }
   $("advSum").textContent = "Advanced: model names (grading uses " + (use("grade") === "claude" ? cfg.claudeGrade : cfg.geminiModel) + ")";
@@ -1439,7 +1441,7 @@ function backupInfo() { $("backupInfo").textContent = `${st.cards.length} cards 
 // A saved word is a card with kind "word": front = the word, back = definition, note = the sentence it came from.
 window.EnglishDesk = {
   // For sync.js: run after every save; merge what came from the gist into this browser and return everything that should be up there.
-  onSave: f => saveHooks.push(f),
+  onSave: f => saveHooks.push(f), onChange: f => changeHooks.push(f),
   syncApply(remote) {
     if (remote) {
       Object.assign(st, mergeData(st, remote)); persist(true); backupInfo(); renderToday(); renderRedo();
@@ -1455,6 +1457,11 @@ window.EnglishDesk = {
   toast,
   // For brief.js: the AI picked for "News brief" and its display name.
   ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
+  // For reader.js: timed reads are logs of type "read"; their quiz and AI verdict are patched in afterwards.
+  speedAi: (s, t, o = {}) => ai(s, t, { ...o, feature: "speed" }), speedHasKey: () => hasKey("speed"), speedAiName: () => NAME[use("speed")],
+  addLog: l => addLog(l),
+  patchLog(ts, patch) { const l = st.logs.find(x => x.ts === ts); if (!l) return; Object.assign(l, patch, { updated: Date.now() }); persist() },
+  logs: type => st.logs.filter(l => l.type === type),
   markChicklist(link) { chickSaved[link] = true; for (const el of document.querySelectorAll("#newsList .news-item")) if (el.dataset.link === link) markChick(el.querySelector("h3")) },
   words: () => st.cards.filter(c => c.kind === "word").map(c => c.mine),
   // Returns "new" for a new card, "more" when the word was saved before and this sentence was added to it, or false.
