@@ -1,8 +1,8 @@
 (() => {
 const $ = id => document.getElementById(id);
 const STORE = "englishDesk.v1", CFG = "englishDesk.cfg";
-const st = { cards: [], logs: [], turns: [], inline: true, topic: "", ctl: null, speakItems: [], writeItems: [], writeLevel: "", writeTopic: "" };
-let cfg = { provider: "gemini", geminiKey: "", geminiModel: "gemini-3.5-flash-lite", claudeKey: "", claudeChat: "claude-haiku-5-5", claudeGrade: "claude-sonnet-5-5" };
+const st = { cards: [], logs: [], speakMode: "live", inline: false, topic: "", ctl: null, speakItems: [], writeItems: [], writeLevel: "", writeTopic: "" };
+let cfg = { provider: "gemini", geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeChat: "claude-haiku-5-5", claudeGrade: "claude-sonnet-5-5" };
 
 const today = () => new Date().toLocaleDateString("sv-SE");
 const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString("sv-SE") };
@@ -203,83 +203,208 @@ I've only read this headline and summary, not the full article. Don't invent fac
 }
 
 /* ---------- speaking ---------- */
-function setMode(inline) { st.inline = inline; $("modeInline").setAttribute("aria-pressed", inline); $("modeAfter").setAttribute("aria-pressed", !inline) }
-$("modeInline").onclick = () => setMode(true);
-$("modeAfter").onclick = () => setMode(false);
+// Two modes: a live voice chat over the Gemini Live API, or grading a transcript pasted from elsewhere.
+const LIVE_DEFAULT = "gemini-3.8-live", LIVE_MAX = 14 * 60;
+const live = { ws: null, ctx: null, mic: null, node: null, src: null, buf: [], playAt: 0, playing: [], turns: [], muted: false, ready: false, t0: 0, timer: 0, ended: false };
+function setSpeakMode(m) {
+  st.speakMode = m;
+  $("modeLive").setAttribute("aria-pressed", m === "live"); $("modePaste").setAttribute("aria-pressed", m === "paste");
+  $("livePanel").hidden = m !== "live"; $("pastePanel").hidden = m !== "paste";
+  if (m === "paste") $("liveBox").hidden = true;
+  liveAvailability();
+}
+$("modeLive").onclick = () => setSpeakMode("live");
+$("modePaste").onclick = () => setSpeakMode("paste");
+function setCorr(inline) { st.inline = inline; $("corrInline").setAttribute("aria-pressed", inline); $("corrAfter").setAttribute("aria-pressed", !inline) }
+$("corrInline").onclick = () => setCorr(true);
+$("corrAfter").onclick = () => setCorr(false);
+function liveAvailability() {
+  const why = cfg.provider !== "gemini" ? "語音對話只支援 Gemini。到設定切換成 Gemini，或改用貼稿評分。"
+    : !cfg.geminiKey ? "先到設定填 Gemini API key。"
+    : !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.WebSocket && (window.AudioContext || window.webkitAudioContext)) ? "這個瀏覽器不支援麥克風錄音，改用貼稿評分。" : "";
+  $("liveStart").disabled = !!why || !!live.ws; $("liveHint").textContent = why;
+}
 
-function rules() {
-  return `You are my English conversation partner. I'm a Taiwanese learner at about CEFR B2, aiming for C1. Talk like a friendly, curious friend. Keep each reply to 1–3 short sentences and end with one follow-up question, so I do most of the talking. Reply in plain English text, no markdown, no emoji. Today's topic: ${st.topic.title}.
-` + (st.topic.summary ? newsContext(st.topic) + `
+// What the partner is told before the conversation starts (also copied for the Gemini App in paste mode).
+function opening(topic, voice) {
+  return `You are my English conversation partner. I'm a Taiwanese learner at about CEFR B2, aiming for C1. Talk like a friendly, curious friend. Keep each turn to 1–3 short sentences and end with one follow-up question, so I do most of the talking. Speak at a natural pace with clear, everyday English. Today's topic: ${topic.title}.
+` + (topic.summary ? newsContext(topic) + `
 Open by retelling the story in one or two simple sentences, then ask what I think. Keep the talk on my views and experience, such as how it affects people in Taiwan or my own work.
-` : "") + (st.inline
-    ? `If my latest message has a mistake a native speaker would notice, begin your reply with ONE line that starts with "✎ " and gives the most important part of my sentence rewritten naturally, then a blank line, then your normal reply. If nothing is worth fixing, skip that line.`
-    : `Do not correct my English at all; just keep the conversation flowing.`);
+` : "") + (voice && st.inline
+    ? `If I make a mistake a native speaker would notice, first say the natural version in one short sentence starting with "You could say", then carry on. Fix at most one thing per turn, and skip it when nothing is worth fixing.`
+    : `Do not correct my English during the chat; just keep the conversation flowing. I'll review my mistakes afterwards.`);
 }
-const canSpeak = "speechSynthesis" in window;
-function speak(text) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = 0.95; speechSynthesis.speak(u) } catch { } }
-function addMsg(role, text) {
-  const el = document.createElement("div"); el.className = "msg " + (role === "user" ? "me" : "ai");
-  fillMsg(el, role, text); $("log").append(el); $("log").scrollTop = $("log").scrollHeight; return el;
-}
-function fillMsg(el, role, text) {
-  el.replaceChildren();
-  let body = text;
-  if (role !== "user" && text.startsWith("✎")) { const nl = text.indexOf("\n"); const note = document.createElement("span"); note.className = "note"; note.textContent = (nl < 0 ? text : text.slice(0, nl)).replace(/^✎\s*/, "✎ "); el.append(note); body = nl < 0 ? "" : text.slice(nl).trim() }
-  el.append(document.createTextNode(body));
-  if (role !== "user" && canSpeak && body) { const b = document.createElement("button"); b.className = "speak"; b.textContent = "▶ 朗讀"; b.onclick = () => speak(body); el.append(b) }
-}
-async function ask() {
-  const bubble = addMsg("assistant", ""); bubble.classList.add("thinking"); bubble.textContent = "…";
-  st.ctl = new AbortController(); $("send").disabled = true; $("stopChat").hidden = false;
-  const turns = st.turns.length ? st.turns.slice(-30) : [{ role: "user", content: "Start now: greet me briefly and ask your first question about the topic." }];
-  if (turns[0].role !== "user") turns.unshift({ role: "user", content: "(continuing our conversation)" });
-  try {
-    const text = await ai(rules(), turns, { signal: st.ctl.signal });
-    bubble.classList.remove("thinking"); fillMsg(bubble, "assistant", text); $("log").scrollTop = $("log").scrollHeight;
-    st.turns.push({ role: "assistant", content: text });
-  } catch (e) {
-    bubble.remove();
-    if (e.code !== "cancelled") { toast(errText(e)); if (e.code === "nokey" || e.code === "auth" || e.code === "model") banner(errText(e), true) }
-  } finally { $("send").disabled = false; $("stopChat").hidden = true; $("chatIn").focus() }
-}
-$("startChat").onclick = () => {
-  if (!hasKey()) { banner("先填好 API key 才能開始。", true); return }
-  st.topic = currentTopic("speak"); st.turns = [];
-  $("log").replaceChildren(); $("chatBox").hidden = false; $("reviewBox").hidden = true;
-  $("chatHint").textContent = "題目：" + st.topic.title; ask();
-};
-function send() {
-  const v = $("chatIn").value.trim(); if (!v || $("send").disabled) return;
-  const last = st.turns.at(-1);
-  if (last && last.role === "user") last.content += "\n" + v; else st.turns.push({ role: "user", content: v });
-  addMsg("user", v); $("chatIn").value = ""; ask();
-}
-$("send").onclick = send;
-$("chatIn").addEventListener("keydown", e => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); send() } });
-$("stopChat").onclick = () => st.ctl?.abort();
 
-$("review").onclick = async () => {
-  const mine = st.turns.filter(t => t.role === "user");
-  if (mine.length < 2) { toast("至少說兩句話再檢討"); return }
-  const btn = $("review"); btn.disabled = true; btn.textContent = "整理中…";
-  const transcript = st.turns.map(t => (t.role === "user" ? "ME: " : "PARTNER: ") + t.content.replace(/^✎.*\n?/, "")).join("\n");
+function liveStatus(t) { $("liveStatus").textContent = t }
+function addMsg(role, text) {
+  const el = document.createElement("div"); el.className = "msg " + (role === "me" ? "me" : "ai"); el.lang = "en";
+  el.textContent = text; $("log").append(el); $("log").scrollTop = $("log").scrollHeight; return el;
+}
+// Transcription arrives in fragments; glue them onto the current turn of the same speaker.
+function addText(role, text) {
+  if (!text) return;
+  let last = live.turns.at(-1);
+  if (!last || last.role !== role) { last = { role, text: "", el: addMsg(role, "") }; live.turns.push(last) }
+  last.text += text; last.el.textContent = last.text.trim(); $("log").scrollTop = $("log").scrollHeight;
+}
+
+// Mic → 16 kHz 16-bit PCM. The AudioContext runs at the device rate (iOS ignores custom rates for mic input), so we downsample here.
+const WORKLET = `class Tap extends AudioWorkletProcessor { process(i) { const c = i[0] && i[0][0]; if (c) this.port.postMessage(c.slice(0)); return true } } registerProcessor("tap", Tap)`;
+function pushMic(f32) {
+  if (live.muted || !live.ws || live.ws.readyState !== 1 || !live.ready) return;
+  live.buf.push(f32);
+  const rate = live.ctx.sampleRate, need = Math.round(rate / 10); // ~100 ms per message
+  let n = live.buf.reduce((s, b) => s + b.length, 0); if (n < need) return;
+  const all = new Float32Array(n); let o = 0; for (const b of live.buf) { all.set(b, o); o += b.length } live.buf = [];
+  const ratio = rate / 16000, out = new Int16Array(Math.floor(n / ratio));
+  for (let i = 0; i < out.length; i++) {
+    const a = Math.floor(i * ratio), z = Math.min(n, Math.floor((i + 1) * ratio)); let s = 0;
+    for (let j = a; j < z; j++) s += all[j];
+    const v = Math.max(-1, Math.min(1, s / Math.max(1, z - a))); out[i] = v < 0 ? v * 0x8000 : v * 0x7fff;
+  }
+  live.ws.send(JSON.stringify({ realtimeInput: { audio: { mimeType: "audio/pcm;rate=16000", data: b64(new Uint8Array(out.buffer)) } } }));
+}
+function b64(bytes) { let s = ""; for (let i = 0; i < bytes.length; i += 0x8000) s += String.fromCharCode.apply(null, bytes.subarray(i, i + 0x8000)); return btoa(s) }
+// Gemini speaks 24 kHz 16-bit PCM; queue chunks back to back.
+function playPcm(data) {
+  const bin = atob(data), n = bin.length >> 1, buf = live.ctx.createBuffer(1, n, 24000), ch = buf.getChannelData(0);
+  for (let i = 0; i < n; i++) { let v = bin.charCodeAt(2 * i) | bin.charCodeAt(2 * i + 1) << 8; if (v > 32767) v -= 65536; ch[i] = v / 32768 }
+  const s = live.ctx.createBufferSource(); s.buffer = buf; s.connect(live.ctx.destination);
+  live.playAt = Math.max(live.playAt, live.ctx.currentTime + .05); s.start(live.playAt); live.playAt += buf.duration;
+  live.playing.push(s); s.onended = () => { live.playing = live.playing.filter(x => x !== s) };
+}
+function stopPlayback() { for (const s of live.playing) try { s.stop() } catch { } live.playing = []; live.playAt = 0 }
+
+async function liveStartFn() {
+  if (live.ws) return;
+  st.topic = currentTopic("speak");
+  $("liveStart").disabled = true; $("liveHint").textContent = "準備麥克風…";
+  try { if (navigator.audioSession) navigator.audioSession.type = "play-and-record" } catch { }
+  // Create and resume the AudioContext inside the tap: iOS Safari only allows audio after a user gesture.
+  const AC = window.AudioContext || window.webkitAudioContext;
+  live.ctx = new AC(); try { await live.ctx.resume() } catch { }
   try {
-    const r = await ai("You are a strict but kind English speaking coach. You reply with JSON only.", [{ role: "user", content: `Here's a transcript of me speaking English (ME lines are mine). I'm around B2.
-Don't fix every small slip. Pick up to 5 places where a native speaker would have said it differently.
+    live.mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
+  } catch (e) {
+    liveCleanup();
+    const msg = e && e.name === "NotAllowedError" ? "麥克風被拒絕了。到瀏覽器（iPhone 是「設定 > Safari > 麥克風」）允許這個網站使用麥克風再試。" : "打不開麥克風，檢查有沒有別的 App 正在用。";
+    $("liveHint").textContent = msg; toast(msg); return;
+  }
+  live.src = live.ctx.createMediaStreamSource(live.mic);
+  try {
+    const url = URL.createObjectURL(new Blob([WORKLET], { type: "text/javascript" }));
+    await live.ctx.audioWorklet.addModule(url); URL.revokeObjectURL(url);
+    live.node = new AudioWorkletNode(live.ctx, "tap"); live.node.port.onmessage = e => pushMic(e.data);
+  } catch {
+    live.node = live.ctx.createScriptProcessor(4096, 1, 1); live.node.onaudioprocess = e => pushMic(e.inputBuffer.getChannelData(0).slice(0));
+  }
+  // Route through a muted gain so the graph runs without sending the mic to the speakers.
+  const sink = live.ctx.createGain(); sink.gain.value = 0; live.src.connect(live.node); live.node.connect(sink); sink.connect(live.ctx.destination);
+
+  live.turns = []; live.ended = false; live.ready = false; live.muted = false; $("liveMute").textContent = "暫停麥克風";
+  $("log").replaceChildren(); $("liveBox").hidden = false; $("reviewBox").hidden = true; $("liveHint").textContent = "題目：" + st.topic.title;
+  liveStatus("連線中…"); $("liveTime").textContent = "0:00"; $("liveBox").scrollIntoView({ behavior: "smooth", block: "start" });
+
+  const ws = live.ws = new WebSocket("wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=" + encodeURIComponent(cfg.geminiKey));
+  ws.binaryType = "arraybuffer";
+  ws.onopen = () => ws.send(JSON.stringify({ setup: {
+    model: "models/" + (cfg.liveModel || LIVE_DEFAULT),
+    generationConfig: { responseModalities: ["AUDIO"] },
+    systemInstruction: { parts: [{ text: opening(st.topic, true) }] },
+    inputAudioTranscription: {}, outputAudioTranscription: {} } }));
+  ws.onmessage = async e => {
+    if (live.ws !== ws) return;
+    let m; try { m = JSON.parse(typeof e.data === "string" ? e.data : new TextDecoder().decode(e.data)) } catch { return }
+    if (m.setupComplete) {
+      live.ready = true; live.t0 = Date.now(); liveStatus("● 正在聽");
+      live.timer = setInterval(() => { const s = Math.floor((Date.now() - live.t0) / 1000); $("liveTime").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); if (s >= LIVE_MAX) { toast("聊滿 14 分鐘了，幫你結束並檢討"); liveEnd() } }, 1000);
+      ws.send(JSON.stringify({ realtimeInput: { text: "Start now: greet me briefly and ask your first question about the topic." } }));
+    }
+    const sc = m.serverContent;
+    if (sc) {
+      if (sc.interrupted) stopPlayback();
+      for (const p of sc.modelTurn?.parts || []) if (p.inlineData?.data) playPcm(p.inlineData.data);
+      if (sc.inputTranscription?.text) addText("me", sc.inputTranscription.text);
+      if (sc.outputTranscription?.text) addText("ai", sc.outputTranscription.text);
+    }
+    if (m.goAway) { toast("Gemini 要結束這段連線了，幫你先檢討"); liveEnd() }
+  };
+  ws.onerror = () => { };
+  ws.onclose = e => {
+    if (live.ended) return;
+    const r = e.reason || "";
+    const msg = /API key|permission|unauth/i.test(r) || e.code === 1008 && !live.ready ? "API key 無效或沒有 Live API 權限，請到設定檢查。"
+      : /model|not found|not supported/i.test(r) ? "找不到語音模型「" + (cfg.liveModel || LIVE_DEFAULT) + "」，請到設定檢查。"
+      : /quota|exhaust|rate/i.test(r) ? "用量到上限了，等一下再試。"
+      : !live.ready ? "連不上 Gemini Live" + (r ? "：" + r : "，檢查網路後再試。") : "連線中斷了" + (r ? "：" + r : "") + "。";
+    toast(msg); if (!live.ready && /key|模型/.test(msg)) banner(msg, true);
+    liveEnd();
+  };
+}
+function liveCleanup() {
+  clearInterval(live.timer); stopPlayback();
+  try { live.node && (live.node.port ? live.node.port.onmessage = null : live.node.onaudioprocess = null) } catch { }
+  try { live.src && live.src.disconnect(); live.node && live.node.disconnect() } catch { }
+  try { live.mic && live.mic.getTracks().forEach(t => t.stop()) } catch { }
+  try { live.ctx && live.ctx.close() } catch { }
+  const ws = live.ws; live.ws = null; live.ready = false;
+  try { ws && ws.readyState < 2 && ws.close() } catch { }
+  Object.assign(live, { ctx: null, mic: null, node: null, src: null, buf: [] });
+  liveAvailability();
+}
+function liveEnd() {
+  if (live.ended) return; live.ended = true;
+  liveCleanup(); liveStatus("已結束");
+  const transcript = live.turns.map(t => (t.role === "me" ? "ME: " : "PARTNER: ") + t.text.trim()).filter(l => l.length > 4).join("\n");
+  if (live.turns.filter(t => t.role === "me").length < 2) { toast("說不到兩句，這次先不檢討"); return }
+  review(transcript, $("liveEnd"), "結束並檢討");
+}
+$("liveStart").onclick = liveStartFn;
+$("liveEnd").onclick = () => { if (live.ws) liveEnd() };
+$("liveMute").onclick = () => { live.muted = !live.muted; $("liveMute").textContent = live.muted ? "繼續說" : "暫停麥克風"; liveStatus(live.muted ? "麥克風已暫停" : "● 正在聽") };
+addEventListener("pagehide", () => { if (live.ws) { live.ended = true; liveCleanup() } });
+
+/* paste mode */
+$("copyOpening").onclick = async () => {
+  const t = currentTopic("speak"), text = opening(t, false);
+  try { await navigator.clipboard.writeText(text); toast("已複製，開始聊之前貼給對方") }
+  catch { $("pasteIn").value = text; $("pasteIn").select(); toast("沒辦法自動複製，已放進下面的框，手動複製後清掉") }
+};
+$("pasteIn").addEventListener("input", () => { const n = ($("pasteIn").value.match(/[A-Za-z’']+/g) || []).length; $("pasteCount").textContent = n ? n + " 字" : "" });
+$("pasteGrade").onclick = () => {
+  const text = $("pasteIn").value.trim();
+  if ((text.match(/[A-Za-z]+/g) || []).length < 40) { toast("逐字稿太短了，至少要有幾來回的對話"); return }
+  if (!hasKey()) { banner("先填好 API key 才能評分。", true); return }
+  st.topic = currentTopic("speak");
+  review(text, $("pasteGrade"), "請 AI 評分", true);
+};
+$("stopPaste").onclick = () => st.ctl?.abort();
+
+/* review: CEFR level + 5 corrections, shared by both modes */
+async function review(transcript, btn, label, pasted) {
+  btn.disabled = true; btn.textContent = "整理中…";
+  st.ctl = new AbortController(); if (pasted) $("stopPaste").hidden = false;
+  try {
+    const r = await ai("You are a strict but kind English speaking coach. You reply with JSON only.", [{ role: "user", content: `Here's a transcript of me speaking English with a conversation partner. I'm around B2, aiming for C1. Topic: ${st.topic.title}.
+${pasted
+  ? "I pasted it from another app, so the speaker labels may be names, \"You\"/\"Gemini\", or missing. Work out which lines are mine (the learner's) and only judge those."
+  : "Lines starting with ME are mine; PARTNER lines are the AI."}
+It came from speech recognition, so ignore spelling, punctuation and obvious mishearings; judge grammar, word choice and how natural it sounds.
+Don't fix every small slip. Pick the 5 places (fewer only if there aren't 5) where a native speaker would most likely have said it differently, the ones most worth practising.
 Reply with only JSON of this shape:
-{"level":"B2","summary":"一句繁體中文的整體評語","items":[{"mine":"my original phrase","natural":"the natural version","why":"一行繁體中文說明"}]}
+{"level":"B2","summary":"一兩句繁體中文的整體評語，說明這個等級的依據","items":[{"mine":"my original phrase","natural":"the natural version","why":"一行繁體中文說明"}]}
 "level" is your CEFR estimate of my speaking from this sample (A2, B1, B2, C1 or C2).
 
 Transcript:
-${transcript.slice(-12000)}` }], { json: true, heavy: true });
-    st.speakItems = Array.isArray(r.items) ? r.items.filter(i => i && i.mine && i.natural) : [];
+${transcript.slice(-12000)}` }], { json: true, heavy: true, signal: st.ctl.signal });
+    st.speakItems = Array.isArray(r.items) ? r.items.filter(i => i && i.mine && i.natural).slice(0, 5) : [];
     $("speakLevel").textContent = r.level || "—"; $("speakSummary").textContent = r.summary || "";
     renderCorr($("speakCorr"), st.speakItems, "speak");
     $("reviewBox").hidden = false; $("reviewBox").scrollIntoView({ behavior: "smooth", block: "start" });
     addLog({ type: "speak", topic: st.topic.title, level: r.level || "" });
-  } catch (e) { toast(errText(e)) }
-  finally { btn.disabled = false; btn.textContent = "結束並檢討" }
-};
+  } catch (e) { if (e.code !== "cancelled") { toast(errText(e)); if (e.code === "nokey" || e.code === "auth" || e.code === "model") banner(errText(e), true) } }
+  finally { btn.disabled = false; btn.textContent = label; $("stopPaste").hidden = true; liveAvailability() }
+}
 $("saveAllSpeak").onclick = () => saveAll(st.speakItems, "speak", $("speakCorr"));
 
 /* ---------- writing ---------- */
@@ -392,15 +517,16 @@ $("exportAnki").onclick = () => {
 function setProvider(p) { cfg.provider = p; $("pvGemini").setAttribute("aria-pressed", p === "gemini"); $("pvClaude").setAttribute("aria-pressed", p === "claude"); $("fGemini").hidden = p !== "gemini"; $("fClaude").hidden = p !== "claude" }
 $("pvGemini").onclick = () => setProvider("gemini");
 $("pvClaude").onclick = () => setProvider("claude");
-const FIELDS = ["geminiKey", "geminiModel", "claudeKey", "claudeChat", "claudeGrade"];
+const FIELDS = ["geminiKey", "geminiModel", "liveModel", "claudeKey", "claudeChat", "claudeGrade"];
 function fillSettings() { FIELDS.forEach(f => $(f).value = cfg[f] || ""); setProvider(cfg.provider) }
 function saveSettings() {
   FIELDS.forEach(f => cfg[f] = $(f).value.trim());
   if (!cfg.geminiModel) cfg.geminiModel = "gemini-3.5-flash-lite";
+  if (!cfg.liveModel) cfg.liveModel = LIVE_DEFAULT;
   if (!cfg.claudeChat) cfg.claudeChat = "claude-haiku-5-5";
   if (!cfg.claudeGrade) cfg.claudeGrade = "claude-sonnet-5-5";
   try { localStorage.setItem(CFG, JSON.stringify(cfg)) } catch { toast("瀏覽器拒絕儲存設定"); return }
-  fillSettings(); if (hasKey()) banner("");
+  fillSettings(); liveAvailability(); if (hasKey()) banner("");
   toast("已儲存");
 }
 $("saveSettings").onclick = saveSettings;
@@ -429,6 +555,6 @@ function backupInfo() { $("backupInfo").textContent = `目前 ${st.cards.length}
 /* ---------- boot ---------- */
 load(); fillSettings(); loadNews(); renderToday(); renderLogs(); renderList(); backupInfo();
 try { $("essay").value = localStorage.getItem("englishDesk.draft") || "" } catch { }
-wc(); route();
+wc(); setSpeakMode("live"); route();
 if (!hasKey()) banner("第一次使用：先填一組 API key。", true);
 })();
