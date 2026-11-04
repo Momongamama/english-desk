@@ -119,6 +119,16 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .bars i.zero { background: transparent; border-style: dashed; border-color: var(--ink-muted) }
 .bars .n { font: 800 13px/16px var(--font-display); color: var(--ink) }
 
+/* News: headline list on Today, headline chips as topics */
+.news { display: grid }
+.news-item { display: grid; gap: var(--space-1); padding: var(--space-3) 0; border-top: var(--border-width) solid var(--line); min-width: 0 }
+.news-item:first-child { border-top: 0; padding-top: 0 }
+.news-item h3 { color: var(--accent-text) }
+.news-item a { font: 700 16px/24px var(--font-body); text-decoration: none; overflow-wrap: anywhere }
+.news-item a:hover { text-decoration: underline }
+.news-item .row { margin-top: var(--space-1) }
+.topics .chip { text-align: left; padding-block: var(--space-2); line-height: 18px; max-width: 100% }
+
 /* Chat */
 .log { display: grid; gap: var(--space-3); max-height: 60vh; overflow-y: auto; padding: 2px var(--space-1) 2px 2px }
 .msg { max-width: 88%; padding: var(--space-3) var(--space-4); border: var(--border-width) solid var(--line); border-radius: var(--radius-md); white-space: pre-wrap; min-width: 0; overflow-wrap: anywhere }
@@ -195,6 +205,10 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <p class="muted">每天另外花 5 分鐘複習卡片。週六的跟讀用 Enjoy 的 Echo 模式。</p>
     </div>
     <div class="sheet">
+      <div class="row" style="justify-content:space-between"><h2>今日新聞</h2><span class="muted" id="newsMeta"></span></div>
+      <div class="news" id="newsList"><p class="muted">新聞載入中…</p></div>
+    </div>
+    <div class="sheet">
       <div class="stat"><h2>本週練習</h2><b id="weekDone">0</b><span class="muted">/ 7 天有練</span></div>
       <div class="bars" id="bars" aria-label="本週每天練習次數"></div>
     </div>
@@ -208,7 +222,8 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
   <section class="view" id="v-speak" hidden>
     <div class="sheet">
       <h2>今天聊什麼</h2>
-      <div class="row" id="topics"></div>
+      <div class="row topics" id="topics"></div>
+      <p class="muted" id="topicNote" hidden></p>
       <input type="text" id="topicCustom" placeholder="或自己輸入題目，例如 the theme I'm designing">
       <div class="row">
         <span class="muted">糾錯方式</span>
@@ -242,7 +257,9 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
   <section class="view" id="v-write" hidden>
     <div class="sheet">
       <h2>寫一段 150–200 字</h2>
-      <div class="row" id="wtopics"></div>
+      <div class="row topics" id="wtopics"></div>
+      <p class="muted" id="wtopicNote" hidden></p>
+      <input type="text" id="wtopicCustom" placeholder="或自己輸入題目，例如 婉拒一個邀請的 email">
       <textarea class="ruled" id="essay" placeholder="Start writing here. Don't look anything up."></textarea>
       <div class="row">
         <button class="btn primary" id="grade">請 AI 批改</button>
