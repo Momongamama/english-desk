@@ -1,7 +1,7 @@
 (() => {
 const $ = id => document.getElementById(id);
 const STORE = "englishDesk.v1", CFG = "englishDesk.cfg";
-const st = { cards: [], logs: [], speakMode: "live", inline: false, topic: "", ctl: null, speakItems: [], writeItems: [], writeLevel: "", writeTopic: "" };
+const st = { cards: [], logs: [], deleted: {}, speakMode: "live", inline: false, topic: "", ctl: null, speakItems: [], writeItems: [], writeLevel: "", writeTopic: "" };
 let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null, brief: null }, keyOk: {} };
 
 const today = () => new Date().toLocaleDateString("sv-SE");
@@ -13,7 +13,7 @@ function banner(msg, link) { const b = $("banner"); b.replaceChildren(msg); if (
 
 /* ---------- storage ---------- */
 function load() {
-  try { const d = JSON.parse(localStorage.getItem(STORE) || "{}"); st.cards = d.cards || []; st.logs = d.logs || [] } catch { }
+  try { const d = JSON.parse(localStorage.getItem(STORE) || "{}"); st.cards = d.cards || []; st.logs = d.logs || []; st.deleted = d.deleted || {} } catch { }
   try { cfg = { ...cfg, ...JSON.parse(localStorage.getItem(CFG) || "{}") } } catch { }
   // Older versions had one site-wide provider and Sonnet as the default grader.
   cfg.use = { grade: null, pron: null, brief: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
@@ -21,10 +21,34 @@ function load() {
   if (!cfg.claudeGrade || cfg.claudeGrade === "claude-sonnet-5-5") cfg.claudeGrade = "claude-opus-5-5";
   delete cfg.claudeChat;
 }
-function persist() {
-  try { localStorage.setItem(STORE, JSON.stringify({ cards: st.cards, logs: st.logs })) }
+// Things that want to know about every save (sync.js pushes a few seconds later). `quiet` skips them, for saves that came from sync itself.
+const saveHooks = [];
+function persist(quiet) {
+  try { localStorage.setItem(STORE, JSON.stringify({ cards: st.cards, logs: st.logs, deleted: st.deleted })) }
   catch { toast("The browser refused to save. Export a backup first.") }
   renderList(); renderLogs(); if (!$("v-cards").hidden) renderFlash();
+  if (!quiet) saveHooks.forEach(f => f());
+}
+/* Merging two copies of the data (backup import now, cloud sync later). Pure: returns new arrays, changes nothing.
+   Cards: one per id, the newer `updated` wins; on a tie (old cards have no `updated`) the later `due`, then the higher `box`.
+   A deletion (`deleted[id]` = when) removes the card unless the card was changed after that. Logs: union by `ts`, newest 500.
+   Deletion marks older than 90 days are dropped; by then every device has seen them. */
+const TOMB_DAYS = 90, LOG_MAX = 500;
+function mergeData(local, incoming) {
+  const cutoff = Date.now() - TOMB_DAYS * 864e5, deleted = {};
+  for (const src of [local.deleted, incoming.deleted]) for (const [id, t] of Object.entries(src || {}))
+    if (+t > cutoff && !(deleted[id] >= +t)) deleted[id] = +t;
+  const newer = (a, b) => (a.updated || 0) - (b.updated || 0) || String(a.due || "").localeCompare(String(b.due || "")) || (a.box || 0) - (b.box || 0);
+  const byId = new Map();
+  for (const c of [...(local.cards || []), ...(incoming.cards || [])]) {
+    if (!c || !c.id || !c.mine) continue;
+    const have = byId.get(c.id);
+    if (!have || newer(c, have) > 0) byId.set(c.id, c);
+  }
+  const cards = [...byId.values()].filter(c => !(deleted[c.id] >= (c.updated || 0)));
+  const logs = new Map();
+  for (const l of [...(local.logs || []), ...(incoming.logs || [])]) if (l && l.ts && !logs.has(l.ts)) logs.set(l.ts, l);
+  return { cards, logs: [...logs.values()].sort((a, b) => a.ts - b.ts).slice(-LOG_MAX), deleted };
 }
 function download(name, text, type) {
   const url = URL.createObjectURL(new Blob([text], { type }));
@@ -148,7 +172,7 @@ function renderLogs() {
     const s = document.createElement("span"); s.textContent = ({ write: "Write · ", echo: "Echo · " }[l.type] || "Speak · ") + (l.topic || "");
     el.append(t, lv, s); return el }));
 }
-function addLog(l) { st.logs.push({ ...l, date: today(), ts: Date.now() }); if (st.logs.length > 500) st.logs.splice(0, st.logs.length - 500); persist(); if (st.redo) renderRedo() }
+function addLog(l) { st.logs.push({ ...l, date: today(), ts: Date.now() }); if (st.logs.length > LOG_MAX) st.logs.splice(0, st.logs.length - LOG_MAX); persist(); if (st.redo) renderRedo() }
 
 /* ---------- news + topics ---------- */
 // news.json is refreshed daily by .github/workflows/news.yml (BBC + CNN, or NPR when CNN is down).
@@ -992,7 +1016,7 @@ function renderCorr(box, items, source) {
 }
 function saveCard(it, source) {
   if (st.cards.some(c => c.mine === it.mine && c.natural === it.natural)) return false;
-  st.cards.push({ id: uid(), mine: String(it.mine), natural: String(it.natural), why: String(it.why || ""), source, created: today(), due: today(), box: 0 });
+  st.cards.push({ id: uid(), mine: String(it.mine), natural: String(it.natural), why: String(it.why || ""), source, created: today(), due: today(), box: 0, updated: Date.now() });
   return true;
 }
 function saveAll(items, source, box) {
@@ -1023,6 +1047,7 @@ function grade(c, ok) {
   flashShown = false;
   c.box = ok ? Math.min((c.box || 0) + 1, GAPS.length) : 0;
   c.due = addDays(ok ? GAPS[c.box - 1] : 1);
+  c.updated = Date.now();
   persist();
 }
 function renderList() {
@@ -1038,7 +1063,7 @@ function renderList() {
     const w = document.createElement("div"); w.className = "c-why"; w.textContent = ({ write: "Write · ", read: "Word list · " }[c.source] || "Speak · ") + "next review " + c.due;
     d.append(a, b, w);
     const x = document.createElement("button"); x.className = "del"; x.textContent = "Delete"; x.setAttribute("aria-label", "Delete this card");
-    x.onclick = () => { if (x.dataset.armed) { st.cards = st.cards.filter(k => k.id !== c.id); persist() } else { x.dataset.armed = 1; x.textContent = "Delete for sure?"; setTimeout(() => { delete x.dataset.armed; x.textContent = "Delete" }, 3000) } };
+    x.onclick = () => { if (x.dataset.armed) { st.cards = st.cards.filter(k => k.id !== c.id); st.deleted[c.id] = Date.now(); persist() } else { x.dataset.armed = 1; x.textContent = "Delete for sure?"; setTimeout(() => { delete x.dataset.armed; x.textContent = "Delete" }, 3000) } };
     el.append(d, x); return el }));
 }
 $("exportAnki").onclick = () => {
@@ -1055,7 +1080,14 @@ const DEF = { geminiModel: "gemini-3.5-flash-lite", liveModel: LIVE_DEFAULT, cla
 const NAME = { gemini: "Gemini", claude: "Claude", azure: "Azure" };
 const KEYS = { gemini: ["geminiKey"], claude: ["claudeKey"], azure: ["azureKey", "azureRegion"] };
 const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" }, useBrief: { opts: ["gemini", "claude"], key: "brief" } };
-function storeCfg() { try { localStorage.setItem(CFG, JSON.stringify(cfg)); return true } catch { toast("The browser refused to save your settings."); return false } }
+// Settings that sync across devices (never the keys). `changed` marks a user edit to one of them, so the newest edit wins on every device.
+const SYNC_CFG = ["use", "geminiModel", "liveModel", "claudeGrade"];
+function storeCfg(changed) {
+  if (changed) cfg.updated = Date.now();
+  try { localStorage.setItem(CFG, JSON.stringify(cfg)) } catch { toast("The browser refused to save your settings."); return false }
+  if (changed) saveHooks.forEach(f => f());
+  return true;
+}
 function renderKeys() {
   for (const p of Object.keys(KEYS)) {
     const P = NAME[p], tag = $("st" + P), has = keyFor(p), open = !$("k" + P).hidden;
@@ -1070,7 +1102,7 @@ function renderUse() {
     $(id).replaceChildren(...f.opts.map(p => { const b = document.createElement("button"); b.className = "chip"; b.textContent = NAME[p];
       b.disabled = !keyFor(p); if (b.disabled) b.title = "Add a " + NAME[p] + " key first";
       b.setAttribute("aria-pressed", keyFor(p) && p === cur ? "true" : "false");
-      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief" }[f.key]} now uses ${NAME[p]}`) };
+      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(true); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief" }[f.key]} now uses ${NAME[p]}`) };
       return b }));
   }
   $("advSum").textContent = "Advanced: model names (grading uses " + (use("grade") === "claude" ? cfg.claudeGrade : cfg.geminiModel) + ")";
@@ -1106,11 +1138,11 @@ document.querySelectorAll("[data-test]").forEach(b => b.onclick = async () => {
 });
 $("saveModels").onclick = () => {
   for (const f of Object.keys(DEF)) cfg[f] = $(f).value.trim() || DEF[f];
-  if (storeCfg()) { renderSettings(); toast("Saved") }
+  if (storeCfg(true)) { renderSettings(); toast("Saved") }
 };
 function afterSettings() { liveAvailability(); if (anyTextKey()) banner(""); if (!$("echoPlayer").hidden) renderScore() }
 $("exportBackup").onclick = () => {
-  download(`english-desk-backup-${today()}.json`, JSON.stringify({ app: "english-desk", version: 1, exported: new Date().toISOString(), cards: st.cards, logs: st.logs }, null, 2), "application/json");
+  download(`english-desk-backup-${today()}.json`, JSON.stringify({ app: "english-desk", version: 2, exported: new Date().toISOString(), cards: st.cards, logs: st.logs, deleted: st.deleted }, null, 2), "application/json");
   toast("Backup exported (API keys not included)");
 };
 $("importFile").onchange = async e => {
@@ -1118,10 +1150,13 @@ $("importFile").onchange = async e => {
   try {
     const d = JSON.parse(await f.text());
     if (!Array.isArray(d.cards) || !Array.isArray(d.logs)) throw 0;
-    const ids = new Set(st.cards.map(c => c.id)), ts = new Set(st.logs.map(l => l.ts));
-    const nc = d.cards.filter(c => c && c.mine && !ids.has(c.id)), nl = d.logs.filter(l => l && !ts.has(l.ts));
-    st.cards.push(...nc); st.logs.push(...nl); persist();
-    $("backupInfo").textContent = `Imported ${nc.length} cards and ${nl.length} sessions`;
+    const before = new Map(st.cards.map(c => [c.id, c])), logsBefore = new Set(st.logs.map(l => l.ts));
+    const m = mergeData(st, d), after = new Set(m.cards.map(c => c.id));
+    const added = m.cards.filter(c => !before.has(c.id)).length, changed = m.cards.filter(c => before.has(c.id) && before.get(c.id) !== c).length;
+    const removed = [...before.keys()].filter(id => !after.has(id)).length, sessions = m.logs.filter(l => !logsBefore.has(l.ts)).length;
+    Object.assign(st, m); persist(); backupInfo();
+    const n = (k, w) => `${k} ${w}${k === 1 ? "" : "s"}`;
+    toast(added || changed || removed || sessions ? `Imported: ${n(added, "new card")}, ${n(changed, "card")} updated, ${n(removed, "card")} removed, ${n(sessions, "new session")}` : "Nothing new in this backup");
   } catch { toast("This isn't an English Desk backup file.") }
 };
 function backupInfo() { $("backupInfo").textContent = `${st.cards.length} cards and ${st.logs.length} sessions saved` }
@@ -1129,6 +1164,20 @@ function backupInfo() { $("backupInfo").textContent = `${st.cards.length} cards 
 /* ---------- word book (used by reader.js) ---------- */
 // A saved word is a card with kind "word": front = the word, back = definition, note = the sentence it came from.
 window.EnglishDesk = {
+  // For sync.js: run after every save; merge what came from the gist into this browser and return everything that should be up there.
+  onSave: f => saveHooks.push(f),
+  syncApply(remote) {
+    if (remote) {
+      Object.assign(st, mergeData(st, remote)); persist(true); backupInfo(); renderToday(); renderRedo();
+      const rs = remote.settings;
+      if (rs && (rs.updated || 0) > (cfg.updated || 0)) {
+        for (const f of SYNC_CFG) if (rs[f] !== undefined) cfg[f] = f === "use" ? { ...cfg.use, ...rs.use } : rs[f];
+        cfg.updated = rs.updated; storeCfg(); renderSettings();
+      }
+    }
+    const settings = { updated: cfg.updated || 0 }; for (const f of SYNC_CFG) settings[f] = cfg[f];
+    return { cards: st.cards, logs: st.logs, deleted: st.deleted, settings };
+  },
   toast,
   // For brief.js: the AI picked for "News brief" and its display name.
   ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
@@ -1136,7 +1185,7 @@ window.EnglishDesk = {
   words: () => st.cards.filter(c => c.kind === "word").map(c => c.mine),
   addWord({ word, def, sentence, source }) {
     if (st.cards.some(c => c.kind === "word" && c.mine.toLowerCase() === word)) return false;
-    st.cards.push({ id: uid(), kind: "word", mine: word, natural: def || "(No definition. Try to recall it when you review.)", why: sentence ? sentence + (source ? " — " + source : "") : "", source: "read", created: today(), due: today(), box: 0 });
+    st.cards.push({ id: uid(), kind: "word", mine: word, natural: def || "(No definition. Try to recall it when you review.)", why: sentence ? sentence + (source ? " — " + source : "") : "", source: "read", created: today(), due: today(), box: 0, updated: Date.now() });
     persist(); return true;
   },
 };
@@ -1145,5 +1194,21 @@ window.EnglishDesk = {
 load(); renderSettings(); loadNews(); loadPodcasts(); renderToday(); renderLogs(); renderList(); backupInfo(); renderRedo();
 try { $("essay").value = localStorage.getItem("englishDesk.draft") || "" } catch { }
 wc(); setSpeakMode("live"); route();
+
+/* ---------- install + offline ---------- */
+// The service worker lets the site open offline. Asking for persistent storage stops the browser from clearing cards on its own;
+// on iPhone, Safari only exempts sites added to the Home Screen from its 7-day clean-up.
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) navigator.serviceWorker.register("sw.js").catch(() => { });
+(async () => {
+  const ios = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+  const installed = matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+  let kept = false;
+  try { kept = await navigator.storage.persisted() || await navigator.storage.persist() } catch { }
+  const info = $("storageInfo");
+  info.textContent = ios && !installed ? "On iPhone, Safari can clear this site's data after 7 days without a visit. Tap Share, then Add to Home Screen, and open English Desk from there to keep your cards."
+    : kept || installed ? "Saved for good on this device: the browser won't clear your cards on its own. It also works offline."
+    : "This browser may clear site data when the device is low on space. Export a backup now and then.";
+  info.hidden = false;
+})();
 if (!anyTextKey()) banner("First time here? Add an API key to get started.", true);
 })();
