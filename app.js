@@ -69,7 +69,7 @@ function parseJson(text) {
 const errText = e => e?.message || "出了點問題，再試一次。";
 
 /* ---------- routing ---------- */
-const VIEWS = ["today", "speak", "write", "cards", "settings"];
+const VIEWS = ["today", "speak", "write", "cards", "settings", "read"];
 function route() {
   const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "today";
   VIEWS.forEach(x => { $("v-" + x).hidden = x !== v });
@@ -173,6 +173,7 @@ function renderNews(news) {
     const a = document.createElement("a"); a.href = it.link; a.target = "_blank"; a.rel = "noopener"; a.lang = "en"; a.textContent = it.title;
     const p = document.createElement("p"); p.className = "muted"; p.lang = "en"; p.textContent = it.summary || "";
     const row = document.createElement("div"); row.className = "row";
+    const rd = document.createElement("button"); rd.className = "btn c-save"; rd.textContent = "閱讀全文"; rd.onclick = () => window.EnglishDeskReader?.open(it); row.append(rd);
     for (const [kind, label] of [["speak", "拿來口說"], ["write", "拿來寫作"]]) { const b = document.createElement("button"); b.className = "btn c-save"; b.textContent = label; b.onclick = () => useNews(kind, it); row.append(b) }
     el.append(h, a, ...(it.summary ? [p] : []), row); return el }));
 }
@@ -474,8 +475,9 @@ function renderFlash() {
   if (!list.length) { f.innerHTML = st.cards.length ? '<p class="muted">今天的卡片都複習完了。</p>' : '<p class="muted">還沒有卡片。口說或寫作檢討後，按「存成卡片」，修正過的說法就會出現在這裡。</p>'; btns.replaceChildren(); return }
   const c = list[0];
   f.replaceChildren();
-  const hint = document.createElement("p"); hint.className = "muted"; hint.textContent = "你原本這樣說，自然的說法是？";
-  const q = document.createElement("div"); q.className = "q"; q.textContent = c.mine;
+  const word = c.kind === "word";
+  const hint = document.createElement("p"); hint.className = "muted"; hint.textContent = word ? "這個字是什麼意思？" : "你原本這樣說，自然的說法是？";
+  const q = document.createElement("div"); q.className = word ? "q word" : "q"; q.lang = "en"; q.textContent = c.mine;
   f.append(hint, q);
   if (flashShown) { const a = document.createElement("div"); a.className = "a"; a.textContent = c.natural; const w = document.createElement("p"); w.className = "muted"; w.textContent = c.why; f.append(a, w) }
   const mk = (t, cls, fn) => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = t; b.onclick = fn; return b };
@@ -499,7 +501,8 @@ function renderList() {
     const d = document.createElement("div");
     const a = document.createElement("div"); a.className = "c-mine"; a.textContent = c.mine;
     const b = document.createElement("div"); b.className = "c-nat"; b.textContent = c.natural;
-    const w = document.createElement("div"); w.className = "c-why"; w.textContent = (c.source === "write" ? "寫作 · " : "口說 · ") + "下次複習 " + c.due;
+    if (c.kind === "word") { a.className = "c-word"; b.className = "c-why" }
+    const w = document.createElement("div"); w.className = "c-why"; w.textContent = ({ write: "寫作 · ", read: "單字本 · " }[c.source] || "口說 · ") + "下次複習 " + c.due;
     d.append(a, b, w);
     const x = document.createElement("button"); x.className = "del"; x.textContent = "刪除"; x.setAttribute("aria-label", "刪除這張卡片");
     x.onclick = () => { if (x.dataset.armed) { st.cards = st.cards.filter(k => k.id !== c.id); persist() } else { x.dataset.armed = 1; x.textContent = "確定刪除？"; setTimeout(() => { delete x.dataset.armed; x.textContent = "刪除" }, 3000) } };
@@ -551,6 +554,18 @@ $("importFile").onchange = async e => {
   } catch { toast("這不是 English Desk 的備份檔") }
 };
 function backupInfo() { $("backupInfo").textContent = `目前 ${st.cards.length} 張卡片、${st.logs.length} 筆紀錄` }
+
+/* ---------- word book (used by reader.js) ---------- */
+// A saved word is a card with kind "word": front = the word, back = definition, note = the sentence it came from.
+window.EnglishDesk = {
+  toast,
+  words: () => st.cards.filter(c => c.kind === "word").map(c => c.mine),
+  addWord({ word, def, sentence, source }) {
+    if (st.cards.some(c => c.kind === "word" && c.mine.toLowerCase() === word)) return false;
+    st.cards.push({ id: uid(), kind: "word", mine: word, natural: def || "（沒有解釋，複習時自己想想）", why: sentence ? sentence + (source ? " — " + source : "") : "", source: "read", created: today(), due: today(), box: 0 });
+    persist(); return true;
+  },
+};
 
 /* ---------- boot ---------- */
 load(); fillSettings(); loadNews(); renderToday(); renderLogs(); renderList(); backupInfo();
