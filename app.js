@@ -1024,31 +1024,116 @@ function saveAll(items, source, box) {
   persist(); box.querySelectorAll(".c-save").forEach(b => { b.textContent = "Saved"; b.disabled = true });
   toast(n ? `Saved ${n} card${n > 1 ? "s" : ""}` : "These are already saved");
 }
-const due = () => st.cards.filter(c => c.due <= today());
+/* ---------- review: Anki-style spacing (SM-2) ---------- */
+// Each card keeps `ease` (2.5 to start), `ivl` (days, 0 = still learning), `lapses` and `last` (when it was last graded).
+// `due` and `box` stay as before so older copies of the site and backups still read them; `box` is now the review count.
+// Cards from before this change have only `box`: their interval comes from the old fixed gaps.
+const GAPS = [1, 2, 4, 8, 16, 32, 64];
+const srs = c => ({ ease: c.ease || 2.5, ivl: c.ivl ?? (c.box ? GAPS[Math.min(c.box, GAPS.length) - 1] : 0) });
+// What each button would do to this card: new interval in days (0 = again today) and new ease.
+function plan(c, g) {
+  const { ease, ivl } = srs(c);
+  if (!ivl) return { again: { ivl: 0, ease }, hard: { ivl: 1, ease }, good: { ivl: c.lapses ? 1 : 2, ease }, easy: { ivl: 4, ease: ease + .15 } }[g];
+  const next = { again: 0, hard: ivl * 1.2, good: ivl * ease, easy: ivl * ease * 1.3 }[g];
+  const e = Math.max(1.3, ease + { again: -.2, hard: -.15, good: 0, easy: .15 }[g]);
+  return { ivl: g === "again" ? 0 : Math.min(3650, Math.max(ivl + (g === "hard" ? 0 : 1), Math.round(next))), ease: e };
+}
+const ivlText = d => !d ? "today" : d < 30 ? d + "d" : d < 365 ? Math.round(d / 30) + "mo" : (d / 365).toFixed(1).replace(".0", "") + "y";
+function grade(c, g) {
+  flashShown = false;
+  const p = plan(c, g);
+  if (g === "again" && srs(c).ivl) c.lapses = (c.lapses || 0) + 1;
+  c.ease = Math.round(p.ease * 100) / 100; c.ivl = p.ivl; c.box = (c.box || 0) + 1;
+  c.due = addDays(p.ivl); c.last = Date.now();
+  if (c.kind === "word") c.exI = (c.exI || 0) + 1; // next time, show another sentence
+  c.updated = Date.now();
+  persist();
+}
+
+/* ---------- word cards: real sentences ---------- */
+// A word card keeps up to 5 sentences from articles you read (`ex`: [{ s: sentence, src: "BBC" }]). Cards saved before this
+// change have one sentence in `why` ("sentence — source"), which is read the same way.
+const EX_MAX = 5;
+function examples(c) {
+  if (Array.isArray(c.ex) && c.ex.length) return c.ex;
+  if (!c.why) return [];
+  const m = c.why.match(/^(.*) — ([^—]{1,40})$/s);
+  return [m ? { s: m[1], src: m[2] } : { s: c.why, src: "" }];
+}
+// Highlight the word (or a form of it, like "criticised" for "criticise") inside its sentence.
+function markWord(el, sentence, word) {
+  const w = word.toLowerCase(), stem = w.length > 4 ? w.replace(/(e|y|ies|es|s)$/, "") : w;
+  const re = new RegExp("\\b" + stem.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[a-z'’-]*", "i"), m = sentence.match(re);
+  if (!m) { el.textContent = sentence; return }
+  const b = document.createElement("mark"); b.textContent = m[0];
+  el.replaceChildren(sentence.slice(0, m.index), b, sentence.slice(m.index + m[0].length));
+}
+function say(text) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .95; speechSynthesis.speak(u) } catch { toast("This browser can't read aloud.") } }
+
+/* ---------- real voices (YouGlish) ---------- */
+// "Hear real people" plays YouTube clips (news, talks, interviews, shows) where someone says the word, with captions, through
+// YouGlish's official embed widget. Nothing is downloaded or stored; the widget loads only when tapped.
+const yg = { ready: null, w: null, card: null, n: 0 };
+function ygLoad() {
+  if (yg.ready) return yg.ready;
+  yg.ready = new Promise((ok, no) => {
+    window.onYouglishAPIReady = ok;
+    const t = document.createElement("script"); t.src = "https://youglish.com/public/emb/widget.js"; t.async = true;
+    t.onerror = () => { yg.ready = null; no(new Error("load")) }; document.head.append(t);
+  });
+  return yg.ready;
+}
+function ygClose() { const box = $("ygBox"); try { yg.w?.close?.() } catch { } yg.w = null; yg.card = null; box.replaceChildren(); box.hidden = true }
+async function ygOpen(c) {
+  const box = $("ygBox"), id = "yg" + ++yg.n;
+  ygClose(); yg.card = c.id; box.hidden = false;
+  const note = document.createElement("p"); note.className = "muted"; note.textContent = "Loading clips of real people saying it…";
+  const el = document.createElement("div"); el.id = id;
+  box.append(note, el);
+  try { await ygLoad() } catch { note.textContent = "Couldn't reach YouGlish. Check your connection and try again."; return }
+  if (yg.card !== c.id) return;
+  // components: title 4 + caption 8 + speed 16 + control buttons 64 (no search box)
+  yg.w = new YG.Widget(id, { components: 92, autoStart: 1, restrictionMode: 1, events: {
+    onFetchDone: e => { note.textContent = e.totalResult ? `${e.totalResult} clips. Use the arrows for the next one; slow it down with the speed control.` : "No clips for this word. Try the sentence above with Play." } } });
+  yg.w.fetch(c.mine, "english", "us");
+}
+
+/* ---------- review screen ---------- */
+// Due cards, least recently seen first, so a card you just pressed Again on comes back after the others.
+const due = () => st.cards.filter(c => c.due <= today()).sort((a, b) => (a.last || 0) - (b.last || 0));
 let flashShown = false;
 function renderFlash() {
   const list = due(), f = $("flash"), btns = $("flashBtns");
   $("dueLabel").textContent = list.length ? `${list.length} left` : "";
-  if (!list.length) { f.innerHTML = st.cards.length ? '<p class="muted">All done for today.</p>' : '<p class="muted">No cards yet. After a speaking or writing review, tap Save as card and the corrected phrases will show up here.</p>'; btns.replaceChildren(); return }
-  const c = list[0];
+  if (!list.length) { ygClose(); f.innerHTML = st.cards.length ? '<p class="muted">All done for today.</p>' : '<p class="muted">No cards yet. Tap a word while reading the news and add it to your word list, or tap Save as card after a speaking or writing review.</p>'; btns.replaceChildren(); return }
+  const c = list[0], word = c.kind === "word";
+  if (yg.card && yg.card !== c.id) ygClose();
   f.replaceChildren();
-  const word = c.kind === "word";
-  const hint = document.createElement("p"); hint.className = "muted"; hint.textContent = word ? "What does this word mean?" : "This is what you said. What's the natural way to say it?";
-  const q = document.createElement("div"); q.className = word ? "q word" : "q"; q.lang = "en"; q.textContent = c.mine;
-  f.append(hint, q);
-  if (flashShown) { const a = document.createElement("div"); a.className = "a"; a.textContent = c.natural; const w = document.createElement("p"); w.className = "muted"; w.textContent = c.why; f.append(a, w) }
-  const mk = (t, cls, fn) => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = t; b.onclick = fn; return b };
+  const mk = (t, cls, fn, label) => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = t; b.onclick = fn; if (label) b.setAttribute("aria-label", label); return b };
+  if (word) {
+    const exs = examples(c), ex = exs.length ? exs[(c.exI || 0) % exs.length] : null;
+    const hint = document.createElement("p"); hint.className = "muted"; hint.textContent = ex ? "What does it mean in this sentence?" : "What does this word mean?";
+    const q = document.createElement("div"); q.className = "q word"; q.lang = "en"; q.textContent = c.mine;
+    f.append(hint, q);
+    if (ex) {
+      const s = document.createElement("blockquote"); s.className = "ex"; s.lang = "en"; markWord(s, ex.s, c.mine);
+      const meta = document.createElement("div"); meta.className = "ex-src";
+      meta.append((ex.src ? "— " + ex.src : "— from your reading") + (exs.length > 1 ? ` · sentence ${(c.exI || 0) % exs.length + 1} of ${exs.length}` : ""));
+      meta.append(mk("Play", "say", () => say(ex.s), "Read this sentence aloud with the computer voice"));
+      f.append(s, meta);
+    }
+    f.append(mk("Hear real people say it", "real", () => ygOpen(c), "Play video clips of real people saying this word"));
+    if (flashShown) { const a = document.createElement("div"); a.className = "a"; a.textContent = c.natural; f.append(a) }
+  } else {
+    const hint = document.createElement("p"); hint.className = "muted"; hint.textContent = "This is what you said. What's the natural way to say it?";
+    const q = document.createElement("div"); q.className = "q"; q.lang = "en"; q.textContent = c.mine;
+    f.append(hint, q);
+    if (flashShown) { const a = document.createElement("div"); a.className = "a"; a.lang = "en"; a.textContent = c.natural; const w = document.createElement("p"); w.className = "muted"; w.textContent = c.why; f.append(a, w) }
+  }
+  const G = [["again", "Again", "red"], ["hard", "Hard", ""], ["good", "Good", "accent"], ["easy", "Easy", ""]];
   btns.replaceChildren(...(flashShown
-    ? [mk("Again", "red", () => grade(c, false)), mk("Got it", "accent", () => grade(c, true))]
+    ? G.map(([g, t, cls]) => { const b = mk("", "grade " + cls, () => grade(c, g)); const n = document.createElement("small"); n.textContent = ivlText(plan(c, g).ivl); b.append(t, n); return b })
     : [mk("Show answer", "primary", () => { flashShown = true; renderFlash() })]));
-}
-const GAPS = [1, 2, 4, 8, 16, 32, 64];
-function grade(c, ok) {
-  flashShown = false;
-  c.box = ok ? Math.min((c.box || 0) + 1, GAPS.length) : 0;
-  c.due = addDays(ok ? GAPS[c.box - 1] : 1);
-  c.updated = Date.now();
-  persist();
 }
 function renderList() {
   const box = $("cardList");
@@ -1059,18 +1144,35 @@ function renderList() {
     const d = document.createElement("div");
     const a = document.createElement("div"); a.className = "c-mine"; a.textContent = c.mine;
     const b = document.createElement("div"); b.className = "c-nat"; b.textContent = c.natural;
-    if (c.kind === "word") { a.className = "c-word"; b.className = "c-why" }
-    const w = document.createElement("div"); w.className = "c-why"; w.textContent = ({ write: "Write · ", read: "Word list · " }[c.source] || "Speak · ") + "next review " + c.due;
-    d.append(a, b, w);
+    d.append(a, b);
+    if (c.kind === "word") {
+      a.className = "c-word"; b.className = "c-why";
+      const exs = examples(c);
+      if (exs.length) { const s = document.createElement("div"); s.className = "c-ex"; s.lang = "en"; markWord(s, exs[0].s, c.mine); d.append(s) }
+    }
+    const { ivl } = srs(c), exN = c.kind === "word" ? examples(c).length : 0;
+    const w = document.createElement("div"); w.className = "c-why";
+    w.textContent = ({ write: "Write · ", read: "Word list · " }[c.source] || "Speak · ") + (exN > 1 ? exN + " sentences · " : "") + "next review " + c.due + (ivl ? ` (every ${ivlText(ivl)})` : "");
+    d.append(w);
     const x = document.createElement("button"); x.className = "del"; x.textContent = "Delete"; x.setAttribute("aria-label", "Delete this card");
     x.onclick = () => { if (x.dataset.armed) { st.cards = st.cards.filter(k => k.id !== c.id); st.deleted[c.id] = Date.now(); persist() } else { x.dataset.armed = 1; x.textContent = "Delete for sure?"; setTimeout(() => { delete x.dataset.armed; x.textContent = "Delete" }, 3000) } };
     el.append(d, x); return el }));
 }
+// Anki CSV: Front, Back, Tags. The header lines tell Anki (2.1.55 or later) the separator, that fields are HTML, and which column holds tags.
+// Word cards: the word and its real sentence on the front, the meaning and where the sentence came from on the back.
 $("exportAnki").onclick = () => {
   if (!st.cards.length) { toast("There are no cards to export yet."); return }
   const q = s => '"' + String(s || "").replace(/"/g, '""') + '"';
-  const rows = st.cards.map(c => [q(c.mine), q(c.natural + (c.why ? "<br><small>" + c.why + "</small>" : ""))].join(","));
-  download("english-desk-anki.csv", "﻿" + rows.join("\n"), "text/csv");
+  const esc = s => String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  const bold = (s, w) => { const t = document.createElement("div"); markWord(t, s, w); return [...t.childNodes].map(n => n.nodeName === "MARK" ? "<b>" + esc(n.textContent) + "</b>" : esc(n.textContent)).join("") };
+  const rows = st.cards.map(c => {
+    if (c.kind !== "word") return [q(esc(c.mine)), q(esc(c.natural) + (c.why ? "<br><small>" + esc(c.why) + "</small>" : "")), q("english-desk " + (c.source || "speak"))].join(",");
+    const exs = examples(c);
+    const front = "<b>" + esc(c.mine) + "</b>" + exs.map(e => "<br><br><i>" + bold(e.s, c.mine) + "</i>").join("");
+    const back = esc(c.natural) + (exs.some(e => e.src) ? "<br><small>" + [...new Set(exs.map(e => e.src).filter(Boolean))].map(esc).join(" · ") + "</small>" : "");
+    return [q(front), q(back), q("english-desk word")].join(",");
+  });
+  download("english-desk-anki.csv", "﻿#separator:Comma\n#html:true\n#tags column:3\n" + rows.join("\n"), "text/csv");
   toast("Downloaded. In Anki, choose File > Import.");
 };
 
@@ -1183,10 +1285,17 @@ window.EnglishDesk = {
   ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
   markChicklist(link) { chickSaved[link] = true; for (const el of document.querySelectorAll("#newsList .news-item")) if (el.dataset.link === link) markChick(el.querySelector("h3")) },
   words: () => st.cards.filter(c => c.kind === "word").map(c => c.mine),
+  // Returns "new" for a new card, "more" when the word was saved before and this sentence was added to it, or false.
   addWord({ word, def, sentence, source }) {
-    if (st.cards.some(c => c.kind === "word" && c.mine.toLowerCase() === word)) return false;
-    st.cards.push({ id: uid(), kind: "word", mine: word, natural: def || "(No definition. Try to recall it when you review.)", why: sentence ? sentence + (source ? " — " + source : "") : "", source: "read", created: today(), due: today(), box: 0, updated: Date.now() });
-    persist(); return true;
+    const have = st.cards.find(c => c.kind === "word" && c.mine.toLowerCase() === word);
+    const ex = sentence ? { s: String(sentence), src: String(source || "") } : null;
+    if (have) {
+      const exs = examples(have);
+      if (!ex || exs.some(e => e.s === ex.s) || exs.length >= EX_MAX) return false;
+      have.ex = [...exs, ex]; have.updated = Date.now(); persist(); return "more";
+    }
+    st.cards.push({ id: uid(), kind: "word", mine: word, natural: def || "(No definition. Try to recall it when you review.)", why: sentence ? sentence + (source ? " — " + source : "") : "", ex: ex ? [ex] : [], source: "read", created: today(), due: today(), box: 0, updated: Date.now() });
+    persist(); return "new";
   },
 };
 
