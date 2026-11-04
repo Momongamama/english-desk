@@ -88,16 +88,32 @@ const PLAN = [
   { d: "五", t: "口說", go: "speak", long: "和 AI 聊 10 分鐘，再檢討 5 個重點" },
   { d: "六", t: "跟讀", go: null, long: "用 Enjoy 的 Echo 模式跟讀一段，錄音和原音比對" },
 ];
+const KIND = { speak: "speak", write: "write", cards: "cards" };
+function weekDates() { const d = new Date(), off = (d.getDay() + 6) % 7; return [0, 1, 2, 3, 4, 5, 6].map(i => { const x = new Date(d); x.setDate(d.getDate() - off + i); return x.toLocaleDateString("sv-SE") }) }
 function renderToday() {
   const n = new Date().getDay(), p = PLAN[n];
   $("todayLabel").textContent = "今天 · 週" + p.d;
   $("todayTask").textContent = p.long;
   const go = $("todayGo");
   if (p.go) { go.href = "#" + p.go; go.textContent = "開始" } else { go.href = "https://enjoy.bot/"; go.target = "_blank"; go.rel = "noopener"; go.textContent = "打開 Enjoy" }
-  $("week").replaceChildren(...[1, 2, 3, 4, 5, 6, 0].map(i => { const el = document.createElement("div"); el.className = "day" + (i === n ? " today" : ""); el.innerHTML = `<b>週${PLAN[i].d}</b><span>${PLAN[i].t}</span>`; return el }));
+  renderWeek();
+}
+function renderWeek() {
+  const n = new Date().getDay(), dates = weekDates();
+  const counts = dates.map(d => st.logs.filter(l => l.date === d).length);
+  $("week").replaceChildren(...[1, 2, 3, 4, 5, 6, 0].map((i, k) => { const el = document.createElement("div");
+    el.className = "day" + (i === n ? " today" : ""); el.dataset.s = PLAN[i].go ? KIND[PLAN[i].go] : "echo";
+    el.innerHTML = `<b>${PLAN[i].d}</b><span>${PLAN[i].t === "卡片總複習" ? "複習" : PLAN[i].t}</span>` + (counts[k] ? '<span class="tick">✓ 已練</span>' : "");
+    return el }));
+  $("weekDone").textContent = counts.filter(Boolean).length;
+  const max = Math.max(1, ...counts);
+  $("bars").replaceChildren(...counts.map((c, k) => { const el = document.createElement("div");
+    el.innerHTML = (c ? `<span class="n">${c}</span>` : "") + `<i class="${c ? "" : "zero"}" style="height:${c ? Math.round(c / max * 64) + 8 : 8}px"></i><span>${"一二三四五六日"[k]}</span>`;
+    return el }));
 }
 function renderLogs() {
   const box = $("logs");
+  if ($("bars")) renderWeek();
   if (!st.logs.length) return;
   box.replaceChildren(...[...st.logs].sort((a, b) => b.ts - a.ts).slice(0, 12).map(l => { const el = document.createElement("div");
     const t = document.createElement("time"); t.textContent = l.date;
@@ -267,7 +283,7 @@ function renderFlash() {
   if (flashShown) { const a = document.createElement("div"); a.className = "a"; a.textContent = c.natural; const w = document.createElement("p"); w.className = "muted"; w.textContent = c.why; f.append(a, w) }
   const mk = (t, cls, fn) => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = t; b.onclick = fn; return b };
   btns.replaceChildren(...(flashShown
-    ? [mk("再練一次", "red", () => grade(c, false)), mk("記得", "primary", () => grade(c, true))]
+    ? [mk("再練一次", "red", () => grade(c, false)), mk("記得", "accent", () => grade(c, true))]
     : [mk("看答案", "primary", () => { flashShown = true; renderFlash() })]));
 }
 const GAPS = [1, 2, 4, 8, 16, 32, 64];
