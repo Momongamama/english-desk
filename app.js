@@ -123,22 +123,95 @@ function renderLogs() {
 }
 function addLog(l) { st.logs.push({ ...l, date: today(), ts: Date.now() }); if (st.logs.length > 500) st.logs.splice(0, st.logs.length - 500); persist() }
 
-/* ---------- speaking ---------- */
-const TOPICS = ["What I did this week", "A book I'm reading", "A project I'm working on", "Something I want to buy", "A place I'd like to visit"];
-function chipRow(container, list, onPick) {
-  container.replaceChildren(...list.map((t, i) => { const b = document.createElement("button"); b.className = "chip"; b.textContent = t; b.setAttribute("aria-pressed", i === 0 ? "true" : "false");
-    b.onclick = () => { container.querySelectorAll(".chip").forEach(c => c.setAttribute("aria-pressed", "false")); b.setAttribute("aria-pressed", "true"); onPick(t) }; return b }));
-  onPick(list[0]);
+/* ---------- news + topics ---------- */
+// news.json is refreshed daily by .github/workflows/news.yml (BBC + CNN, or NPR when CNN is down).
+const SECTION = { business: "財經", tech: "科技", world: "國際" };
+const TOPICS = ["What I did this week", "A book I'm reading", "A project I'm working on", "Something I want to buy", "A place I'd like to visit"].map(title => ({ title }));
+const WTOPICS = ["介紹最近讀的一本書", "描述一個正在做的專案", "說明一個你常用的工具", "婉拒一個邀請的 email", "你理想中的週末"].map(title => ({ title }));
+const SHOW = 6;
+const topicLists = { speak: TOPICS, write: WTOPICS }, picked = { speak: TOPICS[0], write: WTOPICS[0] };
+const ROWS = { speak: ["topics", "topicNote"], write: ["wtopics", "wtopicNote"] };
+
+// Round-robin over section × source so the first few headlines mix business, tech and world.
+function mixNews(items) {
+  const groups = {};
+  for (const it of items) (groups[it.section + "|" + it.source] ||= []).push(it);
+  const lists = Object.keys(groups).sort((a, b) => Object.keys(SECTION).indexOf(a.split("|")[0]) - Object.keys(SECTION).indexOf(b.split("|")[0])).map(k => groups[k]);
+  const out = [];
+  for (let i = 0; lists.some(l => l[i]); i++) for (const l of lists) if (l[i]) out.push(l[i]);
+  return out;
 }
-let pickedTopic = TOPICS[0];
-chipRow($("topics"), TOPICS, t => pickedTopic = t);
+function noteFor(it) {
+  if (!it.summary) return null;
+  const f = document.createDocumentFragment();
+  f.append(it.summary + " ");
+  if (it.link) { const a = document.createElement("a"); a.href = it.link; a.target = "_blank"; a.rel = "noopener"; a.textContent = "讀原文（" + it.source + "）"; f.append(a) }
+  return f;
+}
+function renderTopics(kind) {
+  const [rowId, noteId] = ROWS[kind], list = topicLists[kind];
+  if (!list.includes(picked[kind])) picked[kind] = list[0];
+  $(rowId).replaceChildren(...list.map(t => { const b = document.createElement("button"); b.className = "chip"; b.textContent = t.title;
+    b.setAttribute("aria-pressed", t === picked[kind] ? "true" : "false");
+    b.onclick = () => { picked[kind] = t; renderTopics(kind) }; return b }));
+  const note = noteFor(picked[kind]);
+  $(noteId).replaceChildren(...(note ? [note] : [])); $(noteId).hidden = !note;
+}
+// Pick a headline from the Today card: put it first in that tab's chips and jump there.
+function useNews(kind, it) {
+  topicLists[kind] = [it, ...topicLists[kind].filter(t => t !== it)].slice(0, SHOW);
+  picked[kind] = it; $(kind === "speak" ? "topicCustom" : "wtopicCustom").value = "";
+  renderTopics(kind); location.hash = kind;
+}
+function renderNews(news) {
+  const box = $("newsList");
+  if (!news) { box.innerHTML = '<p class="muted">今天的新聞還沒抓到，口說和寫作先用預設題目。</p>'; return }
+  const d = new Date(news.updated);
+  $("newsMeta").textContent = (news.sources || []).join(" + ") + " · " + (d.getMonth() + 1) + "/" + d.getDate() + " 更新";
+  box.replaceChildren(...news.mixed.slice(0, SHOW).map(it => { const el = document.createElement("div"); el.className = "news-item";
+    const h = document.createElement("h3"); h.textContent = it.source + " · " + (SECTION[it.section] || it.section);
+    const a = document.createElement("a"); a.href = it.link; a.target = "_blank"; a.rel = "noopener"; a.lang = "en"; a.textContent = it.title;
+    const p = document.createElement("p"); p.className = "muted"; p.lang = "en"; p.textContent = it.summary || "";
+    const row = document.createElement("div"); row.className = "row";
+    for (const [kind, label] of [["speak", "拿來口說"], ["write", "拿來寫作"]]) { const b = document.createElement("button"); b.className = "btn c-save"; b.textContent = label; b.onclick = () => useNews(kind, it); row.append(b) }
+    el.append(h, a, ...(it.summary ? [p] : []), row); return el }));
+}
+async function loadNews() {
+  let news = null;
+  try {
+    const res = await fetch("news.json?d=" + today(), { cache: "no-cache" });
+    if (res.ok) { news = await res.json(); news.mixed = mixNews((news.items || []).filter(i => i && i.title)); if (!news.mixed.length) news = null }
+  } catch { }
+  if (news) {
+    topicLists.speak = news.mixed.slice(0, SHOW);
+    // Writing gets the next batch so the two tabs don't offer the same headlines.
+    topicLists.write = news.mixed.length >= SHOW * 2 ? news.mixed.slice(SHOW, SHOW * 2) : news.mixed.slice(0, SHOW);
+  }
+  renderNews(news); renderTopics("speak"); renderTopics("write");
+}
+function currentTopic(kind) {
+  const custom = $(kind === "speak" ? "topicCustom" : "wtopicCustom").value.trim();
+  return custom ? { title: custom } : picked[kind];
+}
+// What the AI is told about a news topic: headline + one-line summary only.
+function newsContext(t) {
+  if (!t.summary) return "";
+  return `This topic is a news story (${t.source}, ${SECTION[t.section] ? t.section : "news"}).
+Headline: ${t.title}
+Summary: ${t.summary}
+I've only read this headline and summary, not the full article. Don't invent facts beyond the summary; if a detail isn't in it, say you're not sure.`;
+}
+
+/* ---------- speaking ---------- */
 function setMode(inline) { st.inline = inline; $("modeInline").setAttribute("aria-pressed", inline); $("modeAfter").setAttribute("aria-pressed", !inline) }
 $("modeInline").onclick = () => setMode(true);
 $("modeAfter").onclick = () => setMode(false);
 
 function rules() {
-  return `You are my English conversation partner. I'm a Taiwanese learner at about CEFR B2, aiming for C1. Talk like a friendly, curious friend. Keep each reply to 1–3 short sentences and end with one follow-up question, so I do most of the talking. Reply in plain English text, no markdown, no emoji. Today's topic: ${st.topic}.
-` + (st.inline
+  return `You are my English conversation partner. I'm a Taiwanese learner at about CEFR B2, aiming for C1. Talk like a friendly, curious friend. Keep each reply to 1–3 short sentences and end with one follow-up question, so I do most of the talking. Reply in plain English text, no markdown, no emoji. Today's topic: ${st.topic.title}.
+` + (st.topic.summary ? newsContext(st.topic) + `
+Open by retelling the story in one or two simple sentences, then ask what I think. Keep the talk on my views and experience, such as how it affects people in Taiwan or my own work.
+` : "") + (st.inline
     ? `If my latest message has a mistake a native speaker would notice, begin your reply with ONE line that starts with "✎ " and gives the most important part of my sentence rewritten naturally, then a blank line, then your normal reply. If nothing is worth fixing, skip that line.`
     : `Do not correct my English at all; just keep the conversation flowing.`);
 }
@@ -171,9 +244,9 @@ async function ask() {
 }
 $("startChat").onclick = () => {
   if (!hasKey()) { banner("先填好 API key 才能開始。", true); return }
-  st.topic = $("topicCustom").value.trim() || pickedTopic; st.turns = [];
+  st.topic = currentTopic("speak"); st.turns = [];
   $("log").replaceChildren(); $("chatBox").hidden = false; $("reviewBox").hidden = true;
-  $("chatHint").textContent = "題目：" + st.topic; ask();
+  $("chatHint").textContent = "題目：" + st.topic.title; ask();
 };
 function send() {
   const v = $("chatIn").value.trim(); if (!v || $("send").disabled) return;
@@ -203,25 +276,24 @@ ${transcript.slice(-12000)}` }], { json: true, heavy: true });
     $("speakLevel").textContent = r.level || "—"; $("speakSummary").textContent = r.summary || "";
     renderCorr($("speakCorr"), st.speakItems, "speak");
     $("reviewBox").hidden = false; $("reviewBox").scrollIntoView({ behavior: "smooth", block: "start" });
-    addLog({ type: "speak", topic: st.topic, level: r.level || "" });
+    addLog({ type: "speak", topic: st.topic.title, level: r.level || "" });
   } catch (e) { toast(errText(e)) }
   finally { btn.disabled = false; btn.textContent = "結束並檢討" }
 };
 $("saveAllSpeak").onclick = () => saveAll(st.speakItems, "speak", $("speakCorr"));
 
 /* ---------- writing ---------- */
-const WTOPICS = ["介紹最近讀的一本書", "描述一個正在做的專案", "說明一個你常用的工具", "婉拒一個邀請的 email", "你理想中的週末"];
-chipRow($("wtopics"), WTOPICS, t => st.writeTopic = t);
 function wc() { const n = ($("essay").value.match(/[A-Za-z’']+/g) || []).length; $("wc").textContent = n + " 字" + (n && (n < 150 || n > 200) ? "（目標 150–200）" : "") }
 $("essay").addEventListener("input", () => { wc(); try { localStorage.setItem("englishDesk.draft", $("essay").value) } catch { } });
 $("grade").onclick = async () => {
   const text = $("essay").value.trim();
   if ((text.match(/[A-Za-z]+/g) || []).length < 30) { toast("先寫至少 30 個字"); return }
   if (!hasKey()) { banner("先填好 API key 才能批改。", true); return }
+  const topic = currentTopic("write"); st.writeTopic = topic.title;
   st.ctl = new AbortController(); $("grade").disabled = true; $("grade").textContent = "批改中…"; $("stopGrade").hidden = false;
   try {
-    const r = await ai("You are a strict English writing examiner. You reply with JSON only.", [{ role: "user", content: `I'm a B2-high English writer aiming for C1. Assess my paragraph (topic: ${st.writeTopic}).
-Reply with only JSON of this shape:
+    const r = await ai("You are a strict English writing examiner. You reply with JSON only.", [{ role: "user", content: `I'm a B2-high English writer aiming for C1. Assess my paragraph (topic: ${topic.title}).
+${topic.summary ? newsContext(topic) + "\nI was asked to give my opinion on this story. Judge how well I respond to it, but grade my English, not my opinion.\n" : ""}Reply with only JSON of this shape:
 {"level":"B2","levelWhy":"一兩句繁體中文，說明這個等級的依據（文法範圍、用字、連貫、準確度）","rewrite":"the paragraph rewritten as a C1 writer would, keeping my meaning","changes":[{"mine":"my original phrase","natural":"the better version","why":"一行繁體中文說明為什麼"}],"habit":"一句繁體中文：我反覆出現、最該改的一個習慣"}
 Give 3–5 changes, the ones that matter most. Be strict, not encouraging.
 
@@ -355,7 +427,7 @@ $("importFile").onchange = async e => {
 function backupInfo() { $("backupInfo").textContent = `目前 ${st.cards.length} 張卡片、${st.logs.length} 筆紀錄` }
 
 /* ---------- boot ---------- */
-load(); fillSettings(); renderToday(); renderLogs(); renderList(); backupInfo();
+load(); fillSettings(); loadNews(); renderToday(); renderLogs(); renderList(); backupInfo();
 try { $("essay").value = localStorage.getItem("englishDesk.draft") || "" } catch { }
 wc(); route();
 if (!hasKey()) banner("第一次使用：先填一組 API key。", true);
