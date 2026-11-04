@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
   push:
     branches: [main]
-    paths: [scripts/fetch-news.mjs, .github/workflows/news.yml]
+    paths: [scripts/fetch-news.mjs, scripts/fetch-podcasts.mjs, .github/workflows/news.yml]
 
 permissions:
   contents: write
@@ -24,9 +24,12 @@ jobs:
         with:
           node-version: 20
       - run: node scripts/fetch-news.mjs news.json
-      - name: Commit news.json if it changed
+      # Shadowing podcasts: episode list only. A failure here must not block the news.
+      - run: node scripts/fetch-podcasts.mjs podcasts.json
+        continue-on-error: true
+      - name: Commit news.json and podcasts.json if they changed
         run: |
-          git add news.json
+          git add news.json podcasts.json 2>/dev/null || git add news.json
           if git diff --cached --quiet; then echo "no change"; exit 0; fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
