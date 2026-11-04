@@ -1,0 +1,56 @@
+{
+ "updated": "2026-11-04T06:49:42.645Z",
+ "shows": [
+  {
+   "id": "the-indicator",
+   "name": "The Indicator",
+   "by": "NPR Planet Money",
+   "accent": "美國",
+   "cors": true,
+   "episodes": [
+    {
+     "title": "Is it time to reconsider the adjustable rate mortgage?",
+     "summary": "High mortgage rates are nudging some aspiring homeowners to consider adjustable-rate mortgages over the standard 30-year fixed-rate option.",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/c910bb0b-629a-4a47-8057-3c07b0842056/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=c910bb0b-629a-4a47-8057-3c07b0842056&feed=IFy3imsg&t=podcast&e=nx-s1-6026712&p=510325&d=511&size=8183309",
+     "published": "2026-11-03T08:00:00.000Z",
+     "duration": 511
+    },
+    {
+     "title": "How crypto world made inroads in Pakistan",
+     "summary": "Pakistan in recent years has taken a U-turn on cryptocurrency, opting to regulate digital assets instead of outright banning them.",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/da9e3ecc-1852-4a2d-b8d5-7baf47a12b18/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=da9e3ecc-1852-4a2d-b8d5-7baf47a12b18&feed=IFy3imsg&t=podcast&e=nx-s1-6022220&p=510325&d=537&size=8600851",
+     "published": "2026-11-02T08:00:00.000Z",
+     "duration": 537
+    },
+    {
+     "title": "Corporate tax cheats, recession deal eats and costly Halloween treats!",
+     "summary": "On a very spooktacular Indicators of the EEK!: How America’s top corporations are ghosting their taxes; why more meal deals are an ominous sign; and terrifying…",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/7d245fc0-69a8-472d-a682-31b5090ea5ef/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=7d245fc0-69a8-472d-a682-31b5090ea5ef&feed=IFy3imsg&t=podcast&e=nx-s1-6022553&p=510325&d=563&size=9017556",
+     "published": "2026-10-30T07:00:00.000Z",
+     "duration": 563
+    },
+    {
+     "title": "Can Montana end Citizens United?",
+     "summary": "The landmark supreme source case Citizens United v. Federal Election Commission opened the floodgates for massive corporate spending in elections.",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/9e1391fd-ae3e-40ce-9cd5-53f4ccbbd21a/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=9e1391fd-ae3e-40ce-9cd5-53f4ccbbd21a&feed=IFy3imsg&t=podcast&e=nx-s1-6021286&p=510325&d=516&size=8260633",
+     "published": "2026-10-29T07:00:00.000Z",
+     "duration": 516
+    },
+    {
+     "title": "Is it time to abolish the MBA?",
+     "summary": "Does business school fix the world? Or does it just churn out consultants, bankers and tech workers?",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/92535f1c-d358-49d4-85db-0df11aae734c/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=92535f1c-d358-49d4-85db-0df11aae734c&feed=IFy3imsg&t=podcast&e=nx-s1-6019698&p=510325&d=559&size=8959043",
+     "published": "2026-10-28T07:00:00.000Z",
+     "duration": 559
+    },
+    {
+     "title": "Why Meta is giving you Muse for free",
+     "summary": "Meta’s new AI agent Muse is one of the fastest-growing apps ever. It’s a big bet from a company spending billions to win the AI race.",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/7656aafb-9989-486f-9b21-031b75dabe80/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=7656aafb-9989-486f-9b21-031b75dabe80&feed=IFy3imsg&t=podcast&e=nx-s1-6018569&p=510325&d=606&size=9712205",
+     "published": "2026-10-27T07:00:00.000Z",
+     "duration": 606
+    }
+   ]
+  }
+ ]
+}
