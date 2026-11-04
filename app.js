@@ -2,7 +2,7 @@
 const $ = id => document.getElementById(id);
 const STORE = "englishDesk.v1", CFG = "englishDesk.cfg";
 const st = { cards: [], logs: [], deleted: {}, speakMode: "live", inline: false, topic: "", ctl: null, speakItems: [], writeItems: [], writeLevel: "", writeTopic: "" };
-let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null, brief: null }, keyOk: {} };
+let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null, brief: null, speed: null }, keyOk: {} };
 
 const today = () => new Date().toLocaleDateString("sv-SE");
 const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString("sv-SE") };
@@ -16,22 +16,24 @@ function load() {
   try { const d = JSON.parse(localStorage.getItem(STORE) || "{}"); st.cards = d.cards || []; st.logs = d.logs || []; st.deleted = d.deleted || {} } catch { }
   try { cfg = { ...cfg, ...JSON.parse(localStorage.getItem(CFG) || "{}") } } catch { }
   // Older versions had one site-wide provider and Sonnet as the default grader.
-  cfg.use = { grade: null, pron: null, brief: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
+  cfg.use = { grade: null, pron: null, brief: null, speed: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
   if ("provider" in cfg) { if (cfg.claudeKey) cfg.use.grade = cfg.provider === "claude" ? "claude" : "gemini"; delete cfg.provider }
   if (!cfg.claudeGrade || cfg.claudeGrade === "claude-sonnet-5-5") cfg.claudeGrade = "claude-opus-5-5";
   delete cfg.claudeChat;
 }
 // Things that want to know about every save (sync.js pushes a few seconds later). `quiet` skips them, for saves that came from sync itself.
-const saveHooks = [];
+const saveHooks = [], changeHooks = []; // changeHooks: every change, including ones that came from sync (reader.js redraws its speed chart)
 function persist(quiet) {
   try { localStorage.setItem(STORE, JSON.stringify({ cards: st.cards, logs: st.logs, deleted: st.deleted })) }
   catch { toast("The browser refused to save. Export a backup first.") }
   renderList(); renderLogs(); if (!$("v-cards").hidden) renderFlash();
   if (!quiet) saveHooks.forEach(f => f());
+  changeHooks.forEach(f => { try { f() } catch { } });
 }
 /* Merging two copies of the data (backup import now, cloud sync later). Pure: returns new arrays, changes nothing.
    Cards: one per id, the newer `updated` wins; on a tie (old cards have no `updated`) the later `due`, then the higher `box`.
    A deletion (`deleted[id]` = when) removes the card unless the card was changed after that. Logs: union by `ts`, newest 500;
+   a log changed after it was made (a timed read gets its quiz and AI verdict later) carries `updated`, and the newer copy wins;
    a deleted practice session is marked `deleted["log:" + ts]`.
    Deletion marks older than 90 days are dropped; by then every device has seen them. */
 const TOMB_DAYS = 90, LOG_MAX = 500;
@@ -48,7 +50,7 @@ function mergeData(local, incoming) {
   }
   const cards = [...byId.values()].filter(c => !(deleted[c.id] >= (c.updated || 0)));
   const logs = new Map();
-  for (const l of [...(local.logs || []), ...(incoming.logs || [])]) if (l && l.ts && !logs.has(l.ts) && !deleted["log:" + l.ts]) logs.set(l.ts, l);
+  for (const l of [...(local.logs || []), ...(incoming.logs || [])]) if (l && l.ts && !deleted["log:" + l.ts] && (!logs.has(l.ts) || (l.updated || 0) > (logs.get(l.ts).updated || 0))) logs.set(l.ts, l);
   return { cards, logs: [...logs.values()].sort((a, b) => a.ts - b.ts).slice(-LOG_MAX), deleted };
 }
 function download(name, text, type) {
@@ -62,7 +64,7 @@ const keyFor = p => p === "azure" ? !!(cfg.azureKey && cfg.azureRegion) : !!cfg[
 const anyTextKey = () => keyFor("gemini") || keyFor("claude");
 // Which provider a feature uses: the one picked if it still has a key, otherwise the best one that does.
 function use(f) {
-  const opts = f === "grade" || f === "brief" ? ["claude", "gemini"] : ["azure", "gemini"], pick = cfg.use[f];
+  const opts = f === "grade" || f === "brief" || f === "speed" ? ["claude", "gemini"] : ["azure", "gemini"], pick = cfg.use[f];
   return pick && keyFor(pick) ? pick : opts.find(keyFor) || opts.at(-1);
 }
 const DEF_CLAUDE = "claude-opus-5-5";
@@ -169,15 +171,15 @@ function renderLogs() {
   if (!st.logs.length) return;
   box.replaceChildren(...[...st.logs].sort((a, b) => b.ts - a.ts).slice(0, 12).map(l => { const el = document.createElement("div");
     const t = document.createElement("time"); t.textContent = l.date;
-    const lv = document.createElement("span"); lv.className = "level"; lv.textContent = l.level || (l.score != null ? l.score + " pts" : "—");
-    const s = document.createElement("span"); s.textContent = ({ write: "Write · ", echo: "Echo · " }[l.type] || "Speak · ") + (l.topic || "");
+    const lv = document.createElement("span"); lv.className = "level"; lv.textContent = l.type === "read" ? (l.wpm || "—") : l.level || (l.score != null ? l.score + " pts" : "—");
+    const s = document.createElement("span"); s.textContent = ({ write: "Write · ", echo: "Echo · ", read: "Read wpm · " }[l.type] || "Speak · ") + (l.topic || "");
     el.append(t, lv, s); return el }));
 }
 function addLog(l, full) {
   const log = { ...l, date: today(), ts: Date.now() };
   st.logs.push(log); if (st.logs.length > LOG_MAX) st.logs.splice(0, st.logs.length - LOG_MAX);
   if (full) savePractice({ ...log, ...full });
-  persist(); if (st.redo) renderRedo(); return log;
+  persist(); if (st.redo) renderRedo(); return log.ts;
 }
 /* ---------- practice history ---------- */
 // The log above is the short index. The whole session (transcript or paragraph, all feedback, rewrite, times) goes to IndexedDB through practice.js.
@@ -622,8 +624,8 @@ ${text.slice(0, 6000)}` }], { json: true, signal: st.ctl.signal });
     const full = { start: draftT.start || Date.now(), text: text.slice(0, 8000), words, rewrite: String(r.rewrite || ""), habit: String(r.habit || ""),
       changes: st.writeItems.map(i => ({ mine: String(i.mine), natural: String(i.natural), why: String(i.why || "") })), ...(r.compare ? { compare: String(r.compare) } : {}) };
     const again = draftT.ts && st.logs.find(l => l.ts === draftT.ts);
-    if (again) { Object.assign(again, short); persist(); updatePractice(again.ts, { ...short, ...full }) }
-    else draftT.ts = addLog({ type: "write", topic: topic.title, ctx: topicCtx(topic), ...short, ...(prev ? { redoOf: prev.ts } : {}) }, full).ts;
+    if (again) { Object.assign(again, short, { updated: Date.now() }); persist(); updatePractice(again.ts, { ...short, ...full }) }
+    else draftT.ts = addLog({ type: "write", topic: topic.title, ctx: topicCtx(topic), ...short, ...(prev ? { redoOf: prev.ts } : {}) }, full);
     keepDraftT();
     if (prev) { st.redo.write = null; st.writeRedo = null; renderRedo() }
     $("gradeBox").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -1224,24 +1226,29 @@ function say(text) { try { speechSynthesis.cancel(); const u = new SpeechSynthes
 // Nothing is downloaded or stored; both load only when tapped.
 // One audio element for all recordings. iPhone Safari only lets a page play sound that starts during a tap, and the
 // recording arrives after the lookup, so the tap first plays a moment of silence on this element; after that it may play.
-const voice = { card: null, list: [], i: 0, el: new Audio() };
+const voice = { card: null, list: [], i: 0, seq: 0, el: new Audio() };
 const SILENCE = "data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=";
 function voiceUnlock() { try { voice.el.src = SILENCE; voice.el.play().catch(() => { }) } catch { } }
-function voiceStop() { try { voice.el.pause() } catch { } }
+function voiceStop() { voice.seq++; try { voice.el.pause() } catch { } }
 async function tatoeba(word) {
-  const u = "https://api.tatoeba.org/v1/sentences?lang=eng&has_audio=yes&include=audios&sort=relevance&limit=20&q=" + encodeURIComponent(word);
+  const u = "https://api.tatoeba.org/v1/sentences?lang=eng&has_audio=yes&include=audios&sort=relevance&limit=50&q=" + encodeURIComponent(word);
   let d;
   try { const r = await fetch(u); if (!r.ok) throw 0; d = await r.json() }
   catch { const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(u)); if (!r.ok) throw new Error("net"); d = await r.json() }
   const out = [];
   for (const x of d.data || []) {
-    const a = (x.audios || []).find(a => a.download_url);
-    const n = String(x.text || "").split(/\s+/).length;
-    // Two addresses for the same recording: the API's file link (refused when the recorder doesn't allow reuse outside
-    // Tatoeba) and the audio server the Tatoeba site itself plays from.
-    if (a && n >= 5) out.push({ s: x.text, urls: [a.download_url, `https://audio.tatoeba.org/sentences/eng/${x.id}.mp3`], by: a.author || "", lic: a.licence || "", link: a.attribution_url || "https://tatoeba.org/en/sentences/show/" + x.id });
+    const n = String(x.text || "").split(/\s+/).length, aus = (x.audios || []).filter(a => a.download_url || a.id);
+    if (!aus.length || n < 5) continue;
+    // Several addresses per sentence, tried in order: each recording's API file link (refused when the recorder doesn't
+    // allow reuse outside Tatoeba), the download link the Tatoeba site uses, and the older audio server.
+    const urls = [];
+    for (const a of aus) { if (a.download_url) urls.push(a.download_url); if (a.id) urls.push(`https://tatoeba.org/audio/download/${a.id}`) }
+    urls.push(`https://audio.tatoeba.org/sentences/eng/${x.id}.mp3`);
+    const a = aus.find(a => a.licence) || aus[0];
+    out.push({ s: x.text, urls, by: a.author || "", lic: a.licence || "", link: a.attribution_url || "https://tatoeba.org/en/sentences/show/" + x.id });
   }
-  return out.sort((p, q) => Math.abs(p.s.length - 70) - Math.abs(q.s.length - 70)); // everyday-length sentences first
+  // Recordings with an open licence first (they can be played outside Tatoeba), then everyday-length sentences.
+  return out.sort((p, q) => (!p.lic - !q.lic) || Math.abs(p.s.length - 70) - Math.abs(q.s.length - 70));
 }
 function voiceShow(c) {
   const box = $("ygBox"), v = voice.list[voice.i % voice.list.length];
@@ -1257,13 +1264,23 @@ function voiceShow(c) {
   box.append(s, row, credit);
 }
 // Try each address of this recording; if none plays, move on to the next sentence (once round the list at most).
-function voicePlay(c, tries = 0) {
+// Try each address of this sentence (8 s each at most). A sentence none of them plays is dropped from the list, and the
+// next one is tried, so a word only gives up when no sentence for it plays.
+function voicePlay(c) {
   voiceStop();
   const v = voice.list[voice.i % voice.list.length]; if (!v) return;
-  let k = 0;
+  const seq = ++voice.seq; let k = 0, timer;
   const next = () => {
-    if (k < v.urls.length) { voice.el.src = v.urls[k++]; voice.el.play().catch(e => e && e.name === "NotAllowedError" ? toast("Tap Play again to hear it.") : next()); return }
-    if (c && tries + 1 < voice.list.length) { voice.i++; voiceShow(c); voicePlay(c, tries + 1) } else toast("Couldn't play these recordings. Try Video clip.");
+    clearTimeout(timer); if (seq !== voice.seq) return;
+    if (k < v.urls.length) {
+      voice.el.src = v.urls[k++];
+      timer = setTimeout(next, 8000);
+      voice.el.play().then(() => clearTimeout(timer), e => e && e.name === "NotAllowedError" ? (clearTimeout(timer), toast("Tap Play again to hear it.")) : next());
+      return;
+    }
+    voice.list.splice(voice.i % voice.list.length, 1);
+    if (c && voice.list.length) { voiceShow(c); voicePlay(c) }
+    else { $("ygBox").innerHTML = '<p class="muted">None of the recordings for this word would play. Try Video clip.</p>' }
   };
   next();
 }
@@ -1401,7 +1418,7 @@ $("exportAnki").onclick = () => {
 const DEF = { geminiModel: "gemini-3.5-flash-lite", liveModel: LIVE_DEFAULT, claudeGrade: "claude-opus-5-5" };
 const NAME = { gemini: "Gemini", claude: "Claude", azure: "Azure" };
 const KEYS = { gemini: ["geminiKey"], claude: ["claudeKey"], azure: ["azureKey", "azureRegion"] };
-const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" }, useBrief: { opts: ["gemini", "claude"], key: "brief" } };
+const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" }, useBrief: { opts: ["gemini", "claude"], key: "brief" }, useSpeed: { opts: ["gemini", "claude"], key: "speed" } };
 // Settings that sync across devices (never the keys). `changed` marks a user edit to one of them, so the newest edit wins on every device.
 const SYNC_CFG = ["use", "geminiModel", "liveModel", "claudeGrade"];
 function storeCfg(changed) {
@@ -1424,7 +1441,7 @@ function renderUse() {
     $(id).replaceChildren(...f.opts.map(p => { const b = document.createElement("button"); b.className = "chip"; b.textContent = NAME[p];
       b.disabled = !keyFor(p); if (b.disabled) b.title = "Add a " + NAME[p] + " key first";
       b.setAttribute("aria-pressed", keyFor(p) && p === cur ? "true" : "false");
-      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(true); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief" }[f.key]} now uses ${NAME[p]}`) };
+      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(true); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief", speed: "Reading speed" }[f.key]} now uses ${NAME[p]}`) };
       return b }));
   }
   $("advSum").textContent = "Advanced: model names (grading uses " + (use("grade") === "claude" ? cfg.claudeGrade : cfg.geminiModel) + ")";
@@ -1498,7 +1515,7 @@ function backupInfo() { $("backupInfo").textContent = `${st.cards.length} cards 
 // A saved word is a card with kind "word": front = the word, back = definition, note = the sentence it came from.
 window.EnglishDesk = {
   // For sync.js: run after every save; merge what came from the gist into this browser and return everything that should be up there.
-  onSave: f => saveHooks.push(f),
+  onSave: f => saveHooks.push(f), onChange: f => changeHooks.push(f),
   syncApply(remote) {
     if (remote) {
       Object.assign(st, mergeData(st, remote)); persist(true); backupInfo(); renderToday(); renderRedo();
@@ -1518,6 +1535,11 @@ window.EnglishDesk = {
   logs: () => st.logs, renderCorr, saveAll, startRedo, cefrDiff, deleteSession, hasSync: () => { try { return !!JSON.parse(localStorage.getItem("englishDesk.sync") || "{}").token } catch { return false } },
   // For brief.js: the AI picked for "News brief" and its display name.
   ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
+  // For reader.js: timed reads are logs of type "read"; their quiz and AI verdict are patched in afterwards.
+  speedAi: (s, t, o = {}) => ai(s, t, { ...o, feature: "speed" }), speedHasKey: () => hasKey("speed"), speedAiName: () => NAME[use("speed")],
+  addLog: l => addLog(l),
+  patchLog(ts, patch) { const l = st.logs.find(x => x.ts === ts); if (!l) return; Object.assign(l, patch, { updated: Date.now() }); persist() },
+  logs: type => st.logs.filter(l => l.type === type),
   markChicklist(link) { chickSaved[link] = true; for (const el of document.querySelectorAll("#newsList .news-item")) if (el.dataset.link === link) markChick(el.querySelector("h3")) },
   words: () => st.cards.filter(c => c.kind === "word").map(c => c.mine),
   // Returns "new" for a new card, "more" when the word was saved before and this sentence was added to it, or false.

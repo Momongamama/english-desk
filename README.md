@@ -51,4 +51,5 @@
 - 點任何字先查「設定 → 字典與考試單字」匯入的個人字典（存在瀏覽器 IndexedDB，不上傳），再查內建字典 `dict/`（ECDICT＋自己的筆記，見 dict/README.md），都沒有才用 Free Dictionary。
 - 「加入單字本」會存成卡片（kind: word）。卡片正面是你讀到這個字的新聞原句（字會標出來），同一個字在別篇再加一次，就多收一句（最多 5 句，複習時輪流出現）。「Real voice」只播聲音：從 Tatoeba（開放授權的真人錄音句子）找一句含這個字的句子播放，顯示錄音者和授權。「Video clip」用 YouGlish 官方嵌入元件播 YouTube 片段，播完含這個字的那句就暫停（YouTube 規定不能隱藏播放器，所以影片會顯示）。都是點了才載入，不下載也不儲存。
 - 托福／雅思／GRE 單字畫底線：實線托福、虛線雅思、波浪線 GRE。預設用內建的個人總表（dict/_exam.json）；匯入總表 CSV（word,TOEFL,IELTS,GRE）後改用自己的清單。
+- 閱讀計時：文章上方「Start timer」開始，讀完按文末「I'm done reading」，用內文字數算每分鐘字數（wpm）；切到別的 app 或別頁會自動暫停，計時中查的字數也會記下。開始計時時，「設定 → Reading speed」選的 AI 就先出 3 題理解小測驗（憑記憶答，可略過）；讀完後 AI 依程度（TOEIC 915、目標 C1）、文章難度、測驗結果和過去紀錄判斷速度要不要加強。每次都存成 type 為 "read" 的練習紀錄（會跟著 Gist 同步；事後補上的測驗與判斷帶 `updated`，較新的版本勝出），頁面下方「Reading speed over time」畫出 wpm 變化並比較最近 5 次和最早 5 次。按「Don't count this one」會把那次標成 void，不列入進步圖。
 - 個人字典（商業字典內容）和清單不放進 repo。重建內建字典：`python3 scripts/build-dict.py ecdict.csv [個人 MDX 匯出的 txt]`，只會取出「我的筆記」。
