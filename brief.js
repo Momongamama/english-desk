@@ -1,12 +1,12 @@
 // Today in brief: a short English summary of today's news, written in the browser with the user's own AI key.
-// Uses whichever AI "grading" uses (Settings). One summary per news.json update, kept in localStorage,
+// Uses the AI picked for "News brief" in Settings; switching it writes a new brief. One summary per news.json update, kept in localStorage,
 // so the AI is called at most once per day's news unless the user asks for a new one.
 (() => {
 const $ = id => document.getElementById(id);
 const CACHE = "englishDesk.brief", N = 10;
 const D = window.EnglishDesk;
 if (!D || !$("briefSheet")) return;
-let news = null, busy = null, waitingForKey = false;
+let news = null, busy = null;
 
 const readCache = () => { try { return JSON.parse(localStorage.getItem(CACHE) || "null") } catch { return null } };
 const writeCache = v => { try { localStorage.setItem(CACHE, JSON.stringify(v)) } catch { } };
@@ -25,12 +25,11 @@ function show({ text, meta, action, link }) {
 function render() {
   if (!news) { show({ text: "No news yet today, so there's nothing to sum up." }); return }
   const c = readCache();
-  if (c && c.updated === news.updated && Array.isArray(c.paras)) {
+  if (c && c.updated === news.updated && Array.isArray(c.paras) && (c.by === D.aiName() || !D.hasKey())) {
     show({ text: c.paras, meta: `Written by ${c.by} from ${c.count} ${news.sources.join(" + ")} headlines`, action: "Write a new one" });
     return;
   }
-  waitingForKey = !D.hasKey();
-  if (waitingForKey) { show({ text: "Add an AI key in Settings and a short summary of today's news will appear here.", link: "Go to Settings" }); return }
+  if (!D.hasKey()) { show({ text: "Add an AI key in Settings and a short summary of today's news will appear here.", link: "Go to Settings" }); return }
   write(false);
 }
 
@@ -75,7 +74,7 @@ async function load() {
   } catch { }
   render();
 }
-// A key added in Settings: try again when the user comes back to Today.
-addEventListener("hashchange", () => { if (waitingForKey && (location.hash === "#today" || !location.hash)) render() });
+// A key added or a different AI picked in Settings: catch up when the user comes back to Today.
+addEventListener("hashchange", () => { if (news && !busy && (location.hash === "#today" || !location.hash)) render() });
 load();
 })();
