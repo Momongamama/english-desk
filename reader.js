@@ -43,7 +43,7 @@ async function loadMeta() {
   // No list imported: fall back to the exam tags that ship with the built-in dictionary (ECDICT).
   if (!EXAMS.some(([k]) => lists[k].size)) {
     try {
-      const tags = await (await fetch("dict/_exam.json?v=1")).json();
+      const tags = await (await fetch("dict/_exam.json?v=2")).json();
       for (const [w, t] of Object.entries(tags)) for (const [k, , c] of EXAMS) if (t.includes(c.toLowerCase())) lists[k].add(w);
       builtinLists = true;
     } catch { }
