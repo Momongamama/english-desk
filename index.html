@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
@@ -118,6 +118,10 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .bars i { display: block; width: 100%; max-width: 36px; min-height: 6px; border: var(--border-width) solid var(--line); border-radius: var(--radius-pill); background: var(--tone-green) }
 .bars i.zero { background: transparent; border-style: dashed; border-color: var(--ink-muted) }
 .bars .n { font: 800 13px/16px var(--font-display); color: var(--ink) }
+
+/* Today in brief: AI summary of today's news */
+.brief { display: grid; gap: var(--space-3) }
+.brief:not(.muted) p { text-wrap: pretty }
 
 /* News: headline list on Today, headline chips as topics */
 .news { display: grid }
@@ -254,8 +258,8 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .def details.s { border-top: var(--border-width) solid var(--line); padding-top: var(--space-2) }
 .def details.s > summary { list-style: none; cursor: pointer; display: flex; font: 700 13px/18px var(--font-body); letter-spacing: .04em; color: var(--accent-text); padding-block: var(--space-1) }
 .def details.s > summary::-webkit-details-marker { display: none }
-.def details.s > summary::after { content: "展開"; margin-left: auto; color: var(--ink-muted); font-weight: 400 }
-.def details.s[open] > summary::after { content: "收起" }
+.def details.s > summary::after { content: "Show"; margin-left: auto; color: var(--ink-muted); font-weight: 400 }
+.def details.s[open] > summary::after { content: "Hide" }
 .def .ps { margin-top: var(--space-2); font: 700 13px/18px var(--font-body); letter-spacing: .04em; color: var(--ink-muted) }
 .def .ps em { font-style: normal; margin-left: var(--space-2) }
 .def ol.sn { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: var(--space-3) }
@@ -287,18 +291,18 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 
 <div class="wrap">
   <header>
-    <h1>English Desk<small>口說・寫作・修正卡片，一個地方練完</small></h1>
-    <span class="level" id="levelTag" title="聽讀依多益 915 換算">TOEIC 915 · B2+</span>
+    <h1>English Desk<small>Speaking, writing and correction cards, all in one place</small></h1>
+    <span class="level" id="levelTag" title="Listening and reading, based on TOEIC 915">TOEIC 915 · B2+</span>
   </header>
 
-  <nav aria-label="練習項目">
-    <a href="#today" data-v="today">今天</a>
-    <a href="#speak" data-v="speak">口說</a>
-    <a href="#write" data-v="write">寫作</a>
-    <a href="#echo" data-v="echo">跟讀</a>
-    <a href="#cards" data-v="cards">卡片<span class="count" id="dueCount"></span></a>
-    <a href="#read" data-v="read">閱讀</a>
-    <a href="#settings" data-v="settings">設定</a>
+  <nav aria-label="Practice">
+    <a href="#today" data-v="today">Today</a>
+    <a href="#speak" data-v="speak">Speak</a>
+    <a href="#write" data-v="write">Write</a>
+    <a href="#echo" data-v="echo">Echo</a>
+    <a href="#cards" data-v="cards">Cards<span class="count" id="dueCount"></span></a>
+    <a href="#read" data-v="read">Read</a>
+    <a href="#settings" data-v="settings">Settings</a>
   </nav>
 
   <p class="banner" id="banner" hidden></p>
@@ -307,83 +311,88 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
   <section class="view" id="v-today">
     <div class="sheet">
       <div class="task">
-        <h3 id="todayLabel">今天</h3>
+        <h3 id="todayLabel">Today</h3>
         <p id="todayTask">—</p>
-        <div class="row"><a class="btn primary" id="todayGo" href="#speak">開始</a><a class="btn" id="todayEnjoy" href="https://enjoy.bot/" target="_blank" rel="noopener" hidden>打開 Enjoy</a></div>
+        <div class="row"><a class="btn primary" id="todayGo" href="#speak">Start</a><a class="btn" id="todayEnjoy" href="https://enjoy.bot/" target="_blank" rel="noopener" hidden>Open Enjoy</a></div>
       </div>
       <div class="week" id="week"></div>
-      <p class="muted">每天另外花 5 分鐘複習卡片。週六跟讀可以用「跟讀」分頁，也可以照舊用 Enjoy 的 Echo 模式。</p>
+      <p class="muted">Spend 5 more minutes on your cards every day. For Saturday shadowing, use the Echo tab or Echo mode in Enjoy.</p>
+    </div>
+    <div class="sheet" id="briefSheet">
+      <h3>Today in brief</h3>
+      <div class="brief" id="briefBody"><p class="muted">Loading today's news…</p></div>
+      <div class="row" style="justify-content:space-between"><span class="muted" id="briefMeta"></span><div class="row" id="briefActions" hidden></div></div>
     </div>
     <div class="sheet" id="redoSheet" hidden>
-      <h3 id="redoEyebrow">每月同題重做</h3>
-      <h2>用上個月的題目再做一次</h2>
+      <h3 id="redoEyebrow">Monthly redo</h3>
+      <h2>Try last month's topics again</h2>
       <p class="muted" id="redoIntro"></p>
       <div class="news" id="redoList"></div>
     </div>
     <div class="sheet">
-      <div class="row" style="justify-content:space-between"><h2>今日新聞</h2><span class="muted" id="newsMeta"></span></div>
-      <div class="news" id="newsList"><p class="muted">新聞載入中…</p></div>
+      <div class="row" style="justify-content:space-between"><h2>Today's news</h2><span class="muted" id="newsMeta"></span></div>
+      <div class="news" id="newsList"><p class="muted">Loading news…</p></div>
     </div>
     <div class="sheet">
-      <div class="stat"><h2>本週練習</h2><b id="weekDone">0</b><span class="muted">/ 7 天有練</span></div>
-      <div class="bars" id="bars" aria-label="本週每天練習次數"></div>
+      <div class="stat"><h2>This week</h2><b id="weekDone">0</b><span class="muted">/ 7 days practised</span></div>
+      <div class="bars" id="bars" aria-label="Sessions per day this week"></div>
     </div>
     <div class="sheet">
-      <h2>最近的紀錄</h2>
-      <div class="logs" id="logs"><p class="muted">還沒有紀錄。練完一次口說或寫作後，AI 估的 CEFR 等級會記在這裡，方便每個月對照。</p></div>
+      <h2>Recent sessions</h2>
+      <div class="logs" id="logs"><p class="muted">No sessions yet. After each speaking or writing session, the CEFR level the AI gives you is saved here so you can compare month to month.</p></div>
     </div>
   </section>
 
   <!-- SPEAK -->
   <section class="view" id="v-speak" hidden>
     <div class="sheet">
-      <h2>今天聊什麼</h2>
+      <h2>What to talk about</h2>
       <div class="row topics" id="topics"></div>
       <p class="muted" id="topicNote" hidden></p>
       <p class="banner" id="speakRedoNote" hidden></p>
-      <input type="text" id="topicCustom" placeholder="或自己輸入題目，例如 the theme I'm designing">
+      <input type="text" id="topicCustom" placeholder="Or type your own topic, e.g. the theme I'm designing">
       <div class="row">
-        <span class="muted">練習方式</span>
-        <button class="chip" id="modeLive" aria-pressed="true">語音對話</button>
-        <button class="chip" id="modePaste" aria-pressed="false">貼稿評分</button>
+        <span class="muted">Mode</span>
+        <button class="chip" id="modeLive" aria-pressed="true">Voice chat</button>
+        <button class="chip" id="modePaste" aria-pressed="false">Paste a transcript</button>
       </div>
     </div>
 
     <div class="sheet" id="livePanel">
-      <h2>和 Gemini 用說的聊 10 分鐘</h2>
-      <p class="muted">開場設定會自動送出，Gemini 會先開口。戴耳機效果最好，不然 Gemini 可能聽到自己的聲音。一次最長 14 分鐘，聊完會自動整理 5 個重點。</p>
+      <h2>Talk with Gemini for 10 minutes</h2>
+      <p class="muted">The setup is sent for you and Gemini speaks first. Use headphones, or Gemini may hear itself. Each chat can run up to 14 minutes, and afterwards you get 5 key fixes.</p>
       <div class="row">
-        <span class="muted">糾錯方式</span>
-        <button class="chip" id="corrInline" aria-pressed="false">邊聊邊糾正</button>
-        <button class="chip" id="corrAfter" aria-pressed="true">聊完再整理</button>
+        <span class="muted">Corrections</span>
+        <button class="chip" id="corrInline" aria-pressed="false">During the chat</button>
+        <button class="chip" id="corrAfter" aria-pressed="true">After the chat</button>
       </div>
-      <div class="row"><button class="btn primary" id="liveStart">開始語音對話</button><span class="muted" id="liveHint"></span></div>
+      <div class="row"><button class="btn primary" id="liveStart">Start voice chat</button><span class="muted" id="liveHint"></span></div>
     </div>
 
     <div class="sheet" id="liveBox" hidden>
-      <div class="row" style="justify-content:space-between"><span class="live-status" id="liveStatus" aria-live="polite">連線中…</span><span class="muted" id="liveTime">0:00</span></div>
+      <div class="row" style="justify-content:space-between"><span class="live-status" id="liveStatus" aria-live="polite">Connecting…</span><span class="muted" id="liveTime">0:00</span></div>
       <div class="log" id="log"></div>
       <div class="row">
-        <button class="btn" id="liveMute">暫停麥克風</button>
+        <button class="btn" id="liveMute">Pause mic</button>
         <span style="flex:1"></span>
-        <button class="btn red" id="liveEnd">結束並檢討</button>
+        <button class="btn red" id="liveEnd">End and review</button>
       </div>
-      <p class="muted">說錯就說錯，卡住就用簡單的字繞過去。上面的文字是語音辨識的結果，可能有小錯。</p>
+      <p class="muted">Mistakes are fine. If you get stuck, say it a simpler way. The text above comes from speech recognition, so it may have small errors.</p>
     </div>
 
     <div class="sheet" id="pastePanel" hidden>
-      <h2>貼上逐字稿，請 AI 評分</h2>
-      <p class="muted">在 Gemini App 或其他地方聊完後，把整段對話複製貼上。先按「複製開場說明」，開始聊之前貼給對方，就不用每次口頭交代。</p>
-      <div class="row"><button class="btn" id="copyOpening">複製開場說明</button></div>
+      <h2>Paste a transcript for grading</h2>
+      <p class="muted">After a chat in the Gemini app or anywhere else, copy and paste the whole conversation here. Tap "Copy setup prompt" and paste it to your partner before you start, so you don't have to explain it every time.</p>
+      <div class="row"><button class="btn" id="copyOpening">Copy setup prompt</button></div>
       <textarea id="pasteIn" rows="10" lang="en" placeholder="Paste the whole conversation here, both sides."></textarea>
-      <div class="row"><button class="btn primary" id="pasteGrade">請 AI 評分</button><button class="btn" id="stopPaste" hidden>停止</button><span class="muted" id="pasteCount"></span></div>
+      <div class="row"><button class="btn primary" id="pasteGrade">Grade it</button><button class="btn" id="stopPaste" hidden>Stop</button><span class="muted" id="pasteCount"></span></div>
     </div>
 
     <div class="sheet" id="reviewBox" hidden>
-      <div class="verdict"><h2>這次對話的 5 個重點</h2><span class="level" id="speakLevel"></span></div>
+      <div class="verdict"><h2>5 key fixes from this chat</h2><span class="level" id="speakLevel"></span></div>
       <p class="muted" id="speakSummary"></p>
       <div class="corr" id="speakCorr"></div>
-      <div class="row"><button class="btn accent" id="saveAllSpeak">全部存成卡片</button></div>
+      <div class="row"><button class="btn accent" id="saveAllSpeak">Save all as cards</button></div>
     </div>
     <div class="sheet" id="speakCompare" hidden></div>
   </section>
@@ -391,99 +400,99 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
   <!-- WRITE -->
   <section class="view" id="v-write" hidden>
     <div class="sheet">
-      <h2>寫一段 150–200 字</h2>
+      <h2>Write 150–200 words</h2>
       <div class="row topics" id="wtopics"></div>
       <p class="muted" id="wtopicNote" hidden></p>
       <p class="banner" id="writeRedoNote" hidden></p>
-      <input type="text" id="wtopicCustom" placeholder="或自己輸入題目，例如 婉拒一個邀請的 email">
+      <input type="text" id="wtopicCustom" placeholder="Or type your own topic, e.g. an email turning down an invitation">
       <textarea class="ruled" id="essay" placeholder="Start writing here. Don't look anything up."></textarea>
       <div class="row">
-        <button class="btn primary" id="grade">請 AI 批改</button>
-        <button class="btn" id="stopGrade" hidden>停止</button>
-        <span class="muted" id="wc">0 字</span>
+        <button class="btn primary" id="grade">Get feedback</button>
+        <button class="btn" id="stopGrade" hidden>Stop</button>
+        <span class="muted" id="wc">0 words</span>
       </div>
     </div>
 
     <div class="sheet" id="gradeBox" hidden>
-      <div class="verdict"><h2>批改</h2><span class="level" id="wLevel"></span></div>
+      <div class="verdict"><h2>Feedback</h2><span class="level" id="wLevel"></span></div>
       <p class="muted" id="wLevelWhy"></p>
-      <h3>C1 版本</h3>
+      <h3>C1 version</h3>
       <div class="rewrite" id="wRewrite"></div>
-      <h3>最重要的修改</h3>
+      <h3>Key changes</h3>
       <div class="corr" id="wCorr"></div>
       <div class="habit" id="wHabit"></div>
-      <div class="row"><button class="btn accent" id="saveAllWrite">全部存成卡片</button></div>
+      <div class="row"><button class="btn accent" id="saveAllWrite">Save all as cards</button></div>
     </div>
     <div class="sheet" id="writeCompare" hidden></div>
 
     <div class="sheet" id="redoBox" hidden>
-      <h2>關掉上面的版本，自己再寫一次</h2>
-      <p class="muted">真正的進步發生在這一步。寫完按完成，會存進紀錄。</p>
-      <button class="btn" id="hideModel">先收起 C1 版本</button>
+      <h2>Hide the version above and write it again</h2>
+      <p class="muted">This is the step where you really improve. Tap Done when you finish and it will be saved.</p>
+      <button class="btn" id="hideModel">Hide C1 version</button>
       <textarea class="ruled" id="redo" placeholder="Rewrite it in your own words."></textarea>
-      <div class="row"><button class="btn primary" id="redoDone">完成</button></div>
+      <div class="row"><button class="btn primary" id="redoDone">Done</button></div>
     </div>
   </section>
 
   <!-- ECHO -->
   <section class="view" id="v-echo" hidden>
     <div class="sheet">
-      <h2>選一段 podcast 來跟讀</h2>
+      <h2>Pick a podcast to shadow</h2>
       <div class="field" id="podBox" hidden>
         <div class="row" id="podShows"></div>
         <div class="news" id="podEps"></div>
       </div>
-      <p class="muted">也可以貼音檔的直接連結（通常結尾是 .mp3），或上傳手機裡的音檔。選 1–3 分鐘就好，Gemini 會轉成帶時間的逐句稿。手上有逐字稿的話，選好音檔後可以一起放進來。</p>
+      <p class="muted">You can also paste a direct audio link (usually ending in .mp3) or upload an audio file from your phone. 1–3 minutes is enough, and Gemini turns it into a timed, sentence-by-sentence script. If you have a transcript, add it after you pick the audio.</p>
       <input type="text" id="echoUrl" inputmode="url" lang="en" placeholder="https://…/episode.mp3">
       <div class="row">
-        <button class="btn" id="echoLoadUrl">用這個連結</button>
-        <label class="btn" for="echoFile">上傳音檔</label>
+        <button class="btn" id="echoLoadUrl">Use this link</button>
+        <label class="btn" for="echoFile">Upload audio</label>
         <input type="file" id="echoFile" accept="audio/*,.mp3,.m4a,.wav" hidden>
-        <a class="btn" href="https://enjoy.bot/" target="_blank" rel="noopener">打開 Enjoy</a>
+        <a class="btn" href="https://enjoy.bot/" target="_blank" rel="noopener">Open Enjoy</a>
       </div>
       <p class="muted" id="echoSrc"></p>
       <div class="field" id="echoRange" hidden>
-        <label for="echoStart">從第幾分鐘開始</label>
-        <input type="text" id="echoStart" inputmode="decimal" placeholder="0:00，例如 12:30">
-        <div class="row" id="echoLens"><span class="muted">長度</span>
-          <button class="chip" data-len="60" aria-pressed="false">1 分鐘</button>
-          <button class="chip" data-len="120" aria-pressed="true">2 分鐘</button>
-          <button class="chip" data-len="180" aria-pressed="false">3 分鐘</button>
+        <label for="echoStart">Start at</label>
+        <input type="text" id="echoStart" inputmode="decimal" placeholder="0:00, e.g. 12:30">
+        <div class="row" id="echoLens"><span class="muted">Length</span>
+          <button class="chip" data-len="60" aria-pressed="false">1 min</button>
+          <button class="chip" data-len="120" aria-pressed="true">2 min</button>
+          <button class="chip" data-len="180" aria-pressed="false">3 min</button>
         </div>
-        <label for="echoScript">逐字稿（選填）</label>
+        <label for="echoScript">Transcript (optional)</label>
         <textarea id="echoScript" rows="5" lang="en" placeholder="Paste the transcript here, or upload a .txt / .srt / .vtt file."></textarea>
         <div class="row">
-          <label class="btn" for="echoScriptFile">上傳逐字稿</label>
+          <label class="btn" for="echoScriptFile">Upload transcript</label>
           <input type="file" id="echoScriptFile" accept=".txt,.srt,.vtt,text/plain,text/vtt" hidden>
-          <span class="muted" id="echoScriptInfo" aria-live="polite">有時間碼（.srt、.vtt）就直接用，不必再叫 AI 聽寫。</span>
+          <span class="muted" id="echoScriptInfo" aria-live="polite">Files with timestamps (.srt, .vtt) are used as they are, with no AI needed.</span>
         </div>
       </div>
-      <div class="row"><button class="btn primary" id="echoGo" disabled>轉成逐句稿</button><button class="btn" id="echoStop" hidden>停止</button><span class="muted" id="echoHint" aria-live="polite"></span></div>
+      <div class="row"><button class="btn primary" id="echoGo" disabled>Make script</button><button class="btn" id="echoStop" hidden>Stop</button><span class="muted" id="echoHint" aria-live="polite"></span></div>
     </div>
 
     <div class="sheet" id="echoPlayer" hidden>
-      <div class="row" style="justify-content:space-between"><h3 id="echoPos">第 1 句</h3><span class="muted" id="echoClip"></span></div>
+      <div class="row" style="justify-content:space-between"><h3 id="echoPos">Sentence 1</h3><span class="muted" id="echoClip"></span></div>
       <p class="echo-line" id="echoLine" lang="en"></p>
       <div class="row">
-        <button class="btn" id="echoPrev">上一句</button>
-        <button class="btn" id="echoPlay">▶ 原音</button>
-        <button class="btn" id="echoNext">下一句</button>
+        <button class="btn" id="echoPrev">Previous</button>
+        <button class="btn" id="echoPlay">▶ Original</button>
+        <button class="btn" id="echoNext">Next</button>
       </div>
       <div class="row">
-        <button class="chip" id="echoLoop" aria-pressed="false">循環這句</button>
-        <span class="row" id="echoSpeeds"><button class="chip" data-speed="0.8" aria-pressed="false">0.8 倍</button><button class="chip" data-speed="1" aria-pressed="true">原速</button></span>
+        <button class="chip" id="echoLoop" aria-pressed="false">Loop</button>
+        <span class="row" id="echoSpeeds"><button class="chip" data-speed="0.8" aria-pressed="false">0.8×</button><button class="chip" data-speed="1" aria-pressed="true">1×</button></span>
       </div>
-      <p class="muted">循環時每遍中間會停一下，讓你跟著說。準備好就按住下面的按鈕錄一遍，放開就停。</p>
-      <button class="btn accent rec" id="echoRec">按住錄音</button>
+      <p class="muted">When looping, there is a short pause after each play so you can repeat it. When you are ready, hold the button below to record and let go to stop.</p>
+      <button class="btn accent rec" id="echoRec">Hold to record</button>
       <div class="row" id="echoMineRow" hidden>
-        <button class="btn" id="echoMine">▶ 我的錄音</button>
-        <button class="btn" id="echoBoth">▶ 原音接我的</button>
+        <button class="btn" id="echoMine">▶ Mine</button>
+        <button class="btn" id="echoBoth">▶ Original, then mine</button>
         <span class="muted" id="echoDur"></span>
       </div>
-      <div class="row"><button class="btn" id="echoScore" disabled>評分發音</button><span class="muted" id="echoEngine"></span></div>
+      <div class="row"><button class="btn" id="echoScore" disabled>Score pronunciation</button><span class="muted" id="echoEngine"></span></div>
       <div class="corr" id="echoResult" hidden>
         <div class="scores" id="echoTiles"></div>
-        <p class="muted">黃底：還可以 · 紅色波浪線：要再練 · 刪除線：漏掉了。字上停一下可以看分數或說明。</p>
+        <p class="muted">Yellow: okay · Red wavy line: needs work · Strikethrough: missed. Hover over a word to see its score or a tip.</p>
         <div id="echoWeak"></div>
         <ul class="tips" id="echoTips"></ul>
         <p class="muted" id="echoSummary"></p>
@@ -491,7 +500,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
     </div>
 
     <div class="sheet" id="echoListBox" hidden>
-      <div class="row" style="justify-content:space-between"><h2>逐句稿</h2><button class="btn" id="echoDone">完成這次跟讀</button></div>
+      <div class="row" style="justify-content:space-between"><h2>Script</h2><button class="btn" id="echoDone">Finish session</button></div>
       <ol class="sents" id="echoList"></ol>
     </div>
   </section>
@@ -499,14 +508,14 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
   <!-- CARDS -->
   <section class="view" id="v-cards" hidden>
     <div class="sheet" id="reviewCard">
-      <div class="row" style="justify-content:space-between"><h2>今天要複習</h2><span class="muted" id="dueLabel"></span></div>
+      <div class="row" style="justify-content:space-between"><h2>Due today</h2><span class="muted" id="dueLabel"></span></div>
       <div class="flash" id="flash"></div>
       <div class="row" id="flashBtns" style="justify-content:center"></div>
     </div>
     <div class="sheet">
       <div class="row" style="justify-content:space-between">
-        <h2>全部卡片</h2>
-        <div class="row"><button class="btn" id="exportAnki">匯出成 Anki 檔</button></div>
+        <h2>All cards</h2>
+        <div class="row"><button class="btn" id="exportAnki">Export to Anki</button></div>
       </div>
       <div class="list" id="cardList"></div>
     </div>
@@ -514,96 +523,97 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 
   <!-- READ (from a headline on Today, the nav, or any pasted address) -->
   <section class="view" id="v-read" hidden>
-    <div class="row"><a class="btn" href="#today">回今天</a><span style="flex:1"></span><button class="btn" id="readPasteOwn">貼上其他文章</button></div>
-    <div class="row nowrap"><input type="text" id="readUrl" inputmode="url" lang="en" placeholder="貼上新聞網址（BBC、NPR、CNN…）"><button class="btn primary" id="readUrlGo">抓文章</button></div>
+    <div class="row"><a class="btn" href="#today">Back to Today</a><span style="flex:1"></span><button class="btn" id="readPasteOwn">Paste an article</button></div>
+    <div class="row nowrap"><input type="text" id="readUrl" inputmode="url" lang="en" placeholder="Paste a news link (BBC, NPR, CNN…)"><button class="btn primary" id="readUrlGo">Get article</button></div>
     <p class="banner" id="readStatus" hidden></p>
     <div class="sheet" id="pasteBox" hidden>
-      <h2>貼上文章</h2>
-      <p class="muted"><a id="pasteLink" target="_blank" rel="noopener">打開原文</a>，全選複製內文後貼在下面。</p>
+      <h2>Paste an article</h2>
+      <p class="muted"><a id="pasteLink" target="_blank" rel="noopener">Open the original</a>, copy the whole text and paste it below.</p>
       <textarea id="pasteArticle" rows="10" lang="en" placeholder="Paste the article text here."></textarea>
-      <div class="row"><button class="btn primary" id="pasteRead">開始閱讀</button></div>
+      <div class="row"><button class="btn primary" id="pasteRead">Start reading</button></div>
     </div>
     <article class="sheet article" id="readBox" hidden lang="en">
       <h2 id="readTitle"></h2>
-      <p class="muted" lang="zh-Hant"><span id="readMeta"></span> · <a id="readSrc" target="_blank" rel="noopener">原文</a></p>
-      <div class="legend" id="readLegend" lang="zh-Hant" hidden></div>
+      <p class="muted"><span id="readMeta"></span> · <a id="readSrc" target="_blank" rel="noopener">Original</a></p>
+      <div class="legend" id="readLegend" hidden></div>
       <div class="article" id="readBody"></div>
     </article>
     <details class="sheet" id="readLog" hidden>
-      <summary class="muted">抓取紀錄（文章不完整時，展開後截圖給我）</summary>
+      <summary class="muted">Fetch log (if the article is incomplete, open this and send me a screenshot)</summary>
       <pre class="muted" id="readLogText" lang="en"></pre>
     </details>
-    <div class="look" id="look" role="dialog" aria-label="查字典" hidden>
-      <div class="head"><b id="lookWord" lang="en"></b><button class="btn c-save" id="lookSay" aria-label="朗讀">▶</button><span class="muted" id="lookTags"></span><button class="del" id="lookClose">關閉</button></div>
+    <div class="look" id="look" role="dialog" aria-label="Dictionary" hidden>
+      <div class="head"><b id="lookWord" lang="en"></b><button class="btn c-save" id="lookSay" aria-label="Read aloud">▶</button><span class="muted" id="lookTags"></span><button class="del" id="lookClose">Close</button></div>
       <div class="def" id="lookDef"></div>
-      <div class="row"><button class="btn accent" id="lookAdd">加入單字本</button></div>
+      <div class="row"><button class="btn accent" id="lookAdd">Add to word list</button></div>
     </div>
   </section>
 
   <!-- SETTINGS -->
   <section class="view" id="v-settings" hidden>
     <div class="sheet">
-      <h2>AI 金鑰</h2>
+      <h2>AI keys</h2>
       <div class="kline"><b>Gemini</b><div class="row"><span class="tag" id="stGemini"></span><button class="btn small" data-open="kGemini" aria-expanded="false"></button></div></div>
       <div class="kopen" id="kGemini" hidden>
         <input type="password" id="geminiKey" autocomplete="off" placeholder="AIza…" aria-label="Gemini API key">
-        <div class="row"><button class="btn" data-test="gemini">測試並儲存</button><a class="muted" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">怎麼申請？</a><span class="muted" id="outGemini" aria-live="polite"></span></div>
-        <p class="muted">語音對話、跟讀逐句稿只有 Gemini 能做。免費額度足夠日常練習。</p>
+        <div class="row"><button class="btn" data-test="gemini">Test and save</button><a class="muted" href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">How to get one</a><span class="muted" id="outGemini" aria-live="polite"></span></div>
+        <p class="muted">Only Gemini can do voice chat and echo scripts. The free tier is enough for daily practice.</p>
       </div>
       <div class="kline"><b>Claude</b><div class="row"><span class="tag" id="stClaude"></span><button class="btn small" data-open="kClaude" aria-expanded="false"></button></div></div>
       <div class="kopen" id="kClaude" hidden>
         <input type="password" id="claudeKey" autocomplete="off" placeholder="sk-ant-…" aria-label="Claude API key">
-        <div class="row"><button class="btn" data-test="claude">測試並儲存</button><a class="muted" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">怎麼申請？</a><span class="muted" id="outClaude" aria-live="polite"></span></div>
-        <p class="muted">只處理文字，適合評分和批改。按用量計費，和 claude.ai 訂閱分開。</p>
+        <div class="row"><button class="btn" data-test="claude">Test and save</button><a class="muted" href="https://console.anthropic.com/settings/keys" target="_blank" rel="noopener">How to get one</a><span class="muted" id="outClaude" aria-live="polite"></span></div>
+        <p class="muted">Text only, good for grading and feedback. Billed by usage, separately from your claude.ai plan.</p>
       </div>
       <div class="kline"><b>Azure</b><div class="row"><span class="tag" id="stAzure"></span><button class="btn small" data-open="kAzure" aria-expanded="false"></button></div></div>
       <div class="kopen" id="kAzure" hidden>
-        <div class="row nowrap"><input type="password" id="azureKey" autocomplete="off" placeholder="Speech key" aria-label="Azure Speech key"><input type="text" id="azureRegion" placeholder="地區" aria-label="Azure 地區" class="short"></div>
-        <div class="row"><button class="btn" data-test="azure">測試並儲存</button><a class="muted" href="https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices" target="_blank" rel="noopener">怎麼申請？</a><span class="muted" id="outAzure" aria-live="polite"></span></div>
-        <p class="muted">建立「Speech」資源、定價層選 Free F0，每月 5 小時免費。在「Keys and Endpoint」複製 KEY 1 和 Location/Region（例如 eastasia）。</p>
+        <div class="row nowrap"><input type="password" id="azureKey" autocomplete="off" placeholder="Speech key" aria-label="Azure Speech key"><input type="text" id="azureRegion" placeholder="Region" aria-label="Azure region" class="short"></div>
+        <div class="row"><button class="btn" data-test="azure">Test and save</button><a class="muted" href="https://portal.azure.com/#create/Microsoft.CognitiveServicesSpeechServices" target="_blank" rel="noopener">How to get one</a><span class="muted" id="outAzure" aria-live="polite"></span></div>
+        <p class="muted">Create a "Speech" resource and choose the Free F0 tier for 5 free hours a month. Under "Keys and Endpoint", copy KEY 1 and Location/Region (e.g. eastasia).</p>
       </div>
-      <p class="muted">key 只存在這台裝置的瀏覽器裡，不要在別人的電腦上填。</p>
+      <p class="muted">Keys are stored only in this browser on this device. Don't enter them on someone else's computer.</p>
     </div>
     <div class="sheet">
-      <h2>每個功能用誰</h2>
-      <div class="kline"><b>語音對話</b><div class="row" id="useLive"></div></div>
-      <div class="kline"><b>評分、批改</b><div class="row" id="useGrade"></div></div>
-      <div class="kline"><b>跟讀逐句稿</b><div class="row" id="useTrans"></div></div>
-      <div class="kline"><b>發音評分</b><div class="row" id="usePron"></div></div>
+      <h2>Which AI for each task</h2>
+      <div class="kline"><b>Voice chat</b><div class="row" id="useLive"></div></div>
+      <div class="kline"><b>Grading and feedback</b><div class="row" id="useGrade"></div></div>
+      <div class="kline"><b>Echo scripts</b><div class="row" id="useTrans"></div></div>
+      <div class="kline"><b>Pronunciation</b><div class="row" id="usePron"></div></div>
+      <div class="kline"><b>News brief</b><div class="row" id="useBrief"></div></div>
       <details class="adv">
-        <summary id="advSum">進階：模型名稱</summary>
+        <summary id="advSum">Advanced: model names</summary>
         <div class="field">
-          <label for="claudeGrade">Claude 評分模型</label>
+          <label for="claudeGrade">Claude grading model</label>
           <input type="text" id="claudeGrade" placeholder="claude-opus-5-5">
-          <label for="geminiModel">Gemini 文字模型（評分、逐句稿）</label>
+          <label for="geminiModel">Gemini text model (grading, scripts)</label>
           <input type="text" id="geminiModel" placeholder="gemini-3.5-flash-lite">
-          <label for="liveModel">Gemini 語音對話模型</label>
+          <label for="liveModel">Gemini voice chat model</label>
           <input type="text" id="liveModel" placeholder="gemini-3.8-live">
-          <div class="row"><button class="btn" id="saveModels">儲存</button><span class="muted">留空會用預設值。</span></div>
+          <div class="row"><button class="btn" id="saveModels">Save</button><span class="muted">Leave blank to use the default.</span></div>
         </div>
       </details>
     </div>
     <div class="sheet">
-      <h2>字典與考試單字</h2>
-      <p class="muted">閱讀新聞時點字就能查。網站內建開源的 ECDICT 中文翻譯、英英解釋和你的筆記，不用匯入也能用。想看完整解釋和例句，就匯入你自己的字典（例如 english-desk-dict.ndjson.gz），之後會優先查它。考試單字也一樣：沒匯入就用內建清單，匯入總表 CSV 後改用你的清單。匯入的檔案只存在這個瀏覽器，不會上傳；Mac 和 iPhone 要各匯入一次。</p>
+      <h2>Dictionary and exam words</h2>
+      <p class="muted">Tap any word while reading the news to look it up. The site has the open-source ECDICT built in (Chinese and English definitions) plus your notes, so it works without importing anything. For full definitions and examples, import your own dictionary (e.g. english-desk-dict.ndjson.gz) and it will be checked first. Exam words work the same way: the built-in list is used until you import your CSV list. Imported files stay in this browser and are never uploaded, so import them once on your Mac and once on your iPhone.</p>
       <div class="row">
-        <label class="btn" for="dictFile">匯入字典</label>
+        <label class="btn" for="dictFile">Import dictionary</label>
         <input type="file" id="dictFile" accept=".gz,.ndjson,.json,.txt,.tsv,.csv" hidden>
         <span class="muted" id="dictInfo"></span><span class="muted" id="dictStatus" aria-live="polite"></span>
       </div>
       <div class="row">
-        <label class="btn" for="listFile">匯入考試單字</label>
+        <label class="btn" for="listFile">Import exam words</label>
         <input type="file" id="listFile" accept=".csv,.txt,.tsv" multiple hidden>
         <span class="muted" id="listInfo"></span>
       </div>
-      <p class="muted">底線樣式：實線是托福、虛線是雅思、波浪線是 GRE。閱讀頁上方可以選要標示哪幾種，或全部關掉。</p>
+      <p class="muted">Underlines: solid for TOEFL, dashed for IELTS, wavy for GRE. On the Read page you can choose which ones to show, or turn them all off.</p>
     </div>
     <div class="sheet">
-      <h2>備份</h2>
-      <p class="muted">卡片和紀錄存在這個瀏覽器裡。換裝置、換瀏覽器或清除網站資料前，先匯出備份；在新的地方用匯入還原。</p>
+      <h2>Backup</h2>
+      <p class="muted">Your cards and sessions are stored in this browser. Export a backup before you switch devices or browsers or clear site data, then import it in the new place to restore.</p>
       <div class="row">
-        <button class="btn" id="exportBackup">匯出備份</button>
-        <label class="btn" for="importFile">匯入備份</label>
+        <button class="btn" id="exportBackup">Export backup</button>
+        <label class="btn" for="importFile">Import backup</label>
         <input type="file" id="importFile" accept=".json,application/json" hidden>
         <span class="muted" id="backupInfo"></span>
       </div>
@@ -613,8 +623,10 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 
 
 <!-- Bump ?v= whenever app.js or reader.js changes, so browsers drop the cached copy. -->
-<script src="app.js?v=2026-11-04-script1"></script>
+<script src="app.js?v=2026-11-04-brief2"></script>
 <!-- reader.js has its own ?v= (bump it when reader.js changes); this line keeps the two version edits from colliding in merges. -->
-<script src="reader.js?v=2026-11-04-read14"></script>
+<script src="reader.js?v=2026-11-04-read15"></script>
+<!-- brief.js (Today in brief) has its own ?v=; bump it when brief.js changes. -->
+<script src="brief.js?v=2026-11-04-brief2"></script>
 </body>
 </html>

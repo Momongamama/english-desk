@@ -2,28 +2,28 @@
 const $ = id => document.getElementById(id);
 const STORE = "englishDesk.v1", CFG = "englishDesk.cfg";
 const st = { cards: [], logs: [], speakMode: "live", inline: false, topic: "", ctl: null, speakItems: [], writeItems: [], writeLevel: "", writeTopic: "" };
-let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null }, keyOk: {} };
+let cfg = { geminiKey: "", geminiModel: "gemini-3.5-flash-lite", liveModel: "gemini-3.8-live", claudeKey: "", claudeGrade: "claude-opus-5-5", azureKey: "", azureRegion: "", use: { grade: null, pron: null, brief: null }, keyOk: {} };
 
 const today = () => new Date().toLocaleDateString("sv-SE");
 const addDays = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.toLocaleDateString("sv-SE") };
 const uid = () => Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
 let toastT;
 function toast(msg) { let t = document.querySelector(".toast"); if (!t) { t = document.createElement("div"); t.className = "toast"; document.body.append(t) } t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 2600) }
-function banner(msg, link) { const b = $("banner"); b.replaceChildren(msg); if (link) { const a = document.createElement("a"); a.href = "#settings"; a.textContent = " 前往設定"; b.append(a) } b.hidden = !msg }
+function banner(msg, link) { const b = $("banner"); b.replaceChildren(msg); if (link) { const a = document.createElement("a"); a.href = "#settings"; a.textContent = " Go to Settings"; b.append(a) } b.hidden = !msg }
 
 /* ---------- storage ---------- */
 function load() {
   try { const d = JSON.parse(localStorage.getItem(STORE) || "{}"); st.cards = d.cards || []; st.logs = d.logs || [] } catch { }
   try { cfg = { ...cfg, ...JSON.parse(localStorage.getItem(CFG) || "{}") } } catch { }
   // Older versions had one site-wide provider and Sonnet as the default grader.
-  cfg.use = { grade: null, pron: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
+  cfg.use = { grade: null, pron: null, brief: null, ...cfg.use }; cfg.keyOk = cfg.keyOk || {};
   if ("provider" in cfg) { if (cfg.claudeKey) cfg.use.grade = cfg.provider === "claude" ? "claude" : "gemini"; delete cfg.provider }
   if (!cfg.claudeGrade || cfg.claudeGrade === "claude-sonnet-5-5") cfg.claudeGrade = "claude-opus-5-5";
   delete cfg.claudeChat;
 }
 function persist() {
   try { localStorage.setItem(STORE, JSON.stringify({ cards: st.cards, logs: st.logs })) }
-  catch { toast("瀏覽器拒絕儲存，請先匯出備份") }
+  catch { toast("The browser refused to save. Export a backup first.") }
   renderList(); renderLogs(); if (!$("v-cards").hidden) renderFlash();
 }
 function download(name, text, type) {
@@ -37,50 +37,51 @@ const keyFor = p => p === "azure" ? !!(cfg.azureKey && cfg.azureRegion) : !!cfg[
 const anyTextKey = () => keyFor("gemini") || keyFor("claude");
 // Which provider a feature uses: the one picked if it still has a key, otherwise the best one that does.
 function use(f) {
-  const opts = f === "grade" ? ["claude", "gemini"] : ["azure", "gemini"], pick = cfg.use[f];
+  const opts = f === "grade" || f === "brief" ? ["claude", "gemini"] : ["azure", "gemini"], pick = cfg.use[f];
   return pick && keyFor(pick) ? pick : opts.find(keyFor) || opts.at(-1);
 }
 const DEF_CLAUDE = "claude-opus-5-5";
-function hasKey() { return keyFor(use("grade")) }
+function hasKey(f = "grade") { return keyFor(use(f)) }
 class AiError extends Error { constructor(msg, code) { super(msg); this.code = code } }
 async function callApi(url, headers, body, signal) {
   let res;
   try { res = await fetch(url, { method: "POST", signal, headers: { "content-type": "application/json", ...headers }, body: JSON.stringify(body) }) }
-  catch (e) { if (e.name === "AbortError") throw new AiError("", "cancelled"); throw new AiError("連不上 AI 服務，檢查網路後再試。", "network") }
+  catch (e) { if (e.name === "AbortError") throw new AiError("", "cancelled"); throw new AiError("Can't reach the AI service. Check your connection and try again.", "network") }
   let data = {}; try { data = await res.json() } catch { }
   if (!res.ok) {
     const m = data?.error?.message || "";
-    if (res.status === 401 || res.status === 403 || /API key/i.test(m)) throw new AiError("API key 無效，請到設定檢查。", "auth");
-    if (res.status === 429) throw new AiError("用量到上限或太頻繁了，等一下再試。", "rate");
-    if (res.status === 413 || /too large|payload size/i.test(m)) throw new AiError("音檔太大了，選短一點的片段再試。", "size");
-    if (res.status === 404 || /model/i.test(m)) throw new AiError("找不到這個模型名稱，請到設定檢查。", "model");
-    throw new AiError("AI 回了錯誤：" + (m || res.status), "upstream");
+    if (res.status === 401 || res.status === 403 || /API key/i.test(m)) throw new AiError("The API key isn't valid. Check it in Settings.", "auth");
+    if (res.status === 429) throw new AiError("You've hit the usage limit or sent too many requests. Try again in a moment.", "rate");
+    if (res.status === 413 || /too large|payload size/i.test(m)) throw new AiError("The audio is too large. Pick a shorter clip and try again.", "size");
+    if (res.status === 404 || /model/i.test(m)) throw new AiError("That model name wasn't found. Check it in Settings.", "model");
+    throw new AiError("The AI returned an error: " + (m || res.status), "upstream");
   }
   return data;
 }
 function finish(text, json) {
-  if (!text.trim()) throw new AiError("AI 沒有回覆內容，再試一次。", "empty");
+  if (!text.trim()) throw new AiError("The AI sent an empty reply. Try again.", "empty");
   return json ? parseJson(text) : text.trim();
 }
-// Grading and review: whichever provider "評分、批改" uses.
-async function ai(system, turns, { json = false, signal } = {}) {
-  if (!hasKey()) throw new AiError("還沒有設定 API key。", "nokey");
-  if (use("grade") === "gemini") return gemini(system, null, { json, signal, turns });
+// Grading and review: whichever provider "Grading and feedback" uses.
+// `feature` lets another text feature (the news brief) use its own pick.
+async function ai(system, turns, { json = false, signal, feature = "grade" } = {}) {
+  if (!hasKey(feature)) throw new AiError("No API key set yet.", "nokey");
+  if (use(feature) === "gemini") return gemini(system, null, { json, signal, turns });
   return claude(system, turns, { json, signal });
 }
 // Opus thinks before it answers, and thinking counts toward max_tokens, so leave plenty of room.
 async function claude(system, turns, { json = false, signal, max = 16000 } = {}) {
-  if (!cfg.claudeKey) throw new AiError("這裡要用 Claude，先到設定填 Claude API key。", "nokey");
+  if (!cfg.claudeKey) throw new AiError("This needs Claude. Add a Claude API key in Settings first.", "nokey");
   const data = await callApi("https://api.anthropic.com/v1/messages",
     { "x-api-key": cfg.claudeKey, "anthropic-version": "2023-06-01", "anthropic-dangerous-direct-browser-access": "true" },
     { model: cfg.claudeGrade || DEF_CLAUDE, max_tokens: max, system, messages: turns }, signal);
-  if (data.stop_reason === "refusal") throw new AiError("Claude 拒絕回答這段內容，換 Gemini 試試。", "refusal");
-  if (data.stop_reason === "max_tokens") throw new AiError("回覆太長被截斷了，再按一次試試。", "length");
+  if (data.stop_reason === "refusal") throw new AiError("Claude declined to answer this. Try Gemini instead.", "refusal");
+  if (data.stop_reason === "max_tokens") throw new AiError("The reply was too long and got cut off. Try again.", "length");
   return finish((data.content || []).filter(b => b.type === "text").map(b => b.text).join(""), json);
 }
 // Gemini directly, whatever provider is picked: audio (shadowing) only works here. `parts` may hold inlineData audio.
 async function gemini(system, parts, { json = false, signal, turns } = {}) {
-  if (!cfg.geminiKey) throw new AiError("這裡要用 Gemini，先到設定填 Gemini API key。", "nokey");
+  if (!cfg.geminiKey) throw new AiError("This needs Gemini. Add a Gemini API key in Settings first.", "nokey");
   const contents = turns ? turns.map(t => ({ role: t.role === "assistant" ? "model" : "user", parts: [{ text: t.content }] })) : [{ role: "user", parts }];
   const data = await callApi(`https://generativelanguage.googleapis.com/v1beta/models/${encodeURIComponent(cfg.geminiModel)}:generateContent`, { "x-goog-api-key": cfg.geminiKey },
     { systemInstruction: { parts: [{ text: system }] }, contents, generationConfig: json ? { responseMimeType: "application/json" } : {} }, signal);
@@ -89,9 +90,9 @@ async function gemini(system, parts, { json = false, signal, turns } = {}) {
 function parseJson(text) {
   const tries = [text, (text.match(/```(?:json)?\s*([\s\S]*?)```/) || [])[1], text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1)];
   for (const t of tries) { if (!t) continue; try { return JSON.parse(t) } catch { } }
-  throw new AiError("AI 回的格式跑掉了，再按一次試試。", "json");
+  throw new AiError("The AI reply was in the wrong format. Try again.", "json");
 }
-const errText = e => e?.message || "出了點問題，再試一次。";
+const errText = e => e?.message || "Something went wrong. Try again.";
 
 /* ---------- routing ---------- */
 const VIEWS = ["today", "speak", "write", "echo", "cards", "settings", "read"];
@@ -106,22 +107,22 @@ addEventListener("hashchange", route);
 
 /* ---------- schedule ---------- */
 const PLAN = [
-  { d: "日", t: "卡片總複習", go: "cards", long: "把這週存的卡片全部複習一遍" },
-  { d: "一", t: "口說", go: "speak", long: "和 AI 聊 10 分鐘，再檢討 5 個重點" },
-  { d: "二", t: "寫作", go: "write", long: "寫一段 150–200 字，批改後自己重寫" },
-  { d: "三", t: "口說", go: "speak", long: "和 AI 聊 10 分鐘，再檢討 5 個重點" },
-  { d: "四", t: "寫作", go: "write", long: "寫一段 150–200 字，批改後自己重寫" },
-  { d: "五", t: "口說", go: "speak", long: "和 AI 聊 10 分鐘，再檢討 5 個重點" },
-  { d: "六", t: "跟讀", go: "echo", long: "跟讀一段 podcast：逐句聽、按住跟著說，再和原音比對" },
+  { d: "Sun", t: "Review", go: "cards", long: "Review every card you saved this week" },
+  { d: "Mon", t: "Speak", go: "speak", long: "Talk with the AI for 10 minutes, then review 5 key fixes" },
+  { d: "Tue", t: "Write", go: "write", long: "Write 150–200 words, get feedback, then rewrite it yourself" },
+  { d: "Wed", t: "Speak", go: "speak", long: "Talk with the AI for 10 minutes, then review 5 key fixes" },
+  { d: "Thu", t: "Write", go: "write", long: "Write 150–200 words, get feedback, then rewrite it yourself" },
+  { d: "Fri", t: "Speak", go: "speak", long: "Talk with the AI for 10 minutes, then review 5 key fixes" },
+  { d: "Sat", t: "Echo", go: "echo", long: "Shadow a podcast: listen sentence by sentence, hold to repeat, then compare with the original" },
 ];
 const KIND = { speak: "speak", write: "write", echo: "echo", cards: "cards" };
 function weekDates() { const d = new Date(), off = (d.getDay() + 6) % 7; return [0, 1, 2, 3, 4, 5, 6].map(i => { const x = new Date(d); x.setDate(d.getDate() - off + i); return x.toLocaleDateString("sv-SE") }) }
 function renderToday() {
   const n = new Date().getDay(), p = PLAN[n];
-  $("todayLabel").textContent = "今天 · 週" + p.d;
+  $("todayLabel").textContent = "Today · " + p.d;
   $("todayTask").textContent = p.long;
   const go = $("todayGo");
-  go.href = "#" + p.go; go.textContent = "開始"; $("todayEnjoy").hidden = p.go !== "echo";
+  go.href = "#" + p.go; go.textContent = "Start"; $("todayEnjoy").hidden = p.go !== "echo";
   renderWeek();
 }
 function renderWeek() {
@@ -129,12 +130,12 @@ function renderWeek() {
   const counts = dates.map(d => st.logs.filter(l => l.date === d).length);
   $("week").replaceChildren(...[1, 2, 3, 4, 5, 6, 0].map((i, k) => { const el = document.createElement("div");
     el.className = "day" + (i === n ? " today" : ""); el.dataset.s = KIND[PLAN[i].go];
-    el.innerHTML = `<b>${PLAN[i].d}</b><span>${PLAN[i].t === "卡片總複習" ? "複習" : PLAN[i].t}</span>` + (counts[k] ? '<span class="tick">✓ 已練</span>' : "");
+    el.innerHTML = `<b>${PLAN[i].d}</b><span>${PLAN[i].t}</span>` + (counts[k] ? '<span class="tick">✓ Done</span>' : "");
     return el }));
   $("weekDone").textContent = counts.filter(Boolean).length;
   const max = Math.max(1, ...counts);
   $("bars").replaceChildren(...counts.map((c, k) => { const el = document.createElement("div");
-    el.innerHTML = (c ? `<span class="n">${c}</span>` : "") + `<i class="${c ? "" : "zero"}" style="height:${c ? Math.round(c / max * 64) + 8 : 8}px"></i><span>${"一二三四五六日"[k]}</span>`;
+    el.innerHTML = (c ? `<span class="n">${c}</span>` : "") + `<i class="${c ? "" : "zero"}" style="height:${c ? Math.round(c / max * 64) + 8 : 8}px"></i><span>${["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"][k]}</span>`;
     return el }));
 }
 function renderLogs() {
@@ -143,17 +144,17 @@ function renderLogs() {
   if (!st.logs.length) return;
   box.replaceChildren(...[...st.logs].sort((a, b) => b.ts - a.ts).slice(0, 12).map(l => { const el = document.createElement("div");
     const t = document.createElement("time"); t.textContent = l.date;
-    const lv = document.createElement("span"); lv.className = "level"; lv.textContent = l.level || (l.score != null ? l.score + "分" : "—");
-    const s = document.createElement("span"); s.textContent = ({ write: "寫作 · ", echo: "跟讀 · " }[l.type] || "口說 · ") + (l.topic || "");
+    const lv = document.createElement("span"); lv.className = "level"; lv.textContent = l.level || (l.score != null ? l.score + " pts" : "—");
+    const s = document.createElement("span"); s.textContent = ({ write: "Write · ", echo: "Echo · " }[l.type] || "Speak · ") + (l.topic || "");
     el.append(t, lv, s); return el }));
 }
 function addLog(l) { st.logs.push({ ...l, date: today(), ts: Date.now() }); if (st.logs.length > 500) st.logs.splice(0, st.logs.length - 500); persist(); if (st.redo) renderRedo() }
 
 /* ---------- news + topics ---------- */
 // news.json is refreshed daily by .github/workflows/news.yml (BBC + CNN, or NPR when CNN is down).
-const SECTION = { business: "財經", tech: "科技", world: "國際" };
+const SECTION = { business: "Business", tech: "Tech", world: "World" };
 const TOPICS = ["What I did this week", "A book I'm reading", "A project I'm working on", "Something I want to buy", "A place I'd like to visit"].map(title => ({ title }));
-const WTOPICS = ["介紹最近讀的一本書", "描述一個正在做的專案", "說明一個你常用的工具", "婉拒一個邀請的 email", "你理想中的週末"].map(title => ({ title }));
+const WTOPICS = ["A book I read recently", "A project I'm working on", "A tool I use all the time", "An email turning down an invitation", "My ideal weekend"].map(title => ({ title }));
 const SHOW = 6;
 const topicLists = { speak: TOPICS, write: WTOPICS }, picked = { speak: TOPICS[0], write: WTOPICS[0] };
 const ROWS = { speak: ["topics", "topicNote"], write: ["wtopics", "wtopicNote"] };
@@ -171,7 +172,7 @@ function noteFor(it) {
   if (!it.summary) return null;
   const f = document.createDocumentFragment();
   f.append(it.summary + " ");
-  if (it.link) { const a = document.createElement("a"); a.href = it.link; a.target = "_blank"; a.rel = "noopener"; a.textContent = "讀原文（" + it.source + "）"; f.append(a) }
+  if (it.link) { const a = document.createElement("a"); a.href = it.link; a.target = "_blank"; a.rel = "noopener"; a.textContent = "Read on " + it.source; f.append(a) }
   return f;
 }
 function renderTopics(kind) {
@@ -191,16 +192,16 @@ function useNews(kind, it) {
 }
 function renderNews(news) {
   const box = $("newsList");
-  if (!news) { box.innerHTML = '<p class="muted">今天的新聞還沒抓到，口說和寫作先用預設題目。</p>'; return }
+  if (!news) { box.innerHTML = '<p class="muted">Today\'s news isn\'t in yet, so Speak and Write use the default topics for now.</p>'; return }
   const d = new Date(news.updated);
-  $("newsMeta").textContent = (news.sources || []).join(" + ") + " · " + (d.getMonth() + 1) + "/" + d.getDate() + " 更新";
+  $("newsMeta").textContent = (news.sources || []).join(" + ") + " · " + "updated " + (d.getMonth() + 1) + "/" + d.getDate();
   box.replaceChildren(...news.mixed.slice(0, SHOW).map(it => { const el = document.createElement("div"); el.className = "news-item";
     const h = document.createElement("h3"); h.textContent = it.source + " · " + (SECTION[it.section] || it.section);
     const a = document.createElement("a"); a.href = it.link; a.target = "_blank"; a.rel = "noopener"; a.lang = "en"; a.textContent = it.title;
     const p = document.createElement("p"); p.className = "muted"; p.lang = "en"; p.textContent = it.summary || "";
     const row = document.createElement("div"); row.className = "row";
-    const rd = document.createElement("button"); rd.className = "btn c-save"; rd.textContent = "閱讀全文"; rd.onclick = () => window.EnglishDeskReader?.open(it); row.append(rd);
-    for (const [kind, label] of [["speak", "拿來口說"], ["write", "拿來寫作"]]) { const b = document.createElement("button"); b.className = "btn c-save"; b.textContent = label; b.onclick = () => useNews(kind, it); row.append(b) }
+    const rd = document.createElement("button"); rd.className = "btn c-save"; rd.textContent = "Read"; rd.onclick = () => window.EnglishDeskReader?.open(it); row.append(rd);
+    for (const [kind, label] of [["speak", "Talk about it"], ["write", "Write about it"]]) { const b = document.createElement("button"); b.className = "btn c-save"; b.textContent = label; b.onclick = () => useNews(kind, it); row.append(b) }
     el.append(h, a, ...(it.summary ? [p] : []), row); return el }));
 }
 async function loadNews() {
@@ -246,8 +247,8 @@ function setCorr(inline) { st.inline = inline; $("corrInline").setAttribute("ari
 $("corrInline").onclick = () => setCorr(true);
 $("corrAfter").onclick = () => setCorr(false);
 function liveAvailability() {
-  const why = !cfg.geminiKey ? "語音對話要用 Gemini，先到設定填 Gemini key。"
-    : !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.WebSocket && (window.AudioContext || window.webkitAudioContext)) ? "這個瀏覽器不支援麥克風錄音，改用貼稿評分。" : "";
+  const why = !cfg.geminiKey ? "Voice chat needs Gemini. Add a Gemini key in Settings first."
+    : !(navigator.mediaDevices && navigator.mediaDevices.getUserMedia && window.WebSocket && (window.AudioContext || window.webkitAudioContext)) ? "This browser can't record from the mic. Use Paste a transcript instead." : "";
   $("liveStart").disabled = !!why || !!live.ws; $("liveHint").textContent = why;
 }
 
@@ -316,7 +317,7 @@ function stopPlayback() { for (const s of live.playing) try { s.stop() } catch {
 async function liveStartFn() {
   if (live.ws) return;
   st.topic = currentTopic("speak");
-  $("liveStart").disabled = true; $("liveHint").textContent = "準備麥克風…";
+  $("liveStart").disabled = true; $("liveHint").textContent = "Getting the mic ready…";
   try { if (navigator.audioSession) navigator.audioSession.type = "play-and-record" } catch { }
   // Create and resume the AudioContext inside the tap: iOS Safari only allows audio after a user gesture.
   const AC = window.AudioContext || window.webkitAudioContext;
@@ -325,7 +326,7 @@ async function liveStartFn() {
     live.mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } });
   } catch (e) {
     liveCleanup();
-    const msg = e && e.name === "NotAllowedError" ? "麥克風被拒絕了。到瀏覽器（iPhone 是「設定 > Safari > 麥克風」）允許這個網站使用麥克風再試。" : "打不開麥克風，檢查有沒有別的 App 正在用。";
+    const msg = e && e.name === "NotAllowedError" ? "Mic access was blocked. Allow this site to use the mic in your browser (on iPhone: Settings > Safari > Microphone) and try again." : "Can't open the mic. Check whether another app is using it.";
     $("liveHint").textContent = msg; toast(msg); return;
   }
   live.src = live.ctx.createMediaStreamSource(live.mic);
@@ -339,9 +340,9 @@ async function liveStartFn() {
   // Route through a muted gain so the graph runs without sending the mic to the speakers.
   const sink = live.ctx.createGain(); sink.gain.value = 0; live.src.connect(live.node); live.node.connect(sink); sink.connect(live.ctx.destination);
 
-  live.turns = []; live.ended = false; live.ready = false; live.muted = false; $("liveMute").textContent = "暫停麥克風";
-  $("log").replaceChildren(); $("liveBox").hidden = false; $("reviewBox").hidden = true; $("liveHint").textContent = "題目：" + st.topic.title;
-  liveStatus("連線中…"); $("liveTime").textContent = "0:00"; $("liveBox").scrollIntoView({ behavior: "smooth", block: "start" });
+  live.turns = []; live.ended = false; live.ready = false; live.muted = false; $("liveMute").textContent = "Pause mic";
+  $("log").replaceChildren(); $("liveBox").hidden = false; $("reviewBox").hidden = true; $("liveHint").textContent = "Topic: " + st.topic.title;
+  liveStatus("Connecting…"); $("liveTime").textContent = "0:00"; $("liveBox").scrollIntoView({ behavior: "smooth", block: "start" });
 
   const ws = live.ws = new WebSocket("wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=" + encodeURIComponent(cfg.geminiKey));
   ws.binaryType = "arraybuffer";
@@ -354,8 +355,8 @@ async function liveStartFn() {
     if (live.ws !== ws) return;
     let m; try { m = JSON.parse(typeof e.data === "string" ? e.data : new TextDecoder().decode(e.data)) } catch { return }
     if (m.setupComplete) {
-      live.ready = true; live.t0 = Date.now(); liveStatus("● 正在聽");
-      live.timer = setInterval(() => { const s = Math.floor((Date.now() - live.t0) / 1000); $("liveTime").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); if (s >= LIVE_MAX) { toast("聊滿 14 分鐘了，幫你結束並檢討"); liveEnd() } }, 1000);
+      live.ready = true; live.t0 = Date.now(); liveStatus("● Listening");
+      live.timer = setInterval(() => { const s = Math.floor((Date.now() - live.t0) / 1000); $("liveTime").textContent = Math.floor(s / 60) + ":" + String(s % 60).padStart(2, "0"); if (s >= LIVE_MAX) { toast("14 minutes are up. Ending the chat and reviewing it now."); liveEnd() } }, 1000);
       ws.send(JSON.stringify({ realtimeInput: { text: "Start now: greet me briefly and ask your first question about the topic." } }));
     }
     const sc = m.serverContent;
@@ -365,17 +366,17 @@ async function liveStartFn() {
       if (sc.inputTranscription?.text) addText("me", sc.inputTranscription.text);
       if (sc.outputTranscription?.text) addText("ai", sc.outputTranscription.text);
     }
-    if (m.goAway) { toast("Gemini 要結束這段連線了，幫你先檢討"); liveEnd() }
+    if (m.goAway) { toast("Gemini is closing the connection, so let's review now."); liveEnd() }
   };
   ws.onerror = () => { };
   ws.onclose = e => {
     if (live.ended) return;
     const r = e.reason || "";
-    const msg = /API key|permission|unauth/i.test(r) || e.code === 1008 && !live.ready ? "API key 無效或沒有 Live API 權限，請到設定檢查。"
-      : /model|not found|not supported/i.test(r) ? "找不到語音模型「" + (cfg.liveModel || LIVE_DEFAULT) + "」，請到設定檢查。"
-      : /quota|exhaust|rate/i.test(r) ? "用量到上限了，等一下再試。"
-      : !live.ready ? "連不上 Gemini Live" + (r ? "：" + r : "，檢查網路後再試。") : "連線中斷了" + (r ? "：" + r : "") + "。";
-    toast(msg); if (!live.ready && /key|模型/.test(msg)) banner(msg, true);
+    const msg = /API key|permission|unauth/i.test(r) || e.code === 1008 && !live.ready ? "The API key isn't valid or has no Live API access. Check it in Settings."
+      : /model|not found|not supported/i.test(r) ? "Can't find the voice model \"" + (cfg.liveModel || LIVE_DEFAULT) + "\". Check it in Settings."
+      : /quota|exhaust|rate/i.test(r) ? "You've hit the usage limit. Try again in a moment."
+      : !live.ready ? "Can't connect to Gemini Live" + (r ? ": " + r : ". Check your connection and try again.") : "The connection dropped" + (r ? ": " + r : "") + ".";
+    toast(msg); if (!live.ready && /Settings/.test(msg)) banner(msg, true);
     liveEnd();
   };
 }
@@ -392,35 +393,35 @@ function liveCleanup() {
 }
 function liveEnd() {
   if (live.ended) return; live.ended = true;
-  liveCleanup(); liveStatus("已結束");
+  liveCleanup(); liveStatus("Ended");
   const transcript = live.turns.map(t => (t.role === "me" ? "ME: " : "PARTNER: ") + t.text.trim()).filter(l => l.length > 4).join("\n");
-  if (live.turns.filter(t => t.role === "me").length < 2) { toast("說不到兩句，這次先不檢討"); return }
-  review(transcript, $("liveEnd"), "結束並檢討");
+  if (live.turns.filter(t => t.role === "me").length < 2) { toast("Fewer than two turns from you, so there's nothing to review this time."); return }
+  review(transcript, $("liveEnd"), "End and review");
 }
 $("liveStart").onclick = liveStartFn;
 $("liveEnd").onclick = () => { if (live.ws) liveEnd() };
-$("liveMute").onclick = () => { live.muted = !live.muted; $("liveMute").textContent = live.muted ? "繼續說" : "暫停麥克風"; liveStatus(live.muted ? "麥克風已暫停" : "● 正在聽") };
+$("liveMute").onclick = () => { live.muted = !live.muted; $("liveMute").textContent = live.muted ? "Resume mic" : "Pause mic"; liveStatus(live.muted ? "Mic paused" : "● Listening") };
 addEventListener("pagehide", () => { if (live.ws) { live.ended = true; liveCleanup() } });
 
 /* paste mode */
 $("copyOpening").onclick = async () => {
   const t = currentTopic("speak"), text = opening(t, false);
-  try { await navigator.clipboard.writeText(text); toast("已複製，開始聊之前貼給對方") }
-  catch { $("pasteIn").value = text; $("pasteIn").select(); toast("沒辦法自動複製，已放進下面的框，手動複製後清掉") }
+  try { await navigator.clipboard.writeText(text); toast("Copied. Paste it to your partner before you start.") }
+  catch { $("pasteIn").value = text; $("pasteIn").select(); toast("Couldn't copy automatically, so it's in the box below. Copy it yourself, then clear the box.") }
 };
-$("pasteIn").addEventListener("input", () => { const n = ($("pasteIn").value.match(/[A-Za-z’']+/g) || []).length; $("pasteCount").textContent = n ? n + " 字" : "" });
+$("pasteIn").addEventListener("input", () => { const n = ($("pasteIn").value.match(/[A-Za-z’']+/g) || []).length; $("pasteCount").textContent = n ? n + " words" : "" });
 $("pasteGrade").onclick = () => {
   const text = $("pasteIn").value.trim();
-  if ((text.match(/[A-Za-z]+/g) || []).length < 40) { toast("逐字稿太短了，至少要有幾來回的對話"); return }
-  if (!hasKey()) { banner("先填好 API key 才能評分。", true); return }
+  if ((text.match(/[A-Za-z]+/g) || []).length < 40) { toast("The transcript is too short. It needs at least a few back-and-forth turns."); return }
+  if (!hasKey()) { banner("Add an API key before grading.", true); return }
   st.topic = currentTopic("speak");
-  review(text, $("pasteGrade"), "請 AI 評分", true);
+  review(text, $("pasteGrade"), "Grade it", true);
 };
 $("stopPaste").onclick = () => st.ctl?.abort();
 
 /* review: CEFR level + 5 corrections, shared by both modes */
 async function review(transcript, btn, label, pasted) {
-  btn.disabled = true; btn.textContent = "整理中…";
+  btn.disabled = true; btn.textContent = "Reviewing…";
   const prevRedo = activeRedo("speak");
   st.ctl = new AbortController(); if (pasted) $("stopPaste").hidden = false;
   try {
@@ -431,7 +432,7 @@ ${pasted
 It came from speech recognition, so ignore spelling, punctuation and obvious mishearings; judge grammar, word choice and how natural it sounds.
 Don't fix every small slip. Pick the 5 places (fewer only if there aren't 5) where a native speaker would most likely have said it differently, the ones most worth practising.
 Reply with only JSON of this shape:
-{"level":"B2","summary":"一兩句繁體中文的整體評語，說明這個等級的依據","items":[{"mine":"my original phrase","natural":"the natural version","why":"一行繁體中文說明"}]}
+{"level":"B2","summary":"one or two sentences of overall feedback in plain English, explaining the level","items":[{"mine":"my original phrase","natural":"the natural version","why":"one line in plain English"}]}
 "level" is your CEFR estimate of my speaking from this sample (A2, B1, B2, C1 or C2).
 
 ${redoPrompt("speak", prevRedo)}
@@ -457,7 +458,7 @@ const CEFR = ["A1", "A2", "B1", "B2", "C1", "C2"];
 const cefrIdx = l => CEFR.indexOf(String(l || "").trim().slice(0, 2).toUpperCase());
 function cefrDiff(a, b) {
   const x = cefrIdx(a), y = cefrIdx(b); if (x < 0 || y < 0) return "";
-  return y > x ? `進步 ${y - x} 級` : y < x ? `退了 ${x - y} 級` : "等級持平";
+  return y > x ? `up ${y - x} level${y - x > 1 ? "s" : ""}` : y < x ? `down ${x - y} level${x - y > 1 ? "s" : ""}` : "same level";
 }
 const ym = d => d.slice(0, 7);
 function lastMonth() { const d = new Date(); d.setDate(1); d.setMonth(d.getMonth() - 1); return d.toLocaleDateString("sv-SE").slice(0, 7) }
@@ -483,7 +484,7 @@ function startRedo(l) {
 }
 function redoPrompt(kind, prev) {
   if (!prev) return "";
-  const shape = `Also add a field "compare": 一兩句繁體中文，和上個月比：哪裡進步了、哪個問題還在。`;
+  const shape = `Also add a field "compare": one or two sentences in plain English comparing with last month: what improved and which problems are still there.`;
   if (kind === "write") return `\nI wrote on this same topic last month and it was graded ${prev.level}.` + (prev.text ? ` Here is last month's paragraph:\n${prev.text.slice(0, 3000)}\n` : "\n") + shape + "\n";
   return `\nI talked about this same topic last month and was rated ${prev.level}.` + (prev.summary ? ` The feedback then: ${prev.summary}` : "")
     + (prev.items?.length ? ` My mistakes then: ${prev.items.map(i => `"${i.mine}" → "${i.natural}"`).join("; ")}. Note whether any of them came back.` : "") + "\n" + shape + "\n";
@@ -494,19 +495,19 @@ function renderRedo() {
   const box = $("redoSheet"), list = redoCandidates();
   box.hidden = !list.length; if (!list.length) return;
   const lm = lastMonth(), first = new Date().getDate() === 1, undone = list.some(l => !redoneBy(l));
-  $("redoEyebrow").textContent = first && undone ? "今天是月初，先做這個" : "每月同題重做";
-  $("redoIntro").textContent = `把 ${+lm.slice(5)} 月練過的題目再做一次，做完會和上個月的結果並排對照。一樣先自己說、自己寫，不要先看舊版。`;
+  $("redoEyebrow").textContent = first && undone ? "It's the 1st, so start with this" : "Monthly redo";
+  $("redoIntro").textContent = `Do the topics you practised in ${new Date(lm + "-15").toLocaleDateString("en", { month: "long" })} again, and see the results side by side with last month. As always, speak and write on your own first, without looking at the old version.`;
   $("redoList").replaceChildren(...list.map(l => {
     const row = el("div", "redo-item"), done = redoneBy(l);
-    const meta = el("h3", "", (l.type === "write" ? "寫作" : "口說") + " · " + l.date.slice(5).replace("-", "/") + " · " + l.level);
+    const meta = el("h3", "", (l.type === "write" ? "Write" : "Speak") + " · " + l.date.slice(5).replace("-", "/") + " · " + l.level);
     const t = el("p", "", l.topic); t.lang = "en";
     row.append(meta, t);
-    if (done) row.append(el("p", "muted", `已重做：${l.level} → ${done.level || "—"}` + (cefrDiff(l.level, done.level) ? "，" + cefrDiff(l.level, done.level) : "")));
-    else { const b = el("button", "btn c-save", st.redo[l.type] === l ? "進行中，前往" : "重做這題"); b.onclick = () => startRedo(l); row.append(b) }
+    if (done) row.append(el("p", "muted", `Redone: ${l.level} → ${done.level || "—"}` + (cefrDiff(l.level, done.level) ? ", " + cefrDiff(l.level, done.level) : "")));
+    else { const b = el("button", "btn c-save", st.redo[l.type] === l ? "In progress, go" : "Redo this"); b.onclick = () => startRedo(l); row.append(b) }
     return row }));
   if (first && undone) $("v-today").prepend(box);
   ["speak", "write"].forEach(k => { const r = st.redo[k], n = $(k === "speak" ? "speakRedoNote" : "writeRedoNote");
-    n.hidden = !activeRedo(k); if (r) n.textContent = `每月同題重做：${r.date.slice(5).replace("-", "/")} 做過這題，當時 ${r.level}。先照平常練，結束後會並排對照。` });
+    n.hidden = !activeRedo(k); if (r) n.textContent = `Monthly redo: you did this on ${r.date.slice(5).replace("-", "/")} and got ${r.level}. Practise as usual and you'll see both side by side at the end.` });
 }
 // Result side by side: last month | this time, plus the level change and the AI's comparison.
 function renderCompare(kind, prev, now) {
@@ -517,25 +518,25 @@ function renderCompare(kind, prev, now) {
   let old = null;
   if (kind === "speak" && prev.items?.length) { old = el("div", "cmp-list"); for (const i of prev.items) { const p = el("p", "c-mine", i.mine); p.lang = "en"; old.append(p) } }
   const grid = el("div", "cmp");
-  grid.append(col(`上個月 · ${prev.date.slice(5).replace("-", "/")}`, prev.level, kind === "write" ? (prev.text || "（這筆紀錄是舊版，沒有存原文）") : prev.summary || "", old),
-    col("這次", now.level, kind === "write" ? now.text : now.summary || ""));
+  grid.append(col(`Last month · ${prev.date.slice(5).replace("-", "/")}`, prev.level, kind === "write" ? (prev.text || "(This is an older entry, so the text wasn't saved.)") : prev.summary || "", old),
+    col("This time", now.level, kind === "write" ? now.text : now.summary || ""));
   const diff = cefrDiff(prev.level, now.level);
-  box.replaceChildren(el("h2", "", "和上個月對照" + (diff ? "：" + diff : "")), grid, ...(now.compare ? [el("div", "habit", now.compare)] : []));
+  box.replaceChildren(el("h2", "", "Compared with last month" + (diff ? ": " + diff : "")), grid, ...(now.compare ? [el("div", "habit", now.compare)] : []));
 }
 
 /* ---------- writing ---------- */
-function wc() { const n = ($("essay").value.match(/[A-Za-z’']+/g) || []).length; $("wc").textContent = n + " 字" + (n && (n < 150 || n > 200) ? "（目標 150–200）" : "") }
+function wc() { const n = ($("essay").value.match(/[A-Za-z’']+/g) || []).length; $("wc").textContent = n + " words" + (n && (n < 150 || n > 200) ? " (aim for 150–200)" : "") }
 $("essay").addEventListener("input", () => { wc(); try { localStorage.setItem("englishDesk.draft", $("essay").value) } catch { } });
 $("grade").onclick = async () => {
   const text = $("essay").value.trim();
-  if ((text.match(/[A-Za-z]+/g) || []).length < 30) { toast("先寫至少 30 個字"); return }
-  if (!hasKey()) { banner("先填好 API key 才能批改。", true); return }
+  if ((text.match(/[A-Za-z]+/g) || []).length < 30) { toast("Write at least 30 words first."); return }
+  if (!hasKey()) { banner("Add an API key before getting feedback.", true); return }
   const topic = currentTopic("write"); st.writeTopic = topic; st.writeText = text; st.writeWhy = ""; st.writeRedo = activeRedo("write");
-  st.ctl = new AbortController(); $("grade").disabled = true; $("grade").textContent = "批改中…"; $("stopGrade").hidden = false;
+  st.ctl = new AbortController(); $("grade").disabled = true; $("grade").textContent = "Checking…"; $("stopGrade").hidden = false;
   try {
     const r = await ai("You are a strict English writing examiner. You reply with JSON only.", [{ role: "user", content: `I'm a B2-high English writer aiming for C1. Assess my paragraph (topic: ${topic.title}).
 ${topic.summary ? newsContext(topic) + "\nI was asked to give my opinion on this story. Judge how well I respond to it, but grade my English, not my opinion.\n" : ""}Reply with only JSON of this shape:
-{"level":"B2","levelWhy":"一兩句繁體中文，說明這個等級的依據（文法範圍、用字、連貫、準確度）","rewrite":"the paragraph rewritten as a C1 writer would, keeping my meaning","changes":[{"mine":"my original phrase","natural":"the better version","why":"一行繁體中文說明為什麼"}],"habit":"一句繁體中文：我反覆出現、最該改的一個習慣"}
+{"level":"B2","levelWhy":"one or two sentences in plain English explaining the level (grammar range, vocabulary, coherence, accuracy)","rewrite":"the paragraph rewritten as a C1 writer would, keeping my meaning","changes":[{"mine":"my original phrase","natural":"the better version","why":"one line in plain English on why"}],"habit":"one sentence in plain English: the one recurring habit I most need to fix"}
 Give 3–5 changes, the ones that matter most. Be strict, not encouraging.
 ${redoPrompt("write", st.writeRedo)}
 My paragraph:
@@ -544,24 +545,24 @@ ${text.slice(0, 6000)}` }], { json: true, signal: st.ctl.signal });
     st.writeLevel = r.level || ""; st.writeWhy = r.levelWhy || "";
     renderCompare("write", st.writeRedo, { level: r.level, text, compare: r.compare });
     $("wLevel").textContent = r.level || "—"; $("wLevelWhy").textContent = r.levelWhy || "";
-    $("wRewrite").textContent = r.rewrite || ""; $("wRewrite").hidden = false; $("hideModel").textContent = "先收起 C1 版本";
-    $("wHabit").textContent = r.habit ? "要改的習慣：" + r.habit : ""; $("wHabit").hidden = !r.habit;
+    $("wRewrite").textContent = r.rewrite || ""; $("wRewrite").hidden = false; $("hideModel").textContent = "Hide C1 version";
+    $("wHabit").textContent = r.habit ? "Habit to fix: " + r.habit : ""; $("wHabit").hidden = !r.habit;
     renderCorr($("wCorr"), st.writeItems, "write");
     $("gradeBox").hidden = false; $("redoBox").hidden = false; $("redo").value = "";
     $("gradeBox").scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (e) { if (e.code !== "cancelled") toast(errText(e)) }
-  finally { $("grade").disabled = false; $("grade").textContent = "請 AI 批改"; $("stopGrade").hidden = true }
+  finally { $("grade").disabled = false; $("grade").textContent = "Get feedback"; $("stopGrade").hidden = true }
 };
 $("stopGrade").onclick = () => st.ctl?.abort();
 $("saveAllWrite").onclick = () => saveAll(st.writeItems, "write", $("wCorr"));
-$("hideModel").onclick = () => { const h = !$("wRewrite").hidden; $("wRewrite").hidden = h; $("hideModel").textContent = h ? "再看一次 C1 版本" : "先收起 C1 版本" };
+$("hideModel").onclick = () => { const h = !$("wRewrite").hidden; $("wRewrite").hidden = h; $("hideModel").textContent = h ? "Show C1 version" : "Hide C1 version" };
 $("redoDone").onclick = () => {
-  if (!$("redo").value.trim()) { toast("先重寫一次再按完成"); return }
+  if (!$("redo").value.trim()) { toast("Rewrite it first, then tap Done."); return }
   const prev = st.writeRedo;
   addLog({ type: "write", topic: st.writeTopic.title, ctx: topicCtx(st.writeTopic), level: st.writeLevel, why: st.writeWhy, text: st.writeText.slice(0, 3000), ...(prev ? { redoOf: prev.ts } : {}) });
   if (prev) { st.redo.write = null; st.writeRedo = null; renderRedo() }
   try { localStorage.removeItem("englishDesk.draft") } catch { }
-  $("essay").value = ""; wc(); $("redoBox").hidden = true; toast("已記錄");
+  $("essay").value = ""; wc(); $("redoBox").hidden = true; toast("Saved");
 };
 
 /* ---------- shadowing (echo) ---------- */
@@ -588,9 +589,9 @@ function echoCtx() {
 }
 async function setEchoSource(blob, name) {
   echoStopPlay(); echo.blob = blob; echo.name = name; echo.title = name.replace(/\.[a-z0-9]{2,4}$/i, "");
-  $("echoSrc").textContent = "讀取中…";
+  $("echoSrc").textContent = "Loading…";
   echo.dur = await audioDuration(blob);
-  $("echoSrc").textContent = name + (echo.dur ? " · 全長 " + fmt(echo.dur) : "") + " · " + (blob.size / 1e6).toFixed(1) + " MB";
+  $("echoSrc").textContent = name + (echo.dur ? " · " + fmt(echo.dur) + " total" : "") + " · " + (blob.size / 1e6).toFixed(1) + " MB";
   $("echoRange").hidden = false; $("echoGo").disabled = false; echoHint("");
   $("echoScript").value = ""; scriptInfo();
 }
@@ -646,32 +647,32 @@ function toSentences(cues) {
 }
 function scriptInfo() {
   const s = parseScript($("echoScript").value);
-  $("echoScriptInfo").textContent = !s ? "有時間碼（.srt、.vtt）就直接用，不必再叫 AI 聽寫。"
-    : s.timed ? `有時間碼，共 ${s.timed.length} 句，會直接切出你選的那段，不用 AI。`
-    : "沒有時間碼。按「轉成逐句稿」時 Gemini 會照你的逐字稿對齊時間，不重新聽寫。";
+  $("echoScriptInfo").textContent = !s ? "Files with timestamps (.srt, .vtt) are used as they are, with no AI needed."
+    : s.timed ? `Timestamps found, ${s.timed.length} lines. The part you pick is cut straight from it, with no AI needed.`
+    : "No timestamps. When you tap Make script, Gemini lines up your transcript with the audio instead of transcribing it again.";
 }
 $("echoScript").oninput = scriptInfo;
 $("echoScriptFile").onchange = async e => { const f = e.target.files[0]; e.target.value = ""; if (!f) return;
-  if (f.size > 3e6) { toast("逐字稿檔案太大了，3 MB 以內"); return }
+  if (f.size > 3e6) { toast("The transcript file is too large. Keep it under 3 MB."); return }
   $("echoScript").value = await f.text(); scriptInfo() };
 function strHash(s) { let h = 0; for (let i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) | 0; return (h >>> 0).toString(36) }
 $("echoFile").onchange = e => { const f = e.target.files[0]; e.target.value = ""; if (f) setEchoSource(f, f.name) };
 $("echoLoadUrl").onclick = () => {
   const url = $("echoUrl").value.trim();
-  if (/spotify\.(com|link)/i.test(url)) { echoHint("Spotify 的音檔有加密，網頁讀不到。到 Apple Podcasts 或節目官網找同一集的 mp3，或用上面的節目清單。"); return }
-  if (!/^https?:\/\//i.test(url)) { toast("貼上以 https:// 開頭的音檔連結"); return }
+  if (/spotify\.(com|link)/i.test(url)) { echoHint("Spotify audio is encrypted, so web pages can't read it. Find the same episode's mp3 on Apple Podcasts or the show's website, or use the shows above."); return }
+  if (!/^https?:\/\//i.test(url)) { toast("Paste an audio link starting with https://"); return }
   loadAudioUrl(url, $("echoLoadUrl"));
 };
 async function loadAudioUrl(url, b, name) {
-  b.disabled = true; echoHint("下載中，一集約 10–20 MB…");
+  b.disabled = true; echoHint("Downloading, an episode is about 10–20 MB…");
   try {
     const res = await fetch(url);
-    if (!res.ok) throw new Error("這個連結打不開（" + res.status + "），確認是音檔本身的網址。");
+    if (!res.ok) throw new Error("This link didn't open (" + res.status + "). Make sure it points to the audio file itself.");
     const blob = await res.blob();
-    if (!/audio|octet-stream|mpeg|mp4/i.test(blob.type) && blob.size < 200000) throw new Error("這個連結看起來不是音檔。要用結尾是 .mp3 之類的直接連結，不是節目網頁。");
+    if (!/audio|octet-stream|mpeg|mp4/i.test(blob.type) && blob.size < 200000) throw new Error("This link doesn't look like audio. Use a direct link ending in something like .mp3, not the episode page.");
     await setEchoSource(blob, name || decodeURIComponent(new URL(res.url || url).pathname.split("/").pop() || "podcast"));
   } catch (e) {
-    echoHint(e instanceof TypeError ? "這個網站不讓別的網頁直接讀它的音檔。先把音檔下載下來，再按「上傳音檔」。" : e.message);
+    echoHint(e instanceof TypeError ? "This site doesn't let other pages read its audio. Download the file, then tap Upload audio." : e.message);
   } finally { b.disabled = false }
 }
 // podcasts.json is refreshed daily by .github/workflows/news.yml: latest episodes of one UK and one US show, links only.
@@ -682,15 +683,15 @@ async function loadPodcasts() {
 }
 function renderPods() {
   $("podBox").hidden = false;
-  $("podShows").replaceChildren(...pods.map((s, k) => { const c = el("button", "chip", `${s.name}（${s.accent}）`); c.setAttribute("aria-pressed", k === podPick); c.onclick = () => { podPick = k; renderPods() }; return c }));
+  $("podShows").replaceChildren(...pods.map((s, k) => { const c = el("button", "chip", `${s.name} (${s.accent})`); c.setAttribute("aria-pressed", k === podPick); c.onclick = () => { podPick = k; renderPods() }; return c }));
   const s = pods[podPick];
   $("podEps").replaceChildren(...s.episodes.slice(0, 4).map(ep => { const it = el("div", "news-item"), d = ep.published ? new Date(ep.published) : null;
     const t = el("p", "pod-title", ep.title); t.lang = "en";
-    it.append(el("h3", "", s.by + (d ? ` · ${d.getMonth() + 1}/${d.getDate()}` : "") + (ep.duration ? ` · ${Math.round(ep.duration / 60)} 分鐘` : "")), t);
+    it.append(el("h3", "", s.by + (d ? ` · ${d.getMonth() + 1}/${d.getDate()}` : "") + (ep.duration ? ` · ${Math.round(ep.duration / 60)} min` : "")), t);
     const row = el("div", "row");
-    if (s.cors !== false) { const b = el("button", "btn c-save", "用這集"); b.onclick = () => loadAudioUrl(ep.url, b, s.name + " · " + ep.title); row.append(b) }
-    const a = el("a", "btn c-save", "下載這集"); a.href = ep.url; a.target = "_blank"; a.rel = "noopener"; a.download = ""; row.append(a);
-    if (s.cors === false) row.append(el("span", "muted", "這個節目不讓網頁直接讀音檔，下載後按「上傳音檔」。"));
+    if (s.cors !== false) { const b = el("button", "btn c-save", "Use this episode"); b.onclick = () => loadAudioUrl(ep.url, b, s.name + " · " + ep.title); row.append(b) }
+    const a = el("a", "btn c-save", "Download"); a.href = ep.url; a.target = "_blank"; a.rel = "noopener"; a.download = ""; row.append(a);
+    if (s.cors === false) row.append(el("span", "muted", "This show doesn't let web pages read its audio. Download it, then tap Upload audio."));
     it.append(row); return it }));
 }
 document.querySelectorAll("#echoLens .chip").forEach(c => c.onclick = () => {
@@ -710,13 +711,13 @@ async function decodeClip(start, len) {
   let part = blob, off = 0;
   if (echo.dur && blob.size > 6e6) {
     if (mp3) { const id3 = await id3Size(blob), bps = (blob.size - id3) / echo.dur; part = blob.slice(id3 + Math.floor(start * bps), id3 + Math.ceil((start + len + 2) * bps)); off = start }
-    else if (blob.size > 12e6) throw new Error("檔案太大了。mp3 以外的格式請先剪成 10 分鐘以內再上傳，或改用 mp3。");
+    else if (blob.size > 12e6) throw new Error("The file is too large. Trim non-mp3 files to under 10 minutes first, or use an mp3.");
   }
   let audio;
   try { const ab = await part.arrayBuffer(); audio = await new Promise((res, rej) => ctx.decodeAudioData(ab, res, rej)) }
-  catch { throw new Error("這個音檔沒辦法解碼，換成 mp3 或 m4a 試試。") }
+  catch { throw new Error("This audio can't be decoded. Try an mp3 or m4a.") }
   const r = audio.sampleRate, s0 = Math.max(0, Math.round((start - off) * r)), n = Math.min(audio.length - s0, Math.round(len * r));
-  if (n < r * 5) throw new Error("這段太短了，檢查開始時間有沒有超過全長。");
+  if (n < r * 5) throw new Error("This clip is too short. Check that the start time is within the audio.");
   const mono = new Float32Array(n);
   for (let c = 0; c < audio.numberOfChannels; c++) { const d = audio.getChannelData(c); for (let i = 0; i < n; i++) mono[i] += d[s0 + i] / audio.numberOfChannels }
   return { data: mono, rate: r };
@@ -740,9 +741,9 @@ function cachePut(k, sents) {
 $("echoGo").onclick = async () => {
   if (!echo.blob) return;
   const start = parseStart($("echoStart").value), len = echo.len;
-  if (isNaN(start)) { toast("開始時間寫成 12:30 或 12.5（分鐘）"); return }
-  if (echo.dur && start >= echo.dur - 5) { toast("開始時間超過全長了"); return }
-  const btn = $("echoGo"); btn.disabled = true; btn.textContent = "處理中…"; echoHint("切出片段…");
+  if (isNaN(start)) { toast("Write the start time as 12:30 or 12.5 (minutes)."); return }
+  if (echo.dur && start >= echo.dur - 5) { toast("The start time is past the end of the audio."); return }
+  const btn = $("echoGo"); btn.disabled = true; btn.textContent = "Working…"; echoHint("Cutting the clip…");
   echoStopPlay(); echo.ctl = new AbortController(); $("echoStop").hidden = false;
   try {
     const clip = await decodeClip(start, Math.min(len, echo.dur ? echo.dur - start : len));
@@ -751,11 +752,11 @@ $("echoGo").onclick = async () => {
     if (script?.timed) {
       // Times in the file are from the start of the episode; keep the sentences that sit inside this clip.
       sents = script.timed.filter(s => s.start >= start - .3 && s.end <= start + dur + .3).map(s => ({ start: Math.max(0, s.start - start), end: Math.min(dur, s.end - start), text: s.text }));
-      if (!sents.length) throw new Error(`逐字稿的時間碼沒有落在 ${fmt(start)}–${fmt(start + dur)} 這段。檢查開始時間，或逐字稿是不是同一集。`);
+      if (!sents.length) throw new Error(`No transcript timestamps fall within ${fmt(start)}–${fmt(start + dur)}. Check the start time, or whether the transcript is for this episode.`);
       sents = snapTimes(sents, clip.data, clip.rate);
     } else if (!sents) {
-      if (!cfg.geminiKey) throw new AiError(script ? "沒有時間碼的逐字稿要用 Gemini 對齊時間，先到設定填 Gemini API key，或改上傳 .srt / .vtt。" : "逐句稿要用 Gemini 轉，先到設定填 Gemini API key。", "nokey");
-      echoHint(script ? "Gemini 正在照你的逐字稿對齊時間，約 20–60 秒…" : "Gemini 正在聽寫並斷句，約 20–60 秒…");
+      if (!cfg.geminiKey) throw new AiError(script ? "A transcript without timestamps needs Gemini to line it up. Add a Gemini API key in Settings, or upload an .srt / .vtt instead." : "Scripts are made with Gemini. Add a Gemini API key in Settings first.", "nokey");
+      echoHint(script ? "Gemini is lining up your transcript, about 20–60 seconds…" : "Gemini is transcribing and splitting sentences, about 20–60 seconds…");
       const ask = script ? `Here is my own transcript of the episode this clip comes from. It may cover much more than the clip.
 Find the part of it that is spoken in this clip and split that part into sentences for shadowing practice. If a sentence runs past about 20 words, split it at a natural pause.
 Keep the transcript's own wording and spelling: don't rewrite, correct or re-transcribe it. Leave out speaker names and notes like [music].
@@ -774,25 +775,25 @@ Reply with only JSON: {"sentences":[{"start":0.0,"end":3.2,"text":"..."}]}`;
       sents = (Array.isArray(r.sentences) ? r.sentences : []).map(s => ({ start: +s.start, end: +s.end, text: String(s.text || "").trim() }))
         .filter(s => s.text && isFinite(s.start) && isFinite(s.end) && s.end > s.start && s.start < dur).sort((a, b) => a.start - b.start);
       sents = snapTimes(sents, clip.data, clip.rate);
-      if (!sents.length) throw new Error(script ? "Gemini 在這段找不到逐字稿裡的句子。檢查開始時間，或逐字稿是不是同一集。" : "Gemini 沒有聽出句子，換一段有人說話的地方試試。");
+      if (!sents.length) throw new Error(script ? "Gemini couldn't find the transcript's sentences in this clip. Check the start time, or whether the transcript is for this episode." : "Gemini didn't hear any sentences. Try a part where someone is talking.");
       cachePut(key, sents);
     }
     const ab = echo.ctx.createBuffer(1, clip.data.length, clip.rate); ab.getChannelData(0).set(clip.data);
     Object.assign(echo, { buf: ab, data: clip.data, rate: clip.rate, sents, i: 0, mine: {}, scores: {} });
-    $("echoClip").textContent = "約 " + fmt(start) + "–" + fmt(start + clip.data.length / clip.rate);
+    $("echoClip").textContent = "About " + fmt(start) + "–" + fmt(start + clip.data.length / clip.rate);
     $("echoPlayer").hidden = false; $("echoListBox").hidden = false; echoHint("");
     renderSents(); showSentence(0); $("echoPlayer").scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (e) {
     if (e.code !== "cancelled") { echoHint(errText(e)); if (e.code === "nokey" || e.code === "auth" || e.code === "model") banner(errText(e), true) } else echoHint("");
-  } finally { btn.disabled = false; btn.textContent = "轉成逐句稿"; $("echoStop").hidden = true }
+  } finally { btn.disabled = false; btn.textContent = "Make script"; $("echoStop").hidden = true }
 };
 $("echoStop").onclick = () => echo.ctl?.abort();
 
 /* playback */
-function echoStopPlay() { clearTimeout(echo.loopT); const s = echo.src; echo.src = null; if (s) try { s.stop() } catch { } $("echoPlay").textContent = "▶ 原音" }
+function echoStopPlay() { clearTimeout(echo.loopT); const s = echo.src; echo.src = null; if (s) try { s.stop() } catch { } $("echoPlay").textContent = "▶ Original" }
 function playBuf(buf, a, b, then, rate = 1) {
   echoStopPlay(); const ctx = echoCtx(), s = ctx.createBufferSource(); s.buffer = buf; s.playbackRate.value = rate; s.connect(ctx.destination);
-  s.onended = () => { if (echo.src !== s) return; echo.src = null; $("echoPlay").textContent = "▶ 原音"; then && then() };
+  s.onended = () => { if (echo.src !== s) return; echo.src = null; $("echoPlay").textContent = "▶ Original"; then && then() };
   echo.src = s; s.start(0, a, Math.max(.05, b - a));
 }
 function clipOf(i) { const x = echo.sents[i]; return [Math.max(0, x.start - .05), Math.min(echo.buf.duration, x.end + .15)] }
@@ -800,7 +801,7 @@ function playSentence(then) {
   const [a, b] = clipOf(echo.i);
   // In loop mode, leave a gap as long as the sentence so you can say it along before it plays again.
   playBuf(echo.buf, a, b, then || (() => { if (echo.loop) echo.loopT = setTimeout(() => playSentence(), Math.max(1500, (b - a) / echo.speed * 1000 + 600)) }), echo.speed);
-  $("echoPlay").textContent = "■ 停止";
+  $("echoPlay").textContent = "■ Stop";
 }
 function playMine(then) { const m = echo.mine[echo.i]; if (!m) return; playBuf(m.buf, 0, m.buf.duration, then) }
 $("echoPlay").onclick = () => { if (echo.src) echoStopPlay(); else playSentence() };
@@ -816,7 +817,7 @@ $("echoNext").onclick = () => showSentence(echo.i + 1, true);
 function showSentence(i, play) {
   if (i < 0 || i >= echo.sents.length) return;
   echoStopPlay(); echo.i = i;
-  $("echoPos").textContent = `第 ${i + 1} / ${echo.sents.length} 句`;
+  $("echoPos").textContent = `Sentence ${i + 1} / ${echo.sents.length}`;
   $("echoPrev").disabled = i === 0; $("echoNext").disabled = i === echo.sents.length - 1;
   const m = echo.mine[i];
   $("echoMineRow").hidden = !m; $("echoScore").disabled = !m;
@@ -824,14 +825,14 @@ function showSentence(i, play) {
   renderScore(); renderSents();
   if (play) playSentence();
 }
-function durText(i) { const [a, b] = clipOf(i); return `原音 ${(b - a).toFixed(1)} 秒 · 你 ${echo.mine[i].buf.duration.toFixed(1)} 秒` }
+function durText(i) { const [a, b] = clipOf(i); return `Original ${(b - a).toFixed(1)}s · You ${echo.mine[i].buf.duration.toFixed(1)}s` }
 function renderSents() {
   $("echoList").replaceChildren(...echo.sents.map((s, i) => { const li = document.createElement("li"), b = document.createElement("button");
     if (i === echo.i) b.setAttribute("aria-current", "true");
     const n = document.createElement("span"); n.className = "num"; n.textContent = i + 1;
     const t = document.createElement("span"); t.lang = "en"; t.textContent = s.text;
     const sc = document.createElement("span"); sc.className = "sc"; const r = echo.scores[i];
-    sc.textContent = r ? (r.engine === "azure" ? Math.round(r.overall) + " 分" : "已看建議") : echo.mine[i] ? "已錄" : "";
+    sc.textContent = r ? (r.engine === "azure" ? Math.round(r.overall) + " pts" : "Tips") : echo.mine[i] ? "Recorded" : "";
     b.append(n, t, sc); b.onclick = () => showSentence(i, true); li.append(b); return li }));
 }
 
@@ -842,7 +843,7 @@ async function echoMic() {
   const ctx = echoCtx();
   try { echo.mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: true, channelCount: 1 } }) }
   catch (e) {
-    const msg = e && e.name === "NotAllowedError" ? "麥克風被拒絕了。到瀏覽器（iPhone 是「設定 > Safari > 麥克風」）允許這個網站使用麥克風再試。" : "打不開麥克風，檢查有沒有別的 App 正在用。";
+    const msg = e && e.name === "NotAllowedError" ? "Mic access was blocked. Allow this site to use the mic in your browser (on iPhone: Settings > Safari > Microphone) and try again." : "Can't open the mic. Check whether another app is using it.";
     toast(msg); echoHint(msg); return false;
   }
   echo.micSrc = ctx.createMediaStreamSource(echo.mic);
@@ -864,18 +865,18 @@ const recBtn = $("echoRec");
 async function recStart() {
   if (echo.holding || !echo.buf) return;
   echo.holding = true; echoStopPlay(); echo.loop = false; $("echoLoop").setAttribute("aria-pressed", "false");
-  if (!echo.mic) { recBtn.textContent = "準備麥克風…"; const ok = await echoMic(); recBtn.textContent = "按住錄音";
+  if (!echo.mic) { recBtn.textContent = "Getting the mic ready…"; const ok = await echoMic(); recBtn.textContent = "Hold to record";
     if (!ok) { echo.holding = false; return }
-    if (!echo.holding) { toast("麥克風好了，再按住說一次"); return } }
+    if (!echo.holding) { toast("The mic is ready. Hold the button and say it again."); return } }
   echo.chunks = []; echo.recording = true; echo.t0 = Date.now(); recBtn.classList.add("on");
-  const tick = () => { const s = (Date.now() - echo.t0) / 1000; recBtn.textContent = "● 錄音中 " + fmt(s) + " · 放開就停"; if (s >= REC_MAX) recStop() };
+  const tick = () => { const s = (Date.now() - echo.t0) / 1000; recBtn.textContent = "● Recording " + fmt(s) + " · let go to stop"; if (s >= REC_MAX) recStop() };
   tick(); echo.recT = setInterval(tick, 250);
 }
 function recStop() {
   echo.holding = false; if (!echo.recording) return;
-  echo.recording = false; clearInterval(echo.recT); recBtn.classList.remove("on"); recBtn.textContent = "按住錄音";
+  echo.recording = false; clearInterval(echo.recT); recBtn.classList.remove("on"); recBtn.textContent = "Hold to record";
   const data = concat(echo.chunks), rate = echo.ctx.sampleRate; echo.chunks = [];
-  if (data.length < rate * .4) { toast("太短了，按住說完整句再放開"); return }
+  if (data.length < rate * .4) { toast("Too short. Hold the button through the whole sentence, then let go."); return }
   const buf = echo.ctx.createBuffer(1, data.length, rate); buf.getChannelData(0).set(data);
   echo.mine[echo.i] = { data, rate, buf }; delete echo.scores[echo.i];
   $("echoMineRow").hidden = false; $("echoScore").disabled = false; $("echoDur").textContent = durText(echo.i);
@@ -896,14 +897,14 @@ async function azureAssess(wav, text, signal) {
   try {
     res = await fetch(`https://${encodeURIComponent(cfg.azureRegion)}.stt.speech.microsoft.com/speech/recognition/conversation/cognitiveservices/v1?language=en-US&format=detailed`, { method: "POST", signal,
       headers: { "Ocp-Apim-Subscription-Key": cfg.azureKey, "Content-Type": "audio/wav; codecs=audio/pcm; samplerate=16000", "Pronunciation-Assessment": header, Accept: "application/json" }, body: wav });
-  } catch (e) { if (e.name === "AbortError") throw new AiError("", "cancelled"); throw new AzureError("連不上 Azure，檢查網路和設定裡的地區（例如 eastasia）。") }
-  if (res.status === 401 || res.status === 403) throw new AzureError("Azure key 或地區不對，請到設定檢查。");
-  if (res.status === 429) throw new AzureError("Azure 免費額度用完或太頻繁了，等一下再試。");
-  if (!res.ok) throw new AzureError("Azure 回了錯誤：" + res.status);
+  } catch (e) { if (e.name === "AbortError") throw new AiError("", "cancelled"); throw new AzureError("Can't reach Azure. Check your connection and the region in Settings (e.g. eastasia).") }
+  if (res.status === 401 || res.status === 403) throw new AzureError("The Azure key or region is wrong. Check them in Settings.");
+  if (res.status === 429) throw new AzureError("The Azure free quota is used up or there were too many requests. Try again in a moment.");
+  if (!res.ok) throw new AzureError("Azure returned an error: " + res.status);
   return res.json();
 }
 function azureResult(d) {
-  if (d.RecognitionStatus !== "Success" || !d.NBest?.length) throw new AzureError("Azure 沒聽到你說話，靠近麥克風再錄一次。");
+  if (d.RecognitionStatus !== "Success" || !d.NBest?.length) throw new AzureError("Azure didn't hear you. Move closer to the mic and record again.");
   const n = d.NBest[0], p = n.PronunciationAssessment || n;
   return { engine: "azure", overall: p.PronScore, acc: p.AccuracyScore, flu: p.FluencyScore, comp: p.CompletenessScore, pros: p.ProsodyScore,
     words: (n.Words || []).map(w => { const q = w.PronunciationAssessment || w; return { word: w.Word, score: q.AccuracyScore, err: q.ErrorType || "None",
@@ -917,71 +918,71 @@ async function geminiAdvice(i, signal) {
     { text: "Now my recording, shadowing that sentence:" },
     { inlineData: { mimeType: "audio/wav", data: b64(wav16k(m.data, m.rate)) } },
     { text: `Compare my recording with the original and the reference text. Judge pronunciation only: individual sounds, word stress, linking, rhythm and intonation. Be honest and specific; don't praise what isn't there.
-Reply with only JSON: {"words":[{"word":"each word of the reference sentence, in order","status":"good|unclear|wrong|missing","tip":"簡短繁體中文說明，status 不是 good 才寫"}],"tips":["最多 3 條繁體中文建議，最重要的先寫"],"summary":"一句繁體中文整體評語"}` }], { json: true, signal });
+Reply with only JSON: {"words":[{"word":"each word of the reference sentence, in order","status":"good|unclear|wrong|missing","tip":"a short tip in plain English, only when status isn't good"}],"tips":["up to 3 tips in plain English, most important first"],"summary":"one sentence of overall feedback in plain English"}` }], { json: true, signal });
   return { engine: "gemini", words: (Array.isArray(res.words) ? res.words : []).filter(w => w && w.word).map(w => ({ word: String(w.word), status: w.status, tip: w.tip || "" })),
     tips: (Array.isArray(res.tips) ? res.tips : []).slice(0, 3).map(String), summary: res.summary || "" };
 }
 $("echoScore").onclick = async () => {
   const i = echo.i, m = echo.mine[i]; if (!m) return;
   const azure = use("pron") === "azure";
-  if (!azure && !cfg.geminiKey) { banner("發音評分要 Azure key 或 Gemini key，先到設定填一組。", true); return }
-  const btn = $("echoScore"); btn.disabled = true; btn.textContent = "評分中…"; echo.ctl = new AbortController();
+  if (!azure && !cfg.geminiKey) { banner("Pronunciation scoring needs an Azure or Gemini key. Add one in Settings first.", true); return }
+  const btn = $("echoScore"); btn.disabled = true; btn.textContent = "Scoring…"; echo.ctl = new AbortController();
   try {
     echo.scores[i] = azure ? azureResult(await azureAssess(wav16k(m.data, m.rate), echo.sents[i].text, echo.ctl.signal)) : await geminiAdvice(i, echo.ctl.signal);
     if (echo.i === i) renderScore(); renderSents();
-  } catch (e) { if (e.code !== "cancelled") { toast(e.message || errText(e)); if (/設定/.test(e.message || "")) banner(e.message, true) } }
-  finally { btn.disabled = false; btn.textContent = "評分發音" }
+  } catch (e) { if (e.code !== "cancelled") { toast(e.message || errText(e)); if (/Settings/.test(e.message || "")) banner(e.message, true) } }
+  finally { btn.disabled = false; btn.textContent = "Score pronunciation" }
 };
-const ERR = { Mispronunciation: "發音不準", Omission: "漏掉了", Insertion: "多唸了", UnexpectedBreak: "不該停頓", MissingBreak: "該停沒停", Monotone: "語調太平" };
+const ERR = { Mispronunciation: "mispronounced", Omission: "missed", Insertion: "extra word", UnexpectedBreak: "unexpected pause", MissingBreak: "missing pause", Monotone: "flat intonation" };
 const QUALITY = { good: "", unclear: "mid", wrong: "bad", missing: "miss" };
 function renderScore() {
   const r = echo.scores[echo.i], box = $("echoResult"), line = $("echoLine"), s = echo.sents[echo.i];
-  $("echoEngine").textContent = use("pron") === "azure" ? "用 Azure 發音評估" : keyFor("azure") ? "用 Gemini 給建議（設定裡選了 Gemini）" : "沒填 Azure key，改用 Gemini 給建議";
+  $("echoEngine").textContent = use("pron") === "azure" ? "Scored by Azure pronunciation assessment" : keyFor("azure") ? "Tips from Gemini (chosen in Settings)" : "No Azure key, so Gemini gives tips instead";
   box.hidden = !r;
   if (!r) { line.textContent = s ? s.text : ""; return }
   // Words: colour plus a text list below, so colour is never the only signal.
   const words = r.engine === "azure"
-    ? r.words.filter(w => w.err !== "Insertion").map(w => ({ word: w.word, q: w.err === "Omission" ? "miss" : w.err === "Mispronunciation" || w.score < 60 ? "bad" : w.score < 80 ? "mid" : "", title: Math.round(w.score) + " 分" }))
+    ? r.words.filter(w => w.err !== "Insertion").map(w => ({ word: w.word, q: w.err === "Omission" ? "miss" : w.err === "Mispronunciation" || w.score < 60 ? "bad" : w.score < 80 ? "mid" : "", title: Math.round(w.score) + " pts" }))
     : r.words.map(w => ({ word: w.word, q: QUALITY[w.status] || "", title: w.tip }));
   line.replaceChildren(...words.flatMap((w, k) => { const sp = document.createElement("span"); sp.className = "w"; if (w.q) sp.dataset.q = w.q; sp.textContent = w.word; if (w.title) sp.title = w.title; return k ? [" ", sp] : [sp] }));
   const tiles = $("echoTiles"), weak = $("echoWeak"), tips = $("echoTips");
   tiles.hidden = r.engine !== "azure";
   if (r.engine === "azure") {
-    tiles.replaceChildren(...[["總分", r.overall], ["準確度", r.acc], ["流暢度", r.flu], ["完整度", r.comp], ["韻律", r.pros]].filter(x => x[1] != null).map(([k, v]) => {
+    tiles.replaceChildren(...[["Overall", r.overall], ["Accuracy", r.acc], ["Fluency", r.flu], ["Completeness", r.comp], ["Prosody", r.pros]].filter(x => x[1] != null).map(([k, v]) => {
       const d = document.createElement("div"), b = document.createElement("b"), l = document.createElement("span"); b.textContent = Math.round(v); l.textContent = k; d.append(b, l); return d }));
     const list = r.words.filter(w => w.err !== "None" || w.score < 80 || w.breakErr.length || w.tone.length);
     weak.replaceChildren(...(list.length ? list.slice(0, 8).map(w => { const p = document.createElement("p"); p.className = "c-why";
       const why = [w.err !== "None" ? ERR[w.err] || w.err : "", ...w.breakErr.map(x => ERR[x] || x), ...w.tone.map(x => ERR[x] || x)].filter(Boolean);
-      p.innerHTML = ""; const b = document.createElement("b"); b.lang = "en"; b.textContent = w.word; p.append(b, ` ${Math.round(w.score)} 分` + (why.length ? " · " + why.join("、") : "")); return p })
-      : [Object.assign(document.createElement("p"), { className: "c-why", textContent: "每個字都在 80 分以上。" })]));
+      p.innerHTML = ""; const b = document.createElement("b"); b.lang = "en"; b.textContent = w.word; p.append(b, ` ${Math.round(w.score)} pts` + (why.length ? " · " + why.join(", ") : "")); return p })
+      : [Object.assign(document.createElement("p"), { className: "c-why", textContent: "Every word scored 80 or higher." })]));
     tips.replaceChildren(); $("echoSummary").textContent = "";
   } else {
     const list = r.words.filter(w => w.status && w.status !== "good");
     weak.replaceChildren(...list.slice(0, 8).map(w => { const p = document.createElement("p"); p.className = "c-why"; const b = document.createElement("b"); b.lang = "en"; b.textContent = w.word;
-      p.append(b, " " + ({ unclear: "不太清楚", wrong: "發音不準", missing: "漏掉了" }[w.status] || w.status) + (w.tip ? " · " + w.tip : "")); return p }));
+      p.append(b, " " + ({ unclear: "unclear", wrong: "mispronounced", missing: "missed" }[w.status] || w.status) + (w.tip ? " · " + w.tip : "")); return p }));
     tips.replaceChildren(...r.tips.map(t => Object.assign(document.createElement("li"), { textContent: t })));
-    $("echoSummary").textContent = r.summary + " 這是 Gemini 聽出來的建議，沒有精確分數；到設定填 Azure key 可以拿到逐字分數。";
+    $("echoSummary").textContent = r.summary + " These are Gemini's tips, without exact scores. Add an Azure key in Settings to get a score for each word.";
   }
 }
 $("echoDone").onclick = () => {
   const n = Object.keys(echo.mine).length;
-  if (!n) { toast("先跟讀幾句再按完成"); return }
+  if (!n) { toast("Shadow a few sentences before you finish."); return }
   const sc = Object.values(echo.scores).filter(r => r.engine === "azure").map(r => r.overall);
-  addLog({ type: "echo", topic: echo.title + ` · ${n} 句`, level: "", score: sc.length ? Math.round(sc.reduce((a, b) => a + b, 0) / sc.length) : null });
-  echoStopPlay(); echoMicOff(); toast("已記錄，算進本週進度");
+  addLog({ type: "echo", topic: echo.title + ` · ${n} sentences`, level: "", score: sc.length ? Math.round(sc.reduce((a, b) => a + b, 0) / sc.length) : null });
+  echoStopPlay(); echoMicOff(); toast("Saved and counted toward this week.");
 };
 function echoLeave() { echoStopPlay(); if (echo.recording) recStop(); echoMicOff() }
 addEventListener("pagehide", echoLeave);
 
 /* ---------- corrections + cards ---------- */
 function renderCorr(box, items, source) {
-  if (!items.length) { box.innerHTML = '<p class="muted">這次沒有挑出需要修改的地方。</p>'; return }
+  if (!items.length) { box.innerHTML = '<p class="muted">Nothing needed fixing this time.</p>'; return }
   box.replaceChildren(...items.map(it => { const el = document.createElement("div"); el.className = "c-item";
     const a = document.createElement("div"); a.className = "c-mine"; a.textContent = it.mine;
     const b = document.createElement("div"); b.className = "c-nat"; b.textContent = it.natural;
     const c = document.createElement("div"); c.className = "c-why"; c.textContent = it.why || "";
-    const s = document.createElement("button"); s.className = "btn c-save"; s.textContent = "存成卡片";
-    s.onclick = () => { saveCard(it, source); persist(); s.textContent = "已存"; s.disabled = true };
+    const s = document.createElement("button"); s.className = "btn c-save"; s.textContent = "Save as card";
+    s.onclick = () => { saveCard(it, source); persist(); s.textContent = "Saved"; s.disabled = true };
     el.append(a, b, c, s); return el }));
 }
 function saveCard(it, source) {
@@ -991,26 +992,26 @@ function saveCard(it, source) {
 }
 function saveAll(items, source, box) {
   let n = 0; for (const it of items) if (saveCard(it, source)) n++;
-  persist(); box.querySelectorAll(".c-save").forEach(b => { b.textContent = "已存"; b.disabled = true });
-  toast(n ? `存了 ${n} 張卡片` : "這些都已經存過了");
+  persist(); box.querySelectorAll(".c-save").forEach(b => { b.textContent = "Saved"; b.disabled = true });
+  toast(n ? `Saved ${n} card${n > 1 ? "s" : ""}` : "These are already saved");
 }
 const due = () => st.cards.filter(c => c.due <= today());
 let flashShown = false;
 function renderFlash() {
   const list = due(), f = $("flash"), btns = $("flashBtns");
-  $("dueLabel").textContent = list.length ? `還有 ${list.length} 張` : "";
-  if (!list.length) { f.innerHTML = st.cards.length ? '<p class="muted">今天的卡片都複習完了。</p>' : '<p class="muted">還沒有卡片。口說或寫作檢討後，按「存成卡片」，修正過的說法就會出現在這裡。</p>'; btns.replaceChildren(); return }
+  $("dueLabel").textContent = list.length ? `${list.length} left` : "";
+  if (!list.length) { f.innerHTML = st.cards.length ? '<p class="muted">All done for today.</p>' : '<p class="muted">No cards yet. After a speaking or writing review, tap Save as card and the corrected phrases will show up here.</p>'; btns.replaceChildren(); return }
   const c = list[0];
   f.replaceChildren();
   const word = c.kind === "word";
-  const hint = document.createElement("p"); hint.className = "muted"; hint.textContent = word ? "這個字是什麼意思？" : "你原本這樣說，自然的說法是？";
+  const hint = document.createElement("p"); hint.className = "muted"; hint.textContent = word ? "What does this word mean?" : "This is what you said. What's the natural way to say it?";
   const q = document.createElement("div"); q.className = word ? "q word" : "q"; q.lang = "en"; q.textContent = c.mine;
   f.append(hint, q);
   if (flashShown) { const a = document.createElement("div"); a.className = "a"; a.textContent = c.natural; const w = document.createElement("p"); w.className = "muted"; w.textContent = c.why; f.append(a, w) }
   const mk = (t, cls, fn) => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = t; b.onclick = fn; return b };
   btns.replaceChildren(...(flashShown
-    ? [mk("再練一次", "red", () => grade(c, false)), mk("記得", "accent", () => grade(c, true))]
-    : [mk("看答案", "primary", () => { flashShown = true; renderFlash() })]));
+    ? [mk("Again", "red", () => grade(c, false)), mk("Got it", "accent", () => grade(c, true))]
+    : [mk("Show answer", "primary", () => { flashShown = true; renderFlash() })]));
 }
 const GAPS = [1, 2, 4, 8, 16, 32, 64];
 function grade(c, ok) {
@@ -1022,25 +1023,25 @@ function grade(c, ok) {
 function renderList() {
   const box = $("cardList");
   const n = due().length; $("dueCount").textContent = n ? n : "";
-  if (!st.cards.length) { box.innerHTML = '<p class="muted">還沒有卡片。</p>'; return }
+  if (!st.cards.length) { box.innerHTML = '<p class="muted">No cards yet.</p>'; return }
   box.replaceChildren(...[...st.cards].sort((a, b) => (b.created || "").localeCompare(a.created || "")).map(c => {
     const el = document.createElement("div"); el.className = "c-item";
     const d = document.createElement("div");
     const a = document.createElement("div"); a.className = "c-mine"; a.textContent = c.mine;
     const b = document.createElement("div"); b.className = "c-nat"; b.textContent = c.natural;
     if (c.kind === "word") { a.className = "c-word"; b.className = "c-why" }
-    const w = document.createElement("div"); w.className = "c-why"; w.textContent = ({ write: "寫作 · ", read: "單字本 · " }[c.source] || "口說 · ") + "下次複習 " + c.due;
+    const w = document.createElement("div"); w.className = "c-why"; w.textContent = ({ write: "Write · ", read: "Word list · " }[c.source] || "Speak · ") + "next review " + c.due;
     d.append(a, b, w);
-    const x = document.createElement("button"); x.className = "del"; x.textContent = "刪除"; x.setAttribute("aria-label", "刪除這張卡片");
-    x.onclick = () => { if (x.dataset.armed) { st.cards = st.cards.filter(k => k.id !== c.id); persist() } else { x.dataset.armed = 1; x.textContent = "確定刪除？"; setTimeout(() => { delete x.dataset.armed; x.textContent = "刪除" }, 3000) } };
+    const x = document.createElement("button"); x.className = "del"; x.textContent = "Delete"; x.setAttribute("aria-label", "Delete this card");
+    x.onclick = () => { if (x.dataset.armed) { st.cards = st.cards.filter(k => k.id !== c.id); persist() } else { x.dataset.armed = 1; x.textContent = "Delete for sure?"; setTimeout(() => { delete x.dataset.armed; x.textContent = "Delete" }, 3000) } };
     el.append(d, x); return el }));
 }
 $("exportAnki").onclick = () => {
-  if (!st.cards.length) { toast("還沒有卡片可以匯出"); return }
+  if (!st.cards.length) { toast("There are no cards to export yet."); return }
   const q = s => '"' + String(s || "").replace(/"/g, '""') + '"';
   const rows = st.cards.map(c => [q(c.mine), q(c.natural + (c.why ? "<br><small>" + c.why + "</small>" : ""))].join(","));
   download("english-desk-anki.csv", "﻿" + rows.join("\n"), "text/csv");
-  toast("已下載，在 Anki 選「匯入檔案」");
+  toast("Downloaded. In Anki, choose File > Import.");
 };
 
 /* ---------- settings + backup ---------- */
@@ -1048,26 +1049,26 @@ $("exportAnki").onclick = () => {
 const DEF = { geminiModel: "gemini-3.5-flash-lite", liveModel: LIVE_DEFAULT, claudeGrade: "claude-opus-5-5" };
 const NAME = { gemini: "Gemini", claude: "Claude", azure: "Azure" };
 const KEYS = { gemini: ["geminiKey"], claude: ["claudeKey"], azure: ["azureKey", "azureRegion"] };
-const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" } };
-function storeCfg() { try { localStorage.setItem(CFG, JSON.stringify(cfg)); return true } catch { toast("瀏覽器拒絕儲存設定"); return false } }
+const FEATURES = { useLive: { opts: ["gemini"] }, useGrade: { opts: ["gemini", "claude"], key: "grade" }, useTrans: { opts: ["gemini"] }, usePron: { opts: ["azure", "gemini"], key: "pron" }, useBrief: { opts: ["gemini", "claude"], key: "brief" } };
+function storeCfg() { try { localStorage.setItem(CFG, JSON.stringify(cfg)); return true } catch { toast("The browser refused to save your settings."); return false } }
 function renderKeys() {
   for (const p of Object.keys(KEYS)) {
     const P = NAME[p], tag = $("st" + P), has = keyFor(p), open = !$("k" + P).hidden;
-    tag.textContent = !has ? "還沒填" : cfg.keyOk[p] ? "✓ 可以用" : "已填，還沒測試";
+    tag.textContent = !has ? "Not set" : cfg.keyOk[p] ? "✓ Working" : "Added, not tested";
     tag.className = "tag" + (!has ? " no" : cfg.keyOk[p] ? " ok" : "");
-    const b = document.querySelector(`[data-open="k${P}"]`); b.textContent = open ? "收起" : has ? "修改" : "填入"; b.setAttribute("aria-expanded", open);
+    const b = document.querySelector(`[data-open="k${P}"]`); b.textContent = open ? "Close" : has ? "Edit" : "Add"; b.setAttribute("aria-expanded", open);
   }
 }
 function renderUse() {
   for (const [id, f] of Object.entries(FEATURES)) {
     const cur = f.key ? use(f.key) : "gemini";
     $(id).replaceChildren(...f.opts.map(p => { const b = document.createElement("button"); b.className = "chip"; b.textContent = NAME[p];
-      b.disabled = !keyFor(p); if (b.disabled) b.title = "先填 " + NAME[p] + " key";
+      b.disabled = !keyFor(p); if (b.disabled) b.title = "Add a " + NAME[p] + " key first";
       b.setAttribute("aria-pressed", keyFor(p) && p === cur ? "true" : "false");
-      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(); renderUse(); toast(`${f.key === "grade" ? "評分、批改" : "發音評分"}改用 ${NAME[p]}`) };
+      if (f.key && f.opts.length > 1) b.onclick = () => { cfg.use[f.key] = p; storeCfg(); renderUse(); toast(`${{ grade: "Grading and feedback", pron: "Pronunciation", brief: "News brief" }[f.key]} now uses ${NAME[p]}`) };
       return b }));
   }
-  $("advSum").textContent = "進階：模型名稱（" + (use("grade") === "claude" ? "評分用 " + cfg.claudeGrade : "評分用 " + cfg.geminiModel) + "）";
+  $("advSum").textContent = "Advanced: model names (grading uses " + (use("grade") === "claude" ? cfg.claudeGrade : cfg.geminiModel) + ")";
 }
 function renderSettings() {
   for (const f of ["geminiKey", "claudeKey", "azureKey", "azureRegion", "geminiModel", "liveModel", "claudeGrade"]) $(f).value = cfg[f] || "";
@@ -1085,27 +1086,27 @@ async function testKey(p) {
   switch (p) {
     case "gemini": await gemini("Reply with exactly: OK", [{ text: "Say OK." }]); break;
     case "claude": await claude("Reply with exactly: OK", [{ role: "user", content: "Say OK." }], { max: 2000 }); break;
-    case "azure": if (!cfg.azureKey || !cfg.azureRegion) throw new Error("key 和地區都要填。");
+    case "azure": if (!cfg.azureKey || !cfg.azureRegion) throw new Error("Fill in both the key and the region.");
       await azureAssess(wav16k(new Float32Array(16000), 16000), "Hello.", undefined); break; // one second of silence: a good key answers 200
   }
 }
 document.querySelectorAll("[data-test]").forEach(b => b.onclick = async () => {
   const p = b.dataset.test, out = $("out" + NAME[p]);
   takeKey(p);
-  if (!keyFor(p)) { cfg.keyOk[p] = false; storeCfg(); renderKeys(); renderUse(); out.textContent = "已清除。"; return }
-  b.disabled = true; out.textContent = "測試中…";
-  try { await testKey(p); cfg.keyOk[p] = true; out.textContent = ""; $("k" + NAME[p]).hidden = true; toast(NAME[p] + " 可以用了") }
+  if (!keyFor(p)) { cfg.keyOk[p] = false; storeCfg(); renderKeys(); renderUse(); out.textContent = "Cleared."; return }
+  b.disabled = true; out.textContent = "Testing…";
+  try { await testKey(p); cfg.keyOk[p] = true; out.textContent = ""; $("k" + NAME[p]).hidden = true; toast(NAME[p] + " is working") }
   catch (e) { cfg.keyOk[p] = false; out.textContent = errText(e) }
   finally { b.disabled = false; storeCfg(); renderKeys(); renderUse(); afterSettings() }
 });
 $("saveModels").onclick = () => {
   for (const f of Object.keys(DEF)) cfg[f] = $(f).value.trim() || DEF[f];
-  if (storeCfg()) { renderSettings(); toast("已儲存") }
+  if (storeCfg()) { renderSettings(); toast("Saved") }
 };
 function afterSettings() { liveAvailability(); if (anyTextKey()) banner(""); if (!$("echoPlayer").hidden) renderScore() }
 $("exportBackup").onclick = () => {
   download(`english-desk-backup-${today()}.json`, JSON.stringify({ app: "english-desk", version: 1, exported: new Date().toISOString(), cards: st.cards, logs: st.logs }, null, 2), "application/json");
-  toast("已匯出備份（不含 API key）");
+  toast("Backup exported (API keys not included)");
 };
 $("importFile").onchange = async e => {
   const f = e.target.files[0]; e.target.value = ""; if (!f) return;
@@ -1115,19 +1116,21 @@ $("importFile").onchange = async e => {
     const ids = new Set(st.cards.map(c => c.id)), ts = new Set(st.logs.map(l => l.ts));
     const nc = d.cards.filter(c => c && c.mine && !ids.has(c.id)), nl = d.logs.filter(l => l && !ts.has(l.ts));
     st.cards.push(...nc); st.logs.push(...nl); persist();
-    $("backupInfo").textContent = `匯入了 ${nc.length} 張卡片、${nl.length} 筆紀錄`;
-  } catch { toast("這不是 English Desk 的備份檔") }
+    $("backupInfo").textContent = `Imported ${nc.length} cards and ${nl.length} sessions`;
+  } catch { toast("This isn't an English Desk backup file.") }
 };
-function backupInfo() { $("backupInfo").textContent = `目前 ${st.cards.length} 張卡片、${st.logs.length} 筆紀錄` }
+function backupInfo() { $("backupInfo").textContent = `${st.cards.length} cards and ${st.logs.length} sessions saved` }
 
 /* ---------- word book (used by reader.js) ---------- */
 // A saved word is a card with kind "word": front = the word, back = definition, note = the sentence it came from.
 window.EnglishDesk = {
   toast,
+  // For brief.js: the AI picked for "News brief" and its display name.
+  ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
   words: () => st.cards.filter(c => c.kind === "word").map(c => c.mine),
   addWord({ word, def, sentence, source }) {
     if (st.cards.some(c => c.kind === "word" && c.mine.toLowerCase() === word)) return false;
-    st.cards.push({ id: uid(), kind: "word", mine: word, natural: def || "（沒有解釋，複習時自己想想）", why: sentence ? sentence + (source ? " — " + source : "") : "", source: "read", created: today(), due: today(), box: 0 });
+    st.cards.push({ id: uid(), kind: "word", mine: word, natural: def || "(No definition. Try to recall it when you review.)", why: sentence ? sentence + (source ? " — " + source : "") : "", source: "read", created: today(), due: today(), box: 0 });
     persist(); return true;
   },
 };
@@ -1136,5 +1139,5 @@ window.EnglishDesk = {
 load(); renderSettings(); loadNews(); loadPodcasts(); renderToday(); renderLogs(); renderList(); backupInfo(); renderRedo();
 try { $("essay").value = localStorage.getItem("englishDesk.draft") || "" } catch { }
 wc(); setSpeakMode("live"); route();
-if (!anyTextKey()) banner("第一次使用：先填一組 API key。", true);
+if (!anyTextKey()) banner("First time here? Add an API key to get started.", true);
 })();

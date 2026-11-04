@@ -32,7 +32,7 @@ async function getEntry(k) {
   return null;
 }
 
-const EXAMS = [["toefl", "托福", "T"], ["ielts", "雅思", "I"], ["gre", "GRE", "G"]];
+const EXAMS = [["toefl", "TOEFL", "T"], ["ielts", "IELTS", "I"], ["gre", "GRE", "G"]];
 const lists = { toefl: new Set(), ielts: new Set(), gre: new Set() };
 let dictInfo = null, builtinLists = false;
 async function loadMeta() {
@@ -225,7 +225,7 @@ async function fetchArticle(it) {
   const got = await settleFast(jobs.map(j => j.run()));
   const log = got.map((g, i) => {
     const v = g.status === "fulfilled" ? g.value : null, ps = v?.paras;
-    return { source: jobs[i].name, error: g.status === "rejected" ? (g.reason?.status || g.reason?.message || "error") : g.status === "pending" ? "沒等（已有完整文章）" : "", skipped: g.status === "pending", via: v?.via || "", ...(v?.note || {}),
+    return { source: jobs[i].name, error: g.status === "rejected" ? (g.reason?.status || g.reason?.message || "error") : g.status === "pending" ? "skipped (already had the full story)" : "", skipped: g.status === "pending", via: v?.via || "", ...(v?.note || {}),
       first: ps ? ps.find(p => !p.h)?.t.split(" ").slice(0, 6).join(" ") : "", last: ps ? [...ps].reverse().find(p => !p.h)?.t.split(" ").slice(-6).join(" ") : "" };
   });
   const ok = got.map(g => g.status === "fulfilled" && g.value?.paras ? g.value : null).filter(Boolean), byLen = (x, y) => words(y.paras) - words(x.paras);
@@ -240,7 +240,7 @@ async function fetchArticle(it) {
     } catch (e) { log.push({ source: "jina markdown", error: e.status || e.message }) }
   }
   lastLog = log;
-  if (!out) throw new Error(busy ? "抓文章的服務暫時太忙，等 1 分鐘再試，或直接貼上文章。" : "抓不到這篇文章的內文，可以打開原文複製後貼上。");
+  if (!out) throw new Error(busy ? "The article service is busy. Wait a minute and try again, or paste the article." : "Couldn't get this article's text. Open the original, copy it and paste it here.");
   out.log = log;
   try { sessionStorage.setItem(cache, JSON.stringify(out)) } catch { }
   return out;
@@ -249,8 +249,8 @@ let lastLog = [];
 function renderLog(log) {
   const box = $("readLog"); if (!box) return;
   box.hidden = !log?.length;
-  $("readLogText").textContent = (log || []).map(l => l.words != null || (l.source === "jina markdown" && l.error) ? `${l.source}｜${l.error ? "失敗 " + l.error : "markdown " + l.words + " 字"}` : [l.source, l.error ? (l.skipped ? "" : "失敗 ") + l.error : `HTML ${l.bytes || 0} 字元`, l.nextData ? "有 JSON" : "無 JSON", l.ps ? "p " + l.ps : "",
-    `json ${l.json || 0} / 規則 ${l.rule || 0} / Readability ${l.readability || 0}${l.words != null ? " / markdown " + l.words : ""}`, l.via ? "採用 " + l.via : "", l.first ? `「${l.first} … ${l.last}」` : ""].filter(Boolean).join("｜")).join("\n");
+  $("readLogText").textContent = (log || []).map(l => l.words != null || (l.source === "jina markdown" && l.error) ? `${l.source} | ${l.error ? "failed " + l.error : "markdown " + l.words + " words"}` : [l.source, l.error ? (l.skipped ? "" : "failed ") + l.error : `HTML ${l.bytes || 0} chars`, l.nextData ? "has JSON" : "no JSON", l.ps ? "p " + l.ps : "",
+    `json ${l.json || 0} / rules ${l.rule || 0} / Readability ${l.readability || 0}${l.words != null ? " / markdown " + l.words : ""}`, l.via ? "used " + l.via : "", l.first ? `"${l.first} … ${l.last}"` : ""].filter(Boolean).join(" | ")).join("\n");
 }
 
 /* ---------- rendering: every word is a tappable span ---------- */
@@ -273,7 +273,7 @@ function renderArticle(art, it) {
   current = { ...art, it };
   saved = new Set((ED()?.words() || []).map(w => w.toLowerCase()));
   $("readTitle").replaceChildren(); wordify($("readTitle"), art.title);
-  $("readMeta").textContent = it ? it.source + " · 內文由瀏覽器當場抓取，只存在這次瀏覽" : "你貼上的文章";
+  $("readMeta").textContent = it ? it.source + " · fetched by your browser just now and kept only for this visit" : "Your pasted article";
   $("readSrc").hidden = !it; if (it) $("readSrc").href = it.link;
   const body = $("readBody"); body.replaceChildren();
   for (const p of art.paras) { const el = document.createElement(p.h ? "h3" : "p"); wordify(el, p.t); body.append(el) }
@@ -294,7 +294,7 @@ function renderLegend() {
   const body = $("readBody"), box = $("readLegend");
   const n = {}; for (const [k] of EXAMS) n[k] = new Set([...body.querySelectorAll(".rw[data-exams]")].filter(s => s.dataset.exams.split(" ").includes(k)).map(s => s.textContent.toLowerCase())).size;
   box.hidden = !EXAMS.some(([k]) => lists[k].size);
-  const label = document.createElement("span"); label.className = "muted"; label.textContent = "標示";
+  const label = document.createElement("span"); label.className = "muted"; label.textContent = "Show";
   box.replaceChildren(label, ...EXAMS.filter(([k]) => lists[k].size).map(([k, name]) => {
     const b = document.createElement("button"); b.className = "chip"; b.setAttribute("aria-pressed", shown.has(k));
     const sample = document.createElement("span"); sample.className = "rw"; sample.dataset.ex = k; sample.textContent = name;
@@ -305,7 +305,7 @@ function renderLegend() {
 }
 async function openReader(it) {
   location.hash = "read";
-  $("readBox").hidden = true; $("pasteBox").hidden = true; $("readStatus").hidden = false; $("readStatus").textContent = "抓文章中…";
+  $("readBox").hidden = true; $("pasteBox").hidden = true; $("readStatus").hidden = false; $("readStatus").textContent = "Getting the article…";
   try { const art = await fetchArticle(it); $("readStatus").hidden = true; renderArticle(art, it); renderLog(art.log) }
   catch (e) { $("readStatus").textContent = e.message; showPaste(it); renderLog(lastLog) }
 }
@@ -315,16 +315,16 @@ function showPaste(it) {
 }
 $("pasteRead").onclick = () => {
   const t = $("pasteArticle").value.trim();
-  if (t.split(/\s+/).length < 20) { toast("先貼上文章內容"); return }
+  if (t.split(/\s+/).length < 20) { toast("Paste the article text first."); return }
   const paras = t.split(/\n\s*\n|\n/).map(s => s.trim()).filter(Boolean).map(s => ({ t: s }));
   $("readStatus").hidden = true;
-  renderArticle({ title: $("pasteArticle").dataset.title || "貼上的文章", paras }, null);
+  renderArticle({ title: $("pasteArticle").dataset.title || "Pasted article", paras }, null);
 };
 // Any article by its address, e.g. a BBC live page that isn't in today's list. Fetched fresh each time.
 const CACHE = "englishDesk.read10:"; // bump when extraction changes so old results are dropped
 function sourceOf(host) { return /bbc\./.test(host) ? "BBC" : /npr\.org/.test(host) ? "NPR" : /cnn\.com/.test(host) ? "CNN" : host.replace(/^www\./, "") }
 $("readUrlGo").onclick = () => {
-  let u; try { u = new URL($("readUrl").value.trim()) } catch { toast("請貼上完整網址（https://…）"); return }
+  let u; try { u = new URL($("readUrl").value.trim()) } catch { toast("Paste the full link (https://…)"); return }
   try { sessionStorage.removeItem(CACHE + u.href) } catch {}
   openReader({ source: sourceOf(u.hostname), link: u.href, title: "" });
 };
@@ -364,9 +364,9 @@ const esc = t => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;");
 function builtinHtml([ph, zh, en, , notes]) {
   const lines = t => t.split("\n").filter(Boolean).map(l => { const m = l.match(/^([a-z]+\.)\s*(.*)$/); return `<li>${m ? `<span class="pt">${esc(m[1])}</span>` : ""}<span class="${zh === t ? "zh" : "df"}">${esc(m ? m[2] : l)}</span></li>` }).join("");
   return `<div class="rd">${ph ? `<div class="pr"><span>/${esc(ph)}/</span></div>` : ""}`
-    + (zh ? `<details class="s" open><summary>中文義</summary><ol class="sn one">${lines(zh)}</ol></details>` : "")
-    + (notes ? `<details class="s" open><summary>我的筆記</summary>${notes}</details>` : "")
-    + (en ? `<details class="s"><summary>英英釋義</summary><ol class="sn one">${lines(en)}</ol></details>` : "") + "</div>";
+    + (zh ? `<details class="s" open><summary>Chinese</summary><ol class="sn one">${lines(zh)}</ol></details>` : "")
+    + (notes ? `<details class="s" open><summary>My notes</summary>${notes}</details>` : "")
+    + (en ? `<details class="s"><summary>English</summary><ol class="sn one">${lines(en)}</ol></details>` : "") + "</div>";
 }
 async function lookUp(word) {
   for (const f of forms(word)) { try { const e = await getEntry(f); if (e) return { ...e, mine: true } } catch { } }
@@ -395,20 +395,20 @@ function openLook(span) {
 async function showWord(word, sentence) {
   const seq = ++lookSeq, ex = examsOf(word);
   picked = { word: word.toLowerCase(), sentence: sentence ?? picked?.sentence ?? "", def: "" };
-  const setAdd = () => { $("lookAdd").disabled = saved.has(picked.word); $("lookAdd").textContent = $("lookAdd").disabled ? "已在單字本" : "加入單字本" };
+  const setAdd = () => { $("lookAdd").disabled = saved.has(picked.word); $("lookAdd").textContent = $("lookAdd").disabled ? "In word list" : "Add to word list" };
   $("lookWord").textContent = word;
-  $("lookTags").textContent = ex.map(k => EXAMS.find(e => e[0] === k)[1]).join("・");
-  $("lookDef").className = "def"; $("lookDef").innerHTML = '<p class="muted">查詢中…</p>';
+  $("lookTags").textContent = ex.map(k => EXAMS.find(e => e[0] === k)[1]).join(" · ");
+  $("lookDef").className = "def"; $("lookDef").innerHTML = '<p class="muted">Looking up…</p>';
   setAdd(); $("look").hidden = false; $("look").scrollTop = 0;
   const r = await lookUp(word);
   if (seq !== lookSeq) return;
   const box = $("lookDef"); box.replaceChildren();
-  if (!r) { box.innerHTML = '<p class="muted">字典裡找不到這個字。</p>'; return }
+  if (!r) { box.innerHTML = '<p class="muted">This word isn\'t in the dictionary.</p>'; return }
   picked.word = r.head.toLowerCase(); $("lookWord").textContent = r.head;
   box.append(safeHtml(r.html)); box.classList.toggle("mine", r.mine);
   const senses = [...box.querySelectorAll(".zh")].map(e => e.textContent.trim()).filter(Boolean);
   picked.def = (senses.length ? senses.slice(0, 4).join("；") : [...box.querySelectorAll(".df, p")].map(e => e.textContent.trim()).slice(0, 2).join(" · ")).slice(0, 240);
-  if (!r.mine) { const n = document.createElement("p"); n.className = "muted"; n.textContent = "字典裡沒有這個字，先用 Free Dictionary 的英英解釋。"; box.append(n) }
+  if (!r.mine) { const n = document.createElement("p"); n.className = "muted"; n.textContent = "This word isn't in your dictionary, so here is the English definition from Free Dictionary."; box.append(n) }
   setAdd();
 }
 function closeLook() { $("look").hidden = true; lookSeq++; document.querySelectorAll(".rw.on").forEach(s => s.classList.remove("on")) }
@@ -417,14 +417,14 @@ $("lookClose").onclick = closeLook;
 $("lookDef").onclick = e => { const a = e.target.closest("a[data-entry]"); if (!a) return; e.preventDefault(); showWord(a.dataset.entry) };
 addEventListener("keydown", e => { if (e.key === "Escape") closeLook() });
 addEventListener("hashchange", () => { if (location.hash !== "#read") closeLook() });
-$("lookSay").onclick = () => { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance($("lookWord").textContent); u.lang = "en-US"; speechSynthesis.speak(u) } catch { toast("這個瀏覽器不能朗讀") } };
+$("lookSay").onclick = () => { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance($("lookWord").textContent); u.lang = "en-US"; speechSynthesis.speak(u) } catch { toast("This browser can't read aloud.") } };
 $("lookAdd").onclick = () => {
   if (!picked || !ED()) return;
   const ok = ED().addWord({ word: picked.word, def: picked.def, sentence: picked.sentence, source: current?.it?.source || "" });
   saved.add(picked.word);
   document.querySelectorAll("#v-read .rw").forEach(s => { if (forms(s.textContent).includes(picked.word)) s.classList.add("saved") });
-  $("lookAdd").disabled = true; $("lookAdd").textContent = "已在單字本";
-  toast(ok ? "加入單字本了，會出現在卡片裡" : "這個字已經在單字本");
+  $("lookAdd").disabled = true; $("lookAdd").textContent = "In word list";
+  toast(ok ? "Added to your word list. It will show up in Cards." : "This word is already in your word list.");
 };
 
 /* ---------- settings: import dictionary + word lists ---------- */
@@ -448,7 +448,7 @@ async function* lines(file) {
 }
 async function putBatch(batch) { await idb("entries", "readwrite", s => { for (const [w, d] of batch) s.put(d, w) }) }
 async function importDict(file) {
-  const status = $("dictStatus"); status.textContent = "讀取中…";
+  const status = $("dictStatus"); status.textContent = "Reading…";
   try {
     let title = file.name, n = 0, batch = [];
     const nd = /\.ndjson(\.gz)?$/i.test(file.name);
@@ -460,7 +460,7 @@ async function importDict(file) {
         const j = JSON.parse(line);
         if (!Array.isArray(j)) { if (j.app === "english-desk-dict") { title = j.title || title; total = j.count || 0 } continue }
         batch.push(j); n++;
-        if (batch.length === 5000) { await putBatch(batch); batch = []; status.textContent = total ? `匯入中… ${Math.round(n / total * 100)}%` : `匯入中… ${n}` }
+        if (batch.length === 5000) { await putBatch(batch); batch = []; status.textContent = total ? `Importing… ${Math.round(n / total * 100)}%` : `Importing… ${n}` }
       }
     } else {
       const text = await file.text();
@@ -476,10 +476,10 @@ async function importDict(file) {
     if (batch.length) await putBatch(batch);
     if (!n) throw new Error("empty");
     dictInfo = { name: title, count: n, date: new Date().toLocaleDateString("sv-SE") };
-    await setMeta("dict", dictInfo); status.textContent = ""; renderDictStatus(); toast(`字典匯入完成，${n} 筆`);
+    await setMeta("dict", dictInfo); status.textContent = ""; renderDictStatus(); toast(`Dictionary imported, ${n} entries`);
   } catch (e) {
     status.textContent = ""; renderDictStatus();
-    toast(e?.message === "gz" ? "這個瀏覽器不能解壓縮 .gz，請更新瀏覽器" : e?.name === "QuotaExceededError" ? "瀏覽器空間不夠，清一點空間再試" : "讀不懂這個字典檔，請用 english-desk-dict.ndjson.gz");
+    toast(e?.message === "gz" ? "This browser can't unzip .gz files. Please update your browser." : e?.name === "QuotaExceededError" ? "The browser is out of space. Free some up and try again." : "Couldn't read this dictionary file. Use english-desk-dict.ndjson.gz.");
   }
 }
 // Exam lists: the combined CSV (word,TOEFL,IELTS,GRE with ✓) or one .txt per exam named TOEFL/IELTS/GRE.
@@ -498,16 +498,16 @@ async function importLists(files) {
     }
   }
   const keys = Object.keys(got).filter(k => got[k].length);
-  if (!keys.length) { toast("讀不懂這個清單，請用總表 CSV，或檔名含 TOEFL／IELTS／GRE 的文字檔"); return }
+  if (!keys.length) { toast("Couldn't read this list. Use the CSV list, or text files with TOEFL, IELTS or GRE in the name."); return }
   if (builtinLists) { for (const [k] of EXAMS) lists[k] = new Set(); builtinLists = false }
   for (const k of keys) { const words = [...new Set(got[k])]; await setMeta("list:" + k, words); lists[k] = new Set(words) }
-  renderDictStatus(); toast("匯入了 " + keys.map(k => `${EXAMS.find(e => e[0] === k)[1]} ${lists[k].size}`).join("、"));
+  renderDictStatus(); toast("Imported " + keys.map(k => `${EXAMS.find(e => e[0] === k)[1]} ${lists[k].size}`).join(", "));
   if (current && location.hash === "#read") renderArticle(current, current.it);
 }
 function renderDictStatus() {
   if (!$("dictInfo")) return;
-  $("dictInfo").textContent = dictInfo ? `已匯入「${dictInfo.name}」，${dictInfo.count} 筆（${dictInfo.date}）` : "還沒匯入，目前用內建字典。";
-  $("listInfo").textContent = (builtinLists ? "目前用內建清單：" : "已匯入：") + EXAMS.map(([k, n]) => `${n} ${lists[k].size || "—"}`).join("、");
+  $("dictInfo").textContent = dictInfo ? `Imported "${dictInfo.name}", ${dictInfo.count} entries (${dictInfo.date})` : "Nothing imported yet, using the built-in dictionary.";
+  $("listInfo").textContent = (builtinLists ? "Using the built-in lists: " : "Imported: ") + EXAMS.map(([k, n]) => `${n} ${lists[k].size || "—"}`).join(", ");
 }
 $("dictFile").onchange = e => { const f = e.target.files[0]; if (f) importDict(f); e.target.value = "" };
 $("listFile").onchange = e => { const f = [...e.target.files]; if (f.length) importLists(f); e.target.value = "" };
