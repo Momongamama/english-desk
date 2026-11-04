@@ -72,10 +72,55 @@ function examsOf(w) {
   return out;
 }
 
-/* ---------- fetching the article ---------- */
-const SELECTOR = { BBC: "article", NPR: "#storytext", CNN: ".article__content" };
-// Boilerplate lines only count as junk when they are short, so "Shares fell 5%..." or "Follow-up talks..." stay.
+/* ---------- fetching the article ----------
+   r.jina.ai only fetches the page for us (it allows cross-site requests); we ask for the page's HTML and pick
+   the story out ourselves: site rules for BBC / NPR / CNN, Mozilla Readability for anything else,
+   and jina's own markdown as the last resort. */
+const RULES = {
+  BBC: 'article [data-component="text-block"] p, article [data-component="text-block"] li, article [data-component="subheadline-block"] :is(h2, h3)',
+  NPR: '#storytext > p, #storytext > :is(h2, h3), #storytext > ul > li, #storytext .bucketwrap.statichtml p',
+  CNN: '.article__content :is(p.paragraph, h2, h3), .article__content .list li',
+};
+const NOISE = 'script, style, noscript, template, svg, iframe, figure, figcaption, aside, nav, form, button, [aria-hidden="true"], '
+  + '[data-component="image-block"], [data-component="links-block"], [data-component="tag-list"], [data-component="byline-block"], [data-component="media-block"], [data-component="video-block"], '
+  + '.caption, .credit, .image-caption, .related, .newsletter, .social-share';
 const JUNK = /^(image source|image caption|getty images|share|save|related|more on this story|listen|watch|follow|sign up|advertisement|copyright|read more|this article|top stories|you may also)(?=[\s:]|$)/i;
+const tidy = t => t.replace(/\s+/g, " ").replace(/\s+([,.;:!?])/g, "$1").trim();
+const words = paras => paras.reduce((n, p) => n + (p.h ? 0 : p.t.split(/\s+/).length), 0);
+function pick(nodes) {
+  const out = [], seen = new Set();
+  for (const n of nodes) {
+    if (n.closest("li") && n.tagName !== "LI") continue; // a <p> inside a list item is read through the <li>
+    const t = tidy(n.textContent || ""); if (!t || seen.has(t) || (t.length < 80 && JUNK.test(t))) continue; seen.add(t);
+    out.push(/^H[1-6]$/.test(n.tagName) ? { h: true, t } : { t });
+  }
+  while (out.length && out[out.length - 1].h) out.pop();
+  return out;
+}
+let readabilityP;
+function loadReadability() {
+  return readabilityP ||= new Promise((ok, no) => { const s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/@mozilla/readability@0.5.0/Readability.js"; s.onload = ok; s.onerror = no; document.head.append(s) });
+}
+async function extract(html, it) {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  const title = tidy(doc.querySelector("article h1, main h1, h1")?.textContent || doc.querySelector('meta[property="og:title"]')?.content || it.title);
+  if (RULES[it.source]) {
+    const d = doc.cloneNode(true); d.querySelectorAll(NOISE).forEach(n => n.remove());
+    const paras = pick(d.querySelectorAll(RULES[it.source]));
+    if (words(paras) >= 60) return { title, paras };
+  }
+  try {
+    await loadReadability();
+    const r = new window.Readability(doc.cloneNode(true), { charThreshold: 300 }).parse();
+    if (r?.content) {
+      const d = new DOMParser().parseFromString(r.content, "text/html"); d.querySelectorAll(NOISE).forEach(n => n.remove());
+      const paras = pick(d.querySelectorAll("p, h2, h3, li"));
+      if (words(paras) >= 60) return { title: r.title ? tidy(r.title) : title, paras };
+    }
+  } catch { }
+  return null;
+}
+// Last resort: jina's markdown, minus obvious boilerplate.
 function clean(md) {
   return md.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\((?:[^()]|\([^)]*\))*\)/g, "$1").replace(/(\*{1,3})([^*\n]+)\1/g, "$2")
     .split(/\n\s*\n/).map(b => b.replace(/\s*\n\s*/g, " ").trim()).filter(Boolean)
@@ -83,28 +128,29 @@ function clean(md) {
     .filter(p => p.t && !(p.t.length < 80 && JUNK.test(p.t)) && !/^https?:\/\//.test(p.t) && !/^[=\-_|\s]+$/.test(p.t)
       && (p.h || p.t.split(/\s+/).length >= 6 || /[.!?"”')]$/.test(p.t)));
 }
-const words = paras => paras.reduce((n, p) => n + (p.h ? 0 : p.t.split(/\s+/).length), 0);
+async function jina(url, headers) {
+  const res = await fetch("https://r.jina.ai/" + url, { headers: { Accept: "application/json", "X-Retain-Images": "none", ...headers } });
+  if (!res.ok) { const e = new Error("http"); e.status = res.status; throw e }
+  return (await res.json()).data || {};
+}
 async function fetchArticle(it) {
-  const cache = "englishDesk.read2:" + it.link;
+  const cache = "englishDesk.read3:" + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
-  const tries = [{ "X-Target-Selector": SELECTOR[it.source] || "article", "X-Retain-Images": "none" }, {}];
-  let last, best = null;
-  for (const h of tries) {
+  let out = null, status;
+  try {
+    const d = await jina(it.link, { "X-Return-Format": "html" });
+    const html = [d.html, d.content].find(x => typeof x === "string" && x.includes("<")) || "";
+    if (html) out = await extract(html, it);
+  } catch (e) { status = e.status }
+  if (!out && status !== 429) {
     try {
-      const res = await fetch("https://r.jina.ai/" + it.link, { headers: { Accept: "application/json", ...h } });
-      if (!res.ok) { last = res.status; continue }
-      const j = await res.json(), paras = clean(j.data?.content || "");
-      if (paras.filter(p => !p.h).length < 3) { last = "short"; continue }
-      // The site-specific selector can miss later parts of the story; if it looks short, keep looking.
-      if (h["X-Target-Selector"] && words(paras) < 150) { best = { title: j.data?.title || it.title, paras }; continue }
-      if (best && words(best.paras) >= words(paras)) paras.splice(0, paras.length, ...best.paras);
-      const out = { title: j.data?.title || it.title, paras };
-      try { sessionStorage.setItem(cache, JSON.stringify(out)) } catch { }
-      return out;
-    } catch (e) { last = e }
+      const d = await jina(it.link, {}), paras = clean(d.content || "");
+      if (paras.filter(p => !p.h).length >= 3) out = { title: d.title || it.title, paras };
+    } catch (e) { status = e.status }
   }
-  if (best) return best;
-  throw new Error(last === 429 ? "抓文章的服務暫時太忙，等 1 分鐘再試，或直接貼上文章。" : "抓不到這篇文章的內文，可以打開原文複製後貼上。");
+  if (!out) throw new Error(status === 429 ? "抓文章的服務暫時太忙，等 1 分鐘再試，或直接貼上文章。" : "抓不到這篇文章的內文，可以打開原文複製後貼上。");
+  try { sessionStorage.setItem(cache, JSON.stringify(out)) } catch { }
+  return out;
 }
 
 /* ---------- rendering: every word is a tappable span ---------- */
