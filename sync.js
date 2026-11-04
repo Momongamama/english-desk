@@ -1,6 +1,7 @@
 // Sync across devices through a secret GitHub Gist.
 // The user pastes a token that can only touch gists. Opening the site pulls and merges; every save pushes a few seconds later.
-// What goes up: cards, practice logs, deletions and non-secret settings. API keys, the token itself and the private dictionary never leave the browser.
+// What goes up: cards, practice logs, deletions and non-secret settings, plus every full practice session (History) in one file per month,
+// so no single file keeps growing. API keys, the token itself and the private dictionary never leave the browser.
 (() => {
 const $ = id => document.getElementById(id);
 const ED = window.EnglishDesk;
@@ -37,13 +38,25 @@ function canon(d) {
     deleted: sortObj(d.deleted), settings: sortObj(d.settings) });
 }
 const gistFile = g => g && g.files && g.files[FILE];
+const PRACTICE = /^english-desk-practice-(\d{4}-\d{2})\.json$/, practiceFile = m => `english-desk-practice-${m}.json`;
+async function fileText(f) {
+  if (!f.truncated) return f.content;
+  const r = await fetch(f.raw_url, { cache: "no-store" }); if (!r.ok) throw new SyncError("Couldn't download the sync file from GitHub."); return r.text();
+}
+// Returns { data: the main file, practice: { "2026-11": its text } }, or null when there's no gist yet.
 async function readGist() {
   if (!s.gist) return null;
   const g = await gh("/gists/" + s.gist), f = gistFile(g);
   if (!f) { s.gist = ""; keep(); return null }
-  let text = f.content;
-  if (f.truncated) { const r = await fetch(f.raw_url, { cache: "no-store" }); if (!r.ok) throw new SyncError("Couldn't download the sync file from GitHub."); text = await r.text() }
-  try { const d = JSON.parse(text); return d && Array.isArray(d.cards) ? d : null } catch { return null }
+  const text = await fileText(f), practice = {};
+  for (const [name, pf] of Object.entries(g.files)) { const m = name.match(PRACTICE); if (m) practice[m[1]] = await fileText(pf) }
+  let data = null; try { const d = JSON.parse(text); data = d && Array.isArray(d.cards) ? d : null } catch { }
+  return { data, practice };
+}
+// One month of full sessions, same text for the same data.
+function canonMonth(month, recs) {
+  const sortObj = o => Object.fromEntries(Object.keys(o).sort().map(k => [k, o[k]]));
+  return JSON.stringify({ app: "english-desk", kind: "practice", month, sessions: [...recs].sort((a, b) => a.ts - b.ts).map(sortObj) });
 }
 // Use the same gist on every device: look for our file before making a new one.
 async function findGist() {
@@ -62,12 +75,23 @@ async function sync(why) {
   busy = true; clearTimeout(pushT); render("Syncing…");
   try {
     if (!s.gist) s.gist = await findGist();
-    const remote = await readGist();
+    const got = await readGist(), remote = got && got.data;
     const merged = ED.syncApply(remote);  // merges into this browser and saves it
-    const text = canon(merged);
-    if (!remote || canon(remote) !== text) {
-      if (s.gist) await gh("/gists/" + s.gist, { method: "PATCH", body: JSON.stringify({ files: { [FILE]: { content: text } } }) });
-      else s.gist = (await gh("/gists", { method: "POST", body: JSON.stringify({ description: "English Desk sync (cards and practice log)", public: false, files: { [FILE]: { content: text } } }) })).id;
+    const text = canon(merged), files = {};
+    if (!remote || canon(remote) !== text) files[FILE] = { content: text };
+    // Full sessions: merge every month from the gist, then upload the months that differ.
+    const incoming = [];
+    for (const t of Object.values(got ? got.practice : {})) { try { const d = JSON.parse(t); if (Array.isArray(d.sessions)) incoming.push(...d.sessions) } catch { } }
+    const months = {};
+    for (const r of await ED.practiceMerge(incoming)) (months[EDPractice.month(r)] ||= []).push(r);
+    for (const m of new Set([...Object.keys(months), ...Object.keys(got ? got.practice : {})])) {
+      const t = canonMonth(m, months[m] || []);
+      if (!got || got.practice[m] !== t) files[practiceFile(m)] = { content: t };
+    }
+    if (Object.keys(files).length) {
+      if (!s.gist && !files[FILE]) files[FILE] = { content: text }; // a new gist needs the main file
+      if (s.gist) await gh("/gists/" + s.gist, { method: "PATCH", body: JSON.stringify({ files }) });
+      else s.gist = (await gh("/gists", { method: "POST", body: JSON.stringify({ description: "English Desk sync (cards and practice log)", public: false, files }) })).id;
     }
     s.last = Date.now(); lastPull = s.last; err = ""; keep();
   } catch (e) {

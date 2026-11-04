@@ -33,7 +33,8 @@ function persist(quiet) {
 /* Merging two copies of the data (backup import now, cloud sync later). Pure: returns new arrays, changes nothing.
    Cards: one per id, the newer `updated` wins; on a tie (old cards have no `updated`) the later `due`, then the higher `box`.
    A deletion (`deleted[id]` = when) removes the card unless the card was changed after that. Logs: union by `ts`, newest 500;
-   a log changed after it was made (a timed read gets its quiz and AI verdict later) carries `updated`, and the newer copy wins.
+   a log changed after it was made (a timed read gets its quiz and AI verdict later) carries `updated`, and the newer copy wins;
+   a deleted practice session is marked `deleted["log:" + ts]`.
    Deletion marks older than 90 days are dropped; by then every device has seen them. */
 const TOMB_DAYS = 90, LOG_MAX = 500;
 function mergeData(local, incoming) {
@@ -49,7 +50,7 @@ function mergeData(local, incoming) {
   }
   const cards = [...byId.values()].filter(c => !(deleted[c.id] >= (c.updated || 0)));
   const logs = new Map();
-  for (const l of [...(local.logs || []), ...(incoming.logs || [])]) if (l && l.ts && (!logs.has(l.ts) || (l.updated || 0) > (logs.get(l.ts).updated || 0))) logs.set(l.ts, l);
+  for (const l of [...(local.logs || []), ...(incoming.logs || [])]) if (l && l.ts && !deleted["log:" + l.ts] && (!logs.has(l.ts) || (l.updated || 0) > (logs.get(l.ts).updated || 0))) logs.set(l.ts, l);
   return { cards, logs: [...logs.values()].sort((a, b) => a.ts - b.ts).slice(-LOG_MAX), deleted };
 }
 function download(name, text, type) {
@@ -121,9 +122,9 @@ function parseJson(text) {
 const errText = e => e?.message || "Something went wrong. Try again.";
 
 /* ---------- routing ---------- */
-const VIEWS = ["today", "speak", "write", "echo", "cards", "settings", "read"];
+const VIEWS = ["today", "speak", "write", "echo", "history", "cards", "settings", "read"];
 function route() {
-  const v = VIEWS.includes(location.hash.slice(1)) ? location.hash.slice(1) : "today";
+  const h = location.hash.slice(1).split("/")[0], v = VIEWS.includes(h) ? h : "today";
   VIEWS.forEach(x => { $("v-" + x).hidden = x !== v });
   document.querySelectorAll("nav a").forEach(a => a.dataset.v === v ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
   if (v === "cards") renderFlash();
@@ -174,7 +175,32 @@ function renderLogs() {
     const s = document.createElement("span"); s.textContent = ({ write: "Write · ", echo: "Echo · ", read: "Read wpm · " }[l.type] || "Speak · ") + (l.topic || "");
     el.append(t, lv, s); return el }));
 }
-function addLog(l) { const ts = Date.now(); st.logs.push({ ...l, date: today(), ts }); if (st.logs.length > LOG_MAX) st.logs.splice(0, st.logs.length - LOG_MAX); persist(); if (st.redo) renderRedo(); return ts }
+function addLog(l, full) {
+  const log = { ...l, date: today(), ts: Date.now() };
+  st.logs.push(log); if (st.logs.length > LOG_MAX) st.logs.splice(0, st.logs.length - LOG_MAX);
+  if (full) savePractice({ ...log, ...full });
+  persist(); if (st.redo) renderRedo(); return log.ts;
+}
+/* ---------- practice history ---------- */
+// The log above is the short index. The whole session (transcript or paragraph, all feedback, rewrite, times) goes to IndexedDB through practice.js.
+const changed = () => saveHooks.forEach(f => f());
+let practiceWarned = false;
+async function savePractice(rec) {
+  try { await EDPractice.put({ ...rec, updated: Date.now() }); changed() }
+  catch { if (!practiceWarned) { practiceWarned = true; toast("The browser refused to save the full session. Only the level was kept.") } }
+}
+async function updatePractice(ts, patch) {
+  const log = st.logs.find(l => l.ts === ts), have = await EDPractice.get(ts).catch(() => null);
+  await savePractice({ ...(log || {}), ...(have || {}), ...patch, ts });
+}
+function deleteSession(ts) {
+  st.logs = st.logs.filter(l => l.ts !== +ts); st.deleted["log:" + ts] = Date.now();
+  EDPractice.del(ts).catch(() => { }); persist(); renderRedo();
+}
+// Active time: gaps under 90 s between keystrokes count, so a break with the tab open doesn't.
+function timer() { return { start: 0, ms: 0, last: 0 } }
+function tick(t) { const n = Date.now(); if (!t.start) t.start = n; if (t.last && n - t.last < 90000) t.ms += n - t.last; t.last = n; return t }
+const secsOf = t => t && t.ms ? Math.round(t.ms / 1000) : 0;
 
 /* ---------- news + topics ---------- */
 // news.json is refreshed daily by .github/workflows/news.yml (BBC + CNN, or NPR when CNN is down).
@@ -427,7 +453,7 @@ function liveEnd() {
   liveCleanup(); liveStatus("Ended");
   const transcript = live.turns.map(t => (t.role === "me" ? "ME: " : "PARTNER: ") + t.text.trim()).filter(l => l.length > 4).join("\n");
   if (live.turns.filter(t => t.role === "me").length < 2) { toast("Fewer than two turns from you, so there's nothing to review this time."); return }
-  review(transcript, $("liveEnd"), "End and review");
+  review(transcript, $("liveEnd"), "End and review", false, { mode: "live", start: live.t0 || Date.now(), secs: live.t0 ? Math.round((Date.now() - live.t0) / 1000) : 0 });
 }
 $("liveStart").onclick = liveStartFn;
 $("liveEnd").onclick = () => { if (live.ws) liveEnd() };
@@ -446,12 +472,13 @@ $("pasteGrade").onclick = () => {
   if ((text.match(/[A-Za-z]+/g) || []).length < 40) { toast("The transcript is too short. It needs at least a few back-and-forth turns."); return }
   if (!hasKey()) { banner("Add an API key before grading.", true); return }
   st.topic = currentTopic("speak");
-  review(text, $("pasteGrade"), "Grade it", true);
+  const mins = Math.min(180, Math.max(0, Math.round(+$("pasteMins").value || 0)));
+  review(text, $("pasteGrade"), "Grade it", true, { mode: "paste", start: Date.now() - mins * 60000, secs: mins * 60 });
 };
 $("stopPaste").onclick = () => st.ctl?.abort();
 
 /* review: CEFR level + 5 corrections, shared by both modes */
-async function review(transcript, btn, label, pasted) {
+async function review(transcript, btn, label, pasted, meta = {}) {
   btn.disabled = true; btn.textContent = "Reviewing…";
   const prevRedo = activeRedo("speak");
   st.ctl = new AbortController(); if (pasted) $("stopPaste").hidden = false;
@@ -474,8 +501,11 @@ ${transcript.slice(-12000)}` }], { json: true, signal: st.ctl.signal });
     renderCorr($("speakCorr"), st.speakItems, "speak");
     $("reviewBox").hidden = false; $("reviewBox").scrollIntoView({ behavior: "smooth", block: "start" });
     renderCompare("speak", prevRedo, { level: r.level, summary: r.summary, compare: r.compare });
-    addLog({ type: "speak", topic: st.topic.title, ctx: topicCtx(st.topic), level: r.level || "", summary: r.summary || "",
-      items: st.speakItems.map(i => ({ mine: i.mine, natural: i.natural })), ...(prevRedo ? { redoOf: prevRedo.ts } : {}) });
+    addLog({ type: "speak", topic: st.topic.title, ctx: topicCtx(st.topic), level: r.level || "", summary: r.summary || "", secs: meta.secs || 0,
+      items: st.speakItems.map(i => ({ mine: i.mine, natural: i.natural })), ...(prevRedo ? { redoOf: prevRedo.ts } : {}) },
+      { mode: meta.mode, start: meta.start, transcript: transcript.slice(0, 60000), words: (transcript.match(/[A-Za-z’']+/g) || []).length,
+        items: st.speakItems.map(i => ({ mine: String(i.mine), natural: String(i.natural), why: String(i.why || "") })), ...(r.compare ? { compare: String(r.compare) } : {}) });
+    if (pasted) $("pasteMins").value = "";
     if (prevRedo) { st.redo.speak = null; renderRedo() }
   } catch (e) { if (e.code !== "cancelled") { toast(errText(e)); if (e.code === "nokey" || e.code === "auth" || e.code === "model") banner(errText(e), true) } }
   finally { btn.disabled = false; btn.textContent = label; $("stopPaste").hidden = true; liveAvailability() }
@@ -557,7 +587,16 @@ function renderCompare(kind, prev, now) {
 
 /* ---------- writing ---------- */
 function wc() { const n = ($("essay").value.match(/[A-Za-z’']+/g) || []).length; $("wc").textContent = n + " words" + (n && (n < 150 || n > 200) ? " (aim for 150–200)" : "") }
-$("essay").addEventListener("input", () => { wc(); try { localStorage.setItem("englishDesk.draft", $("essay").value) } catch { } });
+// The draft's timer and, once it has been graded, the session it belongs to (`ts`), so grading it again updates that session.
+const DRAFT_T = "englishDesk.draftT";
+let draftT = timer(); try { draftT = { ...draftT, ...JSON.parse(localStorage.getItem(DRAFT_T) || "{}") } } catch { }
+const keepDraftT = () => { try { localStorage.setItem(DRAFT_T, JSON.stringify(draftT)) } catch { } };
+$("essay").addEventListener("input", () => {
+  wc(); try { localStorage.setItem("englishDesk.draft", $("essay").value) } catch { }
+  if (!$("essay").value.trim()) draftT = timer(); else tick(draftT); keepDraftT();
+});
+let attemptT = timer();
+$("redo").addEventListener("input", () => tick(attemptT));
 $("grade").onclick = async () => {
   const text = $("essay").value.trim();
   if ((text.match(/[A-Za-z]+/g) || []).length < 30) { toast("Write at least 30 words first."); return }
@@ -579,7 +618,16 @@ ${text.slice(0, 6000)}` }], { json: true, signal: st.ctl.signal });
     $("wRewrite").textContent = r.rewrite || ""; $("wRewrite").hidden = false; $("hideModel").textContent = "Hide C1 version";
     $("wHabit").textContent = r.habit ? "Habit to fix: " + r.habit : ""; $("wHabit").hidden = !r.habit;
     renderCorr($("wCorr"), st.writeItems, "write");
-    $("gradeBox").hidden = false; $("redoBox").hidden = false; $("redo").value = "";
+    $("gradeBox").hidden = false; $("redoBox").hidden = false; $("redo").value = ""; attemptT = timer();
+    const words = (text.match(/[A-Za-z’']+/g) || []).length, prev = st.writeRedo;
+    const short = { level: st.writeLevel, why: st.writeWhy, text: text.slice(0, 3000), secs: secsOf(draftT) };
+    const full = { start: draftT.start || Date.now(), text: text.slice(0, 8000), words, rewrite: String(r.rewrite || ""), habit: String(r.habit || ""),
+      changes: st.writeItems.map(i => ({ mine: String(i.mine), natural: String(i.natural), why: String(i.why || "") })), ...(r.compare ? { compare: String(r.compare) } : {}) };
+    const again = draftT.ts && st.logs.find(l => l.ts === draftT.ts);
+    if (again) { Object.assign(again, short, { updated: Date.now() }); persist(); updatePractice(again.ts, { ...short, ...full }) }
+    else draftT.ts = addLog({ type: "write", topic: topic.title, ctx: topicCtx(topic), ...short, ...(prev ? { redoOf: prev.ts } : {}) }, full);
+    keepDraftT();
+    if (prev) { st.redo.write = null; st.writeRedo = null; renderRedo() }
     $("gradeBox").scrollIntoView({ behavior: "smooth", block: "start" });
   } catch (e) { if (e.code !== "cancelled") toast(errText(e)) }
   finally { $("grade").disabled = false; $("grade").textContent = "Get feedback"; $("stopGrade").hidden = true }
@@ -589,11 +637,11 @@ $("saveAllWrite").onclick = () => saveAll(st.writeItems, "write", $("wCorr"));
 $("hideModel").onclick = () => { const h = !$("wRewrite").hidden; $("wRewrite").hidden = h; $("hideModel").textContent = h ? "Show C1 version" : "Hide C1 version" };
 $("redoDone").onclick = () => {
   if (!$("redo").value.trim()) { toast("Rewrite it first, then tap Done."); return }
-  const prev = st.writeRedo;
-  addLog({ type: "write", topic: st.writeTopic.title, ctx: topicCtx(st.writeTopic), level: st.writeLevel, why: st.writeWhy, text: st.writeText.slice(0, 3000), ...(prev ? { redoOf: prev.ts } : {}) });
-  if (prev) { st.redo.write = null; st.writeRedo = null; renderRedo() }
-  try { localStorage.removeItem("englishDesk.draft") } catch { }
-  $("essay").value = ""; wc(); $("redoBox").hidden = true; toast("Saved");
+  // The feedback was saved when it arrived; this adds your rewrite to the same session.
+  if (draftT.ts) updatePractice(draftT.ts, { attempt: $("redo").value.trim().slice(0, 8000), attemptSecs: secsOf(attemptT) });
+  try { localStorage.removeItem("englishDesk.draft"); localStorage.removeItem(DRAFT_T) } catch { }
+  draftT = timer(); attemptT = timer();
+  $("essay").value = ""; wc(); $("redoBox").hidden = true; toast("Saved. You'll find it under History.");
 };
 
 /* ---------- shadowing (echo) ---------- */
@@ -1432,8 +1480,9 @@ $("saveModels").onclick = () => {
   if (storeCfg(true)) { renderSettings(); toast("Saved") }
 };
 function afterSettings() { liveAvailability(); if (anyTextKey()) banner(""); if (!$("echoPlayer").hidden) renderScore() }
-$("exportBackup").onclick = () => {
-  download(`english-desk-backup-${today()}.json`, JSON.stringify({ app: "english-desk", version: 2, exported: new Date().toISOString(), cards: st.cards, logs: st.logs, deleted: st.deleted }, null, 2), "application/json");
+$("exportBackup").onclick = async () => {
+  const practice = await EDPractice.all().catch(() => []);
+  download(`english-desk-backup-${today()}.json`, JSON.stringify({ app: "english-desk", version: 2, exported: new Date().toISOString(), cards: st.cards, logs: st.logs, deleted: st.deleted, practice }, null, 2), "application/json");
   toast("Backup exported (API keys not included)");
 };
 $("importFile").onchange = async e => {
@@ -1445,11 +1494,21 @@ $("importFile").onchange = async e => {
     const m = mergeData(st, d), after = new Set(m.cards.map(c => c.id));
     const added = m.cards.filter(c => !before.has(c.id)).length, changed = m.cards.filter(c => before.has(c.id) && before.get(c.id) !== c).length;
     const removed = [...before.keys()].filter(id => !after.has(id)).length, sessions = m.logs.filter(l => !logsBefore.has(l.ts)).length;
-    Object.assign(st, m); persist(); backupInfo();
+    Object.assign(st, m);
+    if (Array.isArray(d.practice)) await mergePractice(d.practice);
+    persist(); backupInfo(); renderRedo();
     const n = (k, w) => `${k} ${w}${k === 1 ? "" : "s"}`;
     toast(added || changed || removed || sessions ? `Imported: ${n(added, "new card")}, ${n(changed, "card")} updated, ${n(removed, "card")} removed, ${n(sessions, "new session")}` : "Nothing new in this backup");
   } catch { toast("This isn't an English Desk backup file.") }
 };
+// Full sessions from a backup or another device: keep the newer copy of each, and drop the ones deleted anywhere.
+async function mergePractice(incoming) {
+  const have = new Map((await EDPractice.all()).map(r => [r.ts, r])), put = [];
+  for (const r of incoming) if (r && r.ts && !st.deleted["log:" + r.ts] && (!have.has(r.ts) || EDPractice.newer(r, have.get(r.ts)))) { put.push(r); have.set(r.ts, r) }
+  if (put.length) await EDPractice.putMany(put);
+  for (const ts of [...have.keys()]) if (st.deleted["log:" + ts]) { await EDPractice.del(ts); have.delete(ts) }
+  return [...have.values()];
+}
 function backupInfo() { $("backupInfo").textContent = `${st.cards.length} cards and ${st.logs.length} sessions saved` }
 
 /* ---------- word book (used by reader.js) ---------- */
@@ -1470,6 +1529,10 @@ window.EnglishDesk = {
     return { cards: st.cards, logs: st.logs, deleted: st.deleted, settings };
   },
   toast,
+  // For sync.js: merge sessions from the gist's monthly files into this browser; returns every session kept here.
+  practiceMerge: async incoming => { const all = await mergePractice(incoming); if (typeof EDHistory !== "undefined") EDHistory.refresh(); return all },
+  // For history.js.
+  logs: () => st.logs, renderCorr, saveAll, startRedo, cefrDiff, deleteSession, hasSync: () => { try { return !!JSON.parse(localStorage.getItem("englishDesk.sync") || "{}").token } catch { return false } },
   // For brief.js: the AI picked for "News brief" and its display name.
   ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
   // For reader.js: timed reads are logs of type "read"; their quiz and AI verdict are patched in afterwards.
