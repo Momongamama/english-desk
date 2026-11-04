@@ -1148,7 +1148,7 @@ async function ygOpen(c) {
   const box = $("ygBox"), id = "yg" + ++yg.n;
   ygClose(); yg.card = c.id; yg.heard = false; box.hidden = false;
   const note = document.createElement("p"); note.className = "muted"; note.textContent = "Loading a clip…";
-  const el = document.createElement("div"); el.id = id;
+  const el = document.createElement("div"); el.id = id; el.className = "yg-frame";
   box.append(note, el);
   try { await ygLoad() } catch { note.textContent = "Couldn't reach YouGlish. Check your connection and try again."; return }
   if (yg.card !== c.id) return;
