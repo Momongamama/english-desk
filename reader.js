@@ -137,28 +137,37 @@ function fromNextData(doc) {
   const paras = pick(found.map(p => ({ tagName: p.h ? "H3" : "P", textContent: p.t, closest: () => null })));
   return words(paras) >= 25 ? paras : null;
 }
+// Returns the best guess plus a note of what each method found, shown under the article for troubleshooting.
 async function extract(html, it) {
   const doc = new DOMParser().parseFromString(html, "text/html");
   const title = tidy(doc.querySelector("article h1, main h1, h1")?.textContent || doc.querySelector('meta[property="og:title"]')?.content || it.title);
-  const nd = fromNextData(doc);
-  if (nd && !RULES[it.source]) return { title, paras: nd, rule: true };
+  const found = { json: fromNextData(doc), rule: null, readability: null };
   if (RULES[it.source]) {
     const d = doc.cloneNode(true); d.querySelectorAll(NOISE).forEach(n => n.remove());
-    let paras = pick(d.querySelectorAll(RULES[it.source]));
-    if (nd && words(nd) >= words(paras)) paras = nd;
-    // A site rule that finds the story wins even when it is short: Readability would pull in transcripts and promos.
-    if (paras.filter(p => !p.h).length >= 2 && words(paras) >= 25) return { title, paras, rule: true };
+    const paras = pick(d.querySelectorAll(RULES[it.source]));
+    if (paras.filter(p => !p.h).length >= 2 && words(paras) >= 25) found.rule = paras;
   }
-  try {
-    await loadReadability();
-    const r = new window.Readability(doc.cloneNode(true), { charThreshold: 300 }).parse();
-    if (r?.content) {
-      const d = new DOMParser().parseFromString(r.content, "text/html"); d.querySelectorAll(NOISE).forEach(n => n.remove());
-      const paras = pick(d.querySelectorAll("p, h2, h3, li"));
-      if (words(paras) >= 60) return { title: r.title ? tidy(r.title) : title, paras };
-    }
-  } catch { }
-  return null;
+  // NPR/CNN: a site rule beats Readability, which drags in transcripts and promos. BBC: its HTML is unreliable
+  // (Firefox Reader View shows half a story too), so let all three methods compete there.
+  const needReadability = it.source === "BBC" || !(found.json || found.rule);
+  if (needReadability) {
+    try {
+      await loadReadability();
+      const r = new window.Readability(doc.cloneNode(true), { charThreshold: 300 }).parse();
+      if (r?.content) {
+        const d = new DOMParser().parseFromString(r.content, "text/html"); d.querySelectorAll(NOISE).forEach(n => n.remove());
+        const paras = pick(d.querySelectorAll("p, h2, h3, li"));
+        if (words(paras) >= 60) found.readability = paras;
+      }
+    } catch { }
+  }
+  const note = { bytes: html.length, nextData: !!doc.querySelector("script#__NEXT_DATA__"), ...Object.fromEntries(Object.entries(found).map(([k, v]) => [k, v ? words(v) : 0])) };
+  const order = it.source === "BBC" ? ["json", "rule", "readability"] : ["json", "rule"];
+  let best = order.map(k => found[k]).filter(Boolean).sort((x, y) => words(y) - words(x))[0];
+  const rule = !!best;
+  if (!best) best = found.readability;
+  if (!best) return { note };
+  return { title, paras: best, rule, note, via: Object.keys(found).find(k => found[k] === best) };
 }
 // Last resort: jina's markdown, minus obvious boilerplate.
 // Everything from the first "More stories" / "Popular" / cookie block onwards is page furniture, not the story.
@@ -186,24 +195,41 @@ const SOURCES = [
   async url => { const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url)); if (!r.ok) throw Object.assign(new Error("http"), { status: r.status }); return r.text() },
 ];
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error("timeout")), ms))]);
+const SOURCE_NAMES = ["jina", "corsproxy", "allorigins"];
 async function fetchArticle(it) {
-  const cache = "englishDesk.read7:" + it.link;
+  const cache = "englishDesk.read8:" + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
   const urls = [it.link, ...(it.source === "NPR" && textNpr(it.link) ? [textNpr(it.link)] : [])];
-  const got = await Promise.allSettled(urls.flatMap(u => SOURCES.map(src => withTimeout(src(u).then(html => html && extract(html, it)), 20000))));
-  const ok = got.map(g => g.status === "fulfilled" ? g.value : null).filter(Boolean), byLen = (x, y) => words(y.paras) - words(x.paras);
+  const jobs = urls.flatMap(u => SOURCES.map((src, i) => ({ name: SOURCE_NAMES[i] + (u === it.link ? "" : " (text.npr.org)"), run: () => withTimeout(src(u).then(html => html ? extract(html, it) : { note: { bytes: 0 } }), 20000) })));
+  const got = await Promise.allSettled(jobs.map(j => j.run()));
+  const log = got.map((g, i) => {
+    const v = g.status === "fulfilled" ? g.value : null, ps = v?.paras;
+    return { source: jobs[i].name, error: g.status === "rejected" ? (g.reason?.status || g.reason?.message || "error") : "", via: v?.via || "", ...(v?.note || {}),
+      first: ps ? ps.find(p => !p.h)?.t.split(" ").slice(0, 6).join(" ") : "", last: ps ? [...ps].reverse().find(p => !p.h)?.t.split(" ").slice(-6).join(" ") : "" };
+  });
+  const ok = got.map(g => g.status === "fulfilled" && g.value?.paras ? g.value : null).filter(Boolean), byLen = (x, y) => words(y.paras) - words(x.paras);
   let out = ok.filter(o => o.rule).sort(byLen)[0] || ok.sort(byLen)[0] || null;
   if (out) out = { title: out.title, paras: out.paras };
   const busy = got.some(g => g.reason?.status === 429);
   if (!out) {
     try {
       const d = await jina(it.link, {}), paras = clean(d.content || "");
+      log.push({ source: "jina markdown", words: words(paras) });
       if (paras.filter(p => !p.h).length >= 3) out = { title: d.title || it.title, paras };
-    } catch { }
+    } catch (e) { log.push({ source: "jina markdown", error: e.status || e.message }) }
   }
+  lastLog = log;
   if (!out) throw new Error(busy ? "抓文章的服務暫時太忙，等 1 分鐘再試，或直接貼上文章。" : "抓不到這篇文章的內文，可以打開原文複製後貼上。");
+  out.log = log;
   try { sessionStorage.setItem(cache, JSON.stringify(out)) } catch { }
   return out;
+}
+let lastLog = [];
+function renderLog(log) {
+  const box = $("readLog"); if (!box) return;
+  box.hidden = !log?.length;
+  $("readLogText").textContent = (log || []).map(l => l.words != null || (l.source === "jina markdown" && l.error) ? `${l.source}｜${l.error ? "失敗 " + l.error : "markdown " + l.words + " 字"}` : [l.source, l.error ? "失敗 " + l.error : `HTML ${l.bytes || 0} 字元`, l.nextData ? "有 JSON" : "無 JSON",
+    `json ${l.json || 0} / 規則 ${l.rule || 0} / Readability ${l.readability || 0}${l.words != null ? " / markdown " + l.words : ""}`, l.via ? "採用 " + l.via : "", l.first ? `「${l.first} … ${l.last}」` : ""].filter(Boolean).join("｜")).join("\n");
 }
 
 /* ---------- rendering: every word is a tappable span ---------- */
@@ -259,8 +285,8 @@ function renderLegend() {
 async function openReader(it) {
   location.hash = "read";
   $("readBox").hidden = true; $("pasteBox").hidden = true; $("readStatus").hidden = false; $("readStatus").textContent = "抓文章中…";
-  try { const art = await fetchArticle(it); $("readStatus").hidden = true; renderArticle(art, it) }
-  catch (e) { $("readStatus").textContent = e.message; showPaste(it) }
+  try { const art = await fetchArticle(it); $("readStatus").hidden = true; renderArticle(art, it); renderLog(art.log) }
+  catch (e) { $("readStatus").textContent = e.message; showPaste(it); renderLog(lastLog) }
 }
 function showPaste(it) {
   $("pasteBox").hidden = false; $("pasteLink").hidden = !it; if (it) $("pasteLink").href = it.link;

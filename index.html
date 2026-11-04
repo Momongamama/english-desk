@@ -228,6 +228,8 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .rw.on { background: var(--tone-yellow); color: var(--on-tone) }
 .legend { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-2) }
 .legend .rw { cursor: inherit }
+#readLog summary { cursor: pointer }
+#readLogText { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; font: 400 13px/20px var(--font-body) }
 #v-read { padding-bottom: 50vh }
 .look { position: fixed; z-index: 15; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
   max-width: 760px; margin: 0 auto; max-height: 50vh; overflow-y: auto; overscroll-behavior: contain; display: grid; gap: var(--space-2);
@@ -518,6 +520,10 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <div class="legend" id="readLegend" lang="zh-Hant" hidden></div>
       <div class="article" id="readBody"></div>
     </article>
+    <details class="sheet" id="readLog" hidden>
+      <summary class="muted">抓取紀錄（文章不完整時，展開後截圖給我）</summary>
+      <pre class="muted" id="readLogText" lang="en"></pre>
+    </details>
     <div class="look" id="look" role="dialog" aria-label="查字典" hidden>
       <div class="head"><b id="lookWord" lang="en"></b><button class="btn c-save" id="lookSay" aria-label="朗讀">▶</button><span class="muted" id="lookTags"></span><button class="del" id="lookClose">關閉</button></div>
       <div class="def" id="lookDef"></div>
@@ -599,6 +605,6 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 
 <!-- Bump ?v= whenever app.js or reader.js changes, so browsers drop the cached copy. -->
 <script src="app.js?v=2026-11-04-ai1"></script>
-<script src="reader.js?v=2026-11-04-read9"></script>
+<script src="reader.js?v=2026-11-04-read10"></script>
 </body>
 </html>
