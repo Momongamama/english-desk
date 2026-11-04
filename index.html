@@ -5,6 +5,15 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>English Desk</title>
 <meta name="robots" content="noindex">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icons/icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="English Desk">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="theme-color" content="#fdf7ec" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,800&family=Noto+Sans+TC:wght@400;500;700;800&display=swap">
 <style>
@@ -622,23 +631,23 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
     </div>
     <div class="sheet">
       <h2>Backup</h2>
-      <p class="muted">Your cards and sessions are stored in this browser. Export a backup before you switch devices or browsers or clear site data, then import it in the new place to restore.</p>
+      <p class="muted">Your cards and sessions are stored in this browser. Export a backup before you switch devices or browsers or clear site data, then import it in the new place. Importing merges the two: new cards are added, the newer review progress wins, and cards you deleted stay deleted.</p>
       <div class="row">
         <button class="btn" id="exportBackup">Export backup</button>
         <label class="btn" for="importFile">Import backup</label>
         <input type="file" id="importFile" accept=".json,application/json" hidden>
         <span class="muted" id="backupInfo"></span>
       </div>
+      <p class="muted" id="storageInfo" hidden></p>
     </div>
   </section>
 </div>
 
 
-<!-- Bump ?v= whenever app.js or reader.js changes, so browsers drop the cached copy. -->
-<script src="app.js?v=2026-11-04-chick1"></script>
-<!-- reader.js has its own ?v= (bump it when reader.js changes); this line keeps the two version edits from colliding in merges. -->
-<script src="reader.js?v=2026-11-04-read17"></script>
-<!-- brief.js (Today in brief) has its own ?v=; bump it when brief.js changes. -->
-<script src="brief.js?v=2026-11-04-brief2"></script>
+<!-- Each ?v= is a hash of the file, set by .github/workflows/cache-version.yml after every push to main. No need to edit by hand;
+     a PR may leave it stale and the workflow fixes it on merge. Keep one script per line so merges don't collide. -->
+<script src="app.js?v=7b65f5323f"></script>
+<script src="reader.js?v=68758df732"></script>
+<script src="brief.js?v=9fd98cc169"></script>
 </body>
 </html>

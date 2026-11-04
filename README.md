@@ -3,7 +3,10 @@
 個人英文口說與寫作練習頁。和 AI 對話、批改短文，把修正過的說法存成卡片每天複習。
 
 - AI：Gemini 或 Claude，在「設定」頁填自己的 API key（只存在瀏覽器裡，不在這個 repo）
-- 資料：卡片和紀錄存在瀏覽器裡，設定頁可以匯出／匯入備份
+- 資料：卡片和紀錄存在瀏覽器裡，設定頁可以匯出／匯入備份。匯入是「合併」：每張卡有 `updated`（毫秒），同一張卡保留較新的複習進度；刪掉的卡記在 `deleted`（保留 90 天），匯入後另一台也會刪掉。合併邏輯是 `app.js` 的 `mergeData()`，之後的雲端同步也用它
+- 可以「加入主畫面」（PWA，`manifest.webmanifest`）：iPhone Safari 對沒加入主畫面的網站，7 天沒開可能清掉資料；加入後不會。網站也會向瀏覽器申請永久保存（`navigator.storage.persist()`），設定頁「Backup」會顯示目前狀態
+- 離線：`sw.js` 只處理同網域的 GET。網頁和 `news.json`／`podcasts.json` 先用網路（4 秒沒回應就用存的），帶 `?v=` 的 js、`dict/`、圖示先用快取。AI、GitHub 等其他網域的請求不經過它
+- 快取版本號：`index.html` 裡每個 `?v=` 是該 js 檔內容的 hash，由 `.github/workflows/cache-version.yml` 在每次 push 到 main 後自動更新（`scripts/bump-versions.mjs`），不用手動改
 - 卡片可以匯出成 Anki 能匯入的 CSV
 
 ## 每日新聞題目

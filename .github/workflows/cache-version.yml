@@ -1,0 +1,35 @@
+name: Cache versions
+
+# After anything lands on main, set each script's ?v= in index.html to a hash of the file,
+# so a changed app.js / reader.js / brief.js is never served from an old cache.
+on:
+  push:
+    branches: [main]
+    paths: [app.js, reader.js, brief.js, index.html, scripts/bump-versions.mjs]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: cache-version
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/bump-versions.mjs
+      - name: Commit index.html if it changed
+        run: |
+          git add index.html
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Update script cache versions"
+          for i in 1 2 3; do git pull --rebase && git push && exit 0; sleep 5; done
+          exit 1
