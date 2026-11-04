@@ -1,0 +1,112 @@
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Noto+Sans+TC:wght@400;500;700;800&display=swap");
+/* English Desk components. Every value comes from tokens.css: 3 radii, 1 outline weight, 6 spacing steps. */
+
+body { margin: 0; background: var(--bg); color: var(--ink); font: 15px/24px var(--font-body) }
+.ed-stack { display: grid; gap: var(--space-3) }
+.ed-row { display: flex; flex-wrap: wrap; gap: var(--space-2); align-items: center }
+.ed-muted { color: var(--ink-muted); font-size: 13px; line-height: 20px }
+.ed-eyebrow { color: var(--accent-text); font: 700 13px/18px var(--font-body); letter-spacing: .04em }
+:where(.ed-btn, .ed-chip, .ed-tab, .ed-input, .ed-link):focus-visible { outline: 2px solid var(--focus); outline-offset: 2px }
+
+/* Button */
+.ed-btn { display: inline-flex; align-items: center; justify-content: center; gap: var(--space-1); min-height: 40px; padding: 0 var(--space-4);
+  border: var(--border-width) solid var(--line); border-radius: var(--radius-pill); background: transparent; color: var(--ink);
+  font: 700 15px/1 var(--font-body); cursor: pointer; text-decoration: none }
+.ed-btn--primary { background: var(--ink); color: var(--bg); border-color: var(--ink); box-shadow: var(--shadow-hard-coral) }
+.ed-btn--accent { background: var(--tone-yellow); color: var(--on-tone); box-shadow: var(--shadow-hard) }
+.ed-btn--danger { color: var(--accent-text); border-color: var(--accent-text) }
+.ed-btn--small { min-height: 30px; padding: 0 var(--space-3); font-size: 13px }
+.ed-btn:disabled { opacity: .45; cursor: default; box-shadow: none }
+.ed-btn:not(:disabled):active { transform: translate(2px, 2px); box-shadow: none }
+
+/* Chip (toggle / topic) */
+.ed-chip { min-height: 34px; padding: 0 var(--space-3); border: var(--border-width) solid var(--line); border-radius: var(--radius-pill);
+  background: transparent; color: var(--ink); font: 700 13px/1 var(--font-body); cursor: pointer }
+.ed-chip[aria-pressed="true"] { background: var(--tone-green); color: var(--on-tone) }
+
+/* Nav tabs */
+.ed-tabs { display: flex; gap: var(--space-2); overflow-x: auto; padding: var(--space-1) 0 var(--space-2) }
+.ed-tab { display: inline-flex; align-items: center; gap: var(--space-1); min-height: 34px; padding: 0 var(--space-3); white-space: nowrap;
+  border: var(--border-width) solid var(--line); border-radius: var(--radius-pill); color: var(--ink); text-decoration: none; font: 700 14px/1 var(--font-body) }
+.ed-tab[aria-current="page"] { background: var(--tab-tone, var(--tone-green)); color: var(--on-tone); box-shadow: var(--shadow-hard) }
+.ed-tab .ed-count { color: var(--accent-text) }
+.ed-tab[aria-current="page"] .ed-count { color: var(--on-tone) }
+
+/* Header */
+.ed-header { display: flex; justify-content: space-between; align-items: center; gap: var(--space-3); padding: var(--space-6) 0 var(--space-2) }
+.ed-brand { margin: 0; font: 800 34px/32px var(--font-display); letter-spacing: -.03em; color: var(--ink); text-shadow: 3px 3px 0 var(--tone-coral) }
+.ed-brand small { display: block; margin-top: var(--space-2); font: 400 13px/20px var(--font-body); letter-spacing: 0; color: var(--ink-muted); text-shadow: none }
+
+/* Card */
+.ed-card { display: grid; gap: var(--space-3); padding: var(--space-4); background: var(--surface); border: var(--border-width) solid var(--line); border-radius: var(--radius-md); min-width: 0 }
+.ed-card h2 { margin: 0; font: 700 18px/26px var(--font-body) }
+
+/* Task card: tint fill + offset coral outline (the signature) */
+.ed-task { position: relative; isolation: isolate; display: grid; gap: var(--space-2); padding: var(--space-5) var(--space-4) var(--space-4); margin: 0 6px 6px 0 }
+.ed-task::before, .ed-task::after { content: ""; position: absolute; inset: 0; border-radius: var(--radius-md); z-index: -1 }
+.ed-task::before { background: var(--tint-green); border: var(--border-width) solid var(--line) }
+.ed-task::after { border: var(--border-width-strong) solid var(--tone-coral); transform: translate(6px, 6px) rotate(.8deg); z-index: -2 }
+.ed-task p { margin: 0; font: 800 22px/30px var(--font-body) }
+.ed-task .ed-btn { justify-self: start }
+
+/* Week strip */
+.ed-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--space-1); margin: 0; padding: 0; list-style: none }
+.ed-day { display: grid; justify-items: center; gap: 2px; padding: var(--space-2) 0; border: var(--border-width) solid var(--line); border-radius: var(--radius-sm); font-size: 12px; line-height: 16px; color: var(--ink) }
+.ed-day b { font: 800 16px/20px var(--font-display) }
+.ed-day[data-s="speak"] { background: var(--tint-coral) } .ed-day[data-s="write"] { background: var(--tint-lilac) }
+.ed-day[data-s="echo"] { background: var(--tint-green) } .ed-day[data-s="cards"] { background: var(--tint-yellow) }
+.ed-day[aria-current="date"] { background: var(--tone-yellow); color: var(--on-tone); box-shadow: var(--shadow-hard) }
+@media (max-width: 420px) { .ed-week { grid-template-columns: repeat(4, minmax(0, 1fr)) } }
+
+/* Level badge */
+.ed-level { display: inline-flex; align-items: center; min-height: 24px; padding: 0 var(--space-2); border: var(--border-width) solid var(--line); border-radius: var(--radius-pill);
+  background: var(--tone-yellow); color: var(--on-tone); font: 800 13px/1 var(--font-display); white-space: nowrap }
+.ed-level--plain { background: transparent; color: var(--accent-text); border-color: transparent; padding: 0 }
+
+/* Log list */
+.ed-logs { display: grid; gap: var(--space-2) }
+.ed-log { display: grid; grid-template-columns: 5.5rem 2.5rem minmax(0, 1fr); gap: var(--space-2); align-items: baseline; font-size: 14px }
+.ed-log time { color: var(--ink-muted); font-size: 13px; font-variant-numeric: tabular-nums }
+
+/* Correction item */
+.ed-corr { display: grid; gap: var(--space-1); padding: var(--space-3) var(--space-4); background: var(--surface); border: var(--border-width) solid var(--line); border-radius: var(--radius-md); min-width: 0 }
+.ed-corr__nat { justify-self: start; font: 700 16px/24px var(--font-body); background: linear-gradient(transparent 58%, var(--highlight) 58%) }
+.ed-corr__mine { color: var(--ink-muted); font-size: 14px; text-decoration: line-through; text-decoration-color: var(--strike); text-decoration-thickness: 2px }
+.ed-corr__why { color: var(--ink-muted); font-size: 13px; line-height: 20px }
+.ed-corr .ed-btn { justify-self: start; margin-top: var(--space-1) }
+
+/* Rewrite box + habit note */
+.ed-rewrite { padding: var(--space-3) var(--space-4); background: var(--tint-lilac); border: var(--border-width) solid var(--line); border-radius: var(--radius-md); white-space: pre-wrap; overflow-wrap: anywhere }
+.ed-habit { padding: var(--space-3) var(--space-4); background: var(--tint-coral); border-radius: var(--radius-md); font-size: 14px }
+
+/* Chat */
+.ed-chat { display: grid; gap: var(--space-3) }
+.ed-msg { max-width: 88%; padding: var(--space-3) var(--space-4); border: var(--border-width) solid var(--line); border-radius: var(--radius-md); white-space: pre-wrap; overflow-wrap: anywhere; min-width: 0 }
+.ed-msg--me { justify-self: end; background: var(--tint-coral) }
+.ed-msg--ai { justify-self: start; background: var(--surface) }
+.ed-msg__note { display: block; margin-bottom: var(--space-2); padding: var(--space-1) var(--space-2); background: var(--tint-green); border-radius: var(--radius-sm); font-weight: 700 }
+.ed-link { border: 0; background: none; padding: var(--space-1) 0 0; color: var(--ink-muted); font: 400 13px/20px var(--font-body); cursor: pointer; display: block }
+
+/* Inputs */
+.ed-input { width: 100%; box-sizing: border-box; padding: var(--space-3) var(--space-4); background: var(--surface); color: var(--ink); border: var(--border-width) solid var(--line); border-radius: var(--radius-md); font: 400 15px/24px var(--font-body); resize: vertical }
+.ed-input::placeholder { color: var(--ink-muted) }
+.ed-field { display: grid; gap: var(--space-1) }
+.ed-field label { font: 700 13px/18px var(--font-body) }
+
+/* Flashcard */
+.ed-flash { display: grid; gap: var(--space-3); justify-items: center; text-align: center; padding: var(--space-5) var(--space-4); background: var(--surface); border: var(--border-width) solid var(--line); border-radius: var(--radius-md) }
+.ed-flash__q { font: 400 18px/28px var(--font-body); color: var(--ink-muted); text-decoration: line-through; text-decoration-color: var(--strike); text-decoration-thickness: 2px }
+.ed-flash__a { font: 700 20px/28px var(--font-body); padding: 0 var(--space-2); background: var(--tint-yellow); border-radius: var(--radius-sm) }
+
+/* Card list */
+.ed-cardlist { display: grid }
+.ed-carditem { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: var(--space-3); padding: var(--space-3) 0; border-top: var(--border-width) solid var(--line) }
+.ed-carditem:first-child { border-top: 0 }
+.ed-carditem > div { display: grid; gap: 2px; min-width: 0 }
+
+/* Banner + toast */
+.ed-banner { padding: var(--space-3) var(--space-4); background: var(--tint-yellow); border: var(--border-width) solid var(--line); border-radius: var(--radius-sm); font-size: 14px }
+.ed-banner a { color: var(--ink); font-weight: 700 }
+.ed-toast { display: inline-block; padding: var(--space-2) var(--space-4); background: var(--ink); color: var(--bg); border-radius: var(--radius-pill); font-size: 14px; box-shadow: var(--shadow-hard-coral) }
+
+@media (prefers-reduced-motion: reduce) { .ed-btn:active { transform: none } }
