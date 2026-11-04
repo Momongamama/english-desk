@@ -297,6 +297,7 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
     <a href="#write" data-v="write">寫作</a>
     <a href="#echo" data-v="echo">跟讀</a>
     <a href="#cards" data-v="cards">卡片<span class="count" id="dueCount"></span></a>
+    <a href="#read" data-v="read">閱讀</a>
     <a href="#settings" data-v="settings">設定</a>
   </nav>
 
@@ -511,9 +512,10 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
     </div>
   </section>
 
-  <!-- READ (opened from a headline on Today; not in the nav) -->
+  <!-- READ (from a headline on Today, the nav, or any pasted address) -->
   <section class="view" id="v-read" hidden>
     <div class="row"><a class="btn" href="#today">回今天</a><span style="flex:1"></span><button class="btn" id="readPasteOwn">貼上其他文章</button></div>
+    <div class="row nowrap"><input type="text" id="readUrl" inputmode="url" lang="en" placeholder="貼上新聞網址（BBC、NPR、CNN…）"><button class="btn primary" id="readUrlGo">抓文章</button></div>
     <p class="banner" id="readStatus" hidden></p>
     <div class="sheet" id="pasteBox" hidden>
       <h2>貼上文章</h2>
@@ -613,6 +615,6 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 <!-- Bump ?v= whenever app.js or reader.js changes, so browsers drop the cached copy. -->
 <script src="app.js?v=2026-11-04-script1"></script>
 <!-- reader.js has its own ?v= (bump it when reader.js changes); this line keeps the two version edits from colliding in merges. -->
-<script src="reader.js?v=2026-11-04-read12"></script>
+<script src="reader.js?v=2026-11-04-read13"></script>
 </body>
 </html>
