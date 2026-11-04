@@ -190,6 +190,10 @@ function useNews(kind, it) {
   picked[kind] = it; $(kind === "speak" ? "topicCustom" : "wtopicCustom").value = "";
   renderTopics(kind); location.hash = kind;
 }
+// Articles sent to Chicklist (the reader records them; the app doesn't report back) get a ✓ on the news list.
+let chickSaved = {};
+try { chickSaved = JSON.parse(localStorage.getItem("englishDesk.chicklist") || "{}") || {} } catch { }
+function markChick(h) { if (h.querySelector(".cl")) return; const s = document.createElement("span"); s.className = "cl"; s.textContent = " · ✓ In Chicklist"; h.append(s) }
 function renderNews(news) {
   const box = $("newsList");
   if (!news) { box.innerHTML = '<p class="muted">Today\'s news isn\'t in yet, so Speak and Write use the default topics for now.</p>'; return }
@@ -197,6 +201,7 @@ function renderNews(news) {
   $("newsMeta").textContent = (news.sources || []).join(" + ") + " · " + "updated " + (d.getMonth() + 1) + "/" + d.getDate();
   box.replaceChildren(...news.mixed.slice(0, SHOW).map(it => { const el = document.createElement("div"); el.className = "news-item";
     const h = document.createElement("h3"); h.textContent = it.source + " · " + (SECTION[it.section] || it.section);
+    el.dataset.link = it.link || ""; if (it.link && chickSaved[it.link]) markChick(h);
     const a = document.createElement("a"); a.href = it.link; a.target = "_blank"; a.rel = "noopener"; a.lang = "en"; a.textContent = it.title;
     const p = document.createElement("p"); p.className = "muted"; p.lang = "en"; p.textContent = it.summary || "";
     const row = document.createElement("div"); row.className = "row";
@@ -1127,6 +1132,7 @@ window.EnglishDesk = {
   toast,
   // For brief.js: the AI picked for "News brief" and its display name.
   ai: (s, t, o = {}) => ai(s, t, { ...o, feature: "brief" }), hasKey: () => hasKey("brief"), aiName: () => NAME[use("brief")],
+  markChicklist(link) { chickSaved[link] = true; for (const el of document.querySelectorAll("#newsList .news-item")) if (el.dataset.link === link) markChick(el.querySelector("h3")) },
   words: () => st.cards.filter(c => c.kind === "word").map(c => c.mine),
   addWord({ word, def, sentence, source }) {
     if (st.cards.some(c => c.kind === "word" && c.mine.toLowerCase() === word)) return false;
