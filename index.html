@@ -65,7 +65,9 @@ nav .count { color: var(--accent-text) }
 nav a[aria-current="page"] .count { color: var(--on-tone) }
 
 /* Views and cards */
-section.view { padding-top: var(--space-4); display: grid; gap: var(--space-5) }
+section.view { padding-top: var(--space-4); display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-5) }
+/* Grid children may not grow past the screen: a long link or word wraps instead of pushing the page sideways (iPhone). */
+section.view > *, .sheet > * { min-width: 0 }
 h2 { margin: 0; font: 700 18px/26px var(--font-body); text-wrap: balance }
 h3 { margin: 0; font: 700 13px/18px var(--font-body); letter-spacing: .04em; color: var(--accent-text) }
 .muted { color: var(--ink-muted); font-size: 13px; line-height: 20px }
@@ -222,7 +224,8 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); padding: var(--space-2) var(--space-4);
   background: var(--ink); color: var(--bg); border-radius: var(--radius-pill); font-size: 14px; box-shadow: var(--shadow-hard-coral); z-index: 20 }
 /* Reader: every word is tappable; exam words get an underline whose style (not just colour) says which list */
-.article { display: grid; gap: var(--space-3) }
+.article { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--space-3); overflow-wrap: anywhere }
+.article .muted { overflow-wrap: anywhere }
 .article h2 { font: 800 22px/30px var(--font-body) }
 .article h3 { font: 700 18px/26px var(--font-body); letter-spacing: 0; color: var(--ink); margin-top: var(--space-2) }
 .rw { cursor: pointer; border-radius: var(--radius-sm) }
