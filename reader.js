@@ -77,8 +77,8 @@ function examsOf(w) {
    the story out ourselves: site rules for BBC / NPR / CNN, Mozilla Readability for anything else,
    and jina's own markdown as the last resort. */
 const RULES = {
-  BBC: 'article [data-component="text-block"] p, article [data-component="text-block"] li, article [data-component="subheadline-block"] :is(h2, h3)',
-  NPR: '#storytext > p, #storytext > :is(h2, h3), #storytext > ul > li, #storytext .bucketwrap.statichtml p',
+  BBC: '[data-component="text-block"] p, [data-component="text-block"] li, [data-component="subheadline-block"] :is(h2, h3)',
+  NPR: '#storytext > p, #storytext > :is(h2, h3), #storytext > ul > li, .paragraphs-container > p, .paragraphs-container > :is(h2, h3)',
   CNN: '.article__content :is(p.paragraph, h2, h3), .article__content .list li',
 };
 const NOISE = 'script, style, noscript, template, svg, iframe, figure, figcaption, aside, nav, form, button, [aria-hidden="true"], '
@@ -107,7 +107,8 @@ async function extract(html, it) {
   if (RULES[it.source]) {
     const d = doc.cloneNode(true); d.querySelectorAll(NOISE).forEach(n => n.remove());
     const paras = pick(d.querySelectorAll(RULES[it.source]));
-    if (words(paras) >= 60) return { title, paras };
+    // A site rule that finds the story wins even when it is short: Readability would pull in transcripts and promos.
+    if (paras.filter(p => !p.h).length >= 2 && words(paras) >= 25) return { title, paras, rule: true };
   }
   try {
     await loadReadability();
@@ -121,11 +122,14 @@ async function extract(html, it) {
   return null;
 }
 // Last resort: jina's markdown, minus obvious boilerplate.
+// Everything from the first "More stories" / "Popular" / cookie block onwards is page furniture, not the story.
+const END = /^(more stories from|popular on|related stories|more from|editors'? picks|read (&|and) listen|cookie settings|top stories|you may also like)/i;
 function clean(md) {
   return md.replace(/!\[[^\]]*\]\([^)]*\)/g, "").replace(/\[([^\]]*)\]\((?:[^()]|\([^)]*\))*\)/g, "$1").replace(/(\*{1,3})([^*\n]+)\1/g, "$2")
     .split(/\n\s*\n/).map(b => b.replace(/\s*\n\s*/g, " ").trim()).filter(Boolean)
     .map(b => { const h = b.match(/^#{1,6}\s+(.*)/); return h ? { h: true, t: h[1].trim() } : { t: b.replace(/^[-*>]\s+/, "") } })
-    .filter(p => p.t && !(p.t.length < 80 && JUNK.test(p.t)) && !/^https?:\/\//.test(p.t) && !/^[=\-_|\s]+$/.test(p.t)
+    .filter((p, i, all) => !all.slice(0, i + 1).some(q => END.test(q.t)))
+    .filter(p => p.t && !(p.t.length < 80 && JUNK.test(p.t)) && !/\[x\]| \* .* \* /.test(p.t) && !/^https?:\/\//.test(p.t) && !/^[=\-_|\s]+$/.test(p.t)
       && (p.h || p.t.split(/\s+/).length >= 6 || /[.!?"”')]$/.test(p.t)));
 }
 async function jina(url, headers) {
@@ -133,22 +137,32 @@ async function jina(url, headers) {
   if (!res.ok) { const e = new Error("http"); e.status = res.status; throw e }
   return (await res.json()).data || {};
 }
+// Raw page HTML from a few public pass-through services; each one sometimes returns a cut or different page,
+// so ask them all at once and keep whichever yields the longest story.
+// NPR's text-only site serves just the story: npr.org/2026/11/03/nx-s1-6005523/slug → text.npr.org/nx-s1-6005523
+const textNpr = url => { const m = url.match(/npr\.org\/\d{4}\/\d{2}\/\d{2}\/([a-z0-9-]+)\//i); return m ? "https://text.npr.org/" + m[1] : null };
+const SOURCES = [
+  async url => { const d = await jina(url, { "X-Return-Format": "html" }); return [d.html, d.content].find(x => typeof x === "string" && x.includes("<")) || "" },
+  async url => { const r = await fetch("https://corsproxy.io/?url=" + encodeURIComponent(url)); if (!r.ok) throw Object.assign(new Error("http"), { status: r.status }); return r.text() },
+  async url => { const r = await fetch("https://api.allorigins.win/raw?url=" + encodeURIComponent(url)); if (!r.ok) throw Object.assign(new Error("http"), { status: r.status }); return r.text() },
+];
+const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error("timeout")), ms))]);
 async function fetchArticle(it) {
-  const cache = "englishDesk.read3:" + it.link;
+  const cache = "englishDesk.read5:" + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
-  let out = null, status;
-  try {
-    const d = await jina(it.link, { "X-Return-Format": "html" });
-    const html = [d.html, d.content].find(x => typeof x === "string" && x.includes("<")) || "";
-    if (html) out = await extract(html, it);
-  } catch (e) { status = e.status }
-  if (!out && status !== 429) {
+  const urls = [it.link, ...(it.source === "NPR" && textNpr(it.link) ? [textNpr(it.link)] : [])];
+  const got = await Promise.allSettled(urls.flatMap(u => SOURCES.map(src => withTimeout(src(u).then(html => html && extract(html, it)), 20000))));
+  const ok = got.map(g => g.status === "fulfilled" ? g.value : null).filter(Boolean), byLen = (x, y) => words(y.paras) - words(x.paras);
+  let out = ok.filter(o => o.rule).sort(byLen)[0] || ok.sort(byLen)[0] || null;
+  if (out) out = { title: out.title, paras: out.paras };
+  const busy = got.some(g => g.reason?.status === 429);
+  if (!out) {
     try {
       const d = await jina(it.link, {}), paras = clean(d.content || "");
       if (paras.filter(p => !p.h).length >= 3) out = { title: d.title || it.title, paras };
-    } catch (e) { status = e.status }
+    } catch { }
   }
-  if (!out) throw new Error(status === 429 ? "抓文章的服務暫時太忙，等 1 分鐘再試，或直接貼上文章。" : "抓不到這篇文章的內文，可以打開原文複製後貼上。");
+  if (!out) throw new Error(busy ? "抓文章的服務暫時太忙，等 1 分鐘再試，或直接貼上文章。" : "抓不到這篇文章的內文，可以打開原文複製後貼上。");
   try { sessionStorage.setItem(cache, JSON.stringify(out)) } catch { }
   return out;
 }
