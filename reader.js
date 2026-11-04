@@ -478,7 +478,7 @@ $("lookAdd").onclick = () => {
   if (current && !inArticle(picked.word)) { current.words.push({ w: picked.word, d: picked.def, s: picked.sentence }); keepArtWords(); renderArtWords() }
   document.querySelectorAll("#v-read .rw").forEach(s => { if (forms(s.textContent).includes(picked.word)) s.classList.add("saved") });
   $("lookAdd").disabled = true; $("lookAdd").textContent = "In word list";
-  toast(ok ? "Added to your word list. It will show up in Cards." : "Added to this article. It was already in your word list.");
+  toast(ok === "new" ? "Added to your word list. It will show up in Cards." : ok === "more" ? "This sentence was added to the word's card as another real example." : "Added to this article. It was already in your word list.");
 };
 
 /* ---------- settings: import dictionary + word lists ---------- */
