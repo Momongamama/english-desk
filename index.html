@@ -204,6 +204,65 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 .banner { padding: var(--space-3) var(--space-4); background: var(--tint-yellow); border: var(--border-width) solid var(--line); border-radius: var(--radius-sm); font-size: 14px }
 .toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%); padding: var(--space-2) var(--space-4);
   background: var(--ink); color: var(--bg); border-radius: var(--radius-pill); font-size: 14px; box-shadow: var(--shadow-hard-coral); z-index: 20 }
+/* Reader: every word is tappable; exam words get an underline whose style (not just colour) says which list */
+.article { display: grid; gap: var(--space-3) }
+.article h2 { font: 800 22px/30px var(--font-body) }
+.article h3 { font: 700 18px/26px var(--font-body); letter-spacing: 0; color: var(--ink); margin-top: var(--space-2) }
+.rw { cursor: pointer; border-radius: var(--radius-sm) }
+.rw[data-ex] { text-decoration: underline var(--accent-text) 2px; text-underline-offset: 4px }
+.rw[data-ex="ielts"] { text-decoration-style: dashed } .rw[data-ex="gre"] { text-decoration-style: wavy; text-decoration-thickness: 1.5px }
+.rw.saved { background: linear-gradient(transparent 58%, var(--tint-yellow) 58%) }
+.rw.on { background: var(--tone-yellow); color: var(--on-tone) }
+.legend { display: flex; flex-wrap: wrap; gap: var(--space-3); font-size: 13px; line-height: 20px }
+.legend .rw { cursor: default }
+#v-read { padding-bottom: 50vh }
+.look { position: fixed; z-index: 15; left: max(16px, env(safe-area-inset-left, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); bottom: calc(16px + env(safe-area-inset-bottom, 0px));
+  max-width: 760px; margin: 0 auto; max-height: 50vh; overflow-y: auto; overscroll-behavior: contain; display: grid; gap: var(--space-2);
+  background: var(--surface); border: var(--border-width) solid var(--line); border-radius: var(--radius-md); padding: var(--space-4) }
+.look .head { display: flex; align-items: center; gap: var(--space-2); flex-wrap: wrap }
+.look .head b { font: 700 18px/26px var(--font-body) }
+.look .head span { flex: 1 }
+.look .def { display: grid; gap: var(--space-2); font-size: 15px; line-height: 24px; overflow-wrap: anywhere; min-width: 0 }
+.flash .q.word { text-decoration: none; color: var(--ink); font-weight: 700 }
+.c-word { font: 700 16px/24px var(--font-body) }
+
+/* The user's own dictionary (Reeden layout), restyled with the brand's sizes, radii and 1.5px lines */
+.def .rd { display: grid; gap: var(--space-2) }
+.def .hd .hw, .def .tg { display: none }
+.def .hd { display: flex; gap: var(--space-2) } .def .hd:has(.hw:only-child) { display: none }
+.def .fq { color: var(--accent-text); font-size: 13px; line-height: 20px }
+.def .pt { margin-right: var(--space-2) }
+.def .also, .def .fm, .def .pr, .def .pt, .def .gl, .def .et, .def .sup { color: var(--ink-muted); font-size: 13px; line-height: 20px; font-style: normal }
+.def .pr { display: flex; flex-wrap: wrap; gap: var(--space-1) var(--space-3) }
+.def .pr i { font-style: normal; font-weight: 700; margin-right: var(--space-1) }
+.def .fm b { font-weight: 400; color: var(--ink) }
+.def details.s { border-top: var(--border-width) solid var(--line); padding-top: var(--space-2) }
+.def details.s > summary { list-style: none; cursor: pointer; display: flex; font: 700 13px/18px var(--font-body); letter-spacing: .04em; color: var(--accent-text); padding-block: var(--space-1) }
+.def details.s > summary::-webkit-details-marker { display: none }
+.def details.s > summary::after { content: "展開"; margin-left: auto; color: var(--ink-muted); font-weight: 400 }
+.def details.s[open] > summary::after { content: "收起" }
+.def .ps { margin-top: var(--space-2); font: 700 13px/18px var(--font-body); letter-spacing: .04em; color: var(--ink-muted) }
+.def .ps em { font-style: normal; margin-left: var(--space-2) }
+.def ol.sn { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: var(--space-3) }
+.def ol.sn > li { counter-increment: s; position: relative; padding-left: 40px }
+.def ol.sn > li::before { content: counter(s); position: absolute; left: 0; top: 2px; min-width: 22px; height: 20px; padding: 0 var(--space-1); border: var(--border-width) solid var(--line);
+  border-radius: var(--radius-pill); background: var(--tone-yellow); color: var(--on-tone); font: 700 13px/17px var(--font-display); text-align: center }
+.def ol.sn.one > li { padding-left: 0 } .def ol.sn.one > li::before { display: none }
+.def .sp { font: 700 13px/18px var(--font-body); color: var(--ink-muted) }
+.def .zh { font: 700 16px/24px var(--font-body) }
+.def .df { font-size: 15px; line-height: 24px }
+.def .rg { display: inline-block; margin-right: var(--space-1); padding: 0 var(--space-2); border: var(--border-width) solid var(--line); border-radius: var(--radius-pill); font: 700 13px/18px var(--font-body); white-space: nowrap }
+.def .ex { margin-top: var(--space-1); padding-left: var(--space-3); border-left: var(--border-width) solid var(--line) }
+.def .ex .e { display: block } .def .ex .c { display: block; color: var(--ink-muted); font-size: 13px; line-height: 20px }
+.def mark { background: linear-gradient(transparent 58%, var(--highlight) 58%); color: inherit; font-weight: 700 }
+.def .sy, .def .ln, .def .nt { font-size: 13px; line-height: 20px; margin-top: var(--space-1) }
+.def .sy b, .def .lb { font: 700 13px/18px var(--font-body); letter-spacing: .04em; color: var(--accent-text); margin-right: var(--space-2) }
+.def a[data-entry] { color: var(--ink); font-weight: 700; text-decoration: underline; text-underline-offset: 3px }
+.def ul.th, .def ul.ph { margin: 0; padding: 0; list-style: none; display: grid; gap: var(--space-1) }
+.def .ne { display: block; padding-left: var(--space-3); border-left: var(--border-width) solid var(--line); margin-block: var(--space-1) }
+.def dl.nd { margin: 0; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: var(--space-2) var(--space-3); font-size: 15px; line-height: 24px }
+.def dl.nd dt { color: var(--ink-muted); font-size: 13px; white-space: nowrap } .def dl.nd dd { margin: 0; min-width: 0 }
+.def dl.nd .w { color: var(--accent-text); font-weight: 700 }
 @media (prefers-reduced-motion: no-preference) { .msg, .c-item { animation: in .25s ease-out } @keyframes in { from { opacity: .4; transform: translateY(4px) } } }
 @media (prefers-reduced-motion: reduce) { .btn:active { transform: none } }
 </style>
@@ -430,6 +489,29 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
     </div>
   </section>
 
+  <!-- READ (opened from a headline on Today; not in the nav) -->
+  <section class="view" id="v-read" hidden>
+    <div class="row"><a class="btn" href="#today">回今天</a><span style="flex:1"></span><button class="btn" id="readPasteOwn">貼上其他文章</button></div>
+    <p class="banner" id="readStatus" hidden></p>
+    <div class="sheet" id="pasteBox" hidden>
+      <h2>貼上文章</h2>
+      <p class="muted"><a id="pasteLink" target="_blank" rel="noopener">打開原文</a>，全選複製內文後貼在下面。</p>
+      <textarea id="pasteArticle" rows="10" lang="en" placeholder="Paste the article text here."></textarea>
+      <div class="row"><button class="btn primary" id="pasteRead">開始閱讀</button></div>
+    </div>
+    <article class="sheet article" id="readBox" hidden lang="en">
+      <h2 id="readTitle"></h2>
+      <p class="muted" lang="zh-Hant"><span id="readMeta"></span> · <a id="readSrc" target="_blank" rel="noopener">原文</a></p>
+      <div class="legend" id="readLegend" lang="zh-Hant" hidden></div>
+      <div class="article" id="readBody"></div>
+    </article>
+    <div class="look" id="look" role="dialog" aria-label="查字典" hidden>
+      <div class="head"><b id="lookWord" lang="en"></b><button class="btn c-save" id="lookSay" aria-label="朗讀">▶</button><span class="muted" id="lookTags"></span><button class="del" id="lookClose">關閉</button></div>
+      <div class="def" id="lookDef"></div>
+      <div class="row"><button class="btn accent" id="lookAdd">加入單字本</button></div>
+    </div>
+  </section>
+
   <!-- SETTINGS -->
   <section class="view" id="v-settings" hidden>
     <div class="sheet">
@@ -461,6 +543,21 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
       <div class="row"><button class="btn primary" id="saveSettings">儲存</button><button class="btn" id="testAi">測試連線</button><span class="muted" id="testOut"></span></div>
     </div>
     <div class="sheet">
+      <h2>字典與考試單字</h2>
+      <p class="muted">閱讀新聞時點字就能查。網站內建開源的 ECDICT 中文翻譯、英英解釋和你的筆記，不用匯入也能用。想看完整解釋和例句，就匯入你自己的字典（例如 english-desk-dict.ndjson.gz），之後會優先查它。考試單字也一樣：沒匯入就用內建清單，匯入總表 CSV 後改用你的清單。匯入的檔案只存在這個瀏覽器，不會上傳；Mac 和 iPhone 要各匯入一次。</p>
+      <div class="row">
+        <label class="btn" for="dictFile">匯入字典</label>
+        <input type="file" id="dictFile" accept=".gz,.ndjson,.json,.txt,.tsv,.csv" hidden>
+        <span class="muted" id="dictInfo"></span><span class="muted" id="dictStatus" aria-live="polite"></span>
+      </div>
+      <div class="row">
+        <label class="btn" for="listFile">匯入考試單字</label>
+        <input type="file" id="listFile" accept=".csv,.txt,.tsv" multiple hidden>
+        <span class="muted" id="listInfo"></span>
+      </div>
+      <p class="muted">底線樣式：實線是托福、虛線是雅思、波浪線是 GRE。同一個字在多份清單時，以 GRE 的樣式顯示。</p>
+    </div>
+    <div class="sheet">
       <h2>發音評分（選填）</h2>
       <p class="muted">跟讀時用 Azure 發音評估，每個字都有分數。沒填就改用 Gemini 聽了給建議。Azure 免費方案（F0）每月有 5 小時語音額度，一句幾秒鐘，練很久也用不完。</p>
       <div class="field">
@@ -486,7 +583,8 @@ textarea.ruled { min-height: 12rem; line-height: 32px; padding-block: 0;
 </div>
 
 
-<!-- Bump ?v= whenever app.js changes, so browsers drop the cached copy. -->
-<script src="app.js?v=2026-11-04-echo"></script>
+<!-- Bump ?v= whenever app.js or reader.js changes, so browsers drop the cached copy. -->
+<script src="app.js?v=2026-11-04-read"></script>
+<script src="reader.js?v=2026-11-04-read"></script>
 </body>
 </html>

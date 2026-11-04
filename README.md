@@ -30,3 +30,11 @@
 
 - 同一個 Action 也會跑 `scripts/fetch-podcasts.mjs`，抓 BBC World Service《Business Daily》和 NPR《The Indicator from Planet Money》最新幾集，寫成 `podcasts.json`（只有標題、日期、長度和 mp3 連結，不存音檔）。
 - 腳本會檢查瀏覽器能不能從別的網站讀這個 mp3（CORS）。可以的話跟讀分頁顯示「用這集」直接載入；不行就只給「下載這集」，下載後再上傳。結果寫在 Action log 裡。
+
+## 新聞閱讀器與查字典
+
+- 「今天」的新聞按「閱讀全文」：瀏覽器當場透過 r.jina.ai 抓原文並重新排版，全文不存進這個 repo。抓不到時可以貼上文章。
+- 點任何字先查「設定 → 字典與考試單字」匯入的個人字典（存在瀏覽器 IndexedDB，不上傳），再查內建字典 `dict/`（ECDICT＋自己的筆記，見 dict/README.md），都沒有才用 Free Dictionary。
+- 「加入單字本」會存成卡片（kind: word），照原本的間隔複習，也能匯出 Anki。
+- 托福／雅思／GRE 單字畫底線：實線托福、虛線雅思、波浪線 GRE。預設用 ECDICT 的考試標記；匯入總表 CSV（word,TOEFL,IELTS,GRE）後改用自己的清單。
+- 個人字典（商業字典內容）和清單不放進 repo。重建內建字典：`python3 scripts/build-dict.py ecdict.csv [個人 MDX 匯出的 txt]`，只會取出「我的筆記」。
