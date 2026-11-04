@@ -1045,9 +1045,107 @@ function grade(c, g) {
   if (g === "again" && srs(c).ivl) c.lapses = (c.lapses || 0) + 1;
   c.ease = Math.round(p.ease * 100) / 100; c.ivl = p.ivl; c.box = (c.box || 0) + 1;
   c.due = addDays(p.ivl); c.last = Date.now();
-  if (c.kind === "word") c.exI = (c.exI || 0) + 1; // next time, show another sentence
+  if (c.kind === "word") { c.exI = (c.exI || 0) + 1; spellAdd(c) } // next time, show another sentence
   c.updated = Date.now();
   persist();
+}
+
+/* ---------- spelling round ---------- */
+// After every 10 word cards you grade (or when today's cards run out), you spell those words: you hear the word, see its
+// meaning and one of its sentences with the word blanked out, and type it. A wrong spelling shows the right one, you copy
+// it, and the word comes back at the end of the round. A word you misspelled comes back tomorrow at the latest, even if you
+// knew its meaning (its interval drops to 1 day; ease stays, since you did remember the meaning).
+// Kept in memory only: reloading the page drops a half-done round.
+const SPELL_EVERY = 10;
+const spell = { batch: [], round: null, said: "" };
+function spellAdd(c) { if (!spell.round && !spell.batch.includes(c.id)) spell.batch.push(c.id) }
+const spellNorm = t => String(t || "").trim().toLowerCase().replace(/[’‘]/g, "'").replace(/\s+/g, " ");
+// The form of the word in this sentence ("criticised" for "criticise"). markWord highlights it; the spelling round blanks it.
+function spellForm(sentence, word) {
+  const w = word.toLowerCase(), stem = w.length > 4 ? w.replace(/(e|y|ies|es|s)$/, "") : w;
+  const m = sentence.match(new RegExp("\\b" + stem.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[a-z'’-]*", "i"));
+  return m ? { at: m.index, form: m[0] } : null;
+}
+function spellStart() {
+  const cards = spell.batch.map(id => st.cards.find(c => c.id === id)).filter(c => c && c.kind === "word");
+  spell.batch = [];
+  if (!cards.length) return false;
+  spell.round = { queue: cards.map(c => c.id), total: cards.length, missed: [], wrong: null, done: false };
+  return true;
+}
+function spellMiss(c) {
+  c.spellMiss = (c.spellMiss || 0) + 1;
+  if (c.due > addDays(1)) { c.due = addDays(1); c.ivl = Math.min(srs(c).ivl, 1) }
+  c.updated = Date.now();
+}
+function spellEnd() { spell.round = null; spell.said = ""; flashShown = false; $("flash").dataset.spell = ""; renderFlash() }
+function renderSpell() {
+  const r = spell.round, f = $("flash"), btns = $("flashBtns");
+  const mk = (t, cls, fn) => { const b = document.createElement("button"); b.className = "btn " + cls; b.textContent = t; b.onclick = fn; return b };
+  ygClose();
+  if (r.done || !r.queue.length) {
+    r.done = true;
+    $("dueLabel").textContent = "";
+    const first = r.total - r.missed.length;
+    const words = r.missed.map(id => st.cards.find(c => c.id === id)?.mine).filter(Boolean);
+    const key = "end"; if (f.dataset.spell === key) return; f.dataset.spell = key;
+    f.replaceChildren();
+    const h = document.createElement("p"); h.className = "spell-score"; h.textContent = `${first} of ${r.total} right the first time`;
+    const p = document.createElement("p"); p.className = "muted";
+    p.textContent = words.length ? `${words.join(", ")} will come back by tomorrow so you can spell ${words.length > 1 ? "them" : "it"} again.` : "Every word spelled right.";
+    f.append(h, p);
+    btns.replaceChildren(mk(due().length ? "Keep reviewing" : "Done", "primary", spellEnd));
+    return;
+  }
+  const c = st.cards.find(k => k.id === r.queue[0]);
+  if (!c) { r.queue.shift(); renderSpell(); return }
+  const left = r.queue.length;
+  $("dueLabel").textContent = `Spelling · ${left} left`;
+  // Don't rebuild while you're typing (a sync or save elsewhere re-renders the cards screen).
+  const key = c.id + "|" + left + "|" + (r.wrong ? "w" : "");
+  if (f.dataset.spell === key) return;
+  f.dataset.spell = key;
+  const exs = examples(c), ex = exs.length ? exs[(c.exI || 0) % exs.length] : null, hit = ex && spellForm(ex.s, c.mine);
+  const answers = [spellNorm(c.mine)]; if (hit) answers.push(spellNorm(hit.form));
+  f.replaceChildren();
+  const hint = document.createElement("p"); hint.className = "muted"; hint.textContent = r.wrong ? "Type it the right way to go on." : "Spell the word you hear.";
+  const mean = document.createElement("div"); mean.className = "a spell-mean"; mean.textContent = c.natural.length > 90 ? c.natural.slice(0, 88) + "…" : c.natural;
+  f.append(hint, mean);
+  if (hit) {
+    const s = document.createElement("blockquote"); s.className = "ex"; s.lang = "en";
+    const gap = document.createElement("span"); gap.className = "gap"; gap.textContent = r.wrong ? hit.form : "_".repeat(Math.max(4, hit.form.length));
+    gap.setAttribute("aria-label", r.wrong ? hit.form : "blank");
+    s.append(ex.s.slice(0, hit.at), gap, ex.s.slice(hit.at + hit.form.length));
+    f.append(s);
+  }
+  if (r.wrong) {
+    const fix = document.createElement("div"); fix.className = "spell-fix";
+    const mine = document.createElement("span"); mine.className = "q"; mine.lang = "en"; mine.textContent = r.wrong;
+    const right = document.createElement("span"); right.className = "a"; right.lang = "en"; right.textContent = c.mine;
+    fix.append(mine, right); f.append(fix);
+  }
+  const form = document.createElement("form"); form.className = "spell-form";
+  const inp = document.createElement("input"); inp.type = "text"; inp.lang = "en"; inp.setAttribute("aria-label", "Type the word");
+  Object.assign(inp, { autocomplete: "off", spellcheck: false, placeholder: hit && !r.wrong ? `${hit.form.length} letters` : "" });
+  inp.setAttribute("autocapitalize", "off"); inp.setAttribute("autocorrect", "off");
+  const hear = mk("▶ Hear it", "", () => { say(c.mine); inp.focus() }); hear.type = "button";
+  form.append(inp, hear);
+  form.onsubmit = e => {
+    e.preventDefault();
+    const v = spellNorm(inp.value); if (!v) return;
+    if (answers.includes(v)) {
+      if (r.wrong) { r.wrong = null; r.queue.push(r.queue.shift()) } // copied it right: try it once more at the end
+      else r.queue.shift();
+      f.dataset.spell = ""; renderSpell(); return;
+    }
+    if (r.wrong) { inp.value = ""; toast("Not quite. Copy the word in the highlight."); return }
+    if (!r.missed.includes(c.id)) { r.missed.push(c.id); spellMiss(c); persist() }
+    r.wrong = inp.value.trim(); f.dataset.spell = ""; renderSpell();
+  };
+  f.append(form);
+  btns.replaceChildren(mk("Check", "primary", () => form.requestSubmit()), mk("Skip spelling", "", () => { r.queue = []; r.done = true; f.dataset.spell = ""; renderSpell() }));
+  if (spell.said !== key && !r.wrong) { spell.said = key; say(c.mine) }
+  setTimeout(() => inp.focus(), 0);
 }
 
 /* ---------- word cards: real sentences ---------- */
@@ -1062,11 +1160,10 @@ function examples(c) {
 }
 // Highlight the word (or a form of it, like "criticised" for "criticise") inside its sentence.
 function markWord(el, sentence, word) {
-  const w = word.toLowerCase(), stem = w.length > 4 ? w.replace(/(e|y|ies|es|s)$/, "") : w;
-  const re = new RegExp("\\b" + stem.replace(/[.*+?^${}()|[\]\\]/g, "\\$&") + "[a-z'’-]*", "i"), m = sentence.match(re);
+  const m = spellForm(sentence, word);
   if (!m) { el.textContent = sentence; return }
-  const b = document.createElement("mark"); b.textContent = m[0];
-  el.replaceChildren(sentence.slice(0, m.index), b, sentence.slice(m.index + m[0].length));
+  const b = document.createElement("mark"); b.textContent = m.form;
+  el.replaceChildren(sentence.slice(0, m.at), b, sentence.slice(m.at + m.form.length));
 }
 function say(text) { try { speechSynthesis.cancel(); const u = new SpeechSynthesisUtterance(text); u.lang = "en-US"; u.rate = .95; speechSynthesis.speak(u) } catch { toast("This browser can't read aloud.") } }
 
@@ -1172,7 +1269,11 @@ const due = () => st.cards.filter(c => c.due <= today()).sort((a, b) => (a.last 
 let flashShown = false;
 function renderFlash() {
   const list = due(), f = $("flash"), btns = $("flashBtns");
-  $("dueLabel").textContent = list.length ? `${list.length} left` : "";
+  if (!spell.round && !flashShown && (spell.batch.length >= SPELL_EVERY || (spell.batch.length && !list.length))) spellStart();
+  if (spell.round) { renderSpell(); return }
+  f.dataset.spell = "";
+  const toSpell = SPELL_EVERY - spell.batch.length;
+  $("dueLabel").textContent = list.length ? `${list.length} left` + (spell.batch.length ? ` · spelling in ${toSpell}` : "") : "";
   if (!list.length) { ygClose(); f.innerHTML = st.cards.length ? '<p class="muted">All done for today.</p>' : '<p class="muted">No cards yet. Tap a word while reading the news and add it to your word list, or tap Save as card after a speaking or writing review.</p>'; btns.replaceChildren(); return }
   const c = list[0], word = c.kind === "word";
   if ((yg.card && yg.card !== c.id) || (voice.card && voice.card !== c.id && !$("ygBox").hidden)) ygClose();
