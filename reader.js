@@ -101,9 +101,47 @@ let readabilityP;
 function loadReadability() {
   return readabilityP ||= new Promise((ok, no) => { const s = document.createElement("script"); s.src = "https://cdn.jsdelivr.net/npm/@mozilla/readability@0.5.0/Readability.js"; s.onload = ok; s.onerror = no; document.head.append(s) });
 }
+// BBC (and its World Service sites) ship the whole story as JSON in <script id="__NEXT_DATA__">: blocks of
+// type "text" → "paragraph" (text in model.text), "subheadline", "image", "links"... The HTML can be split or
+// reordered (Firefox Reader View hits the same problem), so read the JSON when it is there.
+// Pick the "blocks" array holding the most paragraph words: that is the article, not related-story teasers.
+const SKIP_BLOCKS = /image|caption|video|media|links|related|promo|byline|timestamp|^headline$|tag|social|embed|mpu|wsoj|advert/i;
+function paragraphsOf(block, heading) {
+  const out = [];
+  const walk = (b, h) => {
+    if (!b || typeof b !== "object" || SKIP_BLOCKS.test(b.type || "")) return;
+    const isH = h || /subheadline|heading|crosshead/i.test(b.type || "");
+    if (b.type === "paragraph" && typeof b.model?.text === "string") { const t = tidy(b.model.text); if (t) out.push(isH ? { h: true, t } : { t }); return }
+    if (b.type === "listItem" && typeof b.model?.text === "string") { const t = tidy(b.model.text); if (t) out.push({ t }); return }
+    for (const c of b.model?.blocks || []) walk(c, isH);
+  };
+  walk(block, heading);
+  return out;
+}
+function fromNextData(doc) {
+  const raw = doc.querySelector("script#__NEXT_DATA__")?.textContent;
+  if (!raw) return null;
+  let data; try { data = JSON.parse(raw) } catch { return null }
+  let best = null;
+  const seen = new Set();
+  const visit = v => {
+    if (!v || typeof v !== "object" || seen.has(v)) return; seen.add(v);
+    if (Array.isArray(v)) {
+      if (v.some(b => b?.type === "text" && b.model?.blocks)) {
+        const paras = pick(v.flatMap(b => paragraphsOf(b)).map(p => ({ tagName: p.h ? "H3" : "P", textContent: p.t, closest: () => null })));
+        if (!best || words(paras) > words(best)) best = paras;
+      }
+      v.forEach(visit);
+    } else Object.values(v).forEach(visit);
+  };
+  visit(data);
+  return best && words(best) >= 25 ? best : null;
+}
 async function extract(html, it) {
   const doc = new DOMParser().parseFromString(html, "text/html");
   const title = tidy(doc.querySelector("article h1, main h1, h1")?.textContent || doc.querySelector('meta[property="og:title"]')?.content || it.title);
+  const nd = fromNextData(doc);
+  if (nd) return { title, paras: nd, rule: true };
   if (RULES[it.source]) {
     const d = doc.cloneNode(true); d.querySelectorAll(NOISE).forEach(n => n.remove());
     const paras = pick(d.querySelectorAll(RULES[it.source]));
@@ -148,7 +186,7 @@ const SOURCES = [
 ];
 const withTimeout = (p, ms) => Promise.race([p, new Promise((_, no) => setTimeout(() => no(new Error("timeout")), ms))]);
 async function fetchArticle(it) {
-  const cache = "englishDesk.read5:" + it.link;
+  const cache = "englishDesk.read6:" + it.link;
   try { const c = sessionStorage.getItem(cache); if (c) return JSON.parse(c) } catch { }
   const urls = [it.link, ...(it.source === "NPR" && textNpr(it.link) ? [textNpr(it.link)] : [])];
   const got = await Promise.allSettled(urls.flatMap(u => SOURCES.map(src => withTimeout(src(u).then(html => html && extract(html, it)), 20000))));
