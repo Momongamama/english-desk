@@ -89,7 +89,12 @@ def sentences(words):
 
 
 def transcribe(model, path):
-    segs, info = model.transcribe(path, language="en", word_timestamps=True, vad_filter=True, beam_size=1,
+    # Decode with the runner's ffmpeg, not PyAV: faster-whisper's PyAV call breaks whenever PyAV changes its API.
+    import subprocess, numpy as np
+    pcm = subprocess.run(["ffmpeg", "-nostdin", "-loglevel", "error", "-i", path, "-f", "f32le", "-ac", "1", "-ar", "16000", "-"],
+                         check=True, capture_output=True).stdout
+    audio = np.frombuffer(pcm, dtype=np.float32)
+    segs, info = model.transcribe(audio, language="en", word_timestamps=True, vad_filter=True, beam_size=1,
                                   condition_on_previous_text=False)
     words = [w for s in segs for w in (s.words or [])]
     return sentences(words)

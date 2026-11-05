@@ -231,6 +231,10 @@ label.mins input { width: 6.5rem; min-height: 40px; padding: 0 var(--space-3); b
 .sents .num { color: var(--ink-muted); font-size: 13px; font-variant-numeric: tabular-nums }
 .sents button[aria-current="true"] .num { color: var(--ink) }
 .sents .sc { font: 700 13px/18px var(--font-body); color: var(--accent-text); white-space: nowrap }
+.sents .tip { display: block; color: var(--ink-muted); font-size: 13px; line-height: 20px }
+.pitch { margin: 0; display: grid; gap: var(--space-1) }
+.pitch canvas { width: 100%; height: 120px; border: var(--border-width) solid var(--line); border-radius: var(--radius-sm); background: var(--surface) }
+.pitch .key { display: inline-block; width: 16px; height: 3px; vertical-align: middle; margin: 0 var(--space-1) 0 var(--space-2); border-radius: var(--radius-pill) }
 
 .pod-title { font: 700 16px/24px var(--font-body); overflow-wrap: anywhere }
 
@@ -597,6 +601,10 @@ label.mins input { width: 6.5rem; min-height: 40px; padding: 0 var(--space-3); b
         <button class="btn" id="echoBoth">▶ Original, then mine</button>
         <span class="muted" id="echoDur"></span>
       </div>
+      <figure class="pitch" id="echoPitchBox" hidden>
+        <canvas id="echoPitch" role="img" aria-label="Pitch of the original and your recording"></canvas>
+        <figcaption class="muted">Pitch (intonation)<span class="key" style="background:var(--ink-muted)"></span>original<span class="key" style="background:var(--strike)"></span>you. Both are stretched to the same width, and each voice is measured from its own middle, so a higher or lower voice doesn't matter: look at where the line rises and falls.</figcaption>
+      </figure>
       <div class="row"><button class="btn" id="echoScore" disabled>Score pronunciation</button><span class="muted" id="echoEngine"></span></div>
       <div class="corr" id="echoResult" hidden>
         <div class="scores" id="echoTiles"></div>
