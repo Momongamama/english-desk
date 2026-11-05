@@ -8,6 +8,10 @@ on:
     - cron: "17 22 * * *"   # 06:17 backup
     - cron: "43 23 * * *"   # 07:43 backup
     - cron: "11 1 * * *"    # 09:11 backup
+    # Podcasts only. The Indicator posts at 08:00 UTC (16:00 Taiwan) and Business Daily at 21:30 UTC, so a list
+    # fetched only at 05:30 was missing the newest episode most of the day. These runs never touch news.json.
+    - cron: "37 8 * * *"    # 16:37 Taiwan, after The Indicator
+    - cron: "23 13 * * *"   # 21:23 Taiwan, backup
   workflow_dispatch:
   push:
     branches: [main]
@@ -25,25 +29,24 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Skip a backup run if the news is already fresh
+      - name: Skip the news on a backup run if it is already fresh
         id: fresh
         if: github.event_name == 'schedule'
         run: |
+          case "${{ github.event.schedule }}" in "37 8 * * *"|"23 13 * * *") echo "podcast-only run"; echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0;; esac
           age=$(( $(date +%s) - $(date -d "$(node -p 'require("./news.json").updated' 2>/dev/null || echo 1970-01-01)" +%s) ))
           echo "news.json is $((age / 60)) minutes old"
           if [ "$age" -lt 21600 ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
       - uses: actions/setup-node@v4
-        if: steps.fresh.outputs.skip != 'true'
         with:
           node-version: 20
       - run: node scripts/fetch-news.mjs news.json
         if: steps.fresh.outputs.skip != 'true'
-      # Shadowing podcasts: episode list only. A failure here must not block the news.
+      # Shadowing podcasts: episode list only, fetched on every run (it is cheap, and a fresh news.json says nothing
+      # about the podcasts). A failure here must not block the news.
       - run: node scripts/fetch-podcasts.mjs podcasts.json
-        if: steps.fresh.outputs.skip != 'true'
         continue-on-error: true
       - name: Commit news.json and podcasts.json if they changed
-        if: steps.fresh.outputs.skip != 'true'
         run: |
           git add news.json podcasts.json 2>/dev/null || git add news.json
           if git diff --cached --quiet; then echo "no change"; exit 0; fi
