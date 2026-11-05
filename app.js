@@ -969,6 +969,8 @@ function pitchTrack(data, rate) {
     let sum = 0, best = -1;
     for (let t = 1; t <= tMax; t++) { let v = 0; for (let i = 0; i < W; i++) { const q = x[f + i] - x[f + i + t]; v += q * q } sum += v; d[t] = sum ? v * t / sum : 1 }
     for (let t = tMin; t <= tMax; t++) if (d[t] < .15) { while (t < tMax && d[t + 1] < d[t]) t++; best = t; break }
+    // parabolic interpolation around the dip, so the line isn't a staircase of whole-sample lags
+    if (best > 0 && best < tMax) { const a0 = d[best - 1], a1 = d[best], a2 = d[best + 1], den = a0 - 2 * a1 + a2; if (den > 0) best += .5 * (a0 - a2) / den }
     frames.push(best > 0 ? r / best : 0);
   }
   const loud = Math.max(...rms, 1e-6) * .08;
@@ -1113,12 +1115,15 @@ function ruleTips(r, i) {
   const tips = [], ws = r.words.filter(w => w.err !== "Insertion");
   const missed = ws.filter(w => w.err === "Omission").map(w => w.word);
   if (missed.length) tips.push(`You left out ${missed.slice(0, 4).map(x => `"${x}"`).join(", ")}. Say every word, even the small ones.`);
-  ws.filter(w => w.err !== "Omission").map(w => ({ w, tip: phoneTip(w), low: Math.min(...(w.phones || []).map(p => p.score), 100) }))
-    .filter(x => x.tip).sort((a, b) => a.low - b.low).slice(0, 2).forEach(x => tips.push(x.tip.charAt(0).toUpperCase() + x.tip.slice(1)));
+  // the worst sound first, then rhythm, then the next sound, so one take's advice isn't all about sounds
+  const sounds = ws.filter(w => w.err !== "Omission").map(w => ({ tip: phoneTip(w), low: Math.min(...(w.phones || []).map(p => p.score), 100) }))
+    .filter(x => x.tip).sort((a, b) => a.low - b.low).map(x => x.tip.charAt(0).toUpperCase() + x.tip.slice(1));
+  if (sounds[0]) tips.push(sounds[0]);
   const brk = ws.find(w => w.breakErr.includes("UnexpectedBreak")), miss = ws.find(w => w.breakErr.includes("MissingBreak")), flat = ws.find(w => w.tone.includes("Monotone"));
   if (brk) tips.push(`Don't stop before "${brk.word}". Keep that phrase in one breath.`);
   if (miss) tips.push(`Take a short pause after "${miss.word}", like the speaker does.`);
   if (flat) tips.push(`Your voice is flat around "${flat.word}". Let it rise and fall like the original; the pitch chart shows where.`);
+  if (sounds[1]) tips.push(sounds[1]);
   const m = echo.mine[i];
   if (m) { const [a, b] = clipOf(i), ratio = m.buf.duration / (b - a);
     if (ratio > 1.35) tips.push(`You took ${m.buf.duration.toFixed(1)}s and the speaker ${(b - a).toFixed(1)}s. Link the words and don't stop between them.`);
