@@ -806,6 +806,22 @@ async function loadPodcasts() {
   try { podTx = await loadTranscripts() } catch { podTx = null }
   if (pods?.length) renderPods();
 }
+// Read the whole episode's transcript right in the list; a tapped line becomes the clip's start time.
+function toggleTx(it, btn, show, ep, tx) {
+  let box = it.querySelector(".tx");
+  if (box) { box.remove(); btn.setAttribute("aria-expanded", "false"); btn.textContent = "Transcript"; return }
+  box = el("ol", "tx sents"); box.lang = "en";
+  box.append(...tx.sentences.map(([a, , text]) => { const li = document.createElement("li"), b = document.createElement("button");
+    const n = el("span", "num", fmt(a)), t = el("span", "", text); b.append(n, t);
+    b.onclick = () => {
+      $("echoStart").value = fmt(Math.max(0, a - 1)); pickTranscript(tx);
+      const have = echo.blob && echo.title.includes(ep.title);
+      if (have) { $("echoScript").value = toVtt(tx.sentences); scriptInfo(); echo.podScript = null }
+      toast(have ? `Start set to ${fmt(a)}. Tap Make script.` : `Start set to ${fmt(a)}. Now ${show.cors === false ? "download the episode and tap Upload audio" : "tap Use this episode"}.`);
+    };
+    li.append(b); return li }));
+  it.append(box); btn.setAttribute("aria-expanded", "true"); btn.textContent = "Hide transcript";
+}
 function renderPods() {
   $("podBox").hidden = false;
   $("podShows").replaceChildren(...pods.map((s, k) => { const c = el("button", "chip", `${s.name} (${s.accent})`); c.setAttribute("aria-pressed", k === podPick); c.onclick = () => { podPick = k; renderPods() }; return c }));
@@ -822,7 +838,8 @@ function renderPods() {
     const ap = ep.apple || s.apple; if (ap) { const l = el("a", "btn c-save", "Apple Podcasts"); l.href = ap; l.target = "_blank"; l.rel = "noopener"; row.append(l) }
     const sp = el("a", "btn c-save", "Spotify"); sp.href = "https://open.spotify.com/search/" + encodeURIComponent(ep.title) + "/episodes"; sp.target = "_blank"; sp.rel = "noopener"; row.append(sp);
     if (s.cors === false) row.append(el("span", "muted", "This show doesn't let web pages read its audio. Download it, then tap Upload audio."));
-    it.append(row); if (tx) it.append(el("p", "muted", `Full transcript ready (${tx.sentences.length} sentences), filled in when you use this episode.`)); return it }));
+    if (tx) { const t = el("button", "btn c-save", "Transcript"); t.setAttribute("aria-expanded", "false"); t.onclick = () => toggleTx(it, t, s, ep, tx); row.append(t) }
+    it.append(row); if (tx) it.append(el("p", "muted", `Full transcript ready (${tx.sentences.length} sentences). Tap Transcript to read it; tap a line to start the clip there.`)); return it }));
   const note = $("podTx"), n = podTx ? Object.keys(podTx).length : 0;
   note.hidden = !!n; note.textContent = podTx === null ? "Turn on Sync in Settings to get a full transcript of each episode, made every day with Whisper."
     : "Full transcripts are made a few hours after each episode comes out. None are ready yet.";
