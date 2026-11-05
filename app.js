@@ -129,6 +129,7 @@ function route() {
   document.querySelectorAll("nav a").forEach(a => a.dataset.v === v ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
   if (v === "cards") renderFlash();
   if (v !== "echo" && typeof echoLeave === "function") echoLeave();
+  if (v === "echo" && typeof loadPodcasts === "function") loadPodcasts();
 }
 addEventListener("hashchange", route);
 
@@ -766,9 +767,12 @@ async function loadAudioUrl(url, b, name) {
   } finally { b.disabled = false }
 }
 // podcasts.json is refreshed daily by .github/workflows/news.yml: latest episodes of one UK and one US show, links only.
-let pods = null, podPick = 0;
+// Also re-checked each time Echo opens (at most every 30 minutes), so a phone that keeps the page open for days
+// still gets the new episodes; the hour in the query stops an old copy from being reused.
+let pods = null, podPick = 0, podsAt = 0;
 async function loadPodcasts() {
-  try { const r = await fetch("podcasts.json?d=" + today(), { cache: "no-cache" }); if (r.ok) pods = (await r.json()).shows?.filter(s => s.episodes?.length) } catch { }
+  if (Date.now() - podsAt < 30 * 60e3) return; podsAt = Date.now();
+  try { const r = await fetch("podcasts.json?d=" + today() + "-" + new Date().getHours(), { cache: "no-cache" }); if (r.ok) pods = (await r.json()).shows?.filter(s => s.episodes?.length) } catch { podsAt = 0 }
   if (pods?.length) renderPods();
 }
 function renderPods() {

@@ -66,6 +66,8 @@ async function main() {
     catch (e) { console.warn(`${s.name}: ${e.message}; keeping the previous list`); const prev = old.shows?.find(x => x.id === s.id); if (prev) shows.push(prev) }
   }
   if (!shows.length) throw new Error("no show fetched; keeping the old podcasts.json");
+  // Runs several times a day: leave the file alone when nothing changed, so there is no empty commit.
+  if (JSON.stringify(shows) === JSON.stringify(old.shows)) { console.log("no new episodes; podcasts.json unchanged"); return }
   writeFileSync(OUT, JSON.stringify({ updated: new Date().toISOString(), shows }, null, 1) + "\n");
   console.log(`wrote ${shows.length} shows to ${OUT}`);
 }
