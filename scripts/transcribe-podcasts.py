@@ -70,22 +70,20 @@ def download(url, dest):
 
 
 def sentences(words):
+    # Whisper's word strings carry their own leading space ("co" + "-founder", "Carvana" + ".com"), so join them as they are.
+    # A sentence ends at . ? !; a long one is cut at a comma after 14 words, or anywhere after 30.
     out, cur = [], []
     for w in words:
-        t = w.word.strip()
-        if not t:
+        if not w.word.strip():
             continue
-        cur.append((w.start, w.end, t))
-        if (t[-1] in ".?!" or (t[-1] in '"\')' and len(t) > 1 and t[-2] in ".?!")) or len(cur) >= 20:
+        cur.append(w)
+        t, n = w.word.strip(), len(cur)
+        if t.rstrip("\"')]")[-1:] in (".", "?", "!") or (n >= 14 and t.endswith(",")) or n >= 30:
             out.append(cur)
             cur = []
     if cur:
         out.append(cur)
-    res = []
-    for s in out:
-        text = " ".join(x[2] for x in s).replace(" ,", ",")
-        res.append([round(s[0][0], 2), round(s[-1][1], 2), text])
-    return res
+    return [[round(s[0].start, 2), round(s[-1].end, 2), "".join(w.word for w in s).strip()] for s in out]
 
 
 def transcribe(model, path):
