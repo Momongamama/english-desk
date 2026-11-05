@@ -1,33 +1,49 @@
 {
- "updated": "2026-11-05T07:56:07.441Z",
+ "updated": "2026-11-05T18:11:20.773Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Interest rates expected to rise for first time in over three years",
-   "summary": "Most analysts are predicting an increase from 3.75% to 4%, the first increase in more than three years.",
+   "title": "Interest rates hiked to 4% in first increase in over three years",
+   "summary": "Most analysts expected the increase from 3.75% to 4%.",
    "link": "https://www.bbc.co.uk/news/articles/ck5ynw45jrgqo",
-   "published": "2026-11-05T00:00:09.000Z",
+   "published": "2026-11-05T17:09:55.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Three ways the interest rate rise could affect you",
+   "summary": "Job, loans and savings are all affected by the rise in interest rates announced by the Bank of England.",
+   "link": "https://www.bbc.co.uk/news/articles/cx4g1q3vlp62o",
+   "published": "2026-11-05T13:08:30.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
    "title": "Pound rises to its highest level since the Brexit referendum",
-   "summary": "Pound reaches highest level against a basket of currencies since the Brexit referendum a decade ago",
+   "summary": "Pound reaches highest level against a basket of currencies since the Brexit referendum a decade ago.",
    "link": "https://www.bbc.co.uk/news/articles/c6lykq2qjn2vo",
    "published": "2026-11-05T04:21:35.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Democrats won on affordability. Can they deliver it?",
-   "summary": "Democrats will hold Congress but President Donald Trump still has the power to block their plans.",
-   "link": "https://www.bbc.co.uk/news/articles/ck1ex50x5q46o",
-   "published": "2026-11-05T06:01:05.000Z",
+   "title": "Faisal Islam: How high will interest rates go?",
+   "summary": "The BBC's economics editor views one more interest rate as likely, but thinks that will be all.",
+   "link": "https://www.bbc.co.uk/news/articles/ckr5y0y37gv3o",
+   "published": "2026-11-05T13:17:10.000Z",
    "source": "BBC",
    "section": "business"
+  },
+  {
+   "title": "Shares in Musk's SpaceX plunge as tech and AI stocks fall",
+   "summary": "The market has been reacting to possible tougher scrutiny of data centre construction and the AI industry following the US mid-terms",
+   "link": "https://www.bbc.co.uk/news/articles/cmn04705rd8jo",
+   "published": "2026-11-05T17:57:57.000Z",
+   "source": "BBC",
+   "section": "tech"
   },
   {
    "title": "Elon Musk's millions failed to deliver Republican wins in fierce midterms",
@@ -35,15 +51,7 @@
    "link": "https://www.bbc.co.uk/news/articles/cv8ez3p3ge5ko",
    "published": "2026-11-04T21:41:15.000Z",
    "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Poundland owner in crunch talks as retailer's collapse looms",
-   "summary": "Gordon Brothers will meet Jonathan Reynolds on Wednesday as the investment firm faces scrutiny over Poundland.",
-   "link": "https://www.bbc.co.uk/news/articles/ck240mm3e42do",
-   "published": "2026-11-05T06:58:03.000Z",
-   "source": "BBC",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "French blood storage impacted by freezer hacks as theories swirl about culprits",
@@ -62,30 +70,6 @@
    "section": "tech"
   },
   {
-   "title": "Binance says fake job interviews used as part of $6.3bn crypto hack",
-   "summary": "An engineer was contacted through a legitimate job-hunting platform and invited to bogus job interviews with fake company representatives, Binance says.",
-   "link": "https://www.bbc.co.uk/news/articles/ck5ynwz9gy67o",
-   "published": "2026-11-03T16:19:29.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "UK meat industry hit by cyber-attack which targeted European supermarket freezers",
-   "summary": "Supermarkets in countries including Ireland, Sweden and Belgium reported fridges being hiked in temperature on Monday.",
-   "link": "https://www.bbc.co.uk/news/articles/ckq6ndq8l6v0o",
-   "published": "2026-11-03T13:07:00.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Apple unsure when it will get more foldable iPhones ahead of Christmas",
-   "summary": "The tech giant reports strong sales but admits \"constraints\" are affecting supplies of the iPhone Duo.",
-   "link": "https://www.bbc.co.uk/news/articles/c6n8dn457ypko",
-   "published": "2026-11-03T11:10:37.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
    "title": "Vance walks Trump tightrope with scathing election critique blaming Iran war",
    "summary": "The vice-president's blunt assessment of Republican election defeat marked one of the sharpest breaks with a sitting president in recent memory.",
    "link": "https://www.bbc.co.uk/news/articles/crz98zqkz7z0o",
@@ -94,18 +78,18 @@
    "section": "world"
   },
   {
-   "title": "What Democrats can and can't do with their new power after taking Congress",
-   "summary": "Democrats can vote legislation through. But Trump still has veto power.",
-   "link": "https://www.bbc.co.uk/news/articles/cq1kdgnn2xdeo",
-   "published": "2026-11-04T18:01:27.000Z",
+   "title": "The Pitt and ER are similar enough for lawsuit to proceed, judge rules",
+   "summary": "The widow of ER creator Michael Crichton argues The Pitt is effectively a reboot of the 1990s series.",
+   "link": "https://www.bbc.co.uk/news/articles/cq4g1r42jx00o",
+   "published": "2026-11-05T11:21:35.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Joshua Wong, face of Hong Kong's pro-democracy protests, jailed for 10 years",
-   "summary": "Wong, 30, is among hundreds of Hongkongers detained under the controversial national security law.",
-   "link": "https://www.bbc.co.uk/news/articles/cwp9g3rlp8jlo",
-   "published": "2026-11-05T06:35:25.000Z",
+   "title": "Russell Brand is being investigated over two new rape complaints, police say",
+   "summary": "Det Supt Andy Furphy said he hoped other potential victims would gain \"courage\" and \"confidence\" from the guilty verdicts.",
+   "link": "https://www.bbc.co.uk/news/articles/c6vgx8q09gg4o",
+   "published": "2026-11-05T15:44:49.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -118,20 +102,44 @@
    "section": "world"
   },
   {
-   "title": "Pope Leo hosts Bob Dylan at official residence in Rome",
-   "summary": "Pope Leo had previously quoted Dylan's work in the preface of a book warning against nuclear rearmament.",
-   "link": "https://www.bbc.co.uk/news/articles/cm0e035n13ylo",
-   "published": "2026-11-05T02:09:23.000Z",
+   "title": "India's costliest film retells a beloved Hindu epic - but divides critics",
+   "summary": "Easily the most anticipated Bollywood film of the year, Ramayana: Rise of a Legend is the first of two parts.",
+   "link": "https://www.bbc.co.uk/news/articles/cm93zv62v1n7o",
+   "published": "2026-11-05T09:04:42.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Mother and daughter die after suspected grizzly bear attack in Canada",
-   "summary": "Authorities in British Columbia say evidence suggests an animal may have been involved in the women's deaths.",
-   "link": "https://www.bbc.co.uk/news/articles/cqvgry8k5d01o",
-   "published": "2026-11-04T23:50:40.000Z",
+   "title": "Would you take a test to see if your life will be cut short? I did - and it changed me",
+   "summary": "Laura Sides faced a dilemma of whether to find out if she would inherit her father's condition.",
+   "link": "https://www.bbc.co.uk/news/articles/cw62yq9vp7yyo",
+   "published": "2026-11-05T00:32:09.000Z",
    "source": "BBC",
    "section": "world"
+  },
+  {
+   "title": "First-time homebuyers remain scarce, but a record share of them pay all cash",
+   "summary": "A new report finds generational wealth is widening the divide between homebuyers and those priced out. The median age of first-time buyers also remains at a record high.",
+   "link": "https://www.npr.org/2026/11/05/nx-s1-6022491/real-estate-all-cash-offer",
+   "published": "2026-11-05T15:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "As budgets tighten, people are breaking out their library cards",
+   "summary": "Some Americans squeezed by high prices are relying more on their local libraries for things like books, streaming services and high-priced items like musical instruments and sewing machines.",
+   "link": "https://www.npr.org/2026/11/05/nx-s1-5992908/libraries-and-cost-of-living",
+   "published": "2026-11-05T10:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Does the blue wave mean lower gasoline and diesel prices soon? Don't hold your breath",
+   "summary": "A new Democratic majority in Congress could pressure the president to end the war in Iran.",
+   "link": "https://www.npr.org/2026/11/05/nx-s1-6029365/gas-diesel-price-congress-midterms",
+   "published": "2026-11-05T10:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "Legendary photographer on getting that perfect election night picture",
@@ -154,22 +162,6 @@
    "summary": "In Kentucky's former coal country, data centers are a welcome sight as people hope they will bring in money.",
    "link": "https://www.npr.org/2026/11/03/nx-s1-6022442/western-kentucky-welcomes-data-centers-in-hopes-they-make-up-for-coal-losses",
    "published": "2026-11-03T21:22:58.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Chicago entrepreneur turns empty downtown office space into vertical gardens",
-   "summary": "The pandemic changed how and where the world works, leaving behind a lot of empty office space. One entrepreneur is starting to plant the seeds of a partial solution.",
-   "link": "https://www.npr.org/2026/11/03/nx-s1-5944524-e1/chicago-entrepreneur-turns-empty-downtown-office-space-into-vertical-gardens",
-   "published": "2026-11-03T20:52:02.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "When caring for aging family members becomes cost prohibitive",
-   "summary": "AARP reports family caregivers are spending 60% more than they were five years ago. Journalist Paula Span discusses the rising costs of caregiving and senior living, and the options available to us.",
-   "link": "https://www.npr.org/2026/11/03/nx-s1-6026479/when-caring-for-aging-family-members-becomes-cost-prohibitive",
-   "published": "2026-11-03T17:09:56.000Z",
    "source": "NPR",
    "section": "business"
   },
@@ -222,6 +214,22 @@
    "section": "tech"
   },
   {
+   "title": "Russell Brand is convicted of rape, and judge says he'll get a prison term",
+   "summary": "A prosecutor described Brand as a ruthless, calculating, manipulative \"sexual predator.\" Brand, 51, denied the charges, saying he had never forced anyone to do something against their will.",
+   "link": "https://www.npr.org/2026/11/05/nx-s1-6030720/russell-brand-rape-sexual-assault-prison",
+   "published": "2026-11-05T16:15:02.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "What's next for Democrats after the midterms. And, a look at the outstanding races",
+   "summary": "Democrats have regained control of Congress. They have a long list of investigations into Trump planned. And, not all races have been called. Here's a look at how they could affect the Dems' majority.",
+   "link": "https://www.npr.org/2026/11/05/g-s1-152046/up-first-newsletter-democrats-congress-control-house-senate-trump-reaction",
+   "published": "2026-11-05T12:02:24.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
    "title": "Bob Dylan comes knockin' on pope's door as Leo welcomes legend to Vatican",
    "summary": "The American singer-songwriter and poet visited with the American pope at the Vatican during a break between concert dates in Italy. The Vatican said the encounter was brief.",
    "link": "https://www.npr.org/2026/11/05/g-s1-152035/vatican-pope-bob-dylan",
@@ -250,22 +258,6 @@
    "summary": "From Kyiv to Moscow, and Tehran to Tel Aviv, all eyes were on the Democrats' big win as foreign powers weigh how a flipped Congress will affect international relations.",
    "link": "https://www.npr.org/2026/11/04/nx-s1-6028664/world-reacts-midterm-elections",
    "published": "2026-11-04T12:34:35.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Democrats seize full control of Congress. And, which candidates made history last night",
-   "summary": "Democrats have won the House and the Senate, taking full control of Congress for the first time since 2023. And history was made in several states. Here's what happened last night.",
-   "link": "https://www.npr.org/2026/11/04/g-s1-151745/up-first-newsletter-midterms-democrats-congress-control",
-   "published": "2026-11-04T12:18:39.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Japan faces diplomatic dilemma amid joint pressure from nuclear neighbors",
-   "summary": "As the Ukraine war grinds on, ties between Russia and neighboring Japan are at their worst in decades. Tokyo wants more support from Washington, but some Japanese are concerned they may not get it.",
-   "link": "https://www.npr.org/2026/11/03/nx-s1-6012016/japan-faces-diplomatic-dilemma-amid-joint-pressure-from-nuclear-neighbors",
-   "published": "2026-11-03T22:25:15.000Z",
    "source": "NPR",
    "section": "world"
   }
