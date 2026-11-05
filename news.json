@@ -1,49 +1,57 @@
 {
- "updated": "2026-11-04T08:14:04.620Z",
+ "updated": "2026-11-05T01:09:26.729Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Poundland supplier 'will lose millions' if retailer collapses",
-   "summary": "One of Poundland's suppliers will lose millions if it collapses, while other suppliers have said they would go under.",
-   "link": "https://www.bbc.co.uk/news/articles/ck240mm3e42do",
-   "published": "2026-11-04T08:05:32.000Z",
+   "title": "Interest rates expected to rise for first time in over three years",
+   "summary": "Most analysts are predicting an increase from 3.75% to 4%, the first increase in more than three years.",
+   "link": "https://www.bbc.co.uk/news/articles/ck5ynw45jrgqo",
+   "published": "2026-11-05T00:00:09.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "No more rice grains in Kellogg's Rice Krispies due to changing weather",
-   "summary": "The new recipes mean cereal packaging will now include a 'contains wheat gluten' warning.",
+   "title": "Pound rises to its highest level since the Brexit referendum",
+   "summary": "Pound reaches highest level against a basket of currencies since the Brexit referendum a decade ago",
+   "link": "https://www.bbc.co.uk/news/articles/c6lykq2qjn2vo",
+   "published": "2026-11-04T23:30:28.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Kellogg's admits snap, crackle and pop is quieter after uproar over Rice Krispies recipe change",
+   "summary": "The cereal giant has changed the recipes for Rice Krispies and Coco Pops, sparking a backlash online.",
    "link": "https://www.bbc.co.uk/news/articles/cqvg0y44ym7vo",
-   "published": "2026-11-04T01:36:06.000Z",
+   "published": "2026-11-04T19:38:53.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "UK and EU agree draft deal to scrap Brexit red tape over food exports",
-   "summary": "The food deal, ahead of a UK-EU summit later this month, is the most significant part of the so-called Brexit reset agreed so far.",
-   "link": "https://www.bbc.co.uk/news/articles/cmp3grwre9xdo",
-   "published": "2026-11-03T20:53:03.000Z",
+   "title": "Australia's oldest department store David Jones collapses after 188 years",
+   "summary": "The brand's 38 physical stores and online site will continue to operate while receivers review its operations.",
+   "link": "https://www.bbc.co.uk/news/articles/cky93z5y0171o",
+   "published": "2026-11-05T00:59:22.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Binance says fake job interviews used as part of $6.3bn crypto hack",
-   "summary": "An engineer was contacted through a legitimate job-hunting platform and invited to bogus job interviews with fake company representatives, Binance says.",
-   "link": "https://www.bbc.co.uk/news/articles/ck5ynwz9gy67o",
-   "published": "2026-11-03T16:19:29.000Z",
+   "title": "Elon Musk's millions failed to deliver Republican wins in fierce midterms",
+   "summary": "Musk spent nearly $500m in the 2026 US midterm elections, an individual election spending record.",
+   "link": "https://www.bbc.co.uk/news/articles/cv8ez3p3ge5ko",
+   "published": "2026-11-04T21:41:15.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Canva announces major job cuts after 'our hardest year yet'",
-   "summary": "CEO Melanie Perkins says more than 1,000 staff will either lose their jobs or be asked to change roles.",
-   "link": "https://www.bbc.co.uk/news/articles/cw77pg7neydmo",
-   "published": "2026-11-04T00:09:35.000Z",
+   "title": "French blood storage impacted by freezer hacks as theories swirl about culprits",
+   "summary": "The French Blood Establishment (EFS) said cold rooms storing blood were impacted by hackers.",
+   "link": "https://www.bbc.co.uk/news/articles/c8vgxyvz6y9ro",
+   "published": "2026-11-04T16:26:15.000Z",
    "source": "BBC",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "Graduates are managing AI - but are they learning much else?",
@@ -51,7 +59,15 @@
    "link": "https://www.bbc.co.uk/news/articles/c820vz6wyp65o",
    "published": "2026-11-04T00:04:35.000Z",
    "source": "BBC",
-   "section": "business"
+   "section": "tech"
+  },
+  {
+   "title": "Binance says fake job interviews used as part of $6.3bn crypto hack",
+   "summary": "An engineer was contacted through a legitimate job-hunting platform and invited to bogus job interviews with fake company representatives, Binance says.",
+   "link": "https://www.bbc.co.uk/news/articles/ck5ynwz9gy67o",
+   "published": "2026-11-03T16:19:29.000Z",
+   "source": "BBC",
+   "section": "tech"
   },
   {
    "title": "UK meat industry hit by cyber-attack which targeted European supermarket freezers",
@@ -70,66 +86,42 @@
    "section": "tech"
   },
   {
-   "title": "North Korea denies being behind record $6.3bn Binance hack",
-   "summary": "US government agencies and cyber analysts have blamed Pyongyang for the record-breaking heist.",
-   "link": "https://www.bbc.co.uk/news/articles/c6rey4v53exgo",
-   "published": "2026-11-03T08:33:20.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "If hackers can take control of a supermarket freezer, how vulnerable is other tech?",
-   "summary": "Dozens of shops across European countries have been hit by a cyber-attack affecting their fridges.",
-   "link": "https://www.bbc.co.uk/news/articles/ckpqg8lve73go",
-   "published": "2026-11-02T18:25:01.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "James Talarico becomes first Democrat to win Texas Senate seat since 1988",
-   "summary": "\"This wasn't just a tsunami, not just a referendum, but this was a bloodbath,\" one expert told the BBC on Democrats' historic wins in Texas.",
-   "link": "https://www.bbc.co.uk/news/articles/c6n8dnn09jg7o",
-   "published": "2026-11-04T05:39:36.000Z",
+   "title": "Ukraine says bodycam video shows deadly Russian double-tap bombing",
+   "summary": "At least 40 people were killed and another 30 may still be under the rubble after Monday's attack on a Ukrainian village, Kyiv says.",
+   "link": "https://www.bbc.co.uk/news/articles/c98rz6penv86o",
+   "published": "2026-11-04T22:48:43.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "ANC under pressure to reverse South Africa decline",
-   "summary": "As South Africans vote in local elections, residents tell the BBC they are tired of the poor quality of services they get.",
-   "link": "https://www.bbc.co.uk/news/articles/cr4g1x6l77xyo",
-   "published": "2026-11-04T00:03:19.000Z",
+   "title": "How America voted in maps and charts",
+   "summary": "See the maps and charts that show how America voted in the US midterm elections.",
+   "link": "https://www.bbc.co.uk/news/articles/cm4g1j0n92qdo",
+   "published": "2026-11-04T09:53:18.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Killer who escaped Tennessee prison captured after week-long manhunt",
-   "summary": "Jacob Allen Morley was serving a life sentence for murder before he escaped over a prison fence.",
-   "link": "https://www.bbc.co.uk/news/articles/cmq8nj23v8qqo",
-   "published": "2026-11-04T02:11:40.000Z",
+   "title": "'This is a disaster': Angry Republicans blame Trump for midterms defeat",
+   "summary": "Some Republicans tell the BBC the president's focus on his legacy and indifference to voter concerns cost them.",
+   "link": "https://www.bbc.co.uk/news/articles/c6x29rr8djy3o",
+   "published": "2026-11-04T13:33:30.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Weapon or wine bottle? China disputes reports of artillery shell in Papua New Guinea",
-   "summary": "Papua New Guinea police had earlier dismissed speculation that the 32kg object was \"merely a dummy\".",
-   "link": "https://www.bbc.co.uk/news/articles/cm0qkxzv3j99o",
-   "published": "2026-11-04T03:46:10.000Z",
+   "title": "US midterm results a 'victory' for Canadians hopeful of tariff relief",
+   "summary": "With Canada-US trade talks back on, Tuesday’s midterm Democratic wave puts pressure on the White House to come to a deal.",
+   "link": "https://www.bbc.co.uk/news/articles/cqev3mw3e0kdo",
+   "published": "2026-11-04T18:01:31.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Spanish transport minister resigns days after deadly train crash",
-   "summary": "At least 69 people were killed and dozens injured in the collision south of the capital, Madrid.",
-   "link": "https://www.bbc.co.uk/news/articles/c6wydqd4yxdyo",
-   "published": "2026-11-03T22:45:59.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Seven flights across Europe targeted by suspected bomb threats",
-   "summary": "Planes in Poland, Spain, Bulgaria and Italy have been checked for explosives following separate threats.",
-   "link": "https://www.bbc.co.uk/news/articles/c6x2wd4v04eeo",
-   "published": "2026-11-03T20:42:47.000Z",
+   "title": "'Most difficult days of my life' for keeper Owono",
+   "summary": "FC Andorra goalkeeper Jesus Owono puts out a statement through his club, expressing his sorrow and pain after Tenerife forward Jesus de Miguel's death.",
+   "link": "https://www.bbc.co.uk/sport/football/articles/c6zxjz40l280o",
+   "published": "2026-11-04T16:40:38.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -150,6 +142,14 @@
    "section": "business"
   },
   {
+   "title": "Eastern Kentucky welcomes data centers in hopes they make up for coal losses",
+   "summary": "In Kentucky's former coal country, data centers are a welcome sight as people hope they will bring in money.",
+   "link": "https://www.npr.org/2026/11/03/nx-s1-6022442/western-kentucky-welcomes-data-centers-in-hopes-they-make-up-for-coal-losses",
+   "published": "2026-11-03T21:22:58.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
    "title": "Chicago entrepreneur turns empty downtown office space into vertical gardens",
    "summary": "The pandemic changed how and where the world works, leaving behind a lot of empty office space. One entrepreneur is starting to plant the seeds of a partial solution.",
    "link": "https://www.npr.org/2026/11/03/nx-s1-5944524-e1/chicago-entrepreneur-turns-empty-downtown-office-space-into-vertical-gardens",
@@ -166,12 +166,20 @@
    "section": "business"
   },
   {
-   "title": "Two economists studied California's billionaire tax. They reached wildly different conclusions",
-   "summary": "What happens in California could shape how America taxes the superrich. But will its billionaire tax fill state coffers — or drain them?",
-   "link": "https://www.npr.org/sections/planet-money/2026/11/02/g-s1-151009/two-economists-studied-californias-billionaire-tax-they-reached-wildly-different-conclusions",
-   "published": "2026-11-02T11:30:00.000Z",
+   "title": "Elon Musk will face scrutiny from Democrats after midterms",
+   "summary": "Democrats are likely to launch investigations into Musk's influence, including his leadership of DOGE and government contracts",
+   "link": "https://www.npr.org/2026/11/04/nx-s1-6029650/elon-musk-midterms-democrats-texas-congress",
+   "published": "2026-11-04T21:11:23.000Z",
    "source": "NPR",
-   "section": "business"
+   "section": "tech"
+  },
+  {
+   "title": "Review: The Legend of Zelda: Ocarina of Time remake is superb, streamlined and safe",
+   "summary": "Nintendo's new Ocarina of Time remake enshrines its place in the gaming canon for generations to come. But despite its stupendous production values, the game left me feeling oddly bereft.",
+   "link": "https://www.npr.org/2026/11/04/nx-s1-6026597/review-legend-of-zelda-ocarina-of-time-remake-switch-2",
+   "published": "2026-11-04T11:00:00.000Z",
+   "source": "NPR",
+   "section": "tech"
   },
   {
    "title": "How former Yahoo CEO Marissa Mayer sees AI assistants fitting into busy women's lives",
@@ -206,20 +214,28 @@
    "section": "tech"
   },
   {
-   "title": "Nearly 2 out of 3 teens and tweens use AI chatbots, new research shows",
-   "summary": "Most kids say they use chatbots for help with homework and when they're stressed, lonely, or anxious. And how they use chatbots is tied to their mental health.",
-   "link": "https://www.npr.org/2026/10/30/nx-s1-6022278/ai-artificial-intelligence-teens-jed-common-sense-media",
-   "published": "2026-10-30T09:00:00.000Z",
+   "title": "Abdul El-Sayed welcomes Trump's plan to cut Israel aid, calls for end to arms sales",
+   "summary": "Michigan's first Muslim senator-elect, Abdul El-Sayed, discusses his historic victory, an unlikely agreement with Trump on Israel military aid and the political divisions that remain.",
+   "link": "https://www.npr.org/2026/11/04/nx-s1-6028702/abdul-el-sayed-michigan-senate-israel-aid",
+   "published": "2026-11-04T13:38:09.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "Websites pretending to be local news are boosting Democratic candidates",
-   "summary": "The websites of unknown origin are targeting key U.S. House races. They are getting picked up by ChatGPT's responses but Google's products avoid promoting them.",
-   "link": "https://www.npr.org/2026/10/30/nx-s1-6014548/midterms-chatgpt-local-news-democrats",
-   "published": "2026-10-30T09:00:00.000Z",
+   "title": "The world is reacting to the Democrats' sweeping midterm elections victory",
+   "summary": "From Kyiv to Moscow, and Tehran to Tel Aviv, all eyes were on the Democrats' big win as foreign powers weigh how a flipped Congress will affect international relations.",
+   "link": "https://www.npr.org/2026/11/04/nx-s1-6028664/world-reacts-midterm-elections",
+   "published": "2026-11-04T12:34:35.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
+  },
+  {
+   "title": "Democrats seize full control of Congress. And, which candidates made history last night",
+   "summary": "Democrats have won the House and the Senate, taking full control of Congress for the first time since 2023. And history was made in several states. Here's what happened last night.",
+   "link": "https://www.npr.org/2026/11/04/g-s1-151745/up-first-newsletter-midterms-democrats-congress-control",
+   "published": "2026-11-04T12:18:39.000Z",
+   "source": "NPR",
+   "section": "world"
   },
   {
    "title": "Japan faces diplomatic dilemma amid joint pressure from nuclear neighbors",
@@ -242,30 +258,6 @@
    "summary": "he operation involved a warship, a maritime surveillance aircraft and marine commandos. The hijacking followed a resurgence of Somali piracy across the Gulf of Aden and western Indian Ocean.",
    "link": "https://www.npr.org/2026/11/03/g-s1-151468/indian-navy-rescues-20-crew-from-iranian-fishing-boat-hijacked-off-somalia",
    "published": "2026-11-03T14:13:58.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Control of Congress is at stake today. And, judge to consider motion in Clancy case",
-   "summary": "Election Day is here, and voters are heading to the polls in an election that may change control of Congress. And, a judge is considering whether to dismiss Lindsay Clancy's murder case.",
-   "link": "https://www.npr.org/2026/11/03/g-s1-151445/up-first-newsletter-midterms-election-day-iran-war-lindsay-clancy",
-   "published": "2026-11-03T11:43:49.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Death toll hits 29 after Russian strike on Ukrainian aid site, with 48 still missing",
-   "summary": "Russia launched 289 attack drones, 17 ballistic missiles and 59 cruise missiles across nine regions, President Zelenskyy said in an online post that noted the barrage coincided with U.S. elections.",
-   "link": "https://www.npr.org/2026/11/03/g-s1-151439/russia-ukraine-war",
-   "published": "2026-11-03T11:01:14.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Haley Stevens backs Mike Rogers. And, Gulf states brace for potential attack on Iran",
-   "summary": "Democrats in Michigan are considering their options after Haley Stevens endorsed GOP candidate Mike Rogers for Senate. And the Gulf states are bracing for a possible U.S.",
-   "link": "https://www.npr.org/2026/11/02/g-s1-151215/up-first-newsletter-michigan-senate-iran-war-supreme-court-colorado-catholic-church",
-   "published": "2026-11-02T12:19:54.000Z",
    "source": "NPR",
    "section": "world"
   }

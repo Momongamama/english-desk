@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-04T08:14:07.720Z",
+ "updated": "2026-11-05T01:09:28.771Z",
  "shows": [
   {
    "id": "business-daily",
@@ -8,6 +8,13 @@
    "accent": "UK",
    "cors": false,
    "episodes": [
+    {
+     "title": "Power Players: Is Apple missing the AI boat?",
+     "summary": "As other tech giants spent 2026 pouring billions into AI, Apple seems to have taken a more cautious approach.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0plc1md.mp3",
+     "published": "2026-11-04T21:30:00.000Z",
+     "duration": 1048
+    },
     {
      "title": "Founders: The entrepreneur betting AI will replace apps",
      "summary": "Jerry Yue is the entrepreneur behind Brain Technologies. He believes artificial intelligence could replace many of the apps we use every day, changing how we…",
@@ -42,13 +49,6 @@
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkbmpz.mp3",
      "published": "2026-10-29T21:30:00.000Z",
      "duration": 1278
-    },
-    {
-     "title": "Power Players: Can Meta reinvent itself for the AI age?",
-     "summary": "Meta is a social media giant. It's so big, a second Hollywood movie about the company was released just last month.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pk63hj.mp3",
-     "published": "2026-10-28T23:01:00.000Z",
-     "duration": 1625
     }
    ]
   },
