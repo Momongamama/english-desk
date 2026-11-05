@@ -787,8 +787,8 @@ function renderPods() {
     const a = el("a", "btn c-save", "Download"); a.href = ep.url; a.target = "_blank"; a.rel = "noopener"; a.download = ""; row.append(a);
     // Listen in a podcast app: Apple's own episode page when the daily job found it, else the show; Spotify has no
     // keyless way to look up an episode, so its link searches for the episode title.
-    const ap = ep.apple || s.apple; if (ap) { const l = el("a", "btn", "Apple Podcasts"); l.href = ap; l.target = "_blank"; l.rel = "noopener"; row.append(l) }
-    const sp = el("a", "btn", "Spotify"); sp.href = "https://open.spotify.com/search/" + encodeURIComponent(ep.title) + "/episodes"; sp.target = "_blank"; sp.rel = "noopener"; row.append(sp);
+    const ap = ep.apple || s.apple; if (ap) { const l = el("a", "btn c-save", "Apple Podcasts"); l.href = ap; l.target = "_blank"; l.rel = "noopener"; row.append(l) }
+    const sp = el("a", "btn c-save", "Spotify"); sp.href = "https://open.spotify.com/search/" + encodeURIComponent(ep.title) + "/episodes"; sp.target = "_blank"; sp.rel = "noopener"; row.append(sp);
     if (s.cors === false) row.append(el("span", "muted", "This show doesn't let web pages read its audio. Download it, then tap Upload audio."));
     it.append(row); return it }));
 }
