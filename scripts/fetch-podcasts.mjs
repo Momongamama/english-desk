@@ -43,6 +43,24 @@ async function corsOk(url) {
   return false;
 }
 
+// Apple Podcasts episode pages, from the free iTunes Search API (no key). Find the show whose feed is ours, then match
+// episodes by title. Best effort: without a match the page just leaves the Apple link out.
+const norm = t => String(t || "").toLowerCase().replace(/&amp;/g, "&").replace(/[^a-z0-9]+/g, " ").trim();
+const host = u => { try { return new URL(u).host + new URL(u).pathname } catch { return "" } };
+async function addApple(s, items) {
+  try {
+    const q = encodeURIComponent(s.name + " " + s.by);
+    const found = await (await fetch(`https://itunes.apple.com/search?media=podcast&entity=podcast&limit=10&term=${q}`, { headers: UA, signal: AbortSignal.timeout(15000) })).json();
+    const pod = (found.results || []).find(r => host(r.feedUrl) === host(s.feed)) || (found.results || []).find(r => norm(r.collectionName) === norm(s.name));
+    if (!pod) { console.warn(`${s.name}: not found on Apple Podcasts`); return }
+    s.apple = pod.collectionViewUrl;
+    const eps = await (await fetch(`https://itunes.apple.com/lookup?id=${pod.collectionId}&media=podcast&entity=podcastEpisode&limit=30`, { headers: UA, signal: AbortSignal.timeout(15000) })).json();
+    const byTitle = new Map((eps.results || []).filter(r => r.wrapperType === "podcastEpisode" && r.trackViewUrl).map(r => [norm(r.trackName), r.trackViewUrl]));
+    let n = 0; for (const it of items) { const u = byTitle.get(norm(it.title)); if (u) { it.apple = u; n++ } }
+    console.log(`${s.name}: Apple Podcasts links for ${n} of ${items.length} episodes`);
+  } catch (e) { console.warn(`${s.name}: Apple Podcasts lookup failed: ${e.message}`) }
+}
+
 async function show(s) {
   const res = await fetch(s.feed, { headers: UA, redirect: "follow", signal: AbortSignal.timeout(20000) });
   if (!res.ok) throw new Error(`${res.status} ${s.feed}`);
@@ -54,8 +72,9 @@ async function show(s) {
   }
   // Episodes of one show share a host, so checking the newest is enough.
   const cors = await corsOk(items[0].url);
+  await addApple(s, items);
   console.log(`${s.name}: ${items.length} episodes, newest ${items[0].published?.slice(0, 10)}, browser can read mp3: ${cors}`);
-  return { id: s.id, name: s.name, by: s.by, accent: s.accent, cors, episodes: items };
+  return { id: s.id, name: s.name, by: s.by, accent: s.accent, cors, ...(s.apple && { apple: s.apple }), episodes: items };
 }
 
 async function main() {
