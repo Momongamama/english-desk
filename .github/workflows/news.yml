@@ -1,8 +1,13 @@
 name: Daily news
 
 on:
+  # GitHub delays or drops scheduled runs when it is busy (11-05's 05:30 run never started), so there are backup
+  # times; a backup run does nothing if the news was already fetched in the last 6 hours. Minutes avoid :00.
   schedule:
     - cron: "30 21 * * *"   # 05:30 Taiwan time, before the morning practice
+    - cron: "17 22 * * *"   # 06:17 backup
+    - cron: "43 23 * * *"   # 07:43 backup
+    - cron: "11 1 * * *"    # 09:11 backup
   workflow_dispatch:
   push:
     branches: [main]
@@ -20,14 +25,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Skip a backup run if the news is already fresh
+        id: fresh
+        if: github.event_name == 'schedule'
+        run: |
+          age=$(( $(date +%s) - $(date -d "$(node -p 'require("./news.json").updated' 2>/dev/null || echo 1970-01-01)" +%s) ))
+          echo "news.json is $((age / 60)) minutes old"
+          if [ "$age" -lt 21600 ]; then echo "skip=true" >> "$GITHUB_OUTPUT"; fi
       - uses: actions/setup-node@v4
+        if: steps.fresh.outputs.skip != 'true'
         with:
           node-version: 20
       - run: node scripts/fetch-news.mjs news.json
+        if: steps.fresh.outputs.skip != 'true'
       # Shadowing podcasts: episode list only. A failure here must not block the news.
       - run: node scripts/fetch-podcasts.mjs podcasts.json
+        if: steps.fresh.outputs.skip != 'true'
         continue-on-error: true
       - name: Commit news.json and podcasts.json if they changed
+        if: steps.fresh.outputs.skip != 'true'
         run: |
           git add news.json podcasts.json 2>/dev/null || git add news.json
           if git diff --cached --quiet; then echo "no change"; exit 0; fi
