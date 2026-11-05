@@ -684,7 +684,10 @@ async function setEchoSource(blob, name) {
   echo.dur = await audioDuration(blob);
   $("echoSrc").textContent = name + (echo.dur ? " · " + fmt(echo.dur) + " total" : "") + " · " + (blob.size / 1e6).toFixed(1) + " MB";
   $("echoRange").hidden = false; $("echoGo").disabled = false; echoHint("");
-  $("echoScript").value = ""; scriptInfo();
+  // A transcript picked from the episode list in the last 3 hours goes with the next audio you open.
+  const px = echo.podScript && Date.now() - echo.podScript.at < 3 * 3600e3 ? echo.podScript : null; echo.podScript = null;
+  $("echoScript").value = px ? px.text : ""; scriptInfo();
+  if (px) echoHint(`Using the full transcript of "${px.title}". Pick a start time and tap Make script; no AI is needed. Clear the transcript box if this is a different episode.`);
 }
 /* your own transcript: .srt / .vtt / "0:12 text" lines keep their times; plain text gets timed by Gemini against the clip */
 const tsec = t => { const p = t.replace(",", ".").split(":").map(Number); return p.reduce((a, b) => a * 60 + b, 0) };
@@ -769,10 +772,38 @@ async function loadAudioUrl(url, b, name) {
 // podcasts.json is refreshed daily by .github/workflows/news.yml: latest episodes of one UK and one US show, links only.
 // Also re-checked each time Echo opens (at most every 30 minutes), so a phone that keeps the page open for days
 // still gets the new episodes; the hour in the query stops an old copy from being reused.
-let pods = null, podPick = 0, podsAt = 0;
+let pods = null, podPick = 0, podsAt = 0, podTx = null;
+// Full-episode transcripts: a daily job (.github/workflows/transcripts.yml) runs Whisper on each new episode and keeps the
+// result in the owner's secret gist, never in the public repo. The page reads that gist with the Sync token.
+const TX_DESC = "English Desk transcripts (made by the daily job; used by the Echo tab)", TX_KEY = "englishDesk.tx";
+const txFile = (show, title) => show + "-" + strHash(title) + ".json";
+async function loadTranscripts() {
+  let token = ""; try { token = JSON.parse(localStorage.getItem("englishDesk.sync") || "{}").token || "" } catch { }
+  if (!token) return null;
+  const gh = async u => { const r = await fetch(u.startsWith("http") ? u : "https://api.github.com" + u, { cache: "no-store",
+    headers: { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" } }); if (!r.ok) throw new Error(r.status); return r.json() };
+  let id = ""; try { id = localStorage.getItem(TX_KEY) || "" } catch { }
+  let g = id ? await gh("/gists/" + id).catch(() => null) : null;
+  if (!g) {
+    for (let page = 1; page <= 5 && !g; page++) { const list = await gh(`/gists?per_page=100&page=${page}`); g = list.find(x => x.description === TX_DESC); if (list.length < 100) break }
+    if (!g) return {}; g = await gh("/gists/" + g.id); try { localStorage.setItem(TX_KEY, g.id) } catch { }
+  }
+  const out = {};
+  await Promise.all(Object.values(g.files || {}).filter(f => /\.json$/.test(f.filename)).map(async f => {
+    try { out[f.filename] = f.truncated ? await (await fetch(f.raw_url)).json() : JSON.parse(f.content) } catch { } }));
+  return out;
+}
+function toVtt(sents) {
+  const ts = t => { const h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), x = (t % 60).toFixed(3).padStart(6, "0"); return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${x}` };
+  return "WEBVTT\n\n" + sents.map(([a, b, t]) => `${ts(a)} --> ${ts(b)}\n${t}`).join("\n\n");
+}
+// The transcript waits here until the audio arrives (straight away, or after you download and upload it).
+function pickTranscript(doc) { echo.podScript = doc ? { text: toVtt(doc.sentences), title: doc.title, at: Date.now() } : null }
 async function loadPodcasts() {
   if (Date.now() - podsAt < 30 * 60e3) return; podsAt = Date.now();
   try { const r = await fetch("podcasts.json?d=" + today() + "-" + new Date().getHours(), { cache: "no-cache" }); if (r.ok) pods = (await r.json()).shows?.filter(s => s.episodes?.length) } catch { podsAt = 0 }
+  if (pods?.length) renderPods();
+  try { podTx = await loadTranscripts() } catch { podTx = null }
   if (pods?.length) renderPods();
 }
 function renderPods() {
@@ -783,14 +814,18 @@ function renderPods() {
     const t = el("p", "pod-title", ep.title); t.lang = "en";
     it.append(el("h3", "", s.by + (d ? ` · ${d.getMonth() + 1}/${d.getDate()}` : "") + (ep.duration ? ` · ${Math.round(ep.duration / 60)} min` : "")), t);
     const row = el("div", "row");
-    if (s.cors !== false) { const b = el("button", "btn c-save", "Use this episode"); b.onclick = () => loadAudioUrl(ep.url, b, s.name + " · " + ep.title); row.append(b) }
-    const a = el("a", "btn c-save", "Download"); a.href = ep.url; a.target = "_blank"; a.rel = "noopener"; a.download = ""; row.append(a);
+    const tx = podTx?.[txFile(s.id, ep.title)];
+    if (s.cors !== false) { const b = el("button", "btn c-save", "Use this episode"); b.onclick = () => { pickTranscript(tx); loadAudioUrl(ep.url, b, s.name + " · " + ep.title) }; row.append(b) }
+    const a = el("a", "btn c-save", "Download"); a.onclick = () => pickTranscript(tx); a.href = ep.url; a.target = "_blank"; a.rel = "noopener"; a.download = ""; row.append(a);
     // Listen in a podcast app: Apple's own episode page when the daily job found it, else the show; Spotify has no
     // keyless way to look up an episode, so its link searches for the episode title.
     const ap = ep.apple || s.apple; if (ap) { const l = el("a", "btn c-save", "Apple Podcasts"); l.href = ap; l.target = "_blank"; l.rel = "noopener"; row.append(l) }
     const sp = el("a", "btn c-save", "Spotify"); sp.href = "https://open.spotify.com/search/" + encodeURIComponent(ep.title) + "/episodes"; sp.target = "_blank"; sp.rel = "noopener"; row.append(sp);
     if (s.cors === false) row.append(el("span", "muted", "This show doesn't let web pages read its audio. Download it, then tap Upload audio."));
-    it.append(row); return it }));
+    it.append(row); if (tx) it.append(el("p", "muted", `Full transcript ready (${tx.sentences.length} sentences), filled in when you use this episode.`)); return it }));
+  const note = $("podTx"), n = podTx ? Object.keys(podTx).length : 0;
+  note.hidden = !!n; note.textContent = podTx === null ? "Turn on Sync in Settings to get a full transcript of each episode, made every day with Whisper."
+    : "Full transcripts are made a few hours after each episode comes out. None are ready yet.";
 }
 document.querySelectorAll("#echoLens .chip").forEach(c => c.onclick = () => {
   echo.len = +c.dataset.len; document.querySelectorAll("#echoLens .chip").forEach(x => x.setAttribute("aria-pressed", x === c));
@@ -877,7 +912,7 @@ Reply with only JSON: {"sentences":[{"start":0.0,"end":3.2,"text":"..."}]}`;
       cachePut(key, sents);
     }
     const ab = echo.ctx.createBuffer(1, clip.data.length, clip.rate); ab.getChannelData(0).set(clip.data);
-    Object.assign(echo, { buf: ab, data: clip.data, rate: clip.rate, sents, i: 0, mine: {}, scores: {} });
+    Object.assign(echo, { buf: ab, data: clip.data, rate: clip.rate, sents, i: 0, mine: {}, scores: {}, pitchCache: {} });
     $("echoClip").textContent = "About " + fmt(start) + "–" + fmt(start + clip.data.length / clip.rate);
     $("echoPlayer").hidden = false; $("echoListBox").hidden = false; echoHint("");
     renderSents(); showSentence(0); $("echoPlayer").scrollIntoView({ behavior: "smooth", block: "start" });
@@ -920,8 +955,51 @@ function showSentence(i, play) {
   const m = echo.mine[i];
   $("echoMineRow").hidden = !m; $("echoScore").disabled = !m;
   if (m) $("echoDur").textContent = durText(i);
-  renderScore(); renderSents();
+  drawPitch(); renderScore(); renderSents();
   if (play) playSentence();
+}
+/* pitch: a YIN-style F0 track every 10 ms, in semitones from the speaker's own median, original and take on one chart */
+function pitchTrack(data, rate) {
+  const k = Math.max(1, Math.round(rate / 8000)), r = rate / k, n = Math.floor(data.length / k), x = new Float32Array(n);
+  for (let i = 0; i < n; i++) { let s = 0; for (let j = 0; j < k; j++) s += data[i * k + j]; x[i] = s / k } // average = rough low-pass before thinning
+  const W = Math.round(r * .04), hop = Math.round(r * .01), tMin = Math.floor(r / 400), tMax = Math.ceil(r / 70), d = new Float32Array(tMax + 1);
+  const frames = [], rms = [];
+  for (let f = 0; f + W + tMax < n; f += hop) {
+    let e = 0; for (let i = 0; i < W; i++) e += x[f + i] * x[f + i]; rms.push(Math.sqrt(e / W));
+    let sum = 0, best = -1;
+    for (let t = 1; t <= tMax; t++) { let v = 0; for (let i = 0; i < W; i++) { const q = x[f + i] - x[f + i + t]; v += q * q } sum += v; d[t] = sum ? v * t / sum : 1 }
+    for (let t = tMin; t <= tMax; t++) if (d[t] < .15) { while (t < tMax && d[t + 1] < d[t]) t++; best = t; break }
+    // parabolic interpolation around the dip, so the line isn't a staircase of whole-sample lags
+    if (best > 0 && best < tMax) { const a0 = d[best - 1], a1 = d[best], a2 = d[best + 1], den = a0 - 2 * a1 + a2; if (den > 0) best += .5 * (a0 - a2) / den }
+    frames.push(best > 0 ? r / best : 0);
+  }
+  const loud = Math.max(...rms, 1e-6) * .08;
+  const hz = frames.map((v, i) => (v && rms[i] > loud ? v : 0));
+  const voiced = hz.filter(Boolean).sort((a, b) => a - b); if (voiced.length < 5) return null;
+  const mid = voiced[voiced.length >> 1];
+  let st = hz.map(v => (v ? 12 * Math.log2(v / mid) : null));
+  // drop single-frame jumps (octave errors) and trim silence at both ends
+  st = st.map((v, i) => (v != null && Math.abs(v) > 12 ? null : v));
+  const a = st.findIndex(v => v != null), b = st.length - [...st].reverse().findIndex(v => v != null);
+  return st.slice(a, b);
+}
+function drawPitch() {
+  const box = $("echoPitchBox"), m = echo.mine[echo.i];
+  if (!m || !echo.buf) { box.hidden = true; return }
+  const [a, b] = clipOf(echo.i), r = echo.rate;
+  m.pitch = m.pitch || pitchTrack(m.data, m.rate);
+  const cache = echo.pitchCache ||= {}, orig = cache[echo.i] ??= pitchTrack(echo.data.subarray(Math.floor(a * r), Math.floor(b * r)), r);
+  if (!orig || !m.pitch) { box.hidden = true; return }
+  box.hidden = false;
+  const cv = $("echoPitch"), dpr = window.devicePixelRatio || 1, w = cv.clientWidth || 600, h = cv.clientHeight || 120;
+  cv.width = w * dpr; cv.height = h * dpr; const g = cv.getContext("2d"); g.scale(dpr, dpr); g.clearRect(0, 0, w, h);
+  const css = getComputedStyle(document.documentElement), pad = 10, y = v => h / 2 - v / 8 * (h / 2 - pad); // ±8 semitones fills the height
+  g.strokeStyle = css.getPropertyValue("--line").trim(); g.globalAlpha = .25; g.lineWidth = 1; g.setLineDash([4, 4]);
+  g.beginPath(); g.moveTo(0, h / 2); g.lineTo(w, h / 2); g.stroke(); g.setLineDash([]); g.globalAlpha = 1;
+  const line = (st, color, width) => { g.strokeStyle = color; g.lineWidth = width; g.lineJoin = g.lineCap = "round"; g.beginPath(); let on = false;
+    st.forEach((v, i) => { const px = pad + i / Math.max(1, st.length - 1) * (w - 2 * pad);
+      if (v == null) { on = false; return } const py = y(Math.max(-8, Math.min(8, v))); if (on) g.lineTo(px, py); else g.moveTo(px, py); on = true }); g.stroke() };
+  line(orig, css.getPropertyValue("--ink-muted").trim(), 3); line(m.pitch, css.getPropertyValue("--strike").trim(), 2.5);
 }
 function durText(i) { const [a, b] = clipOf(i); return `Original ${(b - a).toFixed(1)}s · You ${echo.mine[i].buf.duration.toFixed(1)}s` }
 function renderSents() {
@@ -931,6 +1009,7 @@ function renderSents() {
     const t = document.createElement("span"); t.lang = "en"; t.textContent = s.text;
     const sc = document.createElement("span"); sc.className = "sc"; const r = echo.scores[i];
     sc.textContent = r ? (r.engine === "azure" ? Math.round(r.overall) + " pts" : "Tips") : echo.mine[i] ? "Recorded" : "";
+    if (r?.tips?.length) t.append(el("span", "tip", r.tips[0]));
     b.append(n, t, sc); b.onclick = () => showSentence(i, true); li.append(b); return li }));
 }
 
@@ -978,7 +1057,7 @@ function recStop() {
   const buf = echo.ctx.createBuffer(1, data.length, rate); buf.getChannelData(0).set(data);
   echo.mine[echo.i] = { data, rate, buf }; delete echo.scores[echo.i];
   $("echoMineRow").hidden = false; $("echoScore").disabled = false; $("echoDur").textContent = durText(echo.i);
-  renderScore(); renderSents();
+  drawPitch(); renderScore(); renderSents();
 }
 recBtn.addEventListener("pointerdown", e => { if (e.button) return; e.preventDefault(); try { recBtn.setPointerCapture(e.pointerId) } catch { } recStart() });
 recBtn.addEventListener("pointerup", recStop); recBtn.addEventListener("pointercancel", recStop);
@@ -989,7 +1068,7 @@ recBtn.addEventListener("contextmenu", e => e.preventDefault());
 /* scoring: Azure pronunciation assessment, or Gemini advice without a key */
 class AzureError extends Error { }
 async function azureAssess(wav, text, signal) {
-  const params = { ReferenceText: text, GradingSystem: "HundredMark", Granularity: "Word", Dimension: "Comprehensive", EnableMiscue: "True", EnableProsodyAssessment: "True" };
+  const params = { ReferenceText: text, GradingSystem: "HundredMark", Granularity: "Phoneme", PhonemeAlphabet: "IPA", Dimension: "Comprehensive", EnableMiscue: "True", EnableProsodyAssessment: "True" };
   const header = btoa(String.fromCharCode(...new TextEncoder().encode(JSON.stringify(params))));
   let res;
   try {
@@ -1006,7 +1085,68 @@ function azureResult(d) {
   const n = d.NBest[0], p = n.PronunciationAssessment || n;
   return { engine: "azure", overall: p.PronScore, acc: p.AccuracyScore, flu: p.FluencyScore, comp: p.CompletenessScore, pros: p.ProsodyScore,
     words: (n.Words || []).map(w => { const q = w.PronunciationAssessment || w; return { word: w.Word, score: q.AccuracyScore, err: q.ErrorType || "None",
-      breakErr: (q.Feedback?.Prosody?.Break?.ErrorTypes || []).filter(x => x !== "None"), tone: (q.Feedback?.Prosody?.Intonation?.ErrorTypes || []).filter(x => x !== "None") } }) };
+      breakErr: (q.Feedback?.Prosody?.Break?.ErrorTypes || []).filter(x => x !== "None"), tone: (q.Feedback?.Prosody?.Intonation?.ErrorTypes || []).filter(x => x !== "None"),
+      phones: (w.Phonemes || []).map(ph => ({ ph: ph.Phoneme, score: (ph.PronunciationAssessment || ph).AccuracyScore })).filter(ph => ph.ph && ph.score != null) } }) };
+}
+/* advice next to each Azure score: quick rules right away, then Gemini's wording when there's a Gemini key */
+// Mouth positions for the sounds Mandarin speakers most often trip on (Azure's IPA symbols).
+const PHONE_TIP = {
+  "θ": "tongue tip between the teeth and blow, as in think, not s or f", "ð": "tongue between the teeth with your voice on, as in this, not d or z",
+  "v": "top teeth on the lower lip with your voice on, not b or w", "ɹ": "curl the tongue back without touching the roof of the mouth, lips a little round",
+  "r": "curl the tongue back without touching the roof of the mouth, lips a little round",
+  "l": "touch the tongue tip behind the top teeth, and keep it there at the end of a word (feel), don't turn it into o",
+  "æ": "open the mouth wide and spread the lips, as in cat, not the e of bet", "ɪ": "short and relaxed, as in sit, not the long ee of seat",
+  "i": "long and tense, smile a little, as in seat", "ʊ": "short and relaxed, as in book, not the long oo of food", "u": "long, with rounded lips, as in food",
+  "z": "keep your voice on and buzz, as in is and was, not s", "ʃ": "round the lips and push air, as in she, not s", "ʒ": "like sh with your voice on, as in usual",
+  "ŋ": "lift the back of the tongue, as in sing, and don't add a g", "n": "tongue tip behind the top teeth; keep it clear at the end of a word",
+  "ɚ": "keep the tongue curled for an r colour, as in teacher", "ɝ": "tongue curled back, lips relaxed, as in bird", "ə": "keep it short and weak, as in about",
+  "ʌ": "short and open, as in cup, not the o of cop", "ɑ": "open the mouth wide, as in father", "ɔ": "round the lips, as in thought",
+  "eɪ": "glide from e to ee, as in day", "oʊ": "glide from o to oo with rounding lips, as in go", "aɪ": "glide from ah to ee, as in my", "aʊ": "glide from ah to oo, as in now",
+  "dʒ": "like j in judge, voice on", "tʃ": "like ch in church, a quick burst of air",
+};
+const STOPS = new Set(["p", "b", "t", "d", "k", "g", "s", "z", "f", "v", "θ", "ð", "ʃ", "ʒ", "tʃ", "dʒ", "l", "n", "m", "ŋ"]);
+function phoneTip(w) {
+  const ph = (w.phones || []).reduce((m, p) => (!m || p.score < m.score ? p : m), null);
+  if (!ph || ph.score >= 70) return w.err === "Omission" ? `Say "${w.word}" too, even if it's short.` : "";
+  const last = w.phones[w.phones.length - 1] === ph && STOPS.has(ph.ph);
+  return `/${ph.ph}/ in "${w.word}"` + (PHONE_TIP[ph.ph] ? ": " + PHONE_TIP[ph.ph] : "") + (last && !PHONE_TIP[ph.ph] ? ": say the final sound, don't drop it" : last ? ". Don't drop it at the end of the word" : "") + ".";
+}
+function ruleTips(r, i) {
+  const tips = [], ws = r.words.filter(w => w.err !== "Insertion");
+  const missed = ws.filter(w => w.err === "Omission").map(w => w.word);
+  if (missed.length) tips.push(`You left out ${missed.slice(0, 4).map(x => `"${x}"`).join(", ")}. Say every word, even the small ones.`);
+  // the worst sound first, then rhythm, then the next sound, so one take's advice isn't all about sounds
+  const sounds = ws.filter(w => w.err !== "Omission").map(w => ({ tip: phoneTip(w), low: Math.min(...(w.phones || []).map(p => p.score), 100) }))
+    .filter(x => x.tip).sort((a, b) => a.low - b.low).map(x => x.tip.charAt(0).toUpperCase() + x.tip.slice(1));
+  if (sounds[0]) tips.push(sounds[0]);
+  const brk = ws.find(w => w.breakErr.includes("UnexpectedBreak")), miss = ws.find(w => w.breakErr.includes("MissingBreak")), flat = ws.find(w => w.tone.includes("Monotone"));
+  if (brk) tips.push(`Don't stop before "${brk.word}". Keep that phrase in one breath.`);
+  if (miss) tips.push(`Take a short pause after "${miss.word}", like the speaker does.`);
+  if (flat) tips.push(`Your voice is flat around "${flat.word}". Let it rise and fall like the original; the pitch chart shows where.`);
+  if (sounds[1]) tips.push(sounds[1]);
+  const m = echo.mine[i];
+  if (m) { const [a, b] = clipOf(i), ratio = m.buf.duration / (b - a);
+    if (ratio > 1.35) tips.push(`You took ${m.buf.duration.toFixed(1)}s and the speaker ${(b - a).toFixed(1)}s. Link the words and don't stop between them.`);
+    else if (ratio < .7) tips.push("You were much faster than the speaker. Slow down so each word is clear."); }
+  if (r.flu != null && r.flu < 70 && !brk && tips.length < 3) tips.push("The flow was choppy. Play it on loop and say it along a few times before recording.");
+  if (!tips.length) tips.push(r.overall >= 85 ? "Very close to the original. Try it at full speed without looking at the text." : "Good overall. Listen once more for the stress and try again.");
+  const wordTips = {}; ws.forEach(w => { const t = phoneTip(w); if (t) wordTips[w.word.toLowerCase()] = t });
+  return { tips: tips.slice(0, 3), wordTips };
+}
+async function aiCoach(i, r, signal) {
+  const s = echo.sents[i], m = echo.mine[i], [a, b] = clipOf(i);
+  const words = r.words.filter(w => w.err !== "Insertion").map(w => ({ word: w.word, score: Math.round(w.score), error: w.err,
+    pauses: w.breakErr, intonation: w.tone, weakSounds: (w.phones || []).filter(p => p.score < 75).map(p => `/${p.ph}/ ${Math.round(p.score)}`) }));
+  const res = await gemini("You are a precise, encouraging English pronunciation coach for a Taiwanese learner (Mandarin first language, around B2). You reply with JSON only.", [{ text:
+`Azure scored my shadowing of this sentence. Turn the scores into advice I can use on my next try.
+Sentence: ${s.text}
+Overall ${Math.round(r.overall)}, accuracy ${Math.round(r.acc)}, fluency ${Math.round(r.flu)}, completeness ${Math.round(r.comp)}${r.pros != null ? ", prosody " + Math.round(r.pros) : ""}.
+Original took ${(b - a).toFixed(1)}s; I took ${m ? m.buf.duration.toFixed(1) : "?"}s.
+Per word: ${JSON.stringify(words)}
+Focus on the 2 or 3 things that would raise the score most. For a sound, say how to place the tongue, lips or teeth. For rhythm, say which words to link, stress or pause on. Plain English, short.
+Reply with only JSON: {"summary":"one short sentence","tips":["up to 3 tips, most important first"],"words":[{"word":"a word that needs work","tip":"one short tip"}]}` }], { json: true, signal });
+  const wordTips = {}; (Array.isArray(res.words) ? res.words : []).forEach(w => { if (w && w.word && w.tip) wordTips[String(w.word).toLowerCase()] = String(w.tip) });
+  return { tips: (Array.isArray(res.tips) ? res.tips : []).slice(0, 3).map(String).filter(Boolean), wordTips, summary: String(res.summary || "") };
 }
 async function geminiAdvice(i, signal) {
   const s = echo.sents[i], [a, b] = clipOf(i), r = echo.rate, orig = echo.data.subarray(Math.floor(a * r), Math.floor(b * r)), m = echo.mine[i];
@@ -1026,8 +1166,16 @@ $("echoScore").onclick = async () => {
   if (!azure && !cfg.geminiKey) { banner("Pronunciation scoring needs an Azure or Gemini key. Add one in Settings first.", true); return }
   const btn = $("echoScore"); btn.disabled = true; btn.textContent = "Scoring…"; echo.ctl = new AbortController();
   try {
-    echo.scores[i] = azure ? azureResult(await azureAssess(wav16k(m.data, m.rate), echo.sents[i].text, echo.ctl.signal)) : await geminiAdvice(i, echo.ctl.signal);
+    const r = azure ? azureResult(await azureAssess(wav16k(m.data, m.rate), echo.sents[i].text, echo.ctl.signal)) : await geminiAdvice(i, echo.ctl.signal);
+    if (azure) Object.assign(r, ruleTips(r, i));
+    echo.scores[i] = r;
     if (echo.i === i) renderScore(); renderSents();
+    // Gemini rewrites the rule tips into advice for this exact take; the score is already on screen, so this never blocks.
+    if (azure && cfg.geminiKey) aiCoach(i, r, echo.ctl.signal).then(c => {
+      if (echo.scores[i] !== r || !c.tips.length) return;
+      Object.assign(r, { tips: c.tips, summary: c.summary, wordTips: { ...r.wordTips, ...c.wordTips }, coach: "gemini" });
+      if (echo.i === i) renderScore(); renderSents();
+    }).catch(() => { if (echo.scores[i] === r) { r.coach = "none"; if (echo.i === i) renderScore() } });
   } catch (e) { if (e.code !== "cancelled") { toast(e.message || errText(e)); if (/Settings/.test(e.message || "")) banner(e.message, true) } }
   finally { btn.disabled = false; btn.textContent = "Score pronunciation" }
 };
@@ -1051,9 +1199,11 @@ function renderScore() {
     const list = r.words.filter(w => w.err !== "None" || w.score < 80 || w.breakErr.length || w.tone.length);
     weak.replaceChildren(...(list.length ? list.slice(0, 8).map(w => { const p = document.createElement("p"); p.className = "c-why";
       const why = [w.err !== "None" ? ERR[w.err] || w.err : "", ...w.breakErr.map(x => ERR[x] || x), ...w.tone.map(x => ERR[x] || x)].filter(Boolean);
-      p.innerHTML = ""; const b = document.createElement("b"); b.lang = "en"; b.textContent = w.word; p.append(b, ` ${Math.round(w.score)} pts` + (why.length ? " · " + why.join(", ") : "")); return p })
+      const tip = (r.wordTips || {})[w.word.toLowerCase()];
+      p.innerHTML = ""; const b = document.createElement("b"); b.lang = "en"; b.textContent = w.word; p.append(b, ` ${Math.round(w.score)} pts` + (why.length ? " · " + why.join(", ") : "") + (tip ? " · " + tip : "")); return p })
       : [Object.assign(document.createElement("p"), { className: "c-why", textContent: "Every word scored 80 or higher." })]));
-    tips.replaceChildren(); $("echoSummary").textContent = "";
+    tips.replaceChildren(...(r.tips || []).map(t => Object.assign(document.createElement("li"), { textContent: t })));
+    $("echoSummary").textContent = (r.summary ? r.summary + " " : "") + (r.coach === "gemini" ? "Advice written by Gemini from Azure's scores." : r.coach === "none" ? "" : cfg.geminiKey ? "Gemini is writing more specific advice…" : "Add a Gemini key in Settings for advice written for each take.");
   } else {
     const list = r.words.filter(w => w.status && w.status !== "good");
     weak.replaceChildren(...list.slice(0, 8).map(w => { const p = document.createElement("p"); p.className = "c-why"; const b = document.createElement("b"); b.lang = "en"; b.textContent = w.word;

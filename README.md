@@ -54,3 +54,10 @@
 - 托福／雅思／GRE 單字畫底線：實線托福、虛線雅思、波浪線 GRE。預設用內建的個人總表（dict/_exam.json）；匯入總表 CSV（word,TOEFL,IELTS,GRE）後改用自己的清單。
 - 閱讀計時：文章上方「Start timer」開始，讀完按文末「I'm done reading」，用內文字數算每分鐘字數（wpm）；切到別的 app 或別頁會自動暫停，計時中查的字數也會記下。開始計時時，「設定 → Reading speed」選的 AI 就先出 3 題理解小測驗（憑記憶答，可略過）；讀完後 AI 依程度（TOEIC 915、目標 C1）、文章難度、測驗結果和過去紀錄判斷速度要不要加強。每次都存成 type 為 "read" 的練習紀錄（會跟著 Gist 同步；事後補上的測驗與判斷帶 `updated`，較新的版本勝出），頁面下方「Reading speed over time」畫出 wpm 變化並比較最近 5 次和最早 5 次。按「Don't count this one」會把那次標成 void，不列入進步圖。
 - 個人字典（商業字典內容）和清單不放進 repo。重建內建字典：`python3 scripts/build-dict.py ecdict.csv [個人 MDX 匯出的 txt]`，只會取出「我的筆記」。
+
+## 跟讀（Echo）整集講稿、評分建議、音高
+
+- 整集講稿：`.github/workflows/transcripts.yml` 在每日新聞／podcast 排程跑完後執行 `scripts/transcribe-podcasts.py`，用 faster-whisper（`small.en`，在 Actions 機器上跑，不用 API key）把每個節目最新 4 集轉成有時間碼的句子。講稿是節目的著作，所以**不放這個公開 repo**，只存在 repo Secret `GIST_TOKEN`（有 gist 權限的 token，可以用同步那個）帳號下的 secret gist，描述是 `English Desk transcripts …`，一集一檔 `<節目 id>-<標題 hash>.json`，舊集數自動刪掉。沒設 `GIST_TOKEN` 就什麼都不做。改這支腳本時 push 會跑一次 dry run（只轉一集印在 log，不存）。
+- 網站用「Sync」的 token 找到那個 gist；節目清單上會顯示「Full transcript ready」。按 Use this episode（或 Download 後再上傳音檔）時自動把講稿以 VTT 填進 Transcript 欄，切片段不需要 AI。
+- 評分建議：Azure 評分改用 Phoneme 粒度，每句馬上用規則給 1–3 條建議（漏字、最差的音怎麼發、停頓、語調、速度），有 Gemini key 再請 Gemini 依 Azure 分數改寫成針對這次錄音的建議。建議第一條也顯示在講稿清單每句分數下方。
+- 音高曲線：錄完一句就把原音和你的錄音音高（每 10 ms，以各自中位數為 0 的半音）畫在一起，兩條都拉成同寬，看起伏是否一樣。

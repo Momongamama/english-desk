@@ -1,0 +1,42 @@
+name: Podcast transcripts
+
+# After the daily job updates podcasts.json, make timed transcripts for new episodes with Whisper and keep them in
+# the owner's secret gist (never in this public repo). The Echo tab reads them with the sync token.
+# Needs the repo secret GIST_TOKEN: a GitHub token with the gist scope (the one pasted into Settings > Sync works).
+on:
+  workflow_run:
+    workflows: ["Daily news"]
+    types: [completed]
+  workflow_dispatch:
+  # A change to the script runs a dry run: one short episode, printed in the log, nothing saved.
+  push:
+    paths: [scripts/transcribe-podcasts.py, .github/workflows/transcripts.yml]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: transcripts
+  cancel-in-progress: false
+
+jobs:
+  transcribe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: .github/workflows/transcripts.yml
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
+      - run: pip install faster-whisper==1.2.1
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/huggingface
+          key: whisper-small.en-v1
+      - run: python scripts/transcribe-podcasts.py podcasts.json
+        env:
+          GIST_TOKEN: ${{ github.event_name != 'push' && secrets.GIST_TOKEN || '' }}
+          DRY_RUN: ${{ github.event_name == 'push' && '1' || '' }}
