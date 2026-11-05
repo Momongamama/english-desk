@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-05T18:11:22.385Z",
+ "updated": "2026-11-05T18:26:56.539Z",
  "shows": [
   {
    "id": "business-daily",
@@ -7,48 +7,55 @@
    "by": "BBC World Service",
    "accent": "UK",
    "cors": false,
+   "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
     {
-     "title": "Taking Stock mid-terms special - The economy, Musk, Trump and Data Centres",
+     "title": "Taking Stock mid-terms special: The economy, Musk, Trump and data centres",
      "summary": "Andy Uhler who's Energy Reporter in Residence at The University of Texas in Austin and Rema Rahman who is White House and Politics Editor at Bloomberg in…",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0plgzlw.mp3",
      "published": "2026-11-05T16:04:00.000Z",
-     "duration": 1464
+     "duration": 1464,
+     "apple": "https://podcasts.apple.com/us/podcast/taking-stock-mid-terms-special-the-economy-musk-trump/id261786876?i=1000800065965&uo=4"
     },
     {
      "title": "Power Players: Is Apple missing the AI boat?",
      "summary": "As other tech giants spent 2026 pouring billions into AI, Apple seems to have taken a more cautious approach.",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0plddpd.mp3",
      "published": "2026-11-04T21:30:00.000Z",
-     "duration": 1117
+     "duration": 1117,
+     "apple": "https://podcasts.apple.com/us/podcast/power-players-is-apple-missing-the-ai-boat/id261786876?i=1000799882102&uo=4"
     },
     {
      "title": "Founders: The entrepreneur betting AI will replace apps",
      "summary": "Jerry Yue is the entrepreneur behind Brain Technologies. He believes artificial intelligence could replace many of the apps we use every day, changing how we…",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pl2w95.mp3",
      "published": "2026-11-03T21:30:00.000Z",
-     "duration": 1048
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/founders-the-entrepreneur-betting-ai-will-replace-apps/id261786876?i=1000799673247&uo=4"
     },
     {
      "title": "Follow the money: Your Diwali gold necklace",
      "summary": "Gold is worth about twice what it was four years ago, so who profits when a Hindu family buys gold during the Diwali festive period?",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkwx5v.mp3",
      "published": "2026-11-02T21:30:00.000Z",
-     "duration": 1048
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-your-diwali-gold-necklace/id261786876?i=1000799478925&uo=4"
     },
     {
      "title": "Can businesses trust AI?",
      "summary": "Why does artificial intelligence sometimes make things up? From law firms to consultants, businesses are grappling with the risks of AI hallucinations.",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkc14d.mp3",
      "published": "2026-11-01T21:30:00.000Z",
-     "duration": 1377
+     "duration": 1377,
+     "apple": "https://podcasts.apple.com/us/podcast/can-businesses-trust-ai/id261786876?i=1000799279217&uo=4"
     },
     {
      "title": "Power Players special: Searching for answers on Google",
      "summary": "Rahul Tandon and Will Bain are joined by the BBC's Silicon Valley correspondent Lily Jamali to look at issues being faced by Google and if it's a sign of wider…",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkhq5d.mp3",
      "published": "2026-10-30T16:16:00.000Z",
-     "duration": 1090
+     "duration": 1090,
+     "apple": "https://podcasts.apple.com/us/podcast/power-players-special-searching-for-answers-on-google/id261786876?i=1000798924238&uo=4"
     }
    ]
   },
@@ -58,48 +65,55 @@
    "by": "NPR Planet Money",
    "accent": "US",
    "cors": true,
+   "apple": "https://podcasts.apple.com/us/podcast/the-indicator-from-planet-money/id1320118593?uo=4",
    "episodes": [
     {
      "title": "Can Anthropic make enough money to justify its value?",
      "summary": "Anthropic released its financials to the public as the AI juggernaut prepares for its highly anticipated IPO.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/21facbcb-e942-46ff-ba9b-b57d526804b3/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=21facbcb-e942-46ff-ba9b-b57d526804b3&feed=IFy3imsg&t=podcast&e=nx-s1-6029778&p=510325&d=556&size=8900945",
      "published": "2026-11-05T08:00:00.000Z",
-     "duration": 556
+     "duration": 556,
+     "apple": "https://podcasts.apple.com/us/podcast/can-anthropic-make-enough-money-to-justify-its-value/id1320118593?i=1000799880896&uo=4"
     },
     {
      "title": "Will AI take my job? Ask an economist!",
      "summary": "Are AI job losses showing up in the job numbers? What does a pro-worker approach to AI development look like? What advice do you have for college students?",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/0ed4539b-70ed-4f3c-8be0-92202fe92c02/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=0ed4539b-70ed-4f3c-8be0-92202fe92c02&feed=IFy3imsg&t=podcast&e=nx-s1-6028029&p=510325&d=539&size=8632198",
      "published": "2026-11-04T08:00:00.000Z",
-     "duration": 539
+     "duration": 539,
+     "apple": "https://podcasts.apple.com/us/podcast/will-ai-take-my-job-ask-an-economist/id1320118593?i=1000796843722&uo=4"
     },
     {
      "title": "Is it time to reconsider the adjustable rate mortgage?",
      "summary": "High mortgage rates are nudging some aspiring homeowners to consider adjustable-rate mortgages over the standard 30-year fixed-rate option.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/c910bb0b-629a-4a47-8057-3c07b0842056/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=c910bb0b-629a-4a47-8057-3c07b0842056&feed=IFy3imsg&t=podcast&e=nx-s1-6026712&p=510325&d=511&size=8183309",
      "published": "2026-11-03T08:00:00.000Z",
-     "duration": 511
+     "duration": 511,
+     "apple": "https://podcasts.apple.com/us/podcast/is-it-time-to-reconsider-the-adjustable-rate-mortgage/id1320118593?i=1000799487593&uo=4"
     },
     {
      "title": "How crypto world made inroads in Pakistan",
      "summary": "Pakistan in recent years has taken a U-turn on cryptocurrency, opting to regulate digital assets instead of outright banning them.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/da9e3ecc-1852-4a2d-b8d5-7baf47a12b18/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=da9e3ecc-1852-4a2d-b8d5-7baf47a12b18&feed=IFy3imsg&t=podcast&e=nx-s1-6022220&p=510325&d=537&size=8600851",
      "published": "2026-11-02T08:00:00.000Z",
-     "duration": 537
+     "duration": 537,
+     "apple": "https://podcasts.apple.com/us/podcast/how-crypto-world-made-inroads-in-pakistan/id1320118593?i=1000798759460&uo=4"
     },
     {
      "title": "Corporate tax cheats, recession deal eats and costly Halloween treats!",
      "summary": "On a very spooktacular Indicators of the EEK!: How America’s top corporations are ghosting their taxes; why more meal deals are an ominous sign; and terrifying…",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/7d245fc0-69a8-472d-a682-31b5090ea5ef/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=7d245fc0-69a8-472d-a682-31b5090ea5ef&feed=IFy3imsg&t=podcast&e=nx-s1-6022553&p=510325&d=563&size=9017556",
      "published": "2026-10-30T07:00:00.000Z",
-     "duration": 563
+     "duration": 563,
+     "apple": "https://podcasts.apple.com/us/podcast/corporate-tax-cheats-recession-deal-eats-and-costly/id1320118593?i=1000798794832&uo=4"
     },
     {
      "title": "Can Montana end Citizens United?",
      "summary": "The landmark supreme source case Citizens United v. Federal Election Commission opened the floodgates for massive corporate spending in elections.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/9e1391fd-ae3e-40ce-9cd5-53f4ccbbd21a/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=9e1391fd-ae3e-40ce-9cd5-53f4ccbbd21a&feed=IFy3imsg&t=podcast&e=nx-s1-6021286&p=510325&d=516&size=8260633",
      "published": "2026-10-29T07:00:00.000Z",
-     "duration": 516
+     "duration": 516,
+     "apple": "https://podcasts.apple.com/us/podcast/can-montana-end-citizens-united/id1320118593?i=1000798598065&uo=4"
     }
    ]
   }
