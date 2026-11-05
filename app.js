@@ -684,7 +684,10 @@ async function setEchoSource(blob, name) {
   echo.dur = await audioDuration(blob);
   $("echoSrc").textContent = name + (echo.dur ? " · " + fmt(echo.dur) + " total" : "") + " · " + (blob.size / 1e6).toFixed(1) + " MB";
   $("echoRange").hidden = false; $("echoGo").disabled = false; echoHint("");
-  $("echoScript").value = ""; scriptInfo();
+  // A transcript picked from the episode list in the last 3 hours goes with the next audio you open.
+  const px = echo.podScript && Date.now() - echo.podScript.at < 3 * 3600e3 ? echo.podScript : null; echo.podScript = null;
+  $("echoScript").value = px ? px.text : ""; scriptInfo();
+  if (px) echoHint(`Using the full transcript of "${px.title}". Pick a start time and tap Make script; no AI is needed. Clear the transcript box if this is a different episode.`);
 }
 /* your own transcript: .srt / .vtt / "0:12 text" lines keep their times; plain text gets timed by Gemini against the clip */
 const tsec = t => { const p = t.replace(",", ".").split(":").map(Number); return p.reduce((a, b) => a * 60 + b, 0) };
@@ -769,10 +772,38 @@ async function loadAudioUrl(url, b, name) {
 // podcasts.json is refreshed daily by .github/workflows/news.yml: latest episodes of one UK and one US show, links only.
 // Also re-checked each time Echo opens (at most every 30 minutes), so a phone that keeps the page open for days
 // still gets the new episodes; the hour in the query stops an old copy from being reused.
-let pods = null, podPick = 0, podsAt = 0;
+let pods = null, podPick = 0, podsAt = 0, podTx = null;
+// Full-episode transcripts: a daily job (.github/workflows/transcripts.yml) runs Whisper on each new episode and keeps the
+// result in the owner's secret gist, never in the public repo. The page reads that gist with the Sync token.
+const TX_DESC = "English Desk transcripts (made by the daily job; used by the Echo tab)", TX_KEY = "englishDesk.tx";
+const txFile = (show, title) => show + "-" + strHash(title) + ".json";
+async function loadTranscripts() {
+  let token = ""; try { token = JSON.parse(localStorage.getItem("englishDesk.sync") || "{}").token || "" } catch { }
+  if (!token) return null;
+  const gh = async u => { const r = await fetch(u.startsWith("http") ? u : "https://api.github.com" + u, { cache: "no-store",
+    headers: { Authorization: "Bearer " + token, Accept: "application/vnd.github+json" } }); if (!r.ok) throw new Error(r.status); return r.json() };
+  let id = ""; try { id = localStorage.getItem(TX_KEY) || "" } catch { }
+  let g = id ? await gh("/gists/" + id).catch(() => null) : null;
+  if (!g) {
+    for (let page = 1; page <= 5 && !g; page++) { const list = await gh(`/gists?per_page=100&page=${page}`); g = list.find(x => x.description === TX_DESC); if (list.length < 100) break }
+    if (!g) return {}; g = await gh("/gists/" + g.id); try { localStorage.setItem(TX_KEY, g.id) } catch { }
+  }
+  const out = {};
+  await Promise.all(Object.values(g.files || {}).filter(f => /\.json$/.test(f.filename)).map(async f => {
+    try { out[f.filename] = f.truncated ? await (await fetch(f.raw_url)).json() : JSON.parse(f.content) } catch { } }));
+  return out;
+}
+function toVtt(sents) {
+  const ts = t => { const h = Math.floor(t / 3600), m = Math.floor(t % 3600 / 60), x = (t % 60).toFixed(3).padStart(6, "0"); return `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}:${x}` };
+  return "WEBVTT\n\n" + sents.map(([a, b, t]) => `${ts(a)} --> ${ts(b)}\n${t}`).join("\n\n");
+}
+// The transcript waits here until the audio arrives (straight away, or after you download and upload it).
+function pickTranscript(doc) { echo.podScript = doc ? { text: toVtt(doc.sentences), title: doc.title, at: Date.now() } : null }
 async function loadPodcasts() {
   if (Date.now() - podsAt < 30 * 60e3) return; podsAt = Date.now();
   try { const r = await fetch("podcasts.json?d=" + today() + "-" + new Date().getHours(), { cache: "no-cache" }); if (r.ok) pods = (await r.json()).shows?.filter(s => s.episodes?.length) } catch { podsAt = 0 }
+  if (pods?.length) renderPods();
+  try { podTx = await loadTranscripts() } catch { podTx = null }
   if (pods?.length) renderPods();
 }
 function renderPods() {
@@ -783,14 +814,18 @@ function renderPods() {
     const t = el("p", "pod-title", ep.title); t.lang = "en";
     it.append(el("h3", "", s.by + (d ? ` · ${d.getMonth() + 1}/${d.getDate()}` : "") + (ep.duration ? ` · ${Math.round(ep.duration / 60)} min` : "")), t);
     const row = el("div", "row");
-    if (s.cors !== false) { const b = el("button", "btn c-save", "Use this episode"); b.onclick = () => loadAudioUrl(ep.url, b, s.name + " · " + ep.title); row.append(b) }
-    const a = el("a", "btn c-save", "Download"); a.href = ep.url; a.target = "_blank"; a.rel = "noopener"; a.download = ""; row.append(a);
+    const tx = podTx?.[txFile(s.id, ep.title)];
+    if (s.cors !== false) { const b = el("button", "btn c-save", "Use this episode"); b.onclick = () => { pickTranscript(tx); loadAudioUrl(ep.url, b, s.name + " · " + ep.title) }; row.append(b) }
+    const a = el("a", "btn c-save", "Download"); a.onclick = () => pickTranscript(tx); a.href = ep.url; a.target = "_blank"; a.rel = "noopener"; a.download = ""; row.append(a);
     // Listen in a podcast app: Apple's own episode page when the daily job found it, else the show; Spotify has no
     // keyless way to look up an episode, so its link searches for the episode title.
     const ap = ep.apple || s.apple; if (ap) { const l = el("a", "btn c-save", "Apple Podcasts"); l.href = ap; l.target = "_blank"; l.rel = "noopener"; row.append(l) }
     const sp = el("a", "btn c-save", "Spotify"); sp.href = "https://open.spotify.com/search/" + encodeURIComponent(ep.title) + "/episodes"; sp.target = "_blank"; sp.rel = "noopener"; row.append(sp);
     if (s.cors === false) row.append(el("span", "muted", "This show doesn't let web pages read its audio. Download it, then tap Upload audio."));
-    it.append(row); return it }));
+    it.append(row); if (tx) it.append(el("p", "muted", `Full transcript ready (${tx.sentences.length} sentences), filled in when you use this episode.`)); return it }));
+  const note = $("podTx"), n = podTx ? Object.keys(podTx).length : 0;
+  note.hidden = !!n; note.textContent = podTx === null ? "Turn on Sync in Settings to get a full transcript of each episode, made every day with Whisper."
+    : "Full transcripts are made a few hours after each episode comes out. None are ready yet.";
 }
 document.querySelectorAll("#echoLens .chip").forEach(c => c.onclick = () => {
   echo.len = +c.dataset.len; document.querySelectorAll("#echoLens .chip").forEach(x => x.setAttribute("aria-pressed", x === c));

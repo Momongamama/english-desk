@@ -30,6 +30,7 @@ jobs:
           python-version: "3.12"
           cache: pip
           cache-dependency-path: .github/workflows/transcripts.yml
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg > /dev/null
       - run: pip install faster-whisper==1.2.1
       - uses: actions/cache@v4
         with:
