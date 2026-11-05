@@ -53,4 +53,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Update daily news"
-          git push
+          git pull --rebase -q origin main && git push   # another workflow (cache versions) may have pushed first
