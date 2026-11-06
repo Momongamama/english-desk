@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-05T18:26:56.539Z",
+ "updated": "2026-11-06T16:11:42.467Z",
  "shows": [
   {
    "id": "business-daily",
@@ -68,6 +68,13 @@
    "apple": "https://podcasts.apple.com/us/podcast/the-indicator-from-planet-money/id1320118593?uo=4",
    "episodes": [
     {
+     "title": "Caution: Men NOT at Work",
+     "summary": "An increasing number of men are dropping out of the workforce. What’s behind this trend and can anything be done about it? Fact checking by Leyla Doss.",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/16ca5482-bc0a-4011-95dd-9b9b3efb32e6/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=16ca5482-bc0a-4011-95dd-9b9b3efb32e6&feed=IFy3imsg&t=podcast&e=nx-s1-6032597&p=510325&d=557&size=8928114",
+     "published": "2026-11-06T15:35:42.000Z",
+     "duration": 557
+    },
+    {
      "title": "Can Anthropic make enough money to justify its value?",
      "summary": "Anthropic released its financials to the public as the AI juggernaut prepares for its highly anticipated IPO.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/21facbcb-e942-46ff-ba9b-b57d526804b3/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=21facbcb-e942-46ff-ba9b-b57d526804b3&feed=IFy3imsg&t=podcast&e=nx-s1-6029778&p=510325&d=556&size=8900945",
@@ -106,14 +113,6 @@
      "published": "2026-10-30T07:00:00.000Z",
      "duration": 563,
      "apple": "https://podcasts.apple.com/us/podcast/corporate-tax-cheats-recession-deal-eats-and-costly/id1320118593?i=1000798794832&uo=4"
-    },
-    {
-     "title": "Can Montana end Citizens United?",
-     "summary": "The landmark supreme source case Citizens United v. Federal Election Commission opened the floodgates for massive corporate spending in elections.",
-     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/9e1391fd-ae3e-40ce-9cd5-53f4ccbbd21a/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=9e1391fd-ae3e-40ce-9cd5-53f4ccbbd21a&feed=IFy3imsg&t=podcast&e=nx-s1-6021286&p=510325&d=516&size=8260633",
-     "published": "2026-10-29T07:00:00.000Z",
-     "duration": 516,
-     "apple": "https://podcasts.apple.com/us/podcast/can-montana-end-citizens-united/id1320118593?i=1000798598065&uo=4"
     }
    ]
   }
