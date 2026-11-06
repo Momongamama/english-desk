@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-06T16:11:42.467Z",
+ "updated": "2026-11-06T19:59:08.128Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,14 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Power Players: Can the Democrats tackle America's affordability crisis?",
+     "summary": "The Democrats won big in the US midterm elections and have control of both houses of Congress.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0plp16h.mp3",
+     "published": "2026-11-06T16:30:00.000Z",
+     "duration": 1132,
+     "apple": "https://podcasts.apple.com/us/podcast/power-players-can-the-democrats-tackle-americas/id261786876?i=1000800274575&uo=4"
+    },
     {
      "title": "Taking Stock mid-terms special: The economy, Musk, Trump and data centres",
      "summary": "Andy Uhler who's Energy Reporter in Residence at The University of Texas in Austin and Rema Rahman who is White House and Politics Editor at Bloomberg in…",
@@ -48,14 +56,6 @@
      "published": "2026-11-01T21:30:00.000Z",
      "duration": 1377,
      "apple": "https://podcasts.apple.com/us/podcast/can-businesses-trust-ai/id261786876?i=1000799279217&uo=4"
-    },
-    {
-     "title": "Power Players special: Searching for answers on Google",
-     "summary": "Rahul Tandon and Will Bain are joined by the BBC's Silicon Valley correspondent Lily Jamali to look at issues being faced by Google and if it's a sign of wider…",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkhq5d.mp3",
-     "published": "2026-10-30T16:16:00.000Z",
-     "duration": 1090,
-     "apple": "https://podcasts.apple.com/us/podcast/power-players-special-searching-for-answers-on-google/id261786876?i=1000798924238&uo=4"
     }
    ]
   },
@@ -72,7 +72,8 @@
      "summary": "An increasing number of men are dropping out of the workforce. What’s behind this trend and can anything be done about it? Fact checking by Leyla Doss.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/16ca5482-bc0a-4011-95dd-9b9b3efb32e6/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=16ca5482-bc0a-4011-95dd-9b9b3efb32e6&feed=IFy3imsg&t=podcast&e=nx-s1-6032597&p=510325&d=557&size=8928114",
      "published": "2026-11-06T15:35:42.000Z",
-     "duration": 557
+     "duration": 557,
+     "apple": "https://podcasts.apple.com/us/podcast/caution-men-not-at-work/id1320118593?i=1000800265902&uo=4"
     },
     {
      "title": "Can Anthropic make enough money to justify its value?",
