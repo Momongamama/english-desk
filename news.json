@@ -1,31 +1,39 @@
 {
- "updated": "2026-11-05T18:26:53.125Z",
+ "updated": "2026-11-06T01:42:13.815Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
+   "title": "Major tech stocks plunge as US midterms add to fears of AI slowdown",
+   "summary": "Markets have been reacting to possible tougher scrutiny of data centre construction and the AI industry following the US midterms.",
+   "link": "https://www.bbc.co.uk/news/articles/cmn04705rd8jo",
+   "published": "2026-11-06T01:26:52.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Firms told to publish salaries in job adverts ahead of new law",
+   "summary": "The government argues the change will help jobseekers and could help to prevent pay discrimination.",
+   "link": "https://www.bbc.co.uk/news/articles/cmd9343z3zw2o",
+   "published": "2026-11-05T22:32:02.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "'I was asked if I was a crier': Your worst job interviews revealed",
+   "summary": "Bad job interviews can be horrible to experience in the moment, but there is a lot they can teach us about the world of work",
+   "link": "https://www.bbc.co.uk/news/articles/c3j4751pqnj8o",
+   "published": "2026-11-06T00:02:52.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
    "title": "Interest rates hiked to 4% in first increase in over three years",
    "summary": "Most analysts expected the increase from 3.75% to 4%.",
    "link": "https://www.bbc.co.uk/news/articles/ck5ynw45jrgqo",
    "published": "2026-11-05T17:09:55.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Three ways the interest rate rise could affect you",
-   "summary": "Job, loans and savings are all affected by the rise in interest rates announced by the Bank of England.",
-   "link": "https://www.bbc.co.uk/news/articles/cx4g1q3vlp62o",
-   "published": "2026-11-05T13:08:30.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Pound rises to its highest level since the Brexit referendum",
-   "summary": "Pound reaches highest level against a basket of currencies since the Brexit referendum a decade ago.",
-   "link": "https://www.bbc.co.uk/news/articles/c6lykq2qjn2vo",
-   "published": "2026-11-05T04:21:35.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -38,12 +46,12 @@
    "section": "business"
   },
   {
-   "title": "Shares in Musk's SpaceX plunge as tech and AI stocks fall",
-   "summary": "The market has been reacting to possible tougher scrutiny of data centre construction and the AI industry following the US mid-terms",
-   "link": "https://www.bbc.co.uk/news/articles/cmn04705rd8jo",
-   "published": "2026-11-05T17:57:57.000Z",
+   "title": "The engine parts that 'fight the laws of the universe'",
+   "summary": "Investment has surged into the making of jet turbine blades - an extremely difficult component to make.",
+   "link": "https://www.bbc.co.uk/news/articles/cwe9lmp1pyyxo",
+   "published": "2026-11-06T00:06:06.000Z",
    "source": "BBC",
-   "section": "tech"
+   "section": "business"
   },
   {
    "title": "Elon Musk's millions failed to deliver Republican wins in fierce midterms",
@@ -62,60 +70,60 @@
    "section": "tech"
   },
   {
-   "title": "Graduates are managing AI - but are they learning much else?",
-   "summary": "Graduates are spending more time managing AI, but are they missing out on other work experience?",
-   "link": "https://www.bbc.co.uk/news/articles/c820vz6wyp65o",
-   "published": "2026-11-04T00:04:35.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Vance walks Trump tightrope with scathing election critique blaming Iran war",
-   "summary": "The vice-president's blunt assessment of Republican election defeat marked one of the sharpest breaks with a sitting president in recent memory.",
-   "link": "https://www.bbc.co.uk/news/articles/crz98zqkz7z0o",
-   "published": "2026-11-05T03:47:56.000Z",
+   "title": "Democratic socialist defeats incumbent Karen Bass in Los Angeles mayor's race",
+   "summary": "The results mean America's two most populous cities - New York and Los Angeles - will be led by democratic socialists.",
+   "link": "https://www.bbc.co.uk/news/articles/c6e3xxwk3k11o",
+   "published": "2026-11-06T01:28:03.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "The Pitt and ER are similar enough for lawsuit to proceed, judge rules",
-   "summary": "The widow of ER creator Michael Crichton argues The Pitt is effectively a reboot of the 1990s series.",
-   "link": "https://www.bbc.co.uk/news/articles/cq4g1r42jx00o",
-   "published": "2026-11-05T11:21:35.000Z",
+   "title": "Pope begins lengthy trip to Latin America weeks after lung cancer surgery",
+   "summary": "Pope Leo, who had part of a lung removed last month, will visit Uruguay, Argentina and Peru.",
+   "link": "https://www.bbc.co.uk/news/articles/cqn06j0y61k6o",
+   "published": "2026-11-06T00:02:57.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Russell Brand is being investigated over two new rape complaints, police say",
-   "summary": "Det Supt Andy Furphy said he hoped other potential victims would gain \"courage\" and \"confidence\" from the guilty verdicts.",
-   "link": "https://www.bbc.co.uk/news/articles/c6vgx8q09gg4o",
-   "published": "2026-11-05T15:44:49.000Z",
+   "title": "California governor commutes sentences for state's 548 death row inmates",
+   "summary": "California has historically had the largest population of people on death row in the US.",
+   "link": "https://www.bbc.co.uk/news/articles/cqrkyyd2j8mvo",
+   "published": "2026-11-05T23:09:33.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Typhoons batter East Asia as El Niño makes Pacific 'burn with fever'",
-   "summary": "Even for countries where typhoons are a way of life, the last few months have brought unusually wild weather.",
-   "link": "https://www.bbc.co.uk/news/articles/cw33kgj7nkemo",
-   "published": "2026-11-04T23:12:47.000Z",
+   "title": "Who could be behind hoax bomb threats to European air travel?",
+   "summary": "There is no hard evidence so far linking airline bomb threats to Russia, Iran or any proxy groups.",
+   "link": "https://www.bbc.co.uk/news/articles/cx8dzzjg3g9zo",
+   "published": "2026-11-05T19:58:40.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "India's costliest film retells a beloved Hindu epic - but divides critics",
-   "summary": "Easily the most anticipated Bollywood film of the year, Ramayana: Rise of a Legend is the first of two parts.",
-   "link": "https://www.bbc.co.uk/news/articles/cm93zv62v1n7o",
-   "published": "2026-11-05T09:04:42.000Z",
+   "title": "Melania Trump calls for lasting Ukraine truce as she hosts Russian and Ukrainian officials",
+   "summary": "The US first lady was credited by all for playing a key though unspecified role in the ceasefire.",
+   "link": "https://www.bbc.co.uk/news/articles/c9p8g085mz07o",
+   "published": "2026-11-05T19:08:08.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Would you take a test to see if your life will be cut short? I did - and it changed me",
-   "summary": "Laura Sides faced a dilemma of whether to find out if she would inherit her father's condition.",
-   "link": "https://www.bbc.co.uk/news/articles/cw62yq9vp7yyo",
-   "published": "2026-11-05T00:32:09.000Z",
-   "source": "BBC",
-   "section": "world"
+   "title": "Fears about an AI crackdown after midterms sparks a $2 trillion rout in tech stocks",
+   "summary": "Shares sank, with the tech-heavy Nasdaq dropping over 5%, as investors reacted with fear that a Democratic Congress — and states across the country -— would crack down on AI and data centers.",
+   "link": "https://www.npr.org/2026/11/05/nx-s1-6031987/stock-markets-ai-midterm-elections",
+   "published": "2026-11-06T00:16:53.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Pasture mealybugs have killed off huge swaths of grasses in the Southeast",
+   "summary": "An invasive insect that's tough to detect and eliminate poses a multi-billion dollar threat to the agricultural economy — adding another stressor to farmers already stretched by high costs.",
+   "link": "https://www.npr.org/2026/11/05/nx-s1-6018539/pasture-mealybugs-have-killed-off-huge-swaths-of-grasses-in-the-southeast",
+   "published": "2026-11-05T23:00:37.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "First-time homebuyers remain scarce, but a record share of them pay all cash",
@@ -138,30 +146,6 @@
    "summary": "A new Democratic majority in Congress could pressure the president to end the war in Iran.",
    "link": "https://www.npr.org/2026/11/05/nx-s1-6029365/gas-diesel-price-congress-midterms",
    "published": "2026-11-05T10:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Legendary photographer on getting that perfect election night picture",
-   "summary": "On election night, photographers will be in position, ready to snap history-making moments. It's something Pulitzer-prize-winner photographer David Hume Kennerly, has done for decades.",
-   "link": "https://www.npr.org/2026/11/03/nx-s1-6005523/legendary-photographer-on-getting-that-perfect-election-night-picture",
-   "published": "2026-11-03T22:33:33.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "A Binance engineer thought he was interviewing for a job. Then the hackers pounced",
-   "summary": "North Korean hackers pulled off the biggest cyber heist ever by duping a Binance engineer into thinking he was being recruited for a job, the crypto exchange says.",
-   "link": "https://www.npr.org/2026/11/03/nx-s1-6027799/binance-crypto-exchange-cyber-heist",
-   "published": "2026-11-03T21:30:20.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Eastern Kentucky welcomes data centers in hopes they make up for coal losses",
-   "summary": "In Kentucky's former coal country, data centers are a welcome sight as people hope they will bring in money.",
-   "link": "https://www.npr.org/2026/11/03/nx-s1-6022442/western-kentucky-welcomes-data-centers-in-hopes-they-make-up-for-coal-losses",
-   "published": "2026-11-03T21:22:58.000Z",
    "source": "NPR",
    "section": "business"
   },
@@ -214,6 +198,14 @@
    "section": "tech"
   },
   {
+   "title": "Paraguay's president is impeached minutes after resigning following a bank collapse",
+   "summary": "Paraguayan lawmakers voted to impeach President Santiago Peña minutes after his resignation, as the collapse of a digital bank tied to his government froze millions of people's savings.",
+   "link": "https://www.npr.org/2026/11/05/nx-s1-6030842/paraguay-president-impeached-bank-collapse",
+   "published": "2026-11-05T18:30:16.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
    "title": "Russell Brand is convicted of rape, and judge says he'll get a prison term",
    "summary": "A prosecutor described Brand as a ruthless, calculating, manipulative \"sexual predator.\" Brand, 51, denied the charges, saying he had never forced anyone to do something against their will.",
    "link": "https://www.npr.org/2026/11/05/nx-s1-6030720/russell-brand-rape-sexual-assault-prison",
@@ -230,6 +222,14 @@
    "section": "world"
   },
   {
+   "title": "Three ways Democrats could reshape U.S. foreign policy after the midterms",
+   "summary": "On Morning Edition, Pulitzer Prize-winning historian Anne Applebaum breaks down what a Democratic Congress could change about Trump's foreign policy and what remains beyond its power.",
+   "link": "https://www.npr.org/2026/11/05/nx-s1-6028977/democrats-foreign-policy-iran-war-ukraine",
+   "published": "2026-11-05T09:50:34.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
    "title": "Bob Dylan comes knockin' on pope's door as Leo welcomes legend to Vatican",
    "summary": "The American singer-songwriter and poet visited with the American pope at the Vatican during a break between concert dates in Italy. The Vatican said the encounter was brief.",
    "link": "https://www.npr.org/2026/11/05/g-s1-152035/vatican-pope-bob-dylan",
@@ -238,26 +238,10 @@
    "section": "world"
   },
   {
-   "title": "Hong Kong activist Joshua Wong sentenced to 10 years in prison",
+   "title": "Hong Kong activist Joshua Wong is sentenced to 10 more years in prison",
    "summary": "Wong was sentenced for his second conviction under a Beijing-imposed national security law, in a case that critics say reflects the crackdown on the city's once-thriving pro-democracy movement.",
    "link": "https://www.npr.org/2026/11/05/g-s1-152032/hong-kong-activist-wong-sentenced",
    "published": "2026-11-05T05:29:56.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Abdul El-Sayed welcomes Trump's plan to cut Israel aid, calls for end to arms sales",
-   "summary": "Michigan's first Muslim senator-elect, Abdul El-Sayed, discusses his historic victory, an unlikely agreement with Trump on Israel military aid and the political divisions that remain.",
-   "link": "https://www.npr.org/2026/11/04/nx-s1-6028702/abdul-el-sayed-michigan-senate-israel-aid",
-   "published": "2026-11-04T13:38:09.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "The world is reacting to the Democrats' sweeping midterm elections victory",
-   "summary": "From Kyiv to Moscow, and Tehran to Tel Aviv, all eyes were on the Democrats' big win as foreign powers weigh how a flipped Congress will affect international relations.",
-   "link": "https://www.npr.org/2026/11/04/nx-s1-6028664/world-reacts-midterm-elections",
-   "published": "2026-11-04T12:34:35.000Z",
    "source": "NPR",
    "section": "world"
   }
