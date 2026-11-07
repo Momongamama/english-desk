@@ -1,23 +1,23 @@
 {
- "updated": "2026-11-07T01:00:40.860Z",
+ "updated": "2026-11-07T07:07:22.957Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "AI stocks climb after trillions wiped from market values",
-   "summary": "Investors had been selling off tech shares in part due to concerns the Democrat election victory would mean slower AI development.",
-   "link": "https://www.bbc.co.uk/news/articles/c35ynnpzdq51o",
-   "published": "2026-11-06T21:06:25.000Z",
+   "title": "'My mortgage is going up £200': How rising interest rates are hitting people's pockets",
+   "summary": "With UK interest rates set to rise, mortgages, credit cards and loans could get more expensive for millions.",
+   "link": "https://www.bbc.co.uk/news/articles/c617kjqjvk12o",
+   "published": "2026-11-07T01:41:36.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "PM tells firms to publish salaries in job adverts ahead of new law",
-   "summary": "The government argues the change will help jobseekers and could help to prevent pay discrimination.",
-   "link": "https://www.bbc.co.uk/news/articles/cmd9343z3zw2o",
-   "published": "2026-11-06T15:25:43.000Z",
+   "title": "AI stocks climb after trillions wiped from market values",
+   "summary": "Investors had been selling off tech shares in part due to concerns the Democrat election victory would mean slower AI development.",
+   "link": "https://www.bbc.co.uk/news/articles/c35ynnpzdq51o",
+   "published": "2026-11-06T21:06:25.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -70,6 +70,30 @@
    "section": "tech"
   },
   {
+   "title": "Paraguay's President Santiago Peña impeached and arrested",
+   "summary": "Santiago Peña was ousted due to a banking crisis which left millions of people unable to access their money.",
+   "link": "https://www.bbc.co.uk/news/articles/c68jzzvjgdy9o",
+   "published": "2026-11-07T03:25:00.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "This man refused life-saving treatment because of his religion - days later the rules changed",
+   "summary": "Jehovah's Witness leaders relaxed strict rules on blood transfusions, but the change came 23 days too late for Isaac Valdez.",
+   "link": "https://www.bbc.co.uk/news/articles/cx5ynly549njo",
+   "published": "2026-11-07T01:27:47.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "With Stephen Miller pick, Trump readies for a battle",
+   "summary": "The US president's promotion of Miller, a loyal partisan firebrand to be his new chief of staff sets up likely clashes with Congress.",
+   "link": "https://www.bbc.co.uk/news/articles/crp3gg2z171go",
+   "published": "2026-11-06T23:24:15.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
    "title": "Four midterms takeaways for 2028 White House race",
    "summary": "The buzz about the presidential election is already under way - here's what we learned this week.",
    "link": "https://www.bbc.co.uk/news/articles/cq1m41n3v7mmo",
@@ -78,34 +102,10 @@
    "section": "world"
   },
   {
-   "title": "Two dead after bus crashes in France, officials say",
-   "summary": "One child and one young adult were killed in the crash, local authorities say, with more injured.",
-   "link": "https://www.bbc.co.uk/news/articles/cmly00l4p3lwo",
-   "published": "2026-11-06T15:33:52.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "New wave of bomb threats hit European airlines",
-   "summary": "No link has been established between the threats against the airlines and those against the media outlets.",
-   "link": "https://www.bbc.co.uk/news/articles/cq62yy064vjpo",
-   "published": "2026-11-06T15:25:35.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Spain's rail authorities face European fraud probe after Urda rail disaster",
-   "summary": "Prosecutors begin investigating EU funds meant for upgrading the Spanish railway line where a train crash killed 69 people.",
-   "link": "https://www.bbc.co.uk/news/articles/c6x2wwnz5445o",
-   "published": "2026-11-06T17:44:02.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Kenyan doomsday cult leader given life sentence for murdering 191 people",
-   "summary": "Paul Mackenzie ordered his followers to starve their children to death in a forest so they could \"meet Jesus\".",
-   "link": "https://www.bbc.co.uk/news/articles/cm5yne5984l0o",
-   "published": "2026-11-06T14:46:03.000Z",
+   "title": "Pope in 'pretty good health' as he starts Latin America tour",
+   "summary": "Pope Leo travels to Uruguay just three weeks after having surgery for lung cancer.",
+   "link": "https://www.bbc.co.uk/news/articles/c60e0001ve9wo",
+   "published": "2026-11-07T06:59:48.000Z",
    "source": "BBC",
    "section": "world"
   },
