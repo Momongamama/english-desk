@@ -1,41 +1,65 @@
 {
- "updated": "2026-11-06T07:55:12.912Z",
+ "updated": "2026-11-07T01:00:40.860Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Firms told to publish salaries in job adverts ahead of new law",
+   "title": "AI stocks climb after trillions wiped from market values",
+   "summary": "Investors had been selling off tech shares in part due to concerns the Democrat election victory would mean slower AI development.",
+   "link": "https://www.bbc.co.uk/news/articles/c35ynnpzdq51o",
+   "published": "2026-11-06T21:06:25.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "PM tells firms to publish salaries in job adverts ahead of new law",
    "summary": "The government argues the change will help jobseekers and could help to prevent pay discrimination.",
    "link": "https://www.bbc.co.uk/news/articles/cmd9343z3zw2o",
-   "published": "2026-11-06T07:36:41.000Z",
+   "published": "2026-11-06T15:25:43.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "'I was asked if I was a crier': Your worst job interviews revealed",
-   "summary": "Bad job interviews can be horrible to experience in the moment, but there is a lot they can teach us about the world of work",
-   "link": "https://www.bbc.co.uk/news/articles/c3j4751pqnj8o",
-   "published": "2026-11-06T00:02:52.000Z",
+   "title": "Why the US midterms sparked an AI stock selloff",
+   "summary": "Fears of more AI regulation appear to have sparked fear among investors, but concerns about the industry have been growing for some time.",
+   "link": "https://www.bbc.co.uk/news/articles/crlykkzwwpydo",
+   "published": "2026-11-06T18:32:16.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Interest rates hiked to 4% in first increase in over three years",
-   "summary": "Most analysts expected the increase from 3.75% to 4%.",
-   "link": "https://www.bbc.co.uk/news/articles/ck5ynw45jrgqo",
-   "published": "2026-11-05T17:09:55.000Z",
+   "title": "How does it affect me if share prices fall?",
+   "summary": "Changes in the FTSE 100 and other indexes are not just for financial experts, they can affect our lives.",
+   "link": "https://www.bbc.co.uk/news/articles/c33zdz2m1e2o",
+   "published": "2026-11-06T09:21:50.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Faisal Islam: How high will interest rates go?",
-   "summary": "The BBC's economics editor views one more interest rate as likely, but thinks that will be all.",
-   "link": "https://www.bbc.co.uk/news/articles/ckr5y0y37gv3o",
-   "published": "2026-11-05T13:17:10.000Z",
+   "title": "Why smoky bacon crisps threaten to reignite rows over EU rules",
+   "summary": "A post-Brexit deal on food standards has raised questions over the future naming of the classic British snack.",
+   "link": "https://www.bbc.co.uk/news/articles/cm1dwwqrr1kvo",
+   "published": "2026-11-06T17:19:38.000Z",
    "source": "BBC",
    "section": "business"
+  },
+  {
+   "title": "Elon Musk appears to signal the end of the road for Cybertruck",
+   "summary": "Musk said it was to make room for production of its Cybercabs - autonomous taxis without a driver.",
+   "link": "https://www.bbc.co.uk/news/articles/cq1j33w7d232o",
+   "published": "2026-11-06T21:49:50.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Global stocks plunge as fears over US AI slowdown spread to Asia and Europe",
+   "summary": "Investors have reacted to possible tougher scrutiny of data centre construction and the AI industry.",
+   "link": "https://www.bbc.co.uk/news/articles/cmn04705rd8jo",
+   "published": "2026-11-06T13:25:50.000Z",
+   "source": "BBC",
+   "section": "tech"
   },
   {
    "title": "The engine parts that 'fight the laws of the universe'",
@@ -43,87 +67,79 @@
    "link": "https://www.bbc.co.uk/news/articles/cwe9lmp1pyyxo",
    "published": "2026-11-06T00:06:06.000Z",
    "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "Four midterms takeaways for 2028 White House race",
+   "summary": "The buzz about the presidential election is already under way - here's what we learned this week.",
+   "link": "https://www.bbc.co.uk/news/articles/cq1m41n3v7mmo",
+   "published": "2026-11-06T16:12:22.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Two dead after bus crashes in France, officials say",
+   "summary": "One child and one young adult were killed in the crash, local authorities say, with more injured.",
+   "link": "https://www.bbc.co.uk/news/articles/cmly00l4p3lwo",
+   "published": "2026-11-06T15:33:52.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "New wave of bomb threats hit European airlines",
+   "summary": "No link has been established between the threats against the airlines and those against the media outlets.",
+   "link": "https://www.bbc.co.uk/news/articles/cq62yy064vjpo",
+   "published": "2026-11-06T15:25:35.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Spain's rail authorities face European fraud probe after Urda rail disaster",
+   "summary": "Prosecutors begin investigating EU funds meant for upgrading the Spanish railway line where a train crash killed 69 people.",
+   "link": "https://www.bbc.co.uk/news/articles/c6x2wwnz5445o",
+   "published": "2026-11-06T17:44:02.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Kenyan doomsday cult leader given life sentence for murdering 191 people",
+   "summary": "Paul Mackenzie ordered his followers to starve their children to death in a forest so they could \"meet Jesus\".",
+   "link": "https://www.bbc.co.uk/news/articles/cm5yne5984l0o",
+   "published": "2026-11-06T14:46:03.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "The Cybertruck's 'cause of death?' Insufficient demand",
+   "summary": "One of the most polarizing vehicles to hit the road will soon be a thing of history. Tesla will wind down manufacturing of its Cybertruck at the company's Gigafactory Texas mid-next year.",
+   "link": "https://www.npr.org/2026/11/06/nx-s1-6032607/the-cybertrucks-cause-of-death-insufficient-demand",
+   "published": "2026-11-06T22:22:20.000Z",
+   "source": "NPR",
    "section": "business"
   },
   {
-   "title": "Three ways the interest rate rise could affect you",
-   "summary": "Job, loans and savings are all affected by the rise in interest rates announced by the Bank of England.",
-   "link": "https://www.bbc.co.uk/news/articles/cx4g1q3vlp62o",
-   "published": "2026-11-05T13:08:30.000Z",
-   "source": "BBC",
+   "title": "This was the week the AI trade cracked. So what's next?",
+   "summary": "Big losses by AI shares in stock markets after Democrats won the midterm elections have left investors shaken and wondering comes next.",
+   "link": "https://www.npr.org/2026/11/06/nx-s1-6032695/this-was-the-week-the-ai-trade-cracked-so-whats-next",
+   "published": "2026-11-06T21:58:09.000Z",
+   "source": "NPR",
    "section": "business"
   },
   {
-   "title": "Global tech stocks plunge as US midterms add to AI slowdown fears",
-   "summary": "Investors have reacted to possible tougher scrutiny of data centre construction and the AI industry.",
-   "link": "https://www.bbc.co.uk/news/articles/cmn04705rd8jo",
-   "published": "2026-11-06T07:27:26.000Z",
-   "source": "BBC",
-   "section": "tech"
+   "title": "Hiring jumps: The economy added 165,000 jobs last month",
+   "summary": "The U.S. job market improved last month, according to a report from the Labor Department Friday. Employers added more jobs than forecasters had expected and the unemployment rate dipped to 4.1%.",
+   "link": "https://www.npr.org/2026/11/06/nx-s1-6030867/jobs-labor-market-economy-wages-inflation",
+   "published": "2026-11-06T13:49:21.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
-   "title": "Elon Musk's millions failed to deliver Republican wins in fierce midterms",
-   "summary": "Musk spent nearly $500m in the 2026 US midterm elections, an individual election spending record.",
-   "link": "https://www.bbc.co.uk/news/articles/cv8ez3p3ge5ko",
-   "published": "2026-11-04T21:41:15.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "French blood storage impacted by freezer hacks as theories swirl about culprits",
-   "summary": "The French Blood Establishment (EFS) said cold rooms storing blood were impacted by hackers.",
-   "link": "https://www.bbc.co.uk/news/articles/c8vgxyvz6y9ro",
-   "published": "2026-11-04T16:26:15.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "White House denies Hegseth and Rubio to leave jobs after Republican election losses",
-   "summary": "US media reports there are calls to replace Pete Hegseth, who also faces a possible impeachment vote, while Mark Rubio is rumoured to be eyeing a presidential run.",
-   "link": "https://www.bbc.co.uk/news/articles/cqg7xxg4jdv5o",
-   "published": "2026-11-06T02:08:57.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Pope begins lengthy trip to Latin America weeks after lung cancer surgery",
-   "summary": "Pope Leo, who had part of a lung removed last month, will visit Uruguay, Argentina and Peru.",
-   "link": "https://www.bbc.co.uk/news/articles/cqn06j0y61k6o",
-   "published": "2026-11-06T00:02:57.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Trump signs order to preserve Oval Office as national monument",
-   "summary": "The order comes after Trump made a series of big changes to the decor of the Oval Office and tore down the White House East Wing.",
-   "link": "https://www.bbc.co.uk/news/articles/cmy0eeg101djo",
-   "published": "2026-11-06T04:29:25.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "A wildfire killed their loved ones in Spain. These British families demand to know why",
-   "summary": "Nine British nationals were among the 15 people who died when fire ripped through the village of Bédar this summer.",
-   "link": "https://www.bbc.co.uk/news/articles/cm3vq4wyeld1o",
-   "published": "2026-11-06T06:00:46.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Did a data centre revolt affect the US mid-term election results?",
-   "summary": "BBC Verify examines whether US voters were influenced by the data centre boom - and the impact anti-AI sentiment could have on the industry.",
-   "link": "https://www.bbc.co.uk/news/articles/crvg9yyz5437o",
-   "published": "2026-11-06T06:01:13.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Major construction ongoing near Iran missile bases, satellite images suggest",
-   "summary": "Evidence of digging and new buildings are visible in satellite imagery taken in November, satellite images suggest.",
-   "link": "https://www.bbc.co.uk/news/articles/ckjrwx1r2d5ro",
-   "published": "2026-11-06T07:33:41.000Z",
-   "source": "BBC",
-   "section": "world"
+   "title": "Why gold prices are surprisingly low",
+   "summary": "Gold tends to go up when there's uncertainty in the economy. For a while, the price reflected that. But this week, it dropped from a nearly $5,600 in January to below $4,000. What's going on?",
+   "link": "https://www.npr.org/sections/planet-money/2026/11/06/nx-s1-6030995/why-gold-prices-are-surprisingly-low",
+   "published": "2026-11-06T12:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "Fears of an AI crackdown after midterms spark $2 trillion rout in tech stocks",
@@ -142,28 +158,12 @@
    "section": "business"
   },
   {
-   "title": "First-time homebuyers remain scarce, but a record share of them pay all cash",
-   "summary": "A new report finds generational wealth is widening the divide between homebuyers and those priced out. The median age of first-time buyers also remains at a record high.",
-   "link": "https://www.npr.org/2026/11/05/nx-s1-6022491/real-estate-all-cash-offer",
-   "published": "2026-11-05T15:00:00.000Z",
+   "title": "Health intel-sharing group warns industry in wake of cyberattack on French blood bank",
+   "summary": "A healthcare intelligence-sharing organization is warning its members to lock down systems following cyberattacks on cold storage systems, including a French blood bank.",
+   "link": "https://www.npr.org/2026/11/06/nx-s1-6032602/cyberattack-blood-bank-healthcare",
+   "published": "2026-11-06T19:00:21.000Z",
    "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "As budgets tighten, people are breaking out their library cards",
-   "summary": "Some Americans squeezed by high prices are relying more on their local libraries for things like books, streaming services and high-priced items like musical instruments and sewing machines.",
-   "link": "https://www.npr.org/2026/11/05/nx-s1-5992908/libraries-and-cost-of-living",
-   "published": "2026-11-05T10:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Does the blue wave mean lower gasoline and diesel prices soon? Don't hold your breath",
-   "summary": "A new Democratic majority in Congress could pressure the president to end the war in Iran.",
-   "link": "https://www.npr.org/2026/11/05/nx-s1-6029365/gas-diesel-price-congress-midterms",
-   "published": "2026-11-05T10:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "Elon Musk will face scrutiny from Democrats after midterms",
@@ -206,58 +206,42 @@
    "section": "tech"
   },
   {
-   "title": "Your writing was flagged as AI. What does that actually mean?",
-   "summary": "As editors turn to imperfect AI detection tools to weed out machine-generated submissions, writers who say they were falsely accused of using AI are left wondering what triggered a positive result.",
-   "link": "https://www.npr.org/2026/10/31/nx-s1-5963520/ai-writing-detectors-pangram",
-   "published": "2026-10-31T09:00:00.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Paraguay's president is impeached minutes after resigning following a bank collapse",
-   "summary": "Paraguayan lawmakers voted to impeach President Santiago Peña minutes after his resignation, as the collapse of a digital bank tied to his government froze millions of people's savings.",
-   "link": "https://www.npr.org/2026/11/05/nx-s1-6030842/paraguay-president-impeached-bank-collapse",
-   "published": "2026-11-05T18:30:16.000Z",
+   "title": "Israel's Arab-led parties in spotlight after inconclusive election",
+   "summary": "Israel's center-right opposition has a chance to unseat Netanyahu — but backing of Arab-led parties will be key.",
+   "link": "https://www.npr.org/2026/11/06/g-s1-152138/israel-election-palestinian-arab-parties",
+   "published": "2026-11-06T20:42:51.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Russell Brand is convicted of rape, and judge says he'll get a prison term",
-   "summary": "A prosecutor described Brand as a ruthless, calculating, manipulative \"sexual predator.\" Brand, 51, denied the charges, saying he had never forced anyone to do something against their will.",
-   "link": "https://www.npr.org/2026/11/05/nx-s1-6030720/russell-brand-rape-sexual-assault-prison",
-   "published": "2026-11-05T16:15:02.000Z",
+   "title": "Pope Leo begins a 12-day, 3-country South America tour after his cancer surgery",
+   "summary": "Pope Leo begins his first South American tour since lung cancer surgery. The 12-day journey takes him to Uruguay, Argentina and Peru, where he spent two decades.",
+   "link": "https://www.npr.org/2026/11/06/nx-s1-6026702/pope-leo-begins-12-day-3-country-tour-after-cancer-surgery",
+   "published": "2026-11-06T19:13:06.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "What's next for Democrats after the midterms. And, a look at the outstanding races",
-   "summary": "Democrats have regained control of Congress. They have a long list of investigations into Trump planned. And, not all races have been called. Here's a look at how they could affect the Dems' majority.",
-   "link": "https://www.npr.org/2026/11/05/g-s1-152046/up-first-newsletter-democrats-congress-control-house-senate-trump-reaction",
-   "published": "2026-11-05T12:02:24.000Z",
+   "title": "European flights and broadcasters are targeted with another wave of bomb threats",
+   "summary": "Officials across Europe reported a slew of bomb threats against multiple flights, following a string of hoaxes that caused flight diversions this week. Three broadcasters also received threats.",
+   "link": "https://www.npr.org/2026/11/06/nx-s1-6032612/europe-flights-hoaxes",
+   "published": "2026-11-06T15:21:31.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Three ways Democrats could reshape U.S. foreign policy after the midterms",
-   "summary": "On Morning Edition, Pulitzer Prize-winning historian Anne Applebaum breaks down what a Democratic Congress could change about Trump's foreign policy and what remains beyond its power.",
-   "link": "https://www.npr.org/2026/11/05/nx-s1-6028977/democrats-foreign-policy-iran-war-ukraine",
-   "published": "2026-11-05T09:50:34.000Z",
+   "title": "The leader of a Kenyan doomsday cult is sentenced to 200 years in prison",
+   "summary": "Cult leader Paul Mackenzie was convicted of murdering 190 children and one adult after he ordered his followers to starve themselves to death in order to meet Jesus.",
+   "link": "https://www.npr.org/2026/11/06/nx-s1-6032593/kenya-cult-leader-paul-mackenzie-sentenced-murder",
+   "published": "2026-11-06T14:53:46.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Bob Dylan comes knockin' on pope's door as Leo welcomes legend to Vatican",
-   "summary": "The American singer-songwriter and poet visited with the American pope at the Vatican during a break between concert dates in Italy. The Vatican said the encounter was brief.",
-   "link": "https://www.npr.org/2026/11/05/g-s1-152035/vatican-pope-bob-dylan",
-   "published": "2026-11-05T07:02:12.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Hong Kong activist Joshua Wong is sentenced to 10 more years in prison",
-   "summary": "Wong was sentenced for his second conviction under a Beijing-imposed national security law, in a case that critics say reflects the crackdown on the city's once-thriving pro-democracy movement.",
-   "link": "https://www.npr.org/2026/11/05/g-s1-152032/hong-kong-activist-wong-sentenced",
-   "published": "2026-11-05T05:29:56.000Z",
+   "title": "Ex-lawmaker gets 12.5 years in Macao's first national security case",
+   "summary": "Au's arrest last year was the first publicly known prosecution under Macao's national security law since it was enacted in 2009.",
+   "link": "https://www.npr.org/2026/11/06/g-s1-152217/ex-lawmaker-gets-12-5-years-in-macaos-first-national-security-case",
+   "published": "2026-11-06T13:56:43.000Z",
    "source": "NPR",
    "section": "world"
   }
