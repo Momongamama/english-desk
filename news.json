@@ -1,15 +1,23 @@
 {
- "updated": "2026-11-07T07:07:22.957Z",
+ "updated": "2026-11-08T00:49:30.352Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "'My mortgage is going up £200': How rising interest rates are hitting people's pockets",
-   "summary": "With UK interest rates set to rise, mortgages, credit cards and loans could get more expensive for millions.",
-   "link": "https://www.bbc.co.uk/news/articles/c617kjqjvk12o",
-   "published": "2026-11-07T01:41:36.000Z",
+   "title": "Labubu hype seemed unstoppable, now the fluffy monster mania is dying",
+   "summary": "Parent company Pop Mart's revenue has fallen as appetite for the quirky collectible monsters wanes.",
+   "link": "https://www.bbc.co.uk/news/articles/cmvg652l927lo",
+   "published": "2026-11-07T23:02:35.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "'Flat', 'tired', 'cynical': Unusually gloomy Kiwis deliver New Zealand's tightest election in years",
+   "summary": "The national mood is low, and faith in politics even lower - with voters deserting the major parties at the polls.",
+   "link": "https://www.bbc.co.uk/news/articles/cxr5yyg2nj9eo",
+   "published": "2026-11-07T21:36:16.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -46,12 +54,20 @@
    "section": "business"
   },
   {
+   "title": "Can the Zelda remake capture the magic of the original?",
+   "summary": "Nintendo has released its remake of what is considered one of the best games ever made - the BBC's Tom Gerken gives his verdict.",
+   "link": "https://www.bbc.co.uk/news/articles/cm8xznl0n1q4o",
+   "published": "2026-11-08T00:37:45.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
    "title": "Elon Musk appears to signal the end of the road for Cybertruck",
    "summary": "Musk said it was to make room for production of its Cybercabs - autonomous taxis without a driver.",
    "link": "https://www.bbc.co.uk/news/articles/cq1j33w7d232o",
    "published": "2026-11-06T21:49:50.000Z",
    "source": "BBC",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "Global stocks plunge as fears over US AI slowdown spread to Asia and Europe",
@@ -62,50 +78,50 @@
    "section": "tech"
   },
   {
-   "title": "The engine parts that 'fight the laws of the universe'",
-   "summary": "Investment has surged into the making of jet turbine blades - an extremely difficult component to make.",
-   "link": "https://www.bbc.co.uk/news/articles/cwe9lmp1pyyxo",
-   "published": "2026-11-06T00:06:06.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Paraguay's President Santiago Peña impeached and arrested",
-   "summary": "Santiago Peña was ousted due to a banking crisis which left millions of people unable to access their money.",
-   "link": "https://www.bbc.co.uk/news/articles/c68jzzvjgdy9o",
-   "published": "2026-11-07T03:25:00.000Z",
+   "title": "What we know so far after Krakow gun attack",
+   "summary": "Six people were killed in a random shooting in the city's main square, and three bodies were later found at his home.",
+   "link": "https://www.bbc.co.uk/news/articles/cmd7q15drwgeo",
+   "published": "2026-11-07T22:58:49.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "This man refused life-saving treatment because of his religion - days later the rules changed",
-   "summary": "Jehovah's Witness leaders relaxed strict rules on blood transfusions, but the change came 23 days too late for Isaac Valdez.",
-   "link": "https://www.bbc.co.uk/news/articles/cx5ynly549njo",
-   "published": "2026-11-07T01:27:47.000Z",
+   "title": "Israel's president tasks opposition leader Eisenkot with forming government",
+   "summary": "Neither PM Benjamin Netanyahu's bloc nor that of his rival secured a majority in last week's election.",
+   "link": "https://www.bbc.co.uk/news/articles/cmy8367lj5xlo",
+   "published": "2026-11-07T22:19:59.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "With Stephen Miller pick, Trump readies for a battle",
-   "summary": "The US president's promotion of Miller, a loyal partisan firebrand to be his new chief of staff sets up likely clashes with Congress.",
-   "link": "https://www.bbc.co.uk/news/articles/crp3gg2z171go",
-   "published": "2026-11-06T23:24:15.000Z",
+   "title": "No clear winner after tight New Zealand general election",
+   "summary": "Weeks of coalition talks could follow after preliminary results pointed to a highly divided national parliament.",
+   "link": "https://www.bbc.co.uk/news/articles/c3ewev11g1e0o",
+   "published": "2026-11-07T15:56:28.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Four midterms takeaways for 2028 White House race",
-   "summary": "The buzz about the presidential election is already under way - here's what we learned this week.",
-   "link": "https://www.bbc.co.uk/news/articles/cq1m41n3v7mmo",
-   "published": "2026-11-06T16:12:22.000Z",
+   "title": "US offers $20m reward for information about Iran's nuclear programme",
+   "summary": "Donald Trump has repeatedly raised the prospect of renewing strikes against Iran's nuclear facilities.",
+   "link": "https://www.bbc.co.uk/news/articles/c6d091ev3p0jo",
+   "published": "2026-11-07T18:14:38.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Pope in 'pretty good health' as he starts Latin America tour",
-   "summary": "Pope Leo travels to Uruguay just three weeks after having surgery for lung cancer.",
-   "link": "https://www.bbc.co.uk/news/articles/c60e0001ve9wo",
-   "published": "2026-11-07T06:59:48.000Z",
+   "title": "UK cannot 'cherry pick' EU single market deal, Barnier tells BBC",
+   "summary": "The former Brexit negotiator says EU countries would reject any British attempts to follow economic rules \"a la carte\".",
+   "link": "https://www.bbc.co.uk/news/articles/c9kgjj206nzpo",
+   "published": "2026-11-07T15:19:35.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Houthis say at least 25 killed in Saudi air strike",
+   "summary": "Saudi Arabia, which leads a coalition fighting the Houthis in Yemen, has not commented.",
+   "link": "https://www.bbc.co.uk/news/articles/c65yn1v99ypmo",
+   "published": "2026-11-07T17:09:24.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -142,20 +158,20 @@
    "section": "business"
   },
   {
-   "title": "Fears of an AI crackdown after midterms spark $2 trillion rout in tech stocks",
-   "summary": "Shares sank, with the tech-heavy Nasdaq dropping over 5%, as investors reacted with fear that a Democratic Congress — and states across the country -— would crack down on AI and data centers.",
-   "link": "https://www.npr.org/2026/11/05/nx-s1-6031987/stock-markets-ai-midterm-elections",
-   "published": "2026-11-06T00:16:53.000Z",
+   "title": "An unexpected activist emerged to help block a $5 billion data center in Maryland",
+   "summary": "Thousands across the U.S. have gotten involved to oppose data centers. One is a Maryland woman who'd been evicted after a pay cut and became a leader of a community effort that blocked a vast project.",
+   "link": "https://www.npr.org/2026/11/07/nx-s1-6007770/data-centers-activist-moratorium",
+   "published": "2026-11-07T10:00:00.000Z",
    "source": "NPR",
-   "section": "business"
+   "section": "tech"
   },
   {
-   "title": "Pasture mealybugs have killed off huge swaths of grasses in the Southeast",
-   "summary": "An invasive insect that's tough to detect and eliminate poses a multi-billion dollar threat to the agricultural economy — adding another stressor to farmers already stretched by high costs.",
-   "link": "https://www.npr.org/2026/11/05/nx-s1-6018539/pasture-mealybugs-have-killed-off-huge-swaths-of-grasses-in-the-southeast",
-   "published": "2026-11-05T23:00:37.000Z",
+   "title": "Google, Meta and TikTok sue to block California youth social media law",
+   "summary": "Google, Meta, and TikTok have sued California to block the enforcement of a state law meant to protect children from getting addicted to social media.",
+   "link": "https://www.npr.org/2026/11/07/nx-s1-6032764/google-meta-and-tiktok-sue-to-block-california-youth-social-media-law",
+   "published": "2026-11-07T12:41:13.000Z",
    "source": "NPR",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "Health intel-sharing group warns industry in wake of cyberattack on French blood bank",
@@ -166,44 +182,36 @@
    "section": "tech"
   },
   {
-   "title": "Elon Musk will face scrutiny from Democrats after midterms",
-   "summary": "Democrats are likely to launch investigations into Musk's influence, including his leadership of DOGE and government contracts",
-   "link": "https://www.npr.org/2026/11/04/nx-s1-6029650/elon-musk-midterms-democrats-texas-congress",
-   "published": "2026-11-04T21:11:23.000Z",
+   "title": "Israel's president taps opposition candidate, not Netanyahu, to form a government",
+   "summary": "Gadi Eisenkot ran as the main rival to Prime Minister Benjamin Netanyahu, but neither won enough support to command a majority. Israel's main parties have recommended Eisenkot form a new government.",
+   "link": "https://www.npr.org/2026/11/07/g-s1-152536/netanyahu-israel-government-eisenkot-herzog",
+   "published": "2026-11-07T20:18:18.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "Review: The Legend of Zelda: Ocarina of Time remake is superb, streamlined and safe",
-   "summary": "Nintendo's new Ocarina of Time remake enshrines its place in the gaming canon for generations to come. But despite its stupendous production values, the game left me feeling oddly bereft.",
-   "link": "https://www.npr.org/2026/11/04/nx-s1-6026597/review-legend-of-zelda-ocarina-of-time-remake-switch-2",
-   "published": "2026-11-04T11:00:00.000Z",
+   "title": "Ousted Paraguayan president appears before prosecutors",
+   "summary": "Paraguayan President Santiago Peña was removed from office and placed under house arrest Friday. The Senate voted on his impeachment after the collapse of a state-affiliated bank.",
+   "link": "https://www.npr.org/2026/11/07/nx-s1-6033373/paraguay-president-ousted-bank-collapse",
+   "published": "2026-11-07T17:14:36.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "How former Yahoo CEO Marissa Mayer sees AI assistants fitting into busy women's lives",
-   "summary": "NPR's Juana Summers talks with former Yahoo CEO Marissa Mayer about AI assistants and lightening the load of emotional labor.",
-   "link": "https://www.npr.org/2026/11/02/nx-s1-6022451/how-former-yahoo-ceo-marissa-mayer-sees-ai-assistants-fitting-into-busy-womens-lives",
-   "published": "2026-11-02T22:27:07.000Z",
+   "title": "Israeli president invites Netanyahu's opposition leader to broker new government",
+   "summary": "Israel's political landscape shifts as President Herzog hands opposition leader Gadi Eisenkot the mandate to form a government, dealing a blow to Benjamin Netanyahu's grip on power.",
+   "link": "https://www.npr.org/2026/11/07/nx-s1-6032606/israeli-president-invites-netanyahus-opposition-leader-to-broker-new-government",
+   "published": "2026-11-07T22:12:09.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "AI chatbots are becoming political advisers. Their answers can mislead voters",
-   "summary": "Millions of Americans are turning to AI for election information, but chatbots are getting voting facts wrong and recommending candidates, raising concerns they could influence voters' decisions.",
-   "link": "https://www.npr.org/2026/11/02/nx-s1-6025407/chatbots-midterms-voting-advice",
-   "published": "2026-11-02T20:02:41.000Z",
+   "title": "A correspondent finds Cuba's people struggling",
+   "summary": "Reporting from Cuba comes with distinct challenges especially amid widespread power outages and fuel shortages.",
+   "link": "https://www.npr.org/2026/11/07/nx-s1-6029398/a-correspondent-finds-cubas-people-struggling",
+   "published": "2026-11-07T22:12:06.000Z",
    "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Wild West crypto: Staggering Binance heist exposes sector fragility",
-   "summary": "A massive cyber heist of crypto exchange Binance is exposing some of the fragilities of the sector and reinforcing perceptions of the industry as a financial Wild West, critics warn.",
-   "link": "https://www.npr.org/2026/10/31/nx-s1-6023330/wild-west-crypto-staggering-binance-heist-exposes-sector-fragility",
-   "published": "2026-10-31T11:42:57.000Z",
-   "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
    "title": "Israel's Arab-led parties in spotlight after inconclusive election",
@@ -218,30 +226,6 @@
    "summary": "Pope Leo begins his first South American tour since lung cancer surgery. The 12-day journey takes him to Uruguay, Argentina and Peru, where he spent two decades.",
    "link": "https://www.npr.org/2026/11/06/nx-s1-6026702/pope-leo-begins-12-day-3-country-tour-after-cancer-surgery",
    "published": "2026-11-06T19:13:06.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "European flights and broadcasters are targeted with another wave of bomb threats",
-   "summary": "Officials across Europe reported a slew of bomb threats against multiple flights, following a string of hoaxes that caused flight diversions this week. Three broadcasters also received threats.",
-   "link": "https://www.npr.org/2026/11/06/nx-s1-6032612/europe-flights-hoaxes",
-   "published": "2026-11-06T15:21:31.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "The leader of a Kenyan doomsday cult is sentenced to 200 years in prison",
-   "summary": "Cult leader Paul Mackenzie was convicted of murdering 190 children and one adult after he ordered his followers to starve themselves to death in order to meet Jesus.",
-   "link": "https://www.npr.org/2026/11/06/nx-s1-6032593/kenya-cult-leader-paul-mackenzie-sentenced-murder",
-   "published": "2026-11-06T14:53:46.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Ex-lawmaker gets 12.5 years in Macao's first national security case",
-   "summary": "Au's arrest last year was the first publicly known prosecution under Macao's national security law since it was enacted in 2009.",
-   "link": "https://www.npr.org/2026/11/06/g-s1-152217/ex-lawmaker-gets-12-5-years-in-macaos-first-national-security-case",
-   "published": "2026-11-06T13:56:43.000Z",
    "source": "NPR",
    "section": "world"
   }
