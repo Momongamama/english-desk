@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08T00:49:30.352Z",
+ "updated": "2026-11-08T07:17:45.171Z",
  "sources": [
   "BBC",
   "NPR"
@@ -78,14 +78,6 @@
    "section": "tech"
   },
   {
-   "title": "What we know so far after Krakow gun attack",
-   "summary": "Six people were killed in a random shooting in the city's main square, and three bodies were later found at his home.",
-   "link": "https://www.bbc.co.uk/news/articles/cmd7q15drwgeo",
-   "published": "2026-11-07T22:58:49.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
    "title": "Israel's president tasks opposition leader Eisenkot with forming government",
    "summary": "Neither PM Benjamin Netanyahu's bloc nor that of his rival secured a majority in last week's election.",
    "link": "https://www.bbc.co.uk/news/articles/cmy8367lj5xlo",
@@ -94,10 +86,18 @@
    "section": "world"
   },
   {
-   "title": "No clear winner after tight New Zealand general election",
-   "summary": "Weeks of coalition talks could follow after preliminary results pointed to a highly divided national parliament.",
-   "link": "https://www.bbc.co.uk/news/articles/c3ewev11g1e0o",
-   "published": "2026-11-07T15:56:28.000Z",
+   "title": "What we know so far after Krakow gun attack",
+   "summary": "Six people were killed in a random shooting in the city's main square, and three bodies were later found at the home of the attacker.",
+   "link": "https://www.bbc.co.uk/news/articles/cmd7q15drwgeo",
+   "published": "2026-11-08T01:47:41.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Houthis say at least 33 killed in Saudi air strike",
+   "summary": "Saudi Arabia, which leads a coalition fighting the Houthis in Yemen, has not commented.",
+   "link": "https://www.bbc.co.uk/news/articles/c65yn1v99ypmo",
+   "published": "2026-11-08T04:03:12.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -114,14 +114,6 @@
    "summary": "The former Brexit negotiator says EU countries would reject any British attempts to follow economic rules \"a la carte\".",
    "link": "https://www.bbc.co.uk/news/articles/c9kgjj206nzpo",
    "published": "2026-11-07T15:19:35.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Houthis say at least 25 killed in Saudi air strike",
-   "summary": "Saudi Arabia, which leads a coalition fighting the Houthis in Yemen, has not commented.",
-   "link": "https://www.bbc.co.uk/news/articles/c65yn1v99ypmo",
-   "published": "2026-11-07T17:09:24.000Z",
    "source": "BBC",
    "section": "world"
   },
