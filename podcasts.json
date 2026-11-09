@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T19:04:11.017Z",
+ "updated": "2026-11-09T23:01:50.846Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,14 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Follow the Money: Are prediction markets the real winners of the US midterms?",
+     "summary": "Nearly $2 billion was bet on last week's US midterm elections on two prediction markets, Polymarket and Kalshi.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pm368f.mp3",
+     "published": "2026-11-09T21:30:00.000Z",
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-are-prediction-markets-the-real/id261786876?i=1000800855947&uo=4"
+    },
     {
      "title": "Why Europe wants to rely less on US tech companies",
      "summary": "Europe has long relied on America's tech giants to power its digital economy.",
@@ -48,14 +56,6 @@
      "published": "2026-11-03T21:30:00.000Z",
      "duration": 1048,
      "apple": "https://podcasts.apple.com/us/podcast/founders-the-entrepreneur-betting-ai-will-replace-apps/id261786876?i=1000799673247&uo=4"
-    },
-    {
-     "title": "Follow the Money: Your Diwali gold necklace",
-     "summary": "Gold is worth about twice what it was four years ago, so who profits when a Hindu family buys gold during the Diwali festive period?",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkwx5v.mp3",
-     "published": "2026-11-02T21:30:00.000Z",
-     "duration": 1048,
-     "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-your-diwali-gold-necklace/id261786876?i=1000799478925&uo=4"
     }
    ]
   },
