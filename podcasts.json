@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T01:04:28.060Z",
+ "updated": "2026-11-09T19:04:11.017Z",
  "shows": [
   {
    "id": "business-daily",
@@ -68,6 +68,14 @@
    "apple": "https://podcasts.apple.com/us/podcast/the-indicator-from-planet-money/id1320118593?uo=4",
    "episodes": [
     {
+     "title": "Why data centers and Musk lost but billionaires won the midterms",
+     "summary": "After last week's midterm elections, there are quite a few economic indicators to watch – from data centers to California billionaires.",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/b1677a05-d34a-44ad-83ba-d7fa2a89dbaf/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=b1677a05-d34a-44ad-83ba-d7fa2a89dbaf&feed=IFy3imsg&t=podcast&e=nx-s1-6032779&p=510325&d=563&size=9016720",
+     "published": "2026-11-09T08:00:00.000Z",
+     "duration": 563,
+     "apple": "https://podcasts.apple.com/us/podcast/why-data-centers-and-musk-lost-but-billionaires-won/id1320118593?i=1000800330170&uo=4"
+    },
+    {
      "title": "Caution: Men NOT at Work",
      "summary": "An increasing number of men are dropping out of the workforce. What’s behind this trend and can anything be done about it? Fact checking by Leyla Doss.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/16ca5482-bc0a-4011-95dd-9b9b3efb32e6/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=16ca5482-bc0a-4011-95dd-9b9b3efb32e6&feed=IFy3imsg&t=podcast&e=nx-s1-6032597&p=510325&d=557&size=8928114",
@@ -106,14 +114,6 @@
      "published": "2026-11-02T08:00:00.000Z",
      "duration": 537,
      "apple": "https://podcasts.apple.com/us/podcast/how-crypto-world-made-inroads-in-pakistan/id1320118593?i=1000798759460&uo=4"
-    },
-    {
-     "title": "Corporate tax cheats, recession deal eats and costly Halloween treats!",
-     "summary": "On a very spooktacular Indicators of the EEK!: How America’s top corporations are ghosting their taxes; why more meal deals are an ominous sign; and terrifying…",
-     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/7d245fc0-69a8-472d-a682-31b5090ea5ef/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=7d245fc0-69a8-472d-a682-31b5090ea5ef&feed=IFy3imsg&t=podcast&e=nx-s1-6022553&p=510325&d=563&size=9017556",
-     "published": "2026-10-30T07:00:00.000Z",
-     "duration": 563,
-     "apple": "https://podcasts.apple.com/us/podcast/corporate-tax-cheats-recession-deal-eats-and-costly/id1320118593?i=1000798794832&uo=4"
     }
    ]
   }
