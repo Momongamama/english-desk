@@ -1,31 +1,15 @@
 {
- "updated": "2026-11-09T01:04:24.902Z",
+ "updated": "2026-11-09T07:57:05.935Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Nvidia launches investigation into CEO's affair with suspected Chinese spy",
-   "summary": "Jensen Huang also admitted to having been \"unfaithful\" to his wife and says he will cooperate with a security investigation.",
-   "link": "https://www.bbc.co.uk/news/articles/c3dxw10rjn9no",
-   "published": "2026-11-09T00:50:06.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Government 'looking seriously' at banning under-16s from Vinted and eBay",
-   "summary": "The culture secretary confirms reports they could be in the list of platforms set to be banned next March.",
-   "link": "https://www.bbc.co.uk/news/articles/cmzxjvpqrjxro",
-   "published": "2026-11-08T15:37:25.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "He spent $50,000 on Labubus but now the craze is dying",
-   "summary": "Parent company Pop Mart's revenue has fallen as appetite for the quirky collectible monsters wanes.",
-   "link": "https://www.bbc.co.uk/news/articles/cmvg652l927lo",
-   "published": "2026-11-07T23:02:35.000Z",
+   "title": "Jensen Huang: Why a personal scandal for the face of the AI boom has provoked a national security scare",
+   "summary": "Once lauded as the \"Taylor Swift of tech\", Huang is mired in scandal after an affair with a suspected Chinese spy.",
+   "link": "https://www.bbc.co.uk/news/articles/ckgel338xql3o",
+   "published": "2026-11-09T06:01:52.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -38,10 +22,26 @@
    "section": "business"
   },
   {
-   "title": "'My mortgage is going up £200 a month': How rising interest rates are hitting people's pockets",
-   "summary": "With UK interest rates set to rise, mortgages, credit cards and loans could get more expensive for millions.",
-   "link": "https://www.bbc.co.uk/news/articles/c617kjqjvk12o",
-   "published": "2026-11-07T01:41:36.000Z",
+   "title": "Government's EV targets expected to be reduced this week",
+   "summary": "New petrol or diesel cars are due to be phased out by 2030 and by 2035 all new cars must be zero emission.",
+   "link": "https://www.bbc.co.uk/news/articles/cqkg5g2970epo",
+   "published": "2026-11-09T07:20:17.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Government 'looking seriously' at banning under-16s from Vinted and eBay",
+   "summary": "The culture secretary confirms reports they could be in the list of platforms set to be banned next March.",
+   "link": "https://www.bbc.co.uk/news/articles/cmzxjvpqrjxro",
+   "published": "2026-11-08T15:37:25.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Nvidia launches investigation into CEO's affair with suspected Chinese spy",
+   "summary": "Jensen Huang also admitted to having been \"unfaithful\" to his wife and says he will cooperate with a security investigation.",
+   "link": "https://www.bbc.co.uk/news/articles/c3dxw10rjn9no",
+   "published": "2026-11-09T00:50:06.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -54,42 +54,18 @@
    "section": "tech"
   },
   {
-   "title": "Elon Musk appears to signal the end of the road for Cybertruck",
-   "summary": "Musk said it was to make room for production of its Cybercabs - autonomous taxis without a driver.",
-   "link": "https://www.bbc.co.uk/news/articles/cq1j33w7d232o",
-   "published": "2026-11-06T21:49:50.000Z",
+   "title": "Krakow shooting suspect has died in hospital, police say",
+   "summary": "At least six people were killed in the shooting, and three bodies of the suspect's family members were found at their home.",
+   "link": "https://www.bbc.co.uk/news/articles/c6y434dw8319o",
+   "published": "2026-11-09T07:26:09.000Z",
    "source": "BBC",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "AI stocks climb after trillions wiped from market values",
-   "summary": "Investors had been selling off tech shares in part due to concerns the Democrat election victory would mean slower AI development.",
-   "link": "https://www.bbc.co.uk/news/articles/c35ynnpzdq51o",
-   "published": "2026-11-06T21:06:25.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Why the US midterms sparked an AI stock selloff",
-   "summary": "Fears of more AI regulation appear to have sparked fear among investors, but concerns about the industry have been growing for some time.",
-   "link": "https://www.bbc.co.uk/news/articles/crlykkzwwpydo",
-   "published": "2026-11-06T18:32:16.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Global stocks plunge as fears over US AI slowdown spread to Asia and Europe",
-   "summary": "Investors have reacted to possible tougher scrutiny of data centre construction and the AI industry.",
-   "link": "https://www.bbc.co.uk/news/articles/cmn04705rd8jo",
-   "published": "2026-11-06T13:25:50.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Surgeon having lunch near Krakow shooting undoubtedly saved officer's life, colleague says",
-   "summary": "Further details have emerged about two police officers hailed for preventing a Polish gunman from killing more.",
-   "link": "https://www.bbc.co.uk/news/articles/c5x2vw4e1gx1o",
-   "published": "2026-11-08T23:34:18.000Z",
+   "title": "Inside the French drug gangs recruiting children to kill",
+   "summary": "The BBC enters Marseille's dangerous underworld, where young people are trapped, brutalised and exploited.",
+   "link": "https://www.bbc.co.uk/news/articles/cq62y01r2313o",
+   "published": "2026-11-09T06:00:26.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -102,10 +78,10 @@
    "section": "world"
   },
   {
-   "title": "Iran executes three men for 'armed unrest' after January protests",
-   "summary": "It is claimed Hassan Dioband, Hamid Kazemi and Reza Zanganeh were part of anti-government protests earlier this year.",
-   "link": "https://www.bbc.co.uk/news/articles/ckly0ex633ydo",
-   "published": "2026-11-08T13:37:50.000Z",
+   "title": "Cruise ship pianist rescued from sea after nine hours in Pacific Ocean",
+   "summary": "Two US fishermen say they spotted the man treading water around 20 miles (32km) off the Californian coast.",
+   "link": "https://www.bbc.co.uk/news/articles/ck1wvrrgln13o",
+   "published": "2026-11-09T02:50:13.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -114,22 +90,6 @@
    "summary": "Footage authenticated by BBC Verify shows damage to the building in the capital's central financial district.",
    "link": "https://www.bbc.co.uk/news/articles/c6ly3mjx958eo",
    "published": "2026-11-08T21:37:36.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "The Trump coalition is shattered - what will Republicans do now?",
-   "summary": "Republicans can stick with Trumpism or chart a new path, writes BBC Washington correspondent Daniel Bush.",
-   "link": "https://www.bbc.co.uk/news/articles/cm3r5gnxqz3jo",
-   "published": "2026-11-08T00:52:39.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Homes and temples glow across India to mark Diwali",
-   "summary": "Millions of Indians are marking the festival of lights with glowing lamps, fireworks and traditional sweets.",
-   "link": "https://www.bbc.co.uk/news/articles/cm70pdwz122ro",
-   "published": "2026-11-08T14:42:09.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -230,6 +190,14 @@
    "section": "tech"
   },
   {
+   "title": "How a bank collapse left millions in limbo and toppled Paraguay's president",
+   "summary": "A bank's collapse in Paraguay left millions locked out of their money, toppled the president and exposed a web of political and financial ties.",
+   "link": "https://www.npr.org/2026/11/09/nx-s1-6034066/paraguay-president-pena-ueno",
+   "published": "2026-11-09T06:20:44.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
    "title": "Europe to join U.S.-brokered Ukraine talks in Abu Dhabi, defying Kremlin objections",
    "summary": "France says European officials will attend this week's U.S.-mediated Russia-Ukraine talks in Abu Dhabi, the first three-way round of negotiations since February.",
    "link": "https://www.npr.org/2026/11/08/nx-s1-6034014/europe-join-us-brokered-ukraine-talks-abu-dhabi-russia",
@@ -266,14 +234,6 @@
    "summary": "El Niño rains have transformed Chile's Atacama Desert into a spectacular sea of color, awakening a fleeting ecosystem of flowers and wildlife in one of the driest places on Earth.",
    "link": "https://www.npr.org/2026/11/08/nx-s1-6023812/chile-desert-el-nino",
    "published": "2026-11-08T11:00:00.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "The world's largest telecoms firm is on trial and the outcome has global implications",
-   "summary": "Huawei, the world's biggest telecommunications company, is on trial in New York, accused of stealing American technology and evading US sanctions.",
-   "link": "https://www.npr.org/2026/11/08/nx-s1-6030670/the-worlds-largest-telecoms-firm-is-on-trial-and-the-outcome-has-global-implications",
-   "published": "2026-11-08T22:04:13.000Z",
    "source": "NPR",
    "section": "world"
   }
