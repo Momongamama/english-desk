@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-08T00:49:32.519Z",
+ "updated": "2026-11-09T01:04:28.060Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,14 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Why Europe wants to rely less on US tech companies",
+     "summary": "Europe has long relied on America's tech giants to power its digital economy.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0plhryv.mp3",
+     "published": "2026-11-08T21:30:00.000Z",
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/why-europe-wants-to-rely-less-on-us-tech-companies/id261786876?i=1000800625738&uo=4"
+    },
     {
      "title": "Power Players: Can the Democrats tackle America's affordability crisis?",
      "summary": "The Democrats won big in the US midterm elections and have control of both houses of Congress.",
@@ -48,14 +56,6 @@
      "published": "2026-11-02T21:30:00.000Z",
      "duration": 1048,
      "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-your-diwali-gold-necklace/id261786876?i=1000799478925&uo=4"
-    },
-    {
-     "title": "Can businesses trust AI?",
-     "summary": "Why does artificial intelligence sometimes make things up? From law firms to consultants, businesses are grappling with the risks of AI hallucinations.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pkc14d.mp3",
-     "published": "2026-11-01T21:30:00.000Z",
-     "duration": 1377,
-     "apple": "https://podcasts.apple.com/us/podcast/can-businesses-trust-ai/id261786876?i=1000799279217&uo=4"
     }
    ]
   },
