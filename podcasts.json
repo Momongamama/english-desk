@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-09T23:01:50.846Z",
+ "updated": "2026-11-10T08:24:14.481Z",
  "shows": [
   {
    "id": "business-daily",
@@ -68,6 +68,14 @@
    "apple": "https://podcasts.apple.com/us/podcast/the-indicator-from-planet-money/id1320118593?uo=4",
    "episodes": [
     {
+     "title": "Where did all the sitcoms go?",
+     "summary": "Comedy writer and producer Mike Schur (\"The Good Place,\" \"Parks and Recreation\") breaks down how streaming killed the classic sitcom — and what comedy is doing…",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/2550a0a1-85e9-47a0-97cf-89932b37f40a/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=2550a0a1-85e9-47a0-97cf-89932b37f40a&feed=IFy3imsg&t=podcast&e=nx-s1-6035016&p=510325&d=562&size=8999166",
+     "published": "2026-11-10T08:00:00.000Z",
+     "duration": 562,
+     "apple": "https://podcasts.apple.com/us/podcast/where-did-all-the-sitcoms-go/id1320118593?i=1000800875922&uo=4"
+    },
+    {
      "title": "Why data centers and Musk lost but billionaires won the midterms",
      "summary": "After last week's midterm elections, there are quite a few economic indicators to watch – from data centers to California billionaires.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/b1677a05-d34a-44ad-83ba-d7fa2a89dbaf/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=b1677a05-d34a-44ad-83ba-d7fa2a89dbaf&feed=IFy3imsg&t=podcast&e=nx-s1-6032779&p=510325&d=563&size=9016720",
@@ -106,14 +114,6 @@
      "published": "2026-11-03T08:00:00.000Z",
      "duration": 511,
      "apple": "https://podcasts.apple.com/us/podcast/is-it-time-to-reconsider-the-adjustable-rate-mortgage/id1320118593?i=1000799487593&uo=4"
-    },
-    {
-     "title": "How crypto world made inroads in Pakistan",
-     "summary": "Pakistan in recent years has taken a U-turn on cryptocurrency, opting to regulate digital assets instead of outright banning them.",
-     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/da9e3ecc-1852-4a2d-b8d5-7baf47a12b18/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=da9e3ecc-1852-4a2d-b8d5-7baf47a12b18&feed=IFy3imsg&t=podcast&e=nx-s1-6022220&p=510325&d=537&size=8600851",
-     "published": "2026-11-02T08:00:00.000Z",
-     "duration": 537,
-     "apple": "https://podcasts.apple.com/us/podcast/how-crypto-world-made-inroads-in-pakistan/id1320118593?i=1000798759460&uo=4"
     }
    ]
   }
