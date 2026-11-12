@@ -1,23 +1,47 @@
 {
- "updated": "2026-11-11T07:44:53.009Z",
+ "updated": "2026-11-12T02:22:18.291Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Poundland hopeful for last-minute rescue deal to stave off collapse",
-   "summary": "The BBC understands the discount chain, which has been edging towards administration, will be given more time to find a buyer.",
-   "link": "https://www.bbc.co.uk/news/articles/c3702jjkez4ko",
-   "published": "2026-11-11T00:02:07.000Z",
+   "title": "Some under-25s should get less benefits, Milburn review to say",
+   "summary": "The proposed radical overhaul of the welfare system would move under-25s off the main sickness benefits.",
+   "link": "https://www.bbc.co.uk/news/articles/cwn70l1628l0o",
+   "published": "2026-11-11T23:22:04.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Stickers and building sets help drive toy sales ahead of Christmas rush",
+   "title": "Poundland set for more time to secure a rescue deal as emergency talks continue",
+   "summary": "The BBC understands the discount chain, which has been edging towards administration, will be given more time to find a buyer.",
+   "link": "https://www.bbc.co.uk/news/articles/c3702jjkez4ko",
+   "published": "2026-11-12T00:49:05.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "'Not the answer': Labour MPs speak out against Rosebank as decision looms",
+   "summary": "There is a growing expectation among senior Labour figures that drilling in the oil field will be given the green light.",
+   "link": "https://www.bbc.co.uk/news/articles/cqp9dr79jkrzo",
+   "published": "2026-11-11T21:42:20.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Clashes erupt in Barcelona after thousands join Spain general strike",
+   "summary": "Tens of thousands of people have been taking part in the strike, called by the country's main unions over housing and the high cost of living.",
+   "link": "https://www.bbc.co.uk/news/articles/cwvg25nypmrvo",
+   "published": "2026-11-11T22:07:37.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Christmas toy rush being driven by squishies and building sets",
    "summary": "A bumper year so far for toy sales comes as debate intensifies over screen time and tech connectivity.",
    "link": "https://www.bbc.co.uk/news/articles/cx5ynyg6j375o",
-   "published": "2026-11-11T00:16:44.000Z",
+   "published": "2026-11-11T07:52:05.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -30,26 +54,10 @@
    "section": "business"
   },
   {
-   "title": "Claude chatbot maker set for $1.3tn stock market debut despite 'catastrophic' AI warning",
-   "summary": "The AI company behind the Claude chatbot will offer its shares at between $70 and $78, which is lower than what was expected.",
-   "link": "https://www.bbc.co.uk/news/articles/crpdgd723x2zo",
-   "published": "2026-11-10T17:56:12.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Sales of tinned food and bottled water jump after 'Be Ready' campaign launch",
-   "summary": "Sales of essential goods such as hand sanitiser soar after the government called on households to be prepared for emergencies.",
-   "link": "https://www.bbc.co.uk/news/articles/cqev3vl4ek33o",
-   "published": "2026-11-10T15:10:20.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Robot vessels take on the dangerous work of mine hunting",
-   "summary": "The conflict in the Gulf is an opportunity for the US to test its autonomous mine-hunting systems.",
-   "link": "https://www.bbc.co.uk/news/articles/cj5yn24llxd6o",
-   "published": "2026-11-11T00:19:13.000Z",
+   "title": "New Indian mega library rocked by scandal over 'AI-generated books'",
+   "summary": "The Tamil Nadu government has ordered an internal audit of library collections across the state.",
+   "link": "https://www.bbc.co.uk/news/articles/c54gne3plvrxo",
+   "published": "2026-11-11T11:33:24.000Z",
    "source": "BBC",
    "section": "tech"
   },
@@ -62,6 +70,22 @@
    "section": "tech"
   },
   {
+   "title": "Robot vessels take on the dangerous work of mine hunting",
+   "summary": "The conflict in the Gulf is an opportunity for the US to test its autonomous mine-hunting systems.",
+   "link": "https://www.bbc.co.uk/news/articles/cj5yn24llxd6o",
+   "published": "2026-11-11T00:19:13.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "Claude chatbot maker set for $1.3tn stock market debut despite 'catastrophic' AI warning",
+   "summary": "The AI company behind the Claude chatbot will offer its shares at between $70 and $78, which is lower than what was expected.",
+   "link": "https://www.bbc.co.uk/news/articles/crpdgd723x2zo",
+   "published": "2026-11-10T17:56:12.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
    "title": "Faisal Islam: What the boss of US tech giant Nvidia told me about China and national security",
    "summary": "Huang, who is now being investigated over an affair with an alleged Chinese spy, is far more important to the future of the world order than other tech bosses.",
    "link": "https://www.bbc.co.uk/news/articles/c64g1gzy2vdzo",
@@ -70,74 +94,58 @@
    "section": "tech"
   },
   {
-   "title": "Trump says FBI investigating Nvidia boss's affair with alleged Chinese spy",
-   "summary": "The US president said he spoke with Jensen Huang on Monday and asked him about the affair with the alleged spy.",
-   "link": "https://www.bbc.co.uk/news/articles/cqg7x7dpvym8o",
-   "published": "2026-11-10T08:23:21.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Three Iran-backed suspects plotted attacks including RAF Fairford incident, US says",
-   "summary": "The US Department of Justice says the men were involved in a string of plots, including a major incident near the UK airbase that is used by US armed forces.",
-   "link": "https://www.bbc.co.uk/news/articles/c3rryrryk59zo",
-   "published": "2026-11-11T01:01:20.000Z",
+   "title": "Russia-Ukraine talks turn to post-war security but end without breakthrough",
+   "summary": "Talks in Abu Dhabi centred around Europe's security framework, with US envoys due to meet Putin and Zelensky on Thursday.",
+   "link": "https://www.bbc.co.uk/news/articles/ck792we7zrz4o",
+   "published": "2026-11-11T18:04:58.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "US Army soldier suspected of spying for Russia arrested in UK",
-   "summary": "The 41-year-old senior soldier is accused of national security offences and is being questioned in London.",
-   "link": "https://www.bbc.co.uk/news/articles/c6d7q77xgw0vo",
-   "published": "2026-11-10T20:20:04.000Z",
+   "title": "Famed ship SS United States to be sunk off coast of Florida",
+   "summary": "Activists unsuccessfully fought for the historic liner to be preserved and turned into a museum, but it will now become the world's largest artificial ocean reef.",
+   "link": "https://www.bbc.co.uk/news/articles/c3x298n87rn2o",
+   "published": "2026-11-11T18:42:27.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "US House blocks bid to impeach Defence Secretary Pete Hegseth, for now",
-   "summary": "Trump welcomes the outcome, praising Hegseth as a \"Great American Patriot\", but Democrats can try again next year.",
-   "link": "https://www.bbc.co.uk/news/articles/cxly4y5jzl0qo",
-   "published": "2026-11-11T03:26:42.000Z",
+   "title": "Schools in Italy, Scotland and Northern Ireland hit by threats in suspected bomb hoax",
+   "summary": "More than 6,000 Italian schools received a threat. Authorities in all three countries say there appears to be no risk to the public.",
+   "link": "https://www.bbc.co.uk/news/articles/cwz0k79pr8z2o",
+   "published": "2026-11-11T18:38:45.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Meghan's father Thomas Markle back in federal custody after allegedly removing ankle monitor",
-   "summary": "The 82-year-old was placed under house detention in Florida last week after being charged over possession of child sex abuse material.",
-   "link": "https://www.bbc.co.uk/news/articles/c9j3433zy4vro",
-   "published": "2026-11-11T02:41:16.000Z",
+   "title": "Missing 11-month-old baby rescued after being buried alive in a crate in South Carolina",
+   "summary": "Officials say the child was found close to his father's home on Tuesday, a day after he was taken, and is being cared for in hospital.",
+   "link": "https://www.bbc.co.uk/news/articles/c8e391xzg6z2o",
+   "published": "2026-11-11T18:10:57.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "'It can kill us': Kenyans fear impact of El Niño with floods predicted",
-   "summary": "Forecasters warn that this year's El Niño could be one of the strongest on record, with heavy rain and flooding in Kenya.",
-   "link": "https://www.bbc.co.uk/news/articles/c8wy9y37z30vo",
-   "published": "2026-11-11T00:18:07.000Z",
+   "title": "Democrat Scott Colom seals historic win in Mississippi Senate race",
+   "summary": "Colom is the first black person from the southern state elected to the US Senate in over 140 years.",
+   "link": "https://www.bbc.co.uk/news/articles/cw7vppyr80eeo",
+   "published": "2026-11-12T02:09:08.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Kennedys sue to block Trump's arch, arguing it would cast shadow on JFK's grave",
-   "summary": "Nine members of the political dynasty say the 250ft structure would cast a shadow on gravesites.",
-   "link": "https://www.bbc.co.uk/news/articles/cw8dvpmzp2p4o",
-   "published": "2026-11-11T03:44:06.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Americans across the economic spectrum feel a 'panic' about finances, author says",
-   "summary": "Mona Chalabi spent five years following Americans living paycheck to paycheck, as well as those earning top wages. Her new book, Ten Lives, explores why financial security can feel so elusive.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6032767/mona-chalabi-ten-lives",
-   "published": "2026-11-10T17:46:25.000Z",
+   "title": "Why is gasoline suddenly under $4 a gallon?",
+   "summary": "The average price of a gallon of gasoline dipped below $4 this week for the first time in months. Does that mean more relief is coming for drivers?",
+   "link": "https://www.npr.org/2026/11/11/nx-s1-6037588/gasoline-price-below-4-dollars-gallon",
+   "published": "2026-11-11T19:59:14.000Z",
    "source": "NPR",
    "section": "business"
   },
   {
-   "title": "Gas prices dip below $4 but inflation remains stubbornly high",
-   "summary": "Gasoline prices fell below $4 a gallon Tuesday for the first time in three months — but the overall cost of living remains stubbornly high.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6034518/inflation-consumer-prices-economy-gas-prices",
-   "published": "2026-11-10T14:35:50.000Z",
+   "title": "Oil giant ExxonMobil left Venezuela years ago. Now it's considering a return",
+   "summary": "ExxonMobil has signed a memorandum of understanding with the Venezuelan government and its state-owned oil company to explore opportunities in the country.",
+   "link": "https://www.npr.org/2026/11/11/nx-s1-5979080/exxonmobil-oil-mou-venezuela",
+   "published": "2026-11-11T10:00:00.000Z",
    "source": "NPR",
    "section": "business"
   },
@@ -158,20 +166,28 @@
    "section": "business"
   },
   {
-   "title": "The average cost for a new vehicle in the U.S. hits a record high: over $51,000",
-   "summary": "Vehicle transaction prices are up to a new record high, according to the Kelley Blue Book — and some buyers are extending their car loans to finance them.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6026659/average-vehicle-price-record-high",
-   "published": "2026-11-10T13:30:00.000Z",
+   "title": "Americans across the economic spectrum feel a 'panic' about finances, author says",
+   "summary": "Mona Chalabi spent five years following Americans living paycheck to paycheck, as well as those earning top wages. Her new book, Ten Lives, explores why financial security can feel so elusive.",
+   "link": "https://www.npr.org/2026/11/10/nx-s1-6032767/mona-chalabi-ten-lives",
+   "published": "2026-11-10T17:46:25.000Z",
    "source": "NPR",
    "section": "business"
   },
   {
-   "title": "Why did California's billionaire tax fail to surf the blue wave?",
-   "summary": "Two economists debate what California's vote on Prop 40 means for the wealth tax movement.",
-   "link": "https://www.npr.org/sections/planet-money/2026/11/10/g-s1-152755/why-did-californias-billionaire-tax-fail-to-surf-the-blue-wave",
-   "published": "2026-11-10T11:30:00.000Z",
+   "title": "Gas prices dip below $4 but inflation remains stubbornly high",
+   "summary": "Gasoline prices fell below $4 a gallon Tuesday for the first time in three months — but the overall cost of living remains stubbornly high.",
+   "link": "https://www.npr.org/2026/11/10/nx-s1-6034518/inflation-consumer-prices-economy-gas-prices",
+   "published": "2026-11-10T14:35:50.000Z",
    "source": "NPR",
    "section": "business"
+  },
+  {
+   "title": "Swatters are using AI voices to deceive 911 dispatchers, and it's only getting worse",
+   "summary": "Swatters are increasingly using AI technology that creates synthetic voices or sound effects to generate remarkably believable fake emergency calls to law enforcement.",
+   "link": "https://www.npr.org/2026/11/11/nx-s1-6034449/ai-911-calls-swatting",
+   "published": "2026-11-11T10:00:00.000Z",
+   "source": "NPR",
+   "section": "tech"
   },
   {
    "title": "Testing the new generation of AI-enabled fire-extinguishing drones",
@@ -190,74 +206,50 @@
    "section": "tech"
   },
   {
-   "title": "Why a South Korean city is turning to a U.S. college to outsmart AI?",
-   "summary": "Through civic participation and liberal education, South Korean educators hope to \"quietly stitch the fabric of our democracy…before it unravels beyond repair.\"",
-   "link": "https://www.npr.org/2026/11/09/g-s1-151519/why-a-south-korean-city-is-turning-to-a-u-s-college-to-outsmart-ai",
-   "published": "2026-11-09T10:47:00.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Palantir hires a former Democratic senator as it faces scrutiny in new Congress",
-   "summary": "The secretive software company has been accused of letting its powerful tools be used by the Trump administration to surveil Americans. Now it's hiring former Sen. Jon Tester to burnish its image.",
-   "link": "https://www.npr.org/2026/11/09/nx-s1-6029641/palantir-congress-jon-tester-investigations",
-   "published": "2026-11-09T10:00:00.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Nvidia launches investigation into CEO's alleged relationship with Chinese spy",
-   "summary": "Chipmaker Nvidia is launching an investigation of its CEO Jensen Huang after news reports he had an affair with a Chinese woman who was recruited to spy for Beijing.",
-   "link": "https://www.npr.org/2026/11/09/nx-s1-6034057/nvidia-launches-investigation-into-ceos-alleged-relationship-with-chinese-spy",
-   "published": "2026-11-09T09:42:57.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "U.S. boycotts U.N. human rights review for second year running",
-   "summary": "The U.S. has skipped a key U.N. human rights review for the second year running. Rights groups warn the absence risks undermining global accountability.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6034998/un-human-rights-us-geneva",
-   "published": "2026-11-10T18:53:34.000Z",
+   "title": "Greetings from Senegal, where breakdancers are competing in the Youth Olympics",
+   "summary": "Senegal's breakdancers have been practicing for their country's historic hosting of the Youth Olympic Games this month. It's the first time Africa is hosting an Olympic event.",
+   "link": "https://www.npr.org/2026/11/11/g-s1-150228/senegal-youth-olympic-games-breakdancing",
+   "published": "2026-11-11T17:23:10.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "'Like gods reigning over humans': Many defectors see daughter of North Korea's Kim as heir apparent",
-   "summary": "Little is known about her except that she's reportedly about 13 and named Kim Ju Ae, but Korea's spy agency says she's likely her father's heir.",
-   "link": "https://www.npr.org/2026/11/10/g-s1-152795/like-gods-reigning-over-humans-many-defectors-see-daughter-of-north-koreas-kim-as-heir-apparent",
-   "published": "2026-11-10T14:16:53.000Z",
+   "title": "Russia and Ukraine agree to a prisoner exchange as talks end with no big breakthrough",
+   "summary": "Russia and Ukraine have agreed to a large exchange of prisoners of war. U.S.-mediated talks in Abu Dhabi led to this decision, marking the biggest humanitarian release since the war began in 2022.",
+   "link": "https://www.npr.org/2026/11/11/g-s1-152954/russia-ukraine-war-talks",
+   "published": "2026-11-11T13:30:00.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Indonesia's VP offers resignation as questions mount over his eligibility",
-   "summary": "His resignation offer comes amid a widening political rift between Prabowo and Widodo and a separate investigation into allegations that senior police officials wiretapped the president.",
-   "link": "https://www.npr.org/2026/11/10/g-s1-152788/indonesias-vp-offers-resignation-as-questions-mount-over-his-eligibility",
-   "published": "2026-11-10T14:01:14.000Z",
+   "title": "An Iran-backed trio is accused of plotting attacks on a U.K. base hosting U.S. jets",
+   "summary": "Iran-backed operatives have been charged over nearly 20 attacks, including a plot on a U.K. base housing U.S. troops. Separately, a U.S. soldier is held in the U.K. on Russia spying claims.",
+   "link": "https://www.npr.org/2026/11/10/nx-s1-6036786/uk-iran-airbase-russia-spy",
+   "published": "2026-11-11T10:02:54.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "House set to vote to impeach Hegseth. And, SCOTUS allows border wall work to proceed",
-   "summary": "The House could vote to impeach Hegseth, but removing him from office will be tough. And, SCOTUS ruled that a federal judge did not have the authority to halt border wall construction.",
-   "link": "https://www.npr.org/2026/11/10/g-s1-152777/up-first-newsletter-pete-hegseth-impeachment-trump-iran-nvidia-border-wall-texas",
-   "published": "2026-11-10T12:01:04.000Z",
+   "title": "House effectively ends Hegseth impeachment. And, 3 men accused of plotting U.K. attacks",
+   "summary": "Defense Secretary Pete Hegseth has been spared from the House's impeachment effort, at least for now. And, federal prosecutors arrested three men accused of being Iran-backed operatives.",
+   "link": "https://www.npr.org/2026/11/11/g-s1-152949/up-first-newsletter-pete-hegseth-jim-jordan-iran-backed-trio-us-bases",
+   "published": "2026-11-11T12:21:59.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Russia and Ukraine hold nearly 4 hours of U.S.-mediated talks in Abu Dhabi",
-   "summary": "Hopes of progress in ending Europe's biggest conflict since World War II are tempered by the absence of any significant breakthroughs in three previous rounds of talks early this year.",
-   "link": "https://www.npr.org/2026/11/10/g-s1-152773/russia-ukraine-war-talks",
-   "published": "2026-11-10T10:58:18.000Z",
+   "title": "Spain's workers hold a general strike over housing costs before national election",
+   "summary": "Millions of Spanish workers have shut down businesses and disrupted transportation in a protest over housing costs.",
+   "link": "https://www.npr.org/2026/11/11/nx-s1-6037314/spain-general-strike",
+   "published": "2026-11-11T09:54:54.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Kushner and Witkoff renew peace talks to end war between Russia and Ukraine",
-   "summary": "President Trump's top envoy is in Abu Dhabi with negotiators from Russia and Ukraine to resume peace talks.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6034616/kushner-and-witkoff-renew-peace-talks-to-end-war-between-russia-and-ukraine",
-   "published": "2026-11-10T09:38:34.000Z",
+   "title": "Ebola tops 11,000 cases in Congo's deadliest outbreak",
+   "summary": "Congo's Ebola outbreak has topped 11,000 cases, the government said Wednesday, a stark figure that underscores the severity of the situation as the country grapples with the relentless spread of the…",
+   "link": "https://www.npr.org/2026/11/11/nx-s1-6037304/ebola-congo-outbreak",
+   "published": "2026-11-11T09:16:01.000Z",
    "source": "NPR",
    "section": "world"
   }
