@@ -1,137 +1,161 @@
 {
- "updated": "2026-11-12T02:22:18.291Z",
+ "updated": "2026-11-13T01:59:47.501Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Some under-25s should get less benefits, Milburn review to say",
+   "title": "Scandal-hit Nvidia CEO Jensen Huang quits, plunging AI chipmaking giant into turmoil",
+   "summary": "US lawmakers now want to question him over whether one of his alleged relationships was with a Chinese spy.",
+   "link": "https://www.bbc.co.uk/news/articles/cmq5vd1wdgz6o",
+   "published": "2026-11-12T23:34:05.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Microsoft struggling to restore service as global outage affects Outlook and Teams",
+   "summary": "Microsoft said the outage was caused by servers unexpected becoming unavailable, straining other systems.",
+   "link": "https://www.bbc.co.uk/news/articles/c5gm3g9ldz8xo",
+   "published": "2026-11-13T01:53:55.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "The rise of 'housefishing' - when does using AI go from enhancing to misleading?",
+   "summary": "Experts warn that using AI to enhance property images can go too far and mislead prospective buyers.",
+   "link": "https://www.bbc.co.uk/news/articles/cm62y0wrnz9zo",
+   "published": "2026-11-13T00:13:35.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Faisal Islam: Why the UK economy is surprisingly resilient",
+   "summary": "The UK is seeing impressive growth, but will it last?",
+   "link": "https://www.bbc.co.uk/news/articles/cj62p32k90wyo",
+   "published": "2026-11-12T13:27:09.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Some under-25s should get fewer benefits, Milburn review to say",
    "summary": "The proposed radical overhaul of the welfare system would move under-25s off the main sickness benefits.",
    "link": "https://www.bbc.co.uk/news/articles/cwn70l1628l0o",
-   "published": "2026-11-11T23:22:04.000Z",
+   "published": "2026-11-12T22:51:18.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Poundland set for more time to secure a rescue deal as emergency talks continue",
-   "summary": "The BBC understands the discount chain, which has been edging towards administration, will be given more time to find a buyer.",
-   "link": "https://www.bbc.co.uk/news/articles/c3702jjkez4ko",
-   "published": "2026-11-12T00:49:05.000Z",
+   "title": "Who is Nvidia's interim CEO Colette Kress - and who could take over permanently?",
+   "summary": "Chief financial officer Colette Kress in in charge of Nvidia for now, but several others are in the frame as potential successors.",
+   "link": "https://www.bbc.co.uk/news/articles/cqgm37dv20e8o",
+   "published": "2026-11-12T15:10:32.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "'Not the answer': Labour MPs speak out against Rosebank as decision looms",
-   "summary": "There is a growing expectation among senior Labour figures that drilling in the oil field will be given the green light.",
-   "link": "https://www.bbc.co.uk/news/articles/cqp9dr79jkrzo",
-   "published": "2026-11-11T21:42:20.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Clashes erupt in Barcelona after thousands join Spain general strike",
-   "summary": "Tens of thousands of people have been taking part in the strike, called by the country's main unions over housing and the high cost of living.",
-   "link": "https://www.bbc.co.uk/news/articles/cwvg25nypmrvo",
-   "published": "2026-11-11T22:07:37.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Christmas toy rush being driven by squishies and building sets",
-   "summary": "A bumper year so far for toy sales comes as debate intensifies over screen time and tech connectivity.",
-   "link": "https://www.bbc.co.uk/news/articles/cx5ynyg6j375o",
-   "published": "2026-11-11T07:52:05.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Nvidia hires major US law firm to investigate alleged Chinese spy affair",
-   "summary": "The appointment was made after it emerged Jensen Huang had an affair with a woman believed to be a spy for China.",
-   "link": "https://www.bbc.co.uk/news/articles/ck1wvwwl3x0go",
-   "published": "2026-11-10T22:52:15.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "New Indian mega library rocked by scandal over 'AI-generated books'",
-   "summary": "The Tamil Nadu government has ordered an internal audit of library collections across the state.",
-   "link": "https://www.bbc.co.uk/news/articles/c54gne3plvrxo",
-   "published": "2026-11-11T11:33:24.000Z",
+   "title": "How AI visionary Jensen Huang was undone by his own bad decisions",
+   "summary": "Zoe Kleinman explains how the man who built Nvidia from the ground up lost everything in a matter of days.",
+   "link": "https://www.bbc.co.uk/news/articles/cq5y13819gpjo",
+   "published": "2026-11-12T16:43:36.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "What we know so far about Jensen Huang's affair with suspected Chinese spy",
-   "summary": "The billionaire tech executive finds himself mired in a personal and national security scandal.",
+   "title": "The rise and fall of Jensen Huang - how the tech superstar became mired in scandal",
+   "summary": "Within days, Huang's status as a seemingly untouchable figure leading the global tech race has crumbled.",
+   "link": "https://www.bbc.co.uk/news/articles/cmze750zg0jeo",
+   "published": "2026-11-12T17:11:48.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "What we know as Nvidia CEO Jensen Huang resigns over affair allegations",
+   "summary": "The billionaire tech executive has left the company following reports of a second extramarital affair.",
    "link": "https://www.bbc.co.uk/news/articles/ckgel338xql3o",
-   "published": "2026-11-11T07:44:24.000Z",
+   "published": "2026-11-12T15:26:39.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "Robot vessels take on the dangerous work of mine hunting",
-   "summary": "The conflict in the Gulf is an opportunity for the US to test its autonomous mine-hunting systems.",
-   "link": "https://www.bbc.co.uk/news/articles/cj5yn24llxd6o",
-   "published": "2026-11-11T00:19:13.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Claude chatbot maker set for $1.3tn stock market debut despite 'catastrophic' AI warning",
-   "summary": "The AI company behind the Claude chatbot will offer its shares at between $70 and $78, which is lower than what was expected.",
-   "link": "https://www.bbc.co.uk/news/articles/crpdgd723x2zo",
-   "published": "2026-11-10T17:56:12.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Faisal Islam: What the boss of US tech giant Nvidia told me about China and national security",
-   "summary": "Huang, who is now being investigated over an affair with an alleged Chinese spy, is far more important to the future of the world order than other tech bosses.",
-   "link": "https://www.bbc.co.uk/news/articles/c64g1gzy2vdzo",
-   "published": "2026-11-10T09:23:55.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Russia-Ukraine talks turn to post-war security but end without breakthrough",
-   "summary": "Talks in Abu Dhabi centred around Europe's security framework, with US envoys due to meet Putin and Zelensky on Thursday.",
-   "link": "https://www.bbc.co.uk/news/articles/ck792we7zrz4o",
-   "published": "2026-11-11T18:04:58.000Z",
+   "title": "US envoys meet Zelensky in Dublin after talks with Putin in Moscow",
+   "summary": "US envoy Steve Witkoff says President Putin has agreed to European negotiators joining the next round of Ukraine talks.",
+   "link": "https://www.bbc.co.uk/news/articles/cwrkgmymk55zo",
+   "published": "2026-11-12T21:00:42.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Famed ship SS United States to be sunk off coast of Florida",
-   "summary": "Activists unsuccessfully fought for the historic liner to be preserved and turned into a museum, but it will now become the world's largest artificial ocean reef.",
-   "link": "https://www.bbc.co.uk/news/articles/c3x298n87rn2o",
-   "published": "2026-11-11T18:42:27.000Z",
+   "title": "Russian warship hit by Ukrainian drone in Gulf of Finland",
+   "summary": "The attack is thought to be the first time Ukrainian drones have attacked a Russian ship in an open stretch of the Baltic Sea.",
+   "link": "https://www.bbc.co.uk/news/articles/cmn0d33zz34zo",
+   "published": "2026-11-12T20:09:16.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Schools in Italy, Scotland and Northern Ireland hit by threats in suspected bomb hoax",
-   "summary": "More than 6,000 Italian schools received a threat. Authorities in all three countries say there appears to be no risk to the public.",
-   "link": "https://www.bbc.co.uk/news/articles/cwz0k79pr8z2o",
-   "published": "2026-11-11T18:38:45.000Z",
+   "title": "Hegseth awards medal to war memorial guard who reprimanded him and group",
+   "summary": "Specialist Thomas Iglesias had shouted at Hegseth's group to be quiet after they could be heard talking and laughing at the Tomb of the Unknown Soldier.",
+   "link": "https://www.bbc.co.uk/news/articles/cmvg2r3dq7xno",
+   "published": "2026-11-12T18:47:35.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Missing 11-month-old baby rescued after being buried alive in a crate in South Carolina",
-   "summary": "Officials say the child was found close to his father's home on Tuesday, a day after he was taken, and is being cared for in hospital.",
-   "link": "https://www.bbc.co.uk/news/articles/c8e391xzg6z2o",
-   "published": "2026-11-11T18:10:57.000Z",
+   "title": "Neither war nor peace in Tigray - is Ethiopia's latest conflict really over?",
+   "summary": "The army has taken control of most of Tigray's main towns - it is unclear if the TPLF is capable of fighting back.",
+   "link": "https://www.bbc.co.uk/news/articles/cm3egjgvp794o",
+   "published": "2026-11-13T00:20:24.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Democrat Scott Colom seals historic win in Mississippi Senate race",
-   "summary": "Colom is the first black person from the southern state elected to the US Senate in over 140 years.",
-   "link": "https://www.bbc.co.uk/news/articles/cw7vppyr80eeo",
-   "published": "2026-11-12T02:09:08.000Z",
+   "title": "Suspected bomb hoax threats force fresh evacuations of Italian schools",
+   "summary": "Schools across Italy have received bomb threats for the second day in a row, sparking fresh panic and evacuations.",
+   "link": "https://www.bbc.co.uk/news/articles/cr894w453e90o",
+   "published": "2026-11-12T19:23:02.000Z",
    "source": "BBC",
    "section": "world"
+  },
+  {
+   "title": "Is Outlook down? Widespread outage hits Microsoft email and other apps",
+   "summary": "A widespread outage has hit Microsoft platforms including Outlook, with many users encountering trouble using their email accounts.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6039343/is-outlook-down-widespread-outage-hits-microsoft-email-and-other-apps",
+   "published": "2026-11-13T01:26:24.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "'Punch in the gut': Homes sales fall to their lowest in 16 years",
+   "summary": "Existing homes sales in October declined 8.8% from a year earlier, according to the National Association of Realtors.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6038940/punch-in-the-gut-homes-sales-fall-to-their-lowest-in-16-years",
+   "published": "2026-11-12T18:44:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "CEO Jensen Huang resigns from chip giant Nvidia",
+   "summary": "The chip giant Nvidia announced that CEO Jensen Huang was stepping down following allegations that he'd had extramarital affairs, including one with a woman suspected of being a Chinese spy.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6038865/ceo-jensen-huang-resigns-from-chip-giant-nvidia",
+   "published": "2026-11-12T22:02:44.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Jensen Huang biographer reacts to the Nvidia CEO's resignation",
+   "summary": "NPR's A Martinez speaks with Stephen Witt, author of a Jensen Huang biography, about his resignation from his role as CEO of Nvidia.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6038695/jensen-huang-biographer-reacts-to-the-nvidia-ceos-resignation",
+   "published": "2026-11-12T14:58:24.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Nvidia CEO Jensen Huang steps down amid alleged spy scandal",
+   "summary": "Huang co-founded the chipmaker Nvidia, which has become one of the driving forces behind the AI boom. But reports that he may have had an affair with an alleged Chinese spy quickly sank his career.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6037833/jensen-huang-nvidia-stepped-down",
+   "published": "2026-11-12T14:17:20.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "Why is gasoline suddenly under $4 a gallon?",
@@ -142,44 +166,12 @@
    "section": "business"
   },
   {
-   "title": "Oil giant ExxonMobil left Venezuela years ago. Now it's considering a return",
-   "summary": "ExxonMobil has signed a memorandum of understanding with the Venezuelan government and its state-owned oil company to explore opportunities in the country.",
-   "link": "https://www.npr.org/2026/11/11/nx-s1-5979080/exxonmobil-oil-mou-venezuela",
-   "published": "2026-11-11T10:00:00.000Z",
+   "title": "What we know so far about Nvidia interim CEO Colette Kress",
+   "summary": "Nvidia interim CEO Colette Kress has served as the company's chief financial officers. Kevin Roose, host of NPR's Machine Gods podcast, talks with Scott Detrow about what to expect from her.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6038896/what-we-know-so-far-about-nvidia-interim-ceo-colette-kress",
+   "published": "2026-11-12T22:04:13.000Z",
    "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "The scandal surrounding the head of Nvidia could have wide-ranging implications",
-   "summary": "NPR's Sacha Pfeiffer speaks with Bloomberg tech reporter Ian King about the unusually overarching role of Nvidia CEO Jensen Huang at his company and within the American tech industry at large.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6035694/the-scandal-surrounding-the-head-of-nvidia-could-have-wide-ranging-implications",
-   "published": "2026-11-10T23:43:58.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Should you trust new AI agents with your money and data?",
-   "summary": "Tech companies want agentic AI to be the new way you shop. But should you trust AI when your money's involved?",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6018588/should-you-trust-new-ai-agents-with-your-money-and-data",
-   "published": "2026-11-10T21:44:32.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Americans across the economic spectrum feel a 'panic' about finances, author says",
-   "summary": "Mona Chalabi spent five years following Americans living paycheck to paycheck, as well as those earning top wages. Her new book, Ten Lives, explores why financial security can feel so elusive.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6032767/mona-chalabi-ten-lives",
-   "published": "2026-11-10T17:46:25.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Gas prices dip below $4 but inflation remains stubbornly high",
-   "summary": "Gasoline prices fell below $4 a gallon Tuesday for the first time in three months — but the overall cost of living remains stubbornly high.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6034518/inflation-consumer-prices-economy-gas-prices",
-   "published": "2026-11-10T14:35:50.000Z",
-   "source": "NPR",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "Swatters are using AI voices to deceive 911 dispatchers, and it's only getting worse",
@@ -190,66 +182,50 @@
    "section": "tech"
   },
   {
-   "title": "Testing the new generation of AI-enabled fire-extinguishing drones",
-   "summary": "Drone makers are testing new, big drones that can deliver water or fire retardant with AI assistance. Aspen, Colorado is the first place trying them out. Cool and expensive? Yes. Effective? TBD.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6030962/testing-the-new-generation-of-ai-enabled-fire-extinguishing-drones",
-   "published": "2026-11-10T19:00:00.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Investigation continues into Nvidia CEO's alleged relationship with Chinese spy",
-   "summary": "Fallout continues at the chip giant Nvidia. Its powerful CEO is accused of having an affair with a Chinese spy.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6035019/investigation-continues-into-nvidia-ceos-alleged-relationship-with-chinese-spy",
-   "published": "2026-11-10T09:38:11.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Greetings from Senegal, where breakdancers are competing in the Youth Olympics",
-   "summary": "Senegal's breakdancers have been practicing for their country's historic hosting of the Youth Olympic Games this month. It's the first time Africa is hosting an Olympic event.",
-   "link": "https://www.npr.org/2026/11/11/g-s1-150228/senegal-youth-olympic-games-breakdancing",
-   "published": "2026-11-11T17:23:10.000Z",
+   "title": "U.S. envoys meet with Putin in the Kremlin after Ukraine talks in Abu Dhabi",
+   "summary": "Jared Kushner and Steve Witkoff went to the Kremlin to brief Russian President Vladimir Putin and are scheduled to fly later to Ireland for talks with Ukrainian President Volodymyr Zelenskyy.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6038809/us-envoys-meet-putin-russia-ukraine-war-talks",
+   "published": "2026-11-12T15:26:34.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Russia and Ukraine agree to a prisoner exchange as talks end with no big breakthrough",
-   "summary": "Russia and Ukraine have agreed to a large exchange of prisoners of war. U.S.-mediated talks in Abu Dhabi led to this decision, marking the biggest humanitarian release since the war began in 2022.",
-   "link": "https://www.npr.org/2026/11/11/g-s1-152954/russia-ukraine-war-talks",
-   "published": "2026-11-11T13:30:00.000Z",
+   "title": "Indonesia's VP resigns as his eligibility and academic credentials are questioned",
+   "summary": "Raka is the son of former President Joko Widodo. The Constitutional Court and the Supreme Court ruled last month that the documents that Raka submitted regarding his overseas education didn't meet…",
+   "link": "https://www.npr.org/2026/11/12/g-s1-153190/indonesias-vp-resigns-as-his-eligibility-and-academic-credentials-are-questioned",
+   "published": "2026-11-12T14:22:50.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "An Iran-backed trio is accused of plotting attacks on a U.K. base hosting U.S. jets",
-   "summary": "Iran-backed operatives have been charged over nearly 20 attacks, including a plot on a U.K. base housing U.S. troops. Separately, a U.S. soldier is held in the U.K. on Russia spying claims.",
-   "link": "https://www.npr.org/2026/11/10/nx-s1-6036786/uk-iran-airbase-russia-spy",
-   "published": "2026-11-11T10:02:54.000Z",
+   "title": "Colom wins Mississippi Senate race. And, White House warns Dems over future probes",
+   "summary": "After more than a week of counting ballots, Scott Colom has narrowly won the Mississippi Senate seat.",
+   "link": "https://www.npr.org/2026/11/12/g-s1-153171/up-first-newsletter-scott-colom-trump-democrats-ukraine-russia",
+   "published": "2026-11-12T12:15:48.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "House effectively ends Hegseth impeachment. And, 3 men accused of plotting U.K. attacks",
-   "summary": "Defense Secretary Pete Hegseth has been spared from the House's impeachment effort, at least for now. And, federal prosecutors arrested three men accused of being Iran-backed operatives.",
-   "link": "https://www.npr.org/2026/11/11/g-s1-152949/up-first-newsletter-pete-hegseth-jim-jordan-iran-backed-trio-us-bases",
-   "published": "2026-11-11T12:21:59.000Z",
+   "title": "Former Ukrainian foreign minister discusses how to bridge gaps between Ukraine, Russia",
+   "summary": "NPR's A Martinez asks Ukraine's former Foreign Minister Dmytro Kuleba for his proposals to close gaps in talks between Russia, Ukraine and Europe.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6037759/ukraine-ex-foreign-minister",
+   "published": "2026-11-12T09:40:31.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Spain's workers hold a general strike over housing costs before national election",
-   "summary": "Millions of Spanish workers have shut down businesses and disrupted transportation in a protest over housing costs.",
-   "link": "https://www.npr.org/2026/11/11/nx-s1-6037314/spain-general-strike",
-   "published": "2026-11-11T09:54:54.000Z",
+   "title": "Former U.S. Ambassador William Taylor discusses the latest Russia-Ukraine talks",
+   "summary": "NPR's A Martinez speaks with former U.S. ambassador to Ukraine, William Taylor, about the ongoing peace talks between the U.S., Russia and Ukraine.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6037526/former-u-s-ambassador-william-taylor-discusses-the-latest-russia-ukraine-talks",
+   "published": "2026-11-12T09:39:39.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Ebola tops 11,000 cases in Congo's deadliest outbreak",
-   "summary": "Congo's Ebola outbreak has topped 11,000 cases, the government said Wednesday, a stark figure that underscores the severity of the situation as the country grapples with the relentless spread of the…",
-   "link": "https://www.npr.org/2026/11/11/nx-s1-6037304/ebola-congo-outbreak",
-   "published": "2026-11-11T09:16:01.000Z",
+   "title": "U.S. officials set to meet with Putin, Zelenskyy following Abu Dhabi peace talks",
+   "summary": "U.S.-mediated talks in Abu Dhabi have wrapped up with an agreement on a Russia-Ukraine prisoner exchange. U.S. negotiators meet with Vladimir Putin on Thursday and Volodymyr Zelenskyy on Friday.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6037558/u-s-officials-set-to-meet-with-putin-zelenskyy-following-abu-dhabi-peace-talks",
+   "published": "2026-11-12T09:38:46.000Z",
    "source": "NPR",
    "section": "world"
   }
