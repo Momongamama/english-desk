@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T01:59:50.219Z",
+ "updated": "2026-11-13T16:42:22.506Z",
  "shows": [
   {
    "id": "business-daily",
@@ -68,6 +68,13 @@
    "apple": "https://podcasts.apple.com/us/podcast/the-indicator-from-planet-money/id1320118593?uo=4",
    "episodes": [
     {
+     "title": "An inflation scare, workers get their fair share, and Nvidia’s billion-dollar affairs",
+     "summary": "This week’s indicators: Inflation is disturbing, workers are getting their stolen wages back, and NVIDIA ex-CEO’s alleged affairs become a $465 billion…",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/4513547c-5843-494d-bdc6-023a020ea17d/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=4513547c-5843-494d-bdc6-023a020ea17d&feed=IFy3imsg&t=podcast&e=nx-s1-6039338&p=510325&d=546&size=8744608",
+     "published": "2026-11-13T08:00:00.000Z",
+     "duration": 546
+    },
+    {
      "title": "Should personal finance be part of the liberal arts?",
      "summary": "We take you inside an AP personal finance class in Alabama where students are learning about Roth IRAs and compound interest.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/0109a642-aed7-4067-83bd-d7d2b3e528e5/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=0109a642-aed7-4067-83bd-d7d2b3e528e5&feed=IFy3imsg&t=podcast&e=nx-s1-6037729&p=510325&d=561&size=8992039",
@@ -106,14 +113,6 @@
      "published": "2026-11-06T15:35:42.000Z",
      "duration": 557,
      "apple": "https://podcasts.apple.com/us/podcast/caution-men-not-at-work/id1320118593?i=1000800265902&uo=4"
-    },
-    {
-     "title": "Can Anthropic make enough money to justify its value?",
-     "summary": "Anthropic released its financials to the public as the AI juggernaut prepares for its highly anticipated IPO.",
-     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/21facbcb-e942-46ff-ba9b-b57d526804b3/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=21facbcb-e942-46ff-ba9b-b57d526804b3&feed=IFy3imsg&t=podcast&e=nx-s1-6029778&p=510325&d=556&size=8900945",
-     "published": "2026-11-05T08:00:00.000Z",
-     "duration": 556,
-     "apple": "https://podcasts.apple.com/us/podcast/can-anthropic-make-enough-money-to-justify-its-value/id1320118593?i=1000799880896&uo=4"
     }
    ]
   }
