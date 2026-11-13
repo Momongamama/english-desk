@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T16:42:22.506Z",
+ "updated": "2026-11-13T20:31:56.711Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,13 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Power Players: What did Trump and the White House know about Nvidia?",
+     "summary": "US Treasury Secretary Scott Bessent accuses Commerce Secretary Howard Lutnick of not acting fast enough over potential leaks of US chip technology getting to…",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pmx48g.mp3",
+     "published": "2026-11-13T16:00:00.000Z",
+     "duration": 1048
+    },
     {
      "title": "Taking Stock: The downfall of Nvidia's Jensen Huang",
      "summary": "AI chip giant Nvidia CEO Jensen Huang stepped down after reports of two extramarital affairs were published.",
@@ -48,14 +55,6 @@
      "published": "2026-11-08T21:30:00.000Z",
      "duration": 1048,
      "apple": "https://podcasts.apple.com/us/podcast/why-europe-wants-to-rely-less-on-us-tech-companies/id261786876?i=1000800625738&uo=4"
-    },
-    {
-     "title": "Power Players: Can the Democrats tackle America's affordability crisis?",
-     "summary": "The Democrats won big in the US midterm elections and have control of both houses of Congress.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0plp16h.mp3",
-     "published": "2026-11-06T16:30:00.000Z",
-     "duration": 1132,
-     "apple": "https://podcasts.apple.com/us/podcast/power-players-can-the-democrats-tackle-americas/id261786876?i=1000800274575&uo=4"
     }
    ]
   },
