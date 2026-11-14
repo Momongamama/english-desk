@@ -1,23 +1,39 @@
 {
- "updated": "2026-11-13T01:59:47.501Z",
+ "updated": "2026-11-14T01:32:33.749Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Scandal-hit Nvidia CEO Jensen Huang quits, plunging AI chipmaking giant into turmoil",
-   "summary": "US lawmakers now want to question him over whether one of his alleged relationships was with a Chinese spy.",
-   "link": "https://www.bbc.co.uk/news/articles/cmq5vd1wdgz6o",
-   "published": "2026-11-12T23:34:05.000Z",
+   "title": "Microsoft 'deeply sorry' for global outage after almost 24 hours of disruption",
+   "summary": "Experts say the event is a \"stark reminder\" of how heavily the world relies on a small group of big tech providers.",
+   "link": "https://www.bbc.co.uk/news/articles/c6rrg51rkz09o",
+   "published": "2026-11-13T21:14:22.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Microsoft struggling to restore service as global outage affects Outlook and Teams",
-   "summary": "Microsoft said the outage was caused by servers unexpected becoming unavailable, straining other systems.",
-   "link": "https://www.bbc.co.uk/news/articles/c5gm3g9ldz8xo",
-   "published": "2026-11-13T01:53:55.000Z",
+   "title": "Why is Microsoft's outage lasting so long and will emails be lost?",
+   "summary": "Microsoft says it is continuing to restore services including Outlook and Teams following a global outage.",
+   "link": "https://www.bbc.co.uk/news/articles/cwvg238zrnm5o",
+   "published": "2026-11-13T18:36:57.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "How a sex scandal at Nvidia is putting pressure on the White House",
+   "summary": "Jensen Huang's personal life may have triggered the crisis, but the questions now reach into the White House itself.",
+   "link": "https://www.bbc.co.uk/news/articles/c67429m3vem3o",
+   "published": "2026-11-13T12:22:30.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Pressure grows on Trump's Commerce Secretary Lutnick in fallout from Nvidia scandal",
+   "summary": "Scott Bessent told CNBC that several government agencies \"were in favour of putting Megaspeed on the entity list for months\".",
+   "link": "https://www.bbc.co.uk/news/articles/cqvg2d1eg7zro",
+   "published": "2026-11-13T19:53:57.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -30,106 +46,98 @@
    "section": "business"
   },
   {
-   "title": "Faisal Islam: Why the UK economy is surprisingly resilient",
-   "summary": "The UK is seeing impressive growth, but will it last?",
-   "link": "https://www.bbc.co.uk/news/articles/cj62p32k90wyo",
-   "published": "2026-11-12T13:27:09.000Z",
+   "title": "Heat pumps: How much heat does your home really need?",
+   "summary": "Knowing how much heat your home loses is important before installing a new heating system.",
+   "link": "https://www.bbc.co.uk/news/articles/cqy43zk3kk04o",
+   "published": "2026-11-13T09:29:25.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Some under-25s should get fewer benefits, Milburn review to say",
-   "summary": "The proposed radical overhaul of the welfare system would move under-25s off the main sickness benefits.",
-   "link": "https://www.bbc.co.uk/news/articles/cwn70l1628l0o",
-   "published": "2026-11-12T22:51:18.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Who is Nvidia's interim CEO Colette Kress - and who could take over permanently?",
-   "summary": "Chief financial officer Colette Kress in in charge of Nvidia for now, but several others are in the frame as potential successors.",
-   "link": "https://www.bbc.co.uk/news/articles/cqgm37dv20e8o",
-   "published": "2026-11-12T15:10:32.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "How AI visionary Jensen Huang was undone by his own bad decisions",
-   "summary": "Zoe Kleinman explains how the man who built Nvidia from the ground up lost everything in a matter of days.",
-   "link": "https://www.bbc.co.uk/news/articles/cq5y13819gpjo",
-   "published": "2026-11-12T16:43:36.000Z",
+   "title": "Even Grand Theft Auto's original creators haven't been able to play GTA 6",
+   "summary": "The next title in the series is expected to be the biggest video game release ever.",
+   "link": "https://www.bbc.co.uk/news/articles/c6jd7k5ryl1mo",
+   "published": "2026-11-14T00:37:01.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "The rise and fall of Jensen Huang - how the tech superstar became mired in scandal",
-   "summary": "Within days, Huang's status as a seemingly untouchable figure leading the global tech race has crumbled.",
-   "link": "https://www.bbc.co.uk/news/articles/cmze750zg0jeo",
-   "published": "2026-11-12T17:11:48.000Z",
+   "title": "How the Jensen Huang scandal created a headache for business-friendly Singapore",
+   "summary": "The scandal has cast a spotlight on Singapore's success as a chip hub - and a location for alleged illicit trade.",
+   "link": "https://www.bbc.co.uk/news/articles/ck1exevgql4qo",
+   "published": "2026-11-13T23:00:31.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "What we know as Nvidia CEO Jensen Huang resigns over affair allegations",
-   "summary": "The billionaire tech executive has left the company following reports of a second extramarital affair.",
-   "link": "https://www.bbc.co.uk/news/articles/ckgel338xql3o",
-   "published": "2026-11-12T15:26:39.000Z",
+   "title": "Microsoft outage 'stark reminder' of how much we rely on tech",
+   "summary": "Microsoft has apologised for the issue, which it said was due to a technical failure.",
+   "link": "https://www.bbc.co.uk/news/articles/cxzd9171m51qo",
+   "published": "2026-11-13T21:15:41.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "US envoys meet Zelensky in Dublin after talks with Putin in Moscow",
-   "summary": "US envoy Steve Witkoff says President Putin has agreed to European negotiators joining the next round of Ukraine talks.",
-   "link": "https://www.bbc.co.uk/news/articles/cwrkgmymk55zo",
-   "published": "2026-11-12T21:00:42.000Z",
+   "title": "'Miracle on Mississippi' - All passengers rescued after New Orleans cruise ship collision",
+   "summary": "The collision leaves 32 people in hospital with non-critical injuries, but no-one unaccounted for.",
+   "link": "https://www.bbc.co.uk/news/articles/cw20xmy0m5yyo",
+   "published": "2026-11-13T23:40:45.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Russian warship hit by Ukrainian drone in Gulf of Finland",
-   "summary": "The attack is thought to be the first time Ukrainian drones have attacked a Russian ship in an open stretch of the Baltic Sea.",
-   "link": "https://www.bbc.co.uk/news/articles/cmn0d33zz34zo",
-   "published": "2026-11-12T20:09:16.000Z",
+   "title": "Setback for SpaceX Starship rocket's double-catch test",
+   "summary": "Elon Musk’s company aborted an attempted catch of the rocket’s booster - instead it came down in the ocean.",
+   "link": "https://www.bbc.co.uk/news/articles/ckregdgnl0xpo",
+   "published": "2026-11-14T00:01:01.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Hegseth awards medal to war memorial guard who reprimanded him and group",
-   "summary": "Specialist Thomas Iglesias had shouted at Hegseth's group to be quiet after they could be heard talking and laughing at the Tomb of the Unknown Soldier.",
-   "link": "https://www.bbc.co.uk/news/articles/cmvg2r3dq7xno",
-   "published": "2026-11-12T18:47:35.000Z",
+   "title": "Rosenberg: Uncompromising Putin ups demands for peace with Ukraine",
+   "summary": "The fact the question of European security now features in discussions is viewed in Moscow as a victory, BBC Russia Editor Steve Rosenberg says.",
+   "link": "https://www.bbc.co.uk/news/articles/cq39glwprknjo",
+   "published": "2026-11-13T16:40:31.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Neither war nor peace in Tigray - is Ethiopia's latest conflict really over?",
-   "summary": "The army has taken control of most of Tigray's main towns - it is unclear if the TPLF is capable of fighting back.",
-   "link": "https://www.bbc.co.uk/news/articles/cm3egjgvp794o",
-   "published": "2026-11-13T00:20:24.000Z",
+   "title": "Jojo the gorilla has spent his life alone. Can he finally find a companion?",
+   "summary": "Jojo was poached as an infant and grew up in captivity. His keepers want to find him a friend - but it's not straightforward.",
+   "link": "https://www.bbc.co.uk/news/articles/cwm2mn272nqlo",
+   "published": "2026-11-14T00:03:56.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Suspected bomb hoax threats force fresh evacuations of Italian schools",
-   "summary": "Schools across Italy have received bomb threats for the second day in a row, sparking fresh panic and evacuations.",
-   "link": "https://www.bbc.co.uk/news/articles/cr894w453e90o",
-   "published": "2026-11-12T19:23:02.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Is Outlook down? Widespread outage hits Microsoft email and other apps",
-   "summary": "A widespread outage has hit Microsoft platforms including Outlook, with many users encountering trouble using their email accounts.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6039343/is-outlook-down-widespread-outage-hits-microsoft-email-and-other-apps",
-   "published": "2026-11-13T01:26:24.000Z",
+   "title": "Is there an opening for Nvidia's competitors, now that Jensen Huang is out?",
+   "summary": "NPR's Scott Detrow talks with Dylan Patel of the AI and semiconductor research firm SemiAnalysis about Jensen Huang's departure from Nvidia, and whether it opens up the field for Nvidia's competitors.",
+   "link": "https://www.npr.org/2026/11/13/nx-s1-6040264/is-there-an-opening-for-nvidias-competitors-now-that-jensen-huang-is-out",
+   "published": "2026-11-13T21:06:10.000Z",
    "source": "NPR",
    "section": "business"
   },
   {
-   "title": "'Punch in the gut': Homes sales fall to their lowest in 16 years",
-   "summary": "Existing homes sales in October declined 8.8% from a year earlier, according to the National Association of Realtors.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6038940/punch-in-the-gut-homes-sales-fall-to-their-lowest-in-16-years",
-   "published": "2026-11-12T18:44:00.000Z",
+   "title": "Does Europe regret its bet on U.S. defense?",
+   "summary": "Europe bet big on American defense technology and they're now paying the price. Years-long backlogs are underway due to production delays and the U.S. own military needs.",
+   "link": "https://www.npr.org/sections/planet-money/2026/11/13/nx-s1-6039196/does-europe-regret-its-bet-on-u-s-defense",
+   "published": "2026-11-13T16:17:43.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "SpaceX's giant rocket may leave NASA in the dust",
+   "summary": "As it races to develop its new massive rocket, the space launch company is preparing to retire NASA's main ride to the International Space Station.",
+   "link": "https://www.npr.org/2026/11/13/nx-s1-6039312/spacex-nasa-starship-iss-dragon-falcon-musk",
+   "published": "2026-11-13T10:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "A negative Outlook: Microsoft scrambles to fix email outage",
+   "summary": "Early Friday, after Outlook had been down for more than 12 hours, Microsoft reported \"marginal success.\"",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6039343/outlook-down-widespread-outage-microsoft-email",
+   "published": "2026-11-13T01:26:24.000Z",
    "source": "NPR",
    "section": "business"
   },
@@ -142,48 +150,72 @@
    "section": "business"
   },
   {
-   "title": "Jensen Huang biographer reacts to the Nvidia CEO's resignation",
-   "summary": "NPR's A Martinez speaks with Stephen Witt, author of a Jensen Huang biography, about his resignation from his role as CEO of Nvidia.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6038695/jensen-huang-biographer-reacts-to-the-nvidia-ceos-resignation",
-   "published": "2026-11-12T14:58:24.000Z",
+   "title": "'Punch in the gut': Homes sales fall to their lowest in 16 years",
+   "summary": "Existing homes sales in October declined 8.8% from a year earlier, according to the National Association of Realtors.",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6038940/punch-in-the-gut-homes-sales-fall-to-their-lowest-in-16-years",
+   "published": "2026-11-12T18:44:00.000Z",
    "source": "NPR",
    "section": "business"
   },
   {
-   "title": "Nvidia CEO Jensen Huang steps down amid alleged spy scandal",
-   "summary": "Huang co-founded the chipmaker Nvidia, which has become one of the driving forces behind the AI boom. But reports that he may have had an affair with an alleged Chinese spy quickly sank his career.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6037833/jensen-huang-nvidia-stepped-down",
-   "published": "2026-11-12T14:17:20.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Why is gasoline suddenly under $4 a gallon?",
-   "summary": "The average price of a gallon of gasoline dipped below $4 this week for the first time in months. Does that mean more relief is coming for drivers?",
-   "link": "https://www.npr.org/2026/11/11/nx-s1-6037588/gasoline-price-below-4-dollars-gallon",
-   "published": "2026-11-11T19:59:14.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "What we know so far about Nvidia interim CEO Colette Kress",
-   "summary": "Nvidia interim CEO Colette Kress has served as the company's chief financial officers. Kevin Roose, host of NPR's Machine Gods podcast, talks with Scott Detrow about what to expect from her.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6038896/what-we-know-so-far-about-nvidia-interim-ceo-colette-kress",
-   "published": "2026-11-12T22:04:13.000Z",
+   "title": "Microsoft outage disrupts work and gives some a chance to unplug",
+   "summary": "Millions of individuals, organizations and businesses were left without access to Microsoft's Outlook email on Thursday. Some people celebrated a day without email, while others work around obstacles.",
+   "link": "https://www.npr.org/2026/11/13/nx-s1-6040004/microsoft-outage-disrupts-work-and-gives-some-a-chance-to-unplug",
+   "published": "2026-11-13T21:06:07.000Z",
    "source": "NPR",
    "section": "tech"
   },
   {
-   "title": "Swatters are using AI voices to deceive 911 dispatchers, and it's only getting worse",
-   "summary": "Swatters are increasingly using AI technology that creates synthetic voices or sound effects to generate remarkably believable fake emergency calls to law enforcement.",
-   "link": "https://www.npr.org/2026/11/11/nx-s1-6034449/ai-911-calls-swatting",
-   "published": "2026-11-11T10:00:00.000Z",
+   "title": "Colette Kress becomes Nvidia's interim CEO after Jensen Huang resigns",
+   "summary": "Nvidia's CEO Jensen Huang is out, and the company's chief financial officer Colette Kress is taking over as interim CEO. She'll have to guide the company through an exceptionally challenging time.",
+   "link": "https://www.npr.org/2026/11/13/nx-s1-6038889/colette-kress-becomes-nvidias-interim-ceo-after-jensen-huang-resigns",
+   "published": "2026-11-13T11:47:38.000Z",
    "source": "NPR",
    "section": "tech"
   },
   {
-   "title": "U.S. envoys meet with Putin in the Kremlin after Ukraine talks in Abu Dhabi",
-   "summary": "Jared Kushner and Steve Witkoff went to the Kremlin to brief Russian President Vladimir Putin and are scheduled to fly later to Ireland for talks with Ukrainian President Volodymyr Zelenskyy.",
+   "title": "Nvidia's interim CEO inherits risky AI bets and a legal mess",
+   "summary": "AI expert Gary Marcus breaks down what's at stake for Nvidia and the mess its new CEO has inherited.",
+   "link": "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidia-interim-ceo-colette-kress-ai-bets-investigation-lutnick",
+   "published": "2026-11-13T11:47:00.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
+   "title": "Why is Google cutting off Search from AI-free schools? Here are some theories",
+   "summary": "The forthcoming move has left some parents and educators frustrated and wondering about the company's motivations.",
+   "link": "https://www.npr.org/2026/11/13/nx-s1-6029408/google-ai-search-schools",
+   "published": "2026-11-13T10:00:00.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
+   "title": "Microsoft investigating widespread outage that took email and other apps offline",
+   "summary": "NPR's A Martinez speaks with Andrew Couts of WIRED about a widespread outage of Microsoft products that has disrupted the life and work of thousands of people.",
+   "link": "https://www.npr.org/2026/11/13/nx-s1-6039350/microsoft-investigating-widespread-outage-that-took-email-and-other-apps-offline",
+   "published": "2026-11-13T09:43:44.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
+   "title": "What's Trump's strategy now with Iran? To keep things as they are",
+   "summary": "President Trump says the \"status quo\" is what Gulf Arab allies want as the Iran war hits a stalemate and the U.S. midterms force a pivot from threats of attacks to economic pressure.",
+   "link": "https://www.npr.org/2026/11/13/g-s1-153578/whats-trumps-strategy-now-with-iran-to-keep-things-as-they-are",
+   "published": "2026-11-13T19:02:04.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "Nvidia CEO steps down. And, Sen. Chris Van Hollen to run for majority leader",
+   "summary": "Nvidia's chief financial officer has been appointed interim CEO after Jensen Huang stepped down from the role. And, Sen. Chris Van Hollen says he will challenge Chuck Schumer for majority leader.",
+   "link": "https://www.npr.org/2026/11/13/g-s1-153532/up-first-newsletter-nvidia-jensen-huang-colette-kress-ukraine-russia-chris-van-hollen",
+   "published": "2026-11-13T12:07:12.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "U.S. envoys meet with Putin in Moscow on Ukraine talks, then see Zelenskyy in Dublin",
+   "summary": "U.S. envoys have met with Russian President Vladimir Putin in the Kremlin and with Ukrainian President Volodymyr Zelenskyy in Ireland as Washington seeks new momentum in peace efforts.",
    "link": "https://www.npr.org/2026/11/12/nx-s1-6038809/us-envoys-meet-putin-russia-ukraine-war-talks",
    "published": "2026-11-12T15:26:34.000Z",
    "source": "NPR",
@@ -202,30 +234,6 @@
    "summary": "After more than a week of counting ballots, Scott Colom has narrowly won the Mississippi Senate seat.",
    "link": "https://www.npr.org/2026/11/12/g-s1-153171/up-first-newsletter-scott-colom-trump-democrats-ukraine-russia",
    "published": "2026-11-12T12:15:48.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Former Ukrainian foreign minister discusses how to bridge gaps between Ukraine, Russia",
-   "summary": "NPR's A Martinez asks Ukraine's former Foreign Minister Dmytro Kuleba for his proposals to close gaps in talks between Russia, Ukraine and Europe.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6037759/ukraine-ex-foreign-minister",
-   "published": "2026-11-12T09:40:31.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Former U.S. Ambassador William Taylor discusses the latest Russia-Ukraine talks",
-   "summary": "NPR's A Martinez speaks with former U.S. ambassador to Ukraine, William Taylor, about the ongoing peace talks between the U.S., Russia and Ukraine.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6037526/former-u-s-ambassador-william-taylor-discusses-the-latest-russia-ukraine-talks",
-   "published": "2026-11-12T09:39:39.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "U.S. officials set to meet with Putin, Zelenskyy following Abu Dhabi peace talks",
-   "summary": "U.S.-mediated talks in Abu Dhabi have wrapped up with an agreement on a Russia-Ukraine prisoner exchange. U.S. negotiators meet with Vladimir Putin on Thursday and Volodymyr Zelenskyy on Friday.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6037558/u-s-officials-set-to-meet-with-putin-zelenskyy-following-abu-dhabi-peace-talks",
-   "published": "2026-11-12T09:38:46.000Z",
    "source": "NPR",
    "section": "world"
   }

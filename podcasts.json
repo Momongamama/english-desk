@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-13T20:31:56.711Z",
+ "updated": "2026-11-14T01:32:35.963Z",
  "shows": [
   {
    "id": "business-daily",
@@ -14,7 +14,8 @@
      "summary": "US Treasury Secretary Scott Bessent accuses Commerce Secretary Howard Lutnick of not acting fast enough over potential leaks of US chip technology getting to…",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pmx48g.mp3",
      "published": "2026-11-13T16:00:00.000Z",
-     "duration": 1048
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/power-players-what-did-trump-and-the-white-house/id261786876?i=1000801765630&uo=4"
     },
     {
      "title": "Taking Stock: The downfall of Nvidia's Jensen Huang",
