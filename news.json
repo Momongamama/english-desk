@@ -1,15 +1,23 @@
 {
- "updated": "2026-11-14T01:32:33.749Z",
+ "updated": "2026-11-14T07:36:14.274Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Microsoft 'deeply sorry' for global outage after almost 24 hours of disruption",
-   "summary": "Experts say the event is a \"stark reminder\" of how heavily the world relies on a small group of big tech providers.",
+   "title": "Microsoft says services fully restored after for day-long global outage",
+   "summary": "Efforts to address the underlying problem with Outlook, Teams and Copilot are complete, the tech firm says.",
    "link": "https://www.bbc.co.uk/news/articles/c6rrg51rkz09o",
-   "published": "2026-11-13T21:14:22.000Z",
+   "published": "2026-11-14T06:42:27.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Pressure grows on Trump's Commerce Secretary Lutnick in fallout from Nvidia scandal",
+   "summary": "Scott Bessent told CNBC that several government agencies \"were in favour of putting Megaspeed on the entity list for months\".",
+   "link": "https://www.bbc.co.uk/news/articles/cqvg2d1eg7zro",
+   "published": "2026-11-13T19:53:57.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -26,14 +34,6 @@
    "summary": "Jensen Huang's personal life may have triggered the crisis, but the questions now reach into the White House itself.",
    "link": "https://www.bbc.co.uk/news/articles/c67429m3vem3o",
    "published": "2026-11-13T12:22:30.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Pressure grows on Trump's Commerce Secretary Lutnick in fallout from Nvidia scandal",
-   "summary": "Scott Bessent told CNBC that several government agencies \"were in favour of putting Megaspeed on the entity list for months\".",
-   "link": "https://www.bbc.co.uk/news/articles/cqvg2d1eg7zro",
-   "published": "2026-11-13T19:53:57.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -78,10 +78,26 @@
    "section": "tech"
   },
   {
+   "title": "What we know about the longest ground stop since 9/11",
+   "summary": "US officials say the disruption was caused by old equipment overloading and not a cyber-attack or a Microsoft outage.",
+   "link": "https://www.bbc.co.uk/news/articles/cqx2wyvyr3zzo",
+   "published": "2026-11-14T03:45:21.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
    "title": "'Miracle on Mississippi' - All passengers rescued after New Orleans cruise ship collision",
    "summary": "The collision leaves 32 people in hospital with non-critical injuries, but no-one unaccounted for.",
    "link": "https://www.bbc.co.uk/news/articles/cw20xmy0m5yyo",
    "published": "2026-11-13T23:40:45.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Trump, Putin and Xi plan historic joint meeting in China next week, White House says",
+   "summary": "Trump will discuss the \"reduction of nuclear weapons\" during the unprecedented talks, a spokeswoman says.",
+   "link": "https://www.bbc.co.uk/news/articles/ckz74jzpy18do",
+   "published": "2026-11-14T05:52:31.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -98,14 +114,6 @@
    "summary": "The fact the question of European security now features in discussions is viewed in Moscow as a victory, BBC Russia Editor Steve Rosenberg says.",
    "link": "https://www.bbc.co.uk/news/articles/cq39glwprknjo",
    "published": "2026-11-13T16:40:31.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Jojo the gorilla has spent his life alone. Can he finally find a companion?",
-   "summary": "Jojo was poached as an infant and grew up in captivity. His keepers want to find him a friend - but it's not straightforward.",
-   "link": "https://www.bbc.co.uk/news/articles/cwm2mn272nqlo",
-   "published": "2026-11-14T00:03:56.000Z",
    "source": "BBC",
    "section": "world"
   },
