@@ -1,23 +1,31 @@
 {
- "updated": "2026-11-14T07:36:14.274Z",
+ "updated": "2026-11-15T01:09:53.973Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Microsoft says services fully restored after for day-long global outage",
-   "summary": "Efforts to address the underlying problem with Outlook, Teams and Copilot are complete, the tech firm says.",
-   "link": "https://www.bbc.co.uk/news/articles/c6rrg51rkz09o",
-   "published": "2026-11-14T06:42:27.000Z",
+   "title": "Beauty advent calendars can cost hundreds - but are they value for money?",
+   "summary": "Beauty calendars have become a Christmas staple and have become particularly popular with female shoppers.",
+   "link": "https://www.bbc.co.uk/news/articles/cqn83l442724o",
+   "published": "2026-11-15T00:01:07.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Pressure grows on Trump's Commerce Secretary Lutnick in fallout from Nvidia scandal",
-   "summary": "Scott Bessent told CNBC that several government agencies \"were in favour of putting Megaspeed on the entity list for months\".",
-   "link": "https://www.bbc.co.uk/news/articles/cqvg2d1eg7zro",
-   "published": "2026-11-13T19:53:57.000Z",
+   "title": "How the Jensen Huang scandal created a headache for business-friendly Singapore",
+   "summary": "The scandal has cast a spotlight on Singapore's success as a chip hub - and a location for alleged illicit trade.",
+   "link": "https://www.bbc.co.uk/news/articles/ck1exevgql4qo",
+   "published": "2026-11-13T23:00:31.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Microsoft says services fully restored after day-long global outage",
+   "summary": "Efforts to address the underlying problem with Outlook, Teams and Copilot are complete, the tech firm says.",
+   "link": "https://www.bbc.co.uk/news/articles/c6rrg51rkz09o",
+   "published": "2026-11-14T06:42:27.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -30,18 +38,10 @@
    "section": "business"
   },
   {
-   "title": "How a sex scandal at Nvidia is putting pressure on the White House",
-   "summary": "Jensen Huang's personal life may have triggered the crisis, but the questions now reach into the White House itself.",
-   "link": "https://www.bbc.co.uk/news/articles/c67429m3vem3o",
-   "published": "2026-11-13T12:22:30.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "The rise of 'housefishing' - when does using AI go from enhancing to misleading?",
-   "summary": "Experts warn that using AI to enhance property images can go too far and mislead prospective buyers.",
-   "link": "https://www.bbc.co.uk/news/articles/cm62y0wrnz9zo",
-   "published": "2026-11-13T00:13:35.000Z",
+   "title": "Pressure grows on Trump's Commerce Secretary Lutnick in fallout from Nvidia scandal",
+   "summary": "Scott Bessent told CNBC that several government agencies \"were in favour of putting Megaspeed on the entity list for months\".",
+   "link": "https://www.bbc.co.uk/news/articles/cqvg2d1eg7zro",
+   "published": "2026-11-13T19:53:57.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -54,18 +54,18 @@
    "section": "business"
   },
   {
-   "title": "Even Grand Theft Auto's original creators haven't been able to play GTA 6",
-   "summary": "The next title in the series is expected to be the biggest video game release ever.",
-   "link": "https://www.bbc.co.uk/news/articles/c6jd7k5ryl1mo",
-   "published": "2026-11-14T00:37:01.000Z",
+   "title": "Italy fines Meta €805m over accessing users' photos",
+   "summary": "The social media giant is accused of not informing 20 million users it had access to their photos.",
+   "link": "https://www.bbc.co.uk/news/articles/cwn83gxemk35o",
+   "published": "2026-11-14T18:28:06.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "How the Jensen Huang scandal created a headache for business-friendly Singapore",
-   "summary": "The scandal has cast a spotlight on Singapore's success as a chip hub - and a location for alleged illicit trade.",
-   "link": "https://www.bbc.co.uk/news/articles/ck1exevgql4qo",
-   "published": "2026-11-13T23:00:31.000Z",
+   "title": "Even Grand Theft Auto's original creators haven't been able to play GTA 6",
+   "summary": "The next title in the series is expected to be the biggest video game release ever.",
+   "link": "https://www.bbc.co.uk/news/articles/c6jd7k5ryl1mo",
+   "published": "2026-11-14T00:37:01.000Z",
    "source": "BBC",
    "section": "tech"
   },
@@ -78,44 +78,60 @@
    "section": "tech"
   },
   {
-   "title": "What we know about the longest ground stop since 9/11",
-   "summary": "US officials say the disruption was caused by old equipment overloading and not a cyber-attack or a Microsoft outage.",
-   "link": "https://www.bbc.co.uk/news/articles/cqx2wyvyr3zzo",
-   "published": "2026-11-14T03:45:21.000Z",
+   "title": "Copper wire upgrade caused nationwide flight suspension, US transport secretary says",
+   "summary": "The US government is trying to find out whether the chaos was caused by \"incompetence\" or faulty equipment.",
+   "link": "https://www.bbc.co.uk/news/articles/c6wy9lynq4qno",
+   "published": "2026-11-14T19:12:25.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "'Miracle on Mississippi' - All passengers rescued after New Orleans cruise ship collision",
-   "summary": "The collision leaves 32 people in hospital with non-critical injuries, but no-one unaccounted for.",
-   "link": "https://www.bbc.co.uk/news/articles/cw20xmy0m5yyo",
-   "published": "2026-11-13T23:40:45.000Z",
+   "title": "US has floated Ukraine ceding Donbas for Nato membership, Zelensky says",
+   "summary": "The US has not confirmed the Ukrainian president's comments - a US official told the BBC \"many ideas continue to be discussed\".",
+   "link": "https://www.bbc.co.uk/news/articles/cwvg2l312ylqo",
+   "published": "2026-11-14T22:37:25.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Trump, Putin and Xi plan historic joint meeting in China next week, White House says",
-   "summary": "Trump will discuss the \"reduction of nuclear weapons\" during the unprecedented talks, a spokeswoman says.",
-   "link": "https://www.bbc.co.uk/news/articles/ckz74jzpy18do",
-   "published": "2026-11-14T05:52:31.000Z",
+   "title": "Sotheby's auction of $180m Van Gogh challenged over claims it was 'sold under duress'",
+   "summary": "Sotheby's says it will work with the heirs of a family who had previously owned the artwork to try and reach a solution.",
+   "link": "https://www.bbc.co.uk/news/articles/cmwy05gg75lvo",
+   "published": "2026-11-14T18:00:10.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Setback for SpaceX Starship rocket's double-catch test",
-   "summary": "Elon Musk’s company aborted an attempted catch of the rocket’s booster - instead it came down in the ocean.",
-   "link": "https://www.bbc.co.uk/news/articles/ckregdgnl0xpo",
-   "published": "2026-11-14T00:01:01.000Z",
+   "title": "Judo champion shakes up French presidential race with surprise candidacy",
+   "summary": "Teddy Riner is one of the most popular figures in modern-day France, and one in five voters say they could support him.",
+   "link": "https://www.bbc.co.uk/news/articles/c6dj1e8wyykmo",
+   "published": "2026-11-15T00:06:51.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Rosenberg: Uncompromising Putin ups demands for peace with Ukraine",
-   "summary": "The fact the question of European security now features in discussions is viewed in Moscow as a victory, BBC Russia Editor Steve Rosenberg says.",
-   "link": "https://www.bbc.co.uk/news/articles/cq39glwprknjo",
-   "published": "2026-11-13T16:40:31.000Z",
+   "title": "My mother told me I would die if I sought treatment for Ebola - I am proof you can survive",
+   "summary": "Fear and misinformation surrounds the Ebola outbreak in DR Congo - Dr Kamwanga's mother was not immune.",
+   "link": "https://www.bbc.co.uk/news/articles/cmvg2e2q28w1o",
+   "published": "2026-11-15T00:06:55.000Z",
    "source": "BBC",
    "section": "world"
+  },
+  {
+   "title": "Commerce Department under pressure for delaying export controls on Nvidia chips",
+   "summary": "The U.S. Commerce Department is under scrutiny for clearing Chinese companies to handle Nvidia chips, despite national security concerns from cabinet officials and U.S. intelligence agencies.",
+   "link": "https://www.npr.org/2026/11/14/nx-s1-6040379/commerce-department-under-pressure-for-delaying-export-controls-on-nvidia-chips",
+   "published": "2026-11-14T22:21:07.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "These economists say in-person work boosts creativity, but office mandates fall short",
+   "summary": "A pair economists argue in a new book that people are more creative and productive when they work together in person. But it's not enough for employers to simply order workers back to the office.",
+   "link": "https://www.npr.org/2026/11/14/nx-s1-6040158/these-economists-say-in-person-work-boosts-creativity-but-office-mandates-fall-short",
+   "published": "2026-11-14T12:40:28.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "Is there an opening for Nvidia's competitors, now that Jensen Huang is out?",
@@ -150,20 +166,28 @@
    "section": "business"
   },
   {
-   "title": "CEO Jensen Huang resigns from chip giant Nvidia",
-   "summary": "The chip giant Nvidia announced that CEO Jensen Huang was stepping down following allegations that he'd had extramarital affairs, including one with a woman suspected of being a Chinese spy.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6038865/ceo-jensen-huang-resigns-from-chip-giant-nvidia",
-   "published": "2026-11-12T22:02:44.000Z",
+   "title": "Hello? James Gleick's new book compares the history of the telephone to the modern era",
+   "summary": "Have you ever wondered where phone etiquette or the idea for the first social network came from? Author James Gleick talks about his new book, The Telephone.",
+   "link": "https://www.npr.org/2026/11/14/nx-s1-6037416/hello-james-gleicks-new-book-compares-the-history-of-the-telephone-to-the-modern-era",
+   "published": "2026-11-14T22:48:35.000Z",
    "source": "NPR",
-   "section": "business"
+   "section": "tech"
   },
   {
-   "title": "'Punch in the gut': Homes sales fall to their lowest in 16 years",
-   "summary": "Existing homes sales in October declined 8.8% from a year earlier, according to the National Association of Realtors.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6038940/punch-in-the-gut-homes-sales-fall-to-their-lowest-in-16-years",
-   "published": "2026-11-12T18:44:00.000Z",
+   "title": "SpaceX makes history with Starship catch",
+   "summary": "SpaceX catches its Starship rocket as it comes back from space for the very first time.",
+   "link": "https://www.npr.org/2026/11/14/nx-s1-6041089/spacex-makes-history-with-starship-catch",
+   "published": "2026-11-14T22:31:41.000Z",
    "source": "NPR",
-   "section": "business"
+   "section": "tech"
+  },
+  {
+   "title": "Asia Society's Lizzi C. Lee on big tech restrictions after Nvidia espionage claims",
+   "summary": "NPR's Scott Simon asks Lizzi C. Lee of the Asia Society about restrictions on big tech in the wake of allegations of espionage against Nvidia.",
+   "link": "https://www.npr.org/2026/11/14/nx-s1-6040188/asia-societys-lizzi-c-lee-on-big-tech-restrictions-after-nvidia-espionage-claims",
+   "published": "2026-11-14T12:40:27.000Z",
+   "source": "NPR",
+   "section": "tech"
   },
   {
    "title": "Microsoft outage disrupts work and gives some a chance to unplug",
@@ -190,20 +214,12 @@
    "section": "tech"
   },
   {
-   "title": "Why is Google cutting off Search from AI-free schools? Here are some theories",
-   "summary": "The forthcoming move has left some parents and educators frustrated and wondering about the company's motivations.",
-   "link": "https://www.npr.org/2026/11/13/nx-s1-6029408/google-ai-search-schools",
-   "published": "2026-11-13T10:00:00.000Z",
+   "title": "Fuel crisis and protests pressure Chile's far-right president",
+   "summary": "Chile's far-right President José Antonio Kast is facing mounting public anger, as rising fuel prices trigger transport strikes and protests across the country.",
+   "link": "https://www.npr.org/2026/11/14/nx-s1-6040144/chile-protests-fuel-kast-students",
+   "published": "2026-11-14T16:05:12.000Z",
    "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Microsoft investigating widespread outage that took email and other apps offline",
-   "summary": "NPR's A Martinez speaks with Andrew Couts of WIRED about a widespread outage of Microsoft products that has disrupted the life and work of thousands of people.",
-   "link": "https://www.npr.org/2026/11/13/nx-s1-6039350/microsoft-investigating-widespread-outage-that-took-email-and-other-apps-offline",
-   "published": "2026-11-13T09:43:44.000Z",
-   "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
    "title": "What's Trump's strategy now with Iran? To keep things as they are",
@@ -218,30 +234,6 @@
    "summary": "Nvidia's chief financial officer has been appointed interim CEO after Jensen Huang stepped down from the role. And, Sen. Chris Van Hollen says he will challenge Chuck Schumer for majority leader.",
    "link": "https://www.npr.org/2026/11/13/g-s1-153532/up-first-newsletter-nvidia-jensen-huang-colette-kress-ukraine-russia-chris-van-hollen",
    "published": "2026-11-13T12:07:12.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "U.S. envoys meet with Putin in Moscow on Ukraine talks, then see Zelenskyy in Dublin",
-   "summary": "U.S. envoys have met with Russian President Vladimir Putin in the Kremlin and with Ukrainian President Volodymyr Zelenskyy in Ireland as Washington seeks new momentum in peace efforts.",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6038809/us-envoys-meet-putin-russia-ukraine-war-talks",
-   "published": "2026-11-12T15:26:34.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Indonesia's VP resigns as his eligibility and academic credentials are questioned",
-   "summary": "Raka is the son of former President Joko Widodo. The Constitutional Court and the Supreme Court ruled last month that the documents that Raka submitted regarding his overseas education didn't meet…",
-   "link": "https://www.npr.org/2026/11/12/g-s1-153190/indonesias-vp-resigns-as-his-eligibility-and-academic-credentials-are-questioned",
-   "published": "2026-11-12T14:22:50.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Colom wins Mississippi Senate race. And, White House warns Dems over future probes",
-   "summary": "After more than a week of counting ballots, Scott Colom has narrowly won the Mississippi Senate seat.",
-   "link": "https://www.npr.org/2026/11/12/g-s1-153171/up-first-newsletter-scott-colom-trump-democrats-ukraine-russia",
-   "published": "2026-11-12T12:15:48.000Z",
    "source": "NPR",
    "section": "world"
   }
