@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-15T01:09:53.973Z",
+ "updated": "2026-11-15T07:49:57.821Z",
  "sources": [
   "BBC",
   "NPR"
@@ -78,18 +78,26 @@
    "section": "tech"
   },
   {
-   "title": "Copper wire upgrade caused nationwide flight suspension, US transport secretary says",
-   "summary": "The US government is trying to find out whether the chaos was caused by \"incompetence\" or faulty equipment.",
-   "link": "https://www.bbc.co.uk/news/articles/c6wy9lynq4qno",
-   "published": "2026-11-14T19:12:25.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
    "title": "US has floated Ukraine ceding Donbas for Nato membership, Zelensky says",
    "summary": "The US has not confirmed the Ukrainian president's comments - a US official told the BBC \"many ideas continue to be discussed\".",
    "link": "https://www.bbc.co.uk/news/articles/cwvg2l312ylqo",
    "published": "2026-11-14T22:37:25.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Pope Leo speaks of community 'suffering' on visit to remote Andes town",
+   "summary": "Santa Cruz de Succhabamba is part of the Diocese of Chiclayo, where the pope served as bishop from 2015 to 2023.",
+   "link": "https://www.bbc.co.uk/news/articles/cr4gnz0lv2vlo",
+   "published": "2026-11-15T02:49:45.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Judge temporarily blocks Trump from closing Washington DC golf course for renovation",
+   "summary": "It is the latest development in a months-long challenge to the president's plans for East Potomac Golf Links.",
+   "link": "https://www.bbc.co.uk/news/articles/c6j9mn7l14y0o",
+   "published": "2026-11-15T03:21:04.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -154,14 +162,6 @@
    "summary": "As it races to develop its new massive rocket, the space launch company is preparing to retire NASA's main ride to the International Space Station.",
    "link": "https://www.npr.org/2026/11/13/nx-s1-6039312/spacex-nasa-starship-iss-dragon-falcon-musk",
    "published": "2026-11-13T10:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "A negative Outlook: Microsoft scrambles to fix email outage",
-   "summary": "Early Friday, after Outlook had been down for more than 12 hours, Microsoft reported \"marginal success.\"",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6039343/outlook-down-widespread-outage-microsoft-email",
-   "published": "2026-11-13T01:26:24.000Z",
    "source": "NPR",
    "section": "business"
   },
