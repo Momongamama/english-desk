@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T01:14:58.115Z",
+ "updated": "2026-11-16T01:59:36.370Z",
  "shows": [
   {
    "id": "business-daily",
@@ -14,8 +14,7 @@
      "summary": "Baseball is a multi-billion-dollar sport in the US and has a following elsewhere, from Japan to Venezuela, but it’s never really taken off in Europe.",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pmxz5c.mp3",
      "published": "2026-11-15T21:30:00.000Z",
-     "duration": 1049,
-     "apple": "https://podcasts.apple.com/us/podcast/bringing-baseball-to-europe/id261786876?i=1000802131365&uo=4"
+     "duration": 1049
     },
     {
      "title": "Power Players: What did Trump and the White House know about Nvidia?",
