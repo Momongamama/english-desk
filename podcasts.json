@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T18:50:44.164Z",
+ "updated": "2026-11-16T22:56:11.118Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,13 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Follow the Money: A chip inside the AI boom",
+     "summary": "Memory prices are soaring, AI chips are in short supply and the winners are cashing in.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pn9b1m.mp3",
+     "published": "2026-11-16T21:30:00.000Z",
+     "duration": 1048
+    },
     {
      "title": "Bringing baseball to Europe",
      "summary": "Baseball is a multi-billion-dollar sport in the US and has a following elsewhere, from Japan to Venezuela, but it’s never really taken off in Europe.",
@@ -48,14 +55,6 @@
      "published": "2026-11-10T21:30:00.000Z",
      "duration": 1054,
      "apple": "https://podcasts.apple.com/us/podcast/founders-moving-to-kenya-and-building-a-fashion-business/id261786876?i=1000801073134&uo=4"
-    },
-    {
-     "title": "Follow the Money: Are prediction markets the real winners of the US midterms?",
-     "summary": "Nearly $2 billion was bet on last week's US midterm elections on two prediction markets, Polymarket and Kalshi.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pm368f.mp3",
-     "published": "2026-11-09T21:30:00.000Z",
-     "duration": 1048,
-     "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-are-prediction-markets-the-real/id261786876?i=1000800855947&uo=4"
     }
    ]
   },
