@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-14T02:24:05.295Z",
+ "updated": "2026-11-16T01:14:58.115Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,14 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Bringing baseball to Europe",
+     "summary": "Baseball is a multi-billion-dollar sport in the US and has a following elsewhere, from Japan to Venezuela, but it’s never really taken off in Europe.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pmxz5c.mp3",
+     "published": "2026-11-15T21:30:00.000Z",
+     "duration": 1049,
+     "apple": "https://podcasts.apple.com/us/podcast/bringing-baseball-to-europe/id261786876?i=1000802131365&uo=4"
+    },
     {
      "title": "Power Players: What did Trump and the White House know about Nvidia?",
      "summary": "US Treasury Secretary Scott Bessent accuses Commerce Secretary Howard Lutnick of not acting fast enough over potential leaks of US chip technology getting to…",
@@ -48,14 +56,6 @@
      "published": "2026-11-09T21:30:00.000Z",
      "duration": 1048,
      "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-are-prediction-markets-the-real/id261786876?i=1000800855947&uo=4"
-    },
-    {
-     "title": "Why Europe wants to rely less on US tech companies",
-     "summary": "Europe has long relied on America's tech giants to power its digital economy.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0plhryv.mp3",
-     "published": "2026-11-08T21:30:00.000Z",
-     "duration": 1048,
-     "apple": "https://podcasts.apple.com/us/podcast/why-europe-wants-to-rely-less-on-us-tech-companies/id261786876?i=1000800625738&uo=4"
     }
    ]
   },

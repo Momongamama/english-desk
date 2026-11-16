@@ -1,12 +1,44 @@
 {
- "updated": "2026-11-15T07:49:57.821Z",
+ "updated": "2026-11-16T01:14:55.357Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Beauty advent calendars can cost hundreds - but are they value for money?",
+   "title": "UK will have 'voice' but no vote on EU food rules in Brexit reset",
+   "summary": "EU minister Hamish Falconer insists Britain would have some influence on policy as part of a new deal.",
+   "link": "https://www.bbc.co.uk/news/articles/c6wy4l8nl42wo",
+   "published": "2026-11-15T22:00:24.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Cut national insurance for under-25s to create jobs, Milburn report to say",
+   "summary": "The report being launched this week will suggest gradually reducing employment costs over five years.",
+   "link": "https://www.bbc.co.uk/news/articles/c6p9dzmj514ko",
+   "published": "2026-11-15T22:30:03.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Suspected China spy linked to Nvidia's ex-boss left in 2025, Megaspeed says",
+   "summary": "The Nvidia scandal has raised questions over whether advanced AI chips ended up in China, despite US restrictions.",
+   "link": "https://www.bbc.co.uk/news/articles/cmdx1vpprk9vo",
+   "published": "2026-11-15T22:24:20.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Black Friday and tax return scams - don't fall for these",
+   "summary": "Tens of thousands of scams are reported to HMRC - so it has advice on how to spot a fake request and refund.",
+   "link": "https://www.bbc.co.uk/news/articles/cm4gnlz2p61ko",
+   "published": "2026-11-16T00:50:39.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Beauty advent calendars can cost hundreds but are they value for money?",
    "summary": "Beauty calendars have become a Christmas staple and have become particularly popular with female shoppers.",
    "link": "https://www.bbc.co.uk/news/articles/cqn83l442724o",
    "published": "2026-11-15T00:01:07.000Z",
@@ -14,44 +46,12 @@
    "section": "business"
   },
   {
-   "title": "How the Jensen Huang scandal created a headache for business-friendly Singapore",
-   "summary": "The scandal has cast a spotlight on Singapore's success as a chip hub - and a location for alleged illicit trade.",
-   "link": "https://www.bbc.co.uk/news/articles/ck1exevgql4qo",
-   "published": "2026-11-13T23:00:31.000Z",
+   "title": "South Korea's top scorer in tax accountancy exam admits cheating",
+   "summary": "Han Won-seok, 34, confessed to using a hidden camera and AI to get a near-perfect mark on the significant test.",
+   "link": "https://www.bbc.co.uk/news/articles/ckvg2ezvpe08o",
+   "published": "2026-11-15T13:37:45.000Z",
    "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Microsoft says services fully restored after day-long global outage",
-   "summary": "Efforts to address the underlying problem with Outlook, Teams and Copilot are complete, the tech firm says.",
-   "link": "https://www.bbc.co.uk/news/articles/c6rrg51rkz09o",
-   "published": "2026-11-14T06:42:27.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Why is Microsoft's outage lasting so long and will emails be lost?",
-   "summary": "Microsoft says it is continuing to restore services including Outlook and Teams following a global outage.",
-   "link": "https://www.bbc.co.uk/news/articles/cwvg238zrnm5o",
-   "published": "2026-11-13T18:36:57.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Pressure grows on Trump's Commerce Secretary Lutnick in fallout from Nvidia scandal",
-   "summary": "Scott Bessent told CNBC that several government agencies \"were in favour of putting Megaspeed on the entity list for months\".",
-   "link": "https://www.bbc.co.uk/news/articles/cqvg2d1eg7zro",
-   "published": "2026-11-13T19:53:57.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Heat pumps: How much heat does your home really need?",
-   "summary": "Knowing how much heat your home loses is important before installing a new heating system.",
-   "link": "https://www.bbc.co.uk/news/articles/cqy43zk3kk04o",
-   "published": "2026-11-13T09:29:25.000Z",
-   "source": "BBC",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "Italy fines Meta €805m over accessing users' photos",
@@ -62,66 +62,50 @@
    "section": "tech"
   },
   {
-   "title": "Even Grand Theft Auto's original creators haven't been able to play GTA 6",
-   "summary": "The next title in the series is expected to be the biggest video game release ever.",
-   "link": "https://www.bbc.co.uk/news/articles/c6jd7k5ryl1mo",
-   "published": "2026-11-14T00:37:01.000Z",
+   "title": "Microsoft says services fully restored after day-long global outage",
+   "summary": "Efforts to address the underlying problem with Outlook, Teams and Copilot are complete, the tech firm says.",
+   "link": "https://www.bbc.co.uk/news/articles/c6rrg51rkz09o",
+   "published": "2026-11-14T06:42:27.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "Microsoft outage 'stark reminder' of how much we rely on tech",
-   "summary": "Microsoft has apologised for the issue, which it said was due to a technical failure.",
-   "link": "https://www.bbc.co.uk/news/articles/cxzd9171m51qo",
-   "published": "2026-11-13T21:15:41.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "US has floated Ukraine ceding Donbas for Nato membership, Zelensky says",
-   "summary": "The US has not confirmed the Ukrainian president's comments - a US official told the BBC \"many ideas continue to be discussed\".",
-   "link": "https://www.bbc.co.uk/news/articles/cwvg2l312ylqo",
-   "published": "2026-11-14T22:37:25.000Z",
+   "title": "Zelensky urges US and Musk to lift Starlink restrictions and be on 'right side of history'",
+   "summary": "The Ukrainian president says the slowed-down internet is making it difficult to stop Russian attacks.",
+   "link": "https://www.bbc.co.uk/news/articles/c6m25zg88k45o",
+   "published": "2026-11-15T19:32:39.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Pope Leo speaks of community 'suffering' on visit to remote Andes town",
-   "summary": "Santa Cruz de Succhabamba is part of the Diocese of Chiclayo, where the pope served as bishop from 2015 to 2023.",
-   "link": "https://www.bbc.co.uk/news/articles/cr4gnz0lv2vlo",
-   "published": "2026-11-15T02:49:45.000Z",
+   "title": "Mexican drug lord Miguel Angel Felix Gallardo dies age 80",
+   "summary": "Known as the 'Boss of Bosses', he was the head of all-powerful Guadalajara Cartel in the 1980s before his arrest broke up his drug organisation.",
+   "link": "https://www.bbc.co.uk/news/articles/c51k9nkwrndxo",
+   "published": "2026-11-15T23:52:10.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Judge temporarily blocks Trump from closing Washington DC golf course for renovation",
-   "summary": "It is the latest development in a months-long challenge to the president's plans for East Potomac Golf Links.",
-   "link": "https://www.bbc.co.uk/news/articles/c6j9mn7l14y0o",
-   "published": "2026-11-15T03:21:04.000Z",
+   "title": "Steering failure preceded New Orleans cruise ship collision, says NTSB",
+   "summary": "Preliminary findings by National Transportation Safety Board investigators suggest the tanker suffered a \"steering casualty\" before colliding with the cruise ship on Friday.",
+   "link": "https://www.bbc.co.uk/news/articles/c65y131w1534o",
+   "published": "2026-11-15T22:57:27.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Sotheby's auction of $180m Van Gogh challenged over claims it was 'sold under duress'",
-   "summary": "Sotheby's says it will work with the heirs of a family who had previously owned the artwork to try and reach a solution.",
-   "link": "https://www.bbc.co.uk/news/articles/cmwy05gg75lvo",
-   "published": "2026-11-14T18:00:10.000Z",
+   "title": "Clothing factories shut in Bangladesh as workers strike over pay",
+   "summary": "Workers are striking over demands for a minimum wage of 30,000 taka (£182) a month.",
+   "link": "https://www.bbc.co.uk/news/articles/cx5y1pzr9604o",
+   "published": "2026-11-16T01:05:44.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Judo champion shakes up French presidential race with surprise candidacy",
-   "summary": "Teddy Riner is one of the most popular figures in modern-day France, and one in five voters say they could support him.",
-   "link": "https://www.bbc.co.uk/news/articles/c6dj1e8wyykmo",
-   "published": "2026-11-15T00:06:51.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "My mother told me I would die if I sought treatment for Ebola - I am proof you can survive",
-   "summary": "Fear and misinformation surrounds the Ebola outbreak in DR Congo - Dr Kamwanga's mother was not immune.",
-   "link": "https://www.bbc.co.uk/news/articles/cmvg2e2q28w1o",
-   "published": "2026-11-15T00:06:55.000Z",
+   "title": "Thousands of US flights still cancelled or delayed two days after grounding of planes nationwide",
+   "summary": "The US transport secretary says that normal air-traffic operations may not be restored until Monday.",
+   "link": "https://www.bbc.co.uk/news/articles/cw1mdlv0k2r4o",
+   "published": "2026-11-16T00:03:29.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -166,6 +150,22 @@
    "section": "business"
   },
   {
+   "title": "A negative Outlook: Microsoft scrambles to fix email outage",
+   "summary": "Early Friday, after Outlook had been down for more than 12 hours, Microsoft reported \"marginal success.\"",
+   "link": "https://www.npr.org/2026/11/12/nx-s1-6039343/outlook-down-widespread-outage-microsoft-email",
+   "published": "2026-11-13T01:26:24.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "How the tech industry and markets have responded to Jensen Huang's resignation",
+   "summary": "We look at the industry and market response to news that NVIDIA founder and CEO Jensen Huang was forced to step down after reports of affairs with an alleged Chinese spy and two of his employees.",
+   "link": "https://www.npr.org/2026/11/15/nx-s1-6040394/how-the-tech-industry-and-markets-have-responded-to-jensen-huangs-resignation",
+   "published": "2026-11-15T13:09:19.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
    "title": "Hello? James Gleick's new book compares the history of the telephone to the modern era",
    "summary": "Have you ever wondered where phone etiquette or the idea for the first social network came from? Author James Gleick talks about his new book, The Telephone.",
    "link": "https://www.npr.org/2026/11/14/nx-s1-6037416/hello-james-gleicks-new-book-compares-the-history-of-the-telephone-to-the-modern-era",
@@ -190,50 +190,26 @@
    "section": "tech"
   },
   {
-   "title": "Microsoft outage disrupts work and gives some a chance to unplug",
-   "summary": "Millions of individuals, organizations and businesses were left without access to Microsoft's Outlook email on Thursday. Some people celebrated a day without email, while others work around obstacles.",
-   "link": "https://www.npr.org/2026/11/13/nx-s1-6040004/microsoft-outage-disrupts-work-and-gives-some-a-chance-to-unplug",
-   "published": "2026-11-13T21:06:07.000Z",
+   "title": "Who makes Sydney Sweeney's American Eagle jeans — and under what conditions?",
+   "summary": "Sydney Sweeney has great jeans, American Eagle Outfitters tells us. But who made them? And what are working conditions like in the garment factories of Pakistan and Bangladesh?",
+   "link": "https://www.npr.org/2026/11/15/nx-s1-6013327/sydney-sweeney-jeans-american-eagle-garment-industry",
+   "published": "2026-11-15T22:07:55.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "Colette Kress becomes Nvidia's interim CEO after Jensen Huang resigns",
-   "summary": "Nvidia's CEO Jensen Huang is out, and the company's chief financial officer Colette Kress is taking over as interim CEO. She'll have to guide the company through an exceptionally challenging time.",
-   "link": "https://www.npr.org/2026/11/13/nx-s1-6038889/colette-kress-becomes-nvidias-interim-ceo-after-jensen-huang-resigns",
-   "published": "2026-11-13T11:47:38.000Z",
+   "title": "What to expect from Trump and Xi's upcoming meeting in China",
+   "summary": "Preview of what to expect as President Trump meets with Chinese leader Xi Jinping and Russian President Vladimir Putin at the Asia-Pacific Economic Cooperation summit in Shenzhen, China this week.",
+   "link": "https://www.npr.org/2026/11/15/nx-s1-6038814/what-to-expect-from-trump-and-xis-upcoming-meeting-in-china",
+   "published": "2026-11-15T22:11:26.000Z",
    "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Nvidia's interim CEO inherits risky AI bets and a legal mess",
-   "summary": "AI expert Gary Marcus breaks down what's at stake for Nvidia and the mess its new CEO has inherited.",
-   "link": "https://www.npr.org/2026/11/13/nx-s1-6038868/nvidia-interim-ceo-colette-kress-ai-bets-investigation-lutnick",
-   "published": "2026-11-13T11:47:00.000Z",
-   "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
    "title": "Fuel crisis and protests pressure Chile's far-right president",
    "summary": "Chile's far-right President José Antonio Kast is facing mounting public anger, as rising fuel prices trigger transport strikes and protests across the country.",
    "link": "https://www.npr.org/2026/11/14/nx-s1-6040144/chile-protests-fuel-kast-students",
    "published": "2026-11-14T16:05:12.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "What's Trump's strategy now with Iran? To keep things as they are",
-   "summary": "President Trump says the \"status quo\" is what Gulf Arab allies want as the Iran war hits a stalemate and the U.S. midterms force a pivot from threats of attacks to economic pressure.",
-   "link": "https://www.npr.org/2026/11/13/g-s1-153578/whats-trumps-strategy-now-with-iran-to-keep-things-as-they-are",
-   "published": "2026-11-13T19:02:04.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Nvidia CEO steps down. And, Sen. Chris Van Hollen to run for majority leader",
-   "summary": "Nvidia's chief financial officer has been appointed interim CEO after Jensen Huang stepped down from the role. And, Sen. Chris Van Hollen says he will challenge Chuck Schumer for majority leader.",
-   "link": "https://www.npr.org/2026/11/13/g-s1-153532/up-first-newsletter-nvidia-jensen-huang-colette-kress-ukraine-russia-chris-van-hollen",
-   "published": "2026-11-13T12:07:12.000Z",
    "source": "NPR",
    "section": "world"
   }
