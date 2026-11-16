@@ -1,20 +1,12 @@
 {
- "updated": "2026-11-16T01:14:55.357Z",
+ "updated": "2026-11-16T07:57:49.832Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "UK will have 'voice' but no vote on EU food rules in Brexit reset",
-   "summary": "EU minister Hamish Falconer insists Britain would have some influence on policy as part of a new deal.",
-   "link": "https://www.bbc.co.uk/news/articles/c6wy4l8nl42wo",
-   "published": "2026-11-15T22:00:24.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Cut national insurance for under-25s to create jobs, Milburn report to say",
+   "title": "Cut National Insurance for under-25s to create jobs, Milburn report to say",
    "summary": "The report being launched this week will suggest gradually reducing employment costs over five years.",
    "link": "https://www.bbc.co.uk/news/articles/c6p9dzmj514ko",
    "published": "2026-11-15T22:30:03.000Z",
@@ -22,10 +14,18 @@
    "section": "business"
   },
   {
+   "title": "Gas starts flowing from Jackdaw after government green light",
+   "summary": "Ministers last month announced the Jackdaw gas field, which lies 150 miles east of Aberdeen, had been approved after years of uncertainty.",
+   "link": "https://www.bbc.co.uk/news/articles/c9x2elzm047po",
+   "published": "2026-11-16T06:24:08.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
    "title": "Suspected China spy linked to Nvidia's ex-boss left in 2025, Megaspeed says",
    "summary": "The Nvidia scandal has raised questions over whether advanced AI chips ended up in China, despite US restrictions.",
    "link": "https://www.bbc.co.uk/news/articles/cmdx1vpprk9vo",
-   "published": "2026-11-15T22:24:20.000Z",
+   "published": "2026-11-16T01:47:57.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -38,12 +38,20 @@
    "section": "business"
   },
   {
-   "title": "Beauty advent calendars can cost hundreds but are they value for money?",
-   "summary": "Beauty calendars have become a Christmas staple and have become particularly popular with female shoppers.",
-   "link": "https://www.bbc.co.uk/news/articles/cqn83l442724o",
-   "published": "2026-11-15T00:01:07.000Z",
+   "title": "UK will have 'voice' but no vote on EU food rules in Brexit reset",
+   "summary": "EU minister Hamish Falconer insists Britain would have some influence on policy as part of a new deal.",
+   "link": "https://www.bbc.co.uk/news/articles/c6wy4l8nl42wo",
+   "published": "2026-11-15T22:00:24.000Z",
    "source": "BBC",
    "section": "business"
+  },
+  {
+   "title": "Investors sue chip giant Intel after 29% stock plunge",
+   "summary": "A proposed class action says Intel hid the impact of slowing sales, inflating its shares.",
+   "link": "https://www.bbc.co.uk/news/articles/cw62p42p288do",
+   "published": "2026-11-16T03:04:01.000Z",
+   "source": "BBC",
+   "section": "tech"
   },
   {
    "title": "South Korea's top scorer in tax accountancy exam admits cheating",
@@ -62,12 +70,12 @@
    "section": "tech"
   },
   {
-   "title": "Microsoft says services fully restored after day-long global outage",
-   "summary": "Efforts to address the underlying problem with Outlook, Teams and Copilot are complete, the tech firm says.",
-   "link": "https://www.bbc.co.uk/news/articles/c6rrg51rkz09o",
-   "published": "2026-11-14T06:42:27.000Z",
+   "title": "Yemeni forces' retreat leaves Houthis in control of key area on coast of Red Sea waterway",
+   "summary": "Saudi-backed forces say they are moving troops from the Bab al-Mandab Strait to defend the interim capital Aden.",
+   "link": "https://www.bbc.co.uk/news/articles/cqvg2xgyvnjpo",
+   "published": "2026-11-16T07:23:23.000Z",
    "source": "BBC",
-   "section": "tech"
+   "section": "world"
   },
   {
    "title": "Zelensky urges US and Musk to lift Starlink restrictions and be on 'right side of history'",
@@ -78,34 +86,26 @@
    "section": "world"
   },
   {
-   "title": "Mexican drug lord Miguel Angel Felix Gallardo dies age 80",
+   "title": "Australian MP 'full of gratitude' upon leaving hospital after alleged car attack",
+   "summary": "The MP lost both of her legs after the alleged attack outside her electorate office four weeks ago.",
+   "link": "https://www.bbc.co.uk/news/articles/cmpqr9j81888o",
+   "published": "2026-11-16T03:09:49.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Mexican drug lord Miguel Ángel Félix Gallardo dies age 80",
    "summary": "Known as the 'Boss of Bosses', he was the head of all-powerful Guadalajara Cartel in the 1980s before his arrest broke up his drug organisation.",
    "link": "https://www.bbc.co.uk/news/articles/c51k9nkwrndxo",
-   "published": "2026-11-15T23:52:10.000Z",
+   "published": "2026-11-16T03:21:56.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Steering failure preceded New Orleans cruise ship collision, says NTSB",
-   "summary": "Preliminary findings by National Transportation Safety Board investigators suggest the tanker suffered a \"steering casualty\" before colliding with the cruise ship on Friday.",
-   "link": "https://www.bbc.co.uk/news/articles/c65y131w1534o",
-   "published": "2026-11-15T22:57:27.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Clothing factories shut in Bangladesh as workers strike over pay",
-   "summary": "Workers are striking over demands for a minimum wage of 30,000 taka (£182) a month.",
-   "link": "https://www.bbc.co.uk/news/articles/cx5y1pzr9604o",
-   "published": "2026-11-16T01:05:44.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Thousands of US flights still cancelled or delayed two days after grounding of planes nationwide",
-   "summary": "The US transport secretary says that normal air-traffic operations may not be restored until Monday.",
-   "link": "https://www.bbc.co.uk/news/articles/cw1mdlv0k2r4o",
-   "published": "2026-11-16T00:03:29.000Z",
+   "title": "Prince Harry praises war veterans on surprise visit to Ukraine",
+   "summary": "He has been showing support for injured veterans in Ukraine and praising the country's resilience.",
+   "link": "https://www.bbc.co.uk/news/articles/c60evn992jq8o",
+   "published": "2026-11-15T22:00:13.000Z",
    "source": "BBC",
    "section": "world"
   },
