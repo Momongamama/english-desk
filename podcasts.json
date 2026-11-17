@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-17T17:49:36.023Z",
+ "updated": "2026-11-17T21:49:45.377Z",
  "shows": [
   {
    "id": "business-daily",
@@ -10,12 +10,18 @@
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
     {
+     "title": "Founders: Can a European AI firm take on Google Translate?",
+     "summary": "Jarek Kutylowski is the founder and chief executive of DeepL, the AI translation company taking on tech giants including Google.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pnh0fm.mp3",
+     "published": "2026-11-17T21:30:00.000Z",
+     "duration": 1049
+    },
+    {
      "title": "Follow the money: Who pays for the AI boom now?",
      "summary": "Jensen Huang has left Nvidia, but the money behind AI chips is still flowing to a handful of firms. What's changed is who's paying.",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pn9b1m.mp3",
      "published": "2026-11-16T21:30:00.000Z",
-     "duration": 1048,
-     "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-who-pays-for-the-ai-boom-now/id261786876?i=1000802352132&uo=4"
+     "duration": 1048
     },
     {
      "title": "Bringing baseball to Europe",
@@ -48,14 +54,6 @@
      "published": "2026-11-11T21:30:00.000Z",
      "duration": 1060,
      "apple": "https://podcasts.apple.com/us/podcast/power-players-nvidia-and-the-spy-scandal/id261786876?i=1000801349968&uo=4"
-    },
-    {
-     "title": "Founders: Moving to Kenya and building a fashion business",
-     "summary": "Joanna Maiden was 26 years old when she arrived in Kenya and decided to open her business.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pm9jpz.mp3",
-     "published": "2026-11-10T21:30:00.000Z",
-     "duration": 1054,
-     "apple": "https://podcasts.apple.com/us/podcast/founders-moving-to-kenya-and-building-a-fashion-business/id261786876?i=1000801073134&uo=4"
     }
    ]
   },
@@ -72,8 +70,7 @@
      "summary": "What’s stopping a pipeline that would bring running water from the Colorado River to tribal lands who’ve long gone without it?",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/76856110-ee70-4f82-9a55-696959f2e7df/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=76856110-ee70-4f82-9a55-696959f2e7df&feed=IFy3imsg&t=podcast&e=nx-s1-6042565&p=510325&d=557&size=8921843",
      "published": "2026-11-17T08:00:00.000Z",
-     "duration": 557,
-     "apple": "https://podcasts.apple.com/us/podcast/how-a-tribal-water-deal-could-put-a-price-tag/id1320118593?i=1000802366505&uo=4"
+     "duration": 557
     },
     {
      "title": "Three influencer types and how they generate money",
