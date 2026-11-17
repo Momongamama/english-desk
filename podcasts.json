@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-16T22:56:11.118Z",
+ "updated": "2026-11-17T04:04:01.587Z",
  "shows": [
   {
    "id": "business-daily",
@@ -14,7 +14,8 @@
      "summary": "Memory prices are soaring, AI chips are in short supply and the winners are cashing in.",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pn9b1m.mp3",
      "published": "2026-11-16T21:30:00.000Z",
-     "duration": 1048
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-a-chip-inside-the-ai-boom/id261786876?i=1000802352132&uo=4"
     },
     {
      "title": "Bringing baseball to Europe",

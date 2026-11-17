@@ -1,113 +1,137 @@
 {
- "updated": "2026-11-16T07:57:49.832Z",
+ "updated": "2026-11-17T04:03:59.505Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Cut National Insurance for under-25s to create jobs, Milburn report to say",
-   "summary": "The report being launched this week will suggest gradually reducing employment costs over five years.",
+   "title": "'Complete system reset' needed to get 440,000 young people into work, says major review",
+   "summary": "Alan Milburn's review will call for sweeping reforms to the education, work and welfare systems.",
+   "link": "https://www.bbc.co.uk/news/articles/c38xzy980924o",
+   "published": "2026-11-16T22:32:47.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Aged 16-24 and looking for work? Use our look-up to find out which areas have the most jobs",
+   "summary": "How many jobs are there where you live and in which sectors are you most likely to find an opening?",
+   "link": "https://www.bbc.co.uk/news/articles/cw3djdjk5d7ko",
+   "published": "2026-11-17T00:00:03.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "We couldn't afford a house alone, so we bought one with strangers",
+   "summary": "People who can't afford to get on the housing ladder are buying homes with people they don't know.",
+   "link": "https://www.bbc.co.uk/news/articles/c5742lwdyzglo",
+   "published": "2026-11-17T00:00:02.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Nvidia dismisses 'Bring Jensen Back' campaign as Trump backs effort to reinstate ex CEO",
+   "summary": "A number of tech figures have backed an effort asking the AI chip giant to give Jensen Huang his job back.",
+   "link": "https://www.bbc.co.uk/news/articles/cry49plv8v3go",
+   "published": "2026-11-17T02:37:53.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "California sues OpenAI over Hugging Face attack",
+   "summary": "Attorney General Rob Bonta alleges OpenAI misled and endangered the public",
+   "link": "https://www.bbc.co.uk/news/articles/c6wy4xv2mxglo",
+   "published": "2026-11-16T23:12:24.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Create more jobs for under-25s by cutting National Insurance, key report urges",
+   "summary": "Some parents are so desperate for their children to find a job that they've offered to pay their wages, one hairdresser has told the BBC.",
    "link": "https://www.bbc.co.uk/news/articles/c6p9dzmj514ko",
-   "published": "2026-11-15T22:30:03.000Z",
+   "published": "2026-11-16T13:19:33.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Gas starts flowing from Jackdaw after government green light",
-   "summary": "Ministers last month announced the Jackdaw gas field, which lies 150 miles east of Aberdeen, had been approved after years of uncertainty.",
-   "link": "https://www.bbc.co.uk/news/articles/c9x2elzm047po",
-   "published": "2026-11-16T06:24:08.000Z",
+   "title": "New Zealand tricks and annual leave - the lengths fans are going to for GTA 6",
+   "summary": "Sensor Tower estimates the game has already made $1.18bn from pre-orders across PlayStation and Xbox",
+   "link": "https://www.bbc.co.uk/news/articles/cm4gn9xnn1ppo",
+   "published": "2026-11-17T01:04:45.000Z",
    "source": "BBC",
-   "section": "business"
+   "section": "tech"
   },
   {
-   "title": "Suspected China spy linked to Nvidia's ex-boss left in 2025, Megaspeed says",
-   "summary": "The Nvidia scandal has raised questions over whether advanced AI chips ended up in China, despite US restrictions.",
-   "link": "https://www.bbc.co.uk/news/articles/cmdx1vpprk9vo",
-   "published": "2026-11-16T01:47:57.000Z",
+   "title": "The AI start-ups fixing India's broken roads and messy land records",
+   "summary": "From legal-tech to healthcare, dozens of Indian AI start-ups are solving uniquely Indian challenges.",
+   "link": "https://www.bbc.co.uk/news/articles/c820vnln2lzpo",
+   "published": "2026-11-16T23:25:53.000Z",
    "source": "BBC",
-   "section": "business"
+   "section": "tech"
   },
   {
-   "title": "Black Friday and tax return scams - don't fall for these",
-   "summary": "Tens of thousands of scams are reported to HMRC - so it has advice on how to spot a fake request and refund.",
-   "link": "https://www.bbc.co.uk/news/articles/cm4gnlz2p61ko",
-   "published": "2026-11-16T00:50:39.000Z",
+   "title": "GTA 6 hacker pleads guilty after release from secure hospital",
+   "summary": "21-year-old Arion Kurtaj pleaded guilty to the Rockstar Games hack and others he carried out when he was a teenager.",
+   "link": "https://www.bbc.co.uk/news/articles/cq99exy89dngo",
+   "published": "2026-11-16T13:34:22.000Z",
    "source": "BBC",
-   "section": "business"
+   "section": "tech"
   },
   {
-   "title": "UK will have 'voice' but no vote on EU food rules in Brexit reset",
-   "summary": "EU minister Hamish Falconer insists Britain would have some influence on policy as part of a new deal.",
-   "link": "https://www.bbc.co.uk/news/articles/c6wy4l8nl42wo",
-   "published": "2026-11-15T22:00:24.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Investors sue chip giant Intel after 29% stock plunge",
-   "summary": "A proposed class action says Intel hid the impact of slowing sales, inflating its shares.",
+   "title": "Intel sued by investors after PC sales slump hits share price",
+   "summary": "A proposed class action claims the firm hid the impact of slowing PC sales from shareholders.",
    "link": "https://www.bbc.co.uk/news/articles/cw62p42p288do",
    "published": "2026-11-16T03:04:01.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "South Korea's top scorer in tax accountancy exam admits cheating",
-   "summary": "Han Won-seok, 34, confessed to using a hidden camera and AI to get a near-perfect mark on the significant test.",
-   "link": "https://www.bbc.co.uk/news/articles/ckvg2ezvpe08o",
-   "published": "2026-11-15T13:37:45.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Italy fines Meta €805m over accessing users' photos",
-   "summary": "The social media giant is accused of not informing 20 million users it had access to their photos.",
-   "link": "https://www.bbc.co.uk/news/articles/cwn83gxemk35o",
-   "published": "2026-11-14T18:28:06.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Yemeni forces' retreat leaves Houthis in control of key area on coast of Red Sea waterway",
-   "summary": "Saudi-backed forces say they are moving troops from the Bab al-Mandab Strait to defend the interim capital Aden.",
-   "link": "https://www.bbc.co.uk/news/articles/cqvg2xgyvnjpo",
-   "published": "2026-11-16T07:23:23.000Z",
+   "title": "Landmark Crimea bridge hit as Russia reports biggest Ukrainian drone attack of war",
+   "summary": "Russia said Ukraine had launched over 2,000 drones over the course of a day, while Kyiv came under a record 17 air raid alerts.",
+   "link": "https://www.bbc.co.uk/news/articles/ckx27v6dpjz0o",
+   "published": "2026-11-16T14:58:12.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Zelensky urges US and Musk to lift Starlink restrictions and be on 'right side of history'",
-   "summary": "The Ukrainian president says the slowed-down internet is making it difficult to stop Russian attacks.",
-   "link": "https://www.bbc.co.uk/news/articles/c6m25zg88k45o",
-   "published": "2026-11-15T19:32:39.000Z",
+   "title": "Forensic expert says his analysis of autopsy photos suggests Epstein was killed",
+   "summary": "Professor Michael Freeman tells BBC Newsnight that he believes the convicted sex offender's injuries are consistent with a homicide.",
+   "link": "https://www.bbc.co.uk/news/articles/c5n4exg1kkmyo",
+   "published": "2026-11-16T20:33:57.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Australian MP 'full of gratitude' upon leaving hospital after alleged car attack",
-   "summary": "The MP lost both of her legs after the alleged attack outside her electorate office four weeks ago.",
-   "link": "https://www.bbc.co.uk/news/articles/cmpqr9j81888o",
-   "published": "2026-11-16T03:09:49.000Z",
+   "title": "Raye, Rosalía and Dolly Parton recognised in Grammy nominations",
+   "summary": "British singer Raye lands 11 nominations while Dolly Parton is recognised two months after her death.",
+   "link": "https://www.bbc.co.uk/news/articles/cq9vwkggpx73o",
+   "published": "2026-11-16T14:48:55.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Mexican drug lord Miguel Ángel Félix Gallardo dies age 80",
-   "summary": "Known as the 'Boss of Bosses', he was the head of all-powerful Guadalajara Cartel in the 1980s before his arrest broke up his drug organisation.",
-   "link": "https://www.bbc.co.uk/news/articles/c51k9nkwrndxo",
-   "published": "2026-11-16T03:21:56.000Z",
+   "title": "Five EU countries announce migrant deportation centre in Rwanda",
+   "summary": "Germany, Denmark, Austria, Greece and the Netherlands have announced a \"return hub\" for failed asylum seekers.",
+   "link": "https://www.bbc.co.uk/news/articles/cw987343352go",
+   "published": "2026-11-16T23:20:45.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Prince Harry praises war veterans on surprise visit to Ukraine",
-   "summary": "He has been showing support for injured veterans in Ukraine and praising the country's resilience.",
-   "link": "https://www.bbc.co.uk/news/articles/c60evn992jq8o",
-   "published": "2026-11-15T22:00:13.000Z",
+   "title": "Houthi rebel advance in Yemen may further destabilise global economy",
+   "summary": "The Iran-backed Houthis are gaining ground and their advance could have dangerous consequences, writes the BBC's security correspondent.",
+   "link": "https://www.bbc.co.uk/news/articles/cmy97qperq9eo",
+   "published": "2026-11-16T21:40:07.000Z",
    "source": "BBC",
    "section": "world"
+  },
+  {
+   "title": "New rule aims to close loophole on chip exports",
+   "summary": "The Commerce Department released a new rule designed to make it harder for China to gain access to America's most powerful computer chips using third-country data centers.",
+   "link": "https://www.npr.org/2026/11/16/nx-s1-6042918/new-rule-aims-to-close-loophole-on-chip-exports",
+   "published": "2026-11-16T22:08:48.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "Commerce Department under pressure for delaying export controls on Nvidia chips",
@@ -150,12 +174,36 @@
    "section": "business"
   },
   {
-   "title": "A negative Outlook: Microsoft scrambles to fix email outage",
-   "summary": "Early Friday, after Outlook had been down for more than 12 hours, Microsoft reported \"marginal success.\"",
-   "link": "https://www.npr.org/2026/11/12/nx-s1-6039343/outlook-down-widespread-outage-microsoft-email",
-   "published": "2026-11-13T01:26:24.000Z",
+   "title": "California sues OpenAI over hacking risks",
+   "summary": "The state's attorney general started investigating OpenAI after the Hugging Face attack and now says this attack was \"entirely foreseeable\" due to OpenAI's poor security practices.",
+   "link": "https://www.npr.org/2026/11/16/nx-s1-6042920/california-sues-openai-hugging-face-hacking-incident",
+   "published": "2026-11-16T22:06:22.000Z",
    "source": "NPR",
-   "section": "business"
+   "section": "tech"
+  },
+  {
+   "title": "U.S. tightens controls on remote access to AI technology amid Nvidia fallout",
+   "summary": "The new rule closes a loophole that existed that allowed Chinese companies to still access advanced AI chips remotely, despite U.S. restrictions on their physical sale to China.",
+   "link": "https://www.npr.org/2026/11/16/nx-s1-6042883/nvidia-jensen-huang-commerce-department",
+   "published": "2026-11-16T18:49:26.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
+   "title": "U.N. talks seek to rein in 'killer robots' as fears over AI weapons grow",
+   "summary": "Countries are meeting in Geneva to negotiate rules on weapons that can select and kill targets without human intervention.",
+   "link": "https://www.npr.org/2026/11/16/nx-s1-6042548/un-killer-robots-ai-weapons-drones",
+   "published": "2026-11-16T18:04:50.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
+   "title": "It's not just the U.S., the movement against data centers is global",
+   "summary": "Activists protesting data centers in their backyards are teaming up to learn tactics from allies around the world. \"We are coordinated and we are together,\" said one Spanish activist.",
+   "link": "https://www.npr.org/2026/11/16/nx-s1-6000601/its-not-just-the-u-s-the-movement-against-data-centers-is-global",
+   "published": "2026-11-16T09:44:39.000Z",
+   "source": "NPR",
+   "section": "tech"
   },
   {
    "title": "How the tech industry and markets have responded to Jensen Huang's resignation",
@@ -166,34 +214,34 @@
    "section": "tech"
   },
   {
-   "title": "Hello? James Gleick's new book compares the history of the telephone to the modern era",
-   "summary": "Have you ever wondered where phone etiquette or the idea for the first social network came from? Author James Gleick talks about his new book, The Telephone.",
-   "link": "https://www.npr.org/2026/11/14/nx-s1-6037416/hello-james-gleicks-new-book-compares-the-history-of-the-telephone-to-the-modern-era",
-   "published": "2026-11-14T22:48:35.000Z",
+   "title": "Chris Van Hollen says he can beat Chuck Schumer. Here's his case",
+   "summary": "Sen. Chris Van Hollen told NPR's Morning Edition why he believes he can defeat Sen. Chuck Schumer and what he would change about Senate Democratic leadership.",
+   "link": "https://www.npr.org/2026/11/16/nx-s1-6041687/chris-van-hollen-chuck-schumer-senate-leader",
+   "published": "2026-11-16T11:39:14.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "SpaceX makes history with Starship catch",
-   "summary": "SpaceX catches its Starship rocket as it comes back from space for the very first time.",
-   "link": "https://www.npr.org/2026/11/14/nx-s1-6041089/spacex-makes-history-with-starship-catch",
-   "published": "2026-11-14T22:31:41.000Z",
+   "title": "Africa: Trading in yuan",
+   "summary": "The dollar has long ruled Africa's financial landscape. But as more countries turn to China's yuan, the balance of economic power could be shifting.",
+   "link": "https://www.npr.org/2026/11/16/nx-s1-6035000/africa-trading-in-yuan",
+   "published": "2026-11-16T23:49:35.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "Asia Society's Lizzi C. Lee on big tech restrictions after Nvidia espionage claims",
-   "summary": "NPR's Scott Simon asks Lizzi C. Lee of the Asia Society about restrictions on big tech in the wake of allegations of espionage against Nvidia.",
-   "link": "https://www.npr.org/2026/11/14/nx-s1-6040188/asia-societys-lizzi-c-lee-on-big-tech-restrictions-after-nvidia-espionage-claims",
-   "published": "2026-11-14T12:40:27.000Z",
+   "title": "FAA ground stop still affecting thousands of flights. And, Trump meets Xi, Putin in Asia",
+   "summary": "U.S. Transportation Secretary Sean Duffy said that things could be back to normal at the end of Monday after an FAA ground stop disrupted flights.",
+   "link": "https://www.npr.org/2026/11/16/g-s1-153841/up-first-newsletter-faa-ground-stop-democratic-leaders-congress-trump-asia-trip",
+   "published": "2026-11-16T12:08:14.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "Who makes Sydney Sweeney's American Eagle jeans — and under what conditions?",
-   "summary": "Sydney Sweeney has great jeans, American Eagle Outfitters tells us. But who made them? And what are working conditions like in the garment factories of Pakistan and Bangladesh?",
-   "link": "https://www.npr.org/2026/11/15/nx-s1-6013327/sydney-sweeney-jeans-american-eagle-garment-industry",
-   "published": "2026-11-15T22:07:55.000Z",
+   "title": "Trump heads to Asia to meet with Xi and Putin amid Nvidia fallout",
+   "summary": "The trip to China marks Trump's second time this year, and comes as the president and his party faced widespread backlash from voters in the recent midterm elections.",
+   "link": "https://www.npr.org/2026/11/16/nx-s1-6041738/trump-xi-and-putin-china-nvidia",
+   "published": "2026-11-16T10:00:00.000Z",
    "source": "NPR",
    "section": "world"
   },
@@ -202,14 +250,6 @@
    "summary": "Preview of what to expect as President Trump meets with Chinese leader Xi Jinping and Russian President Vladimir Putin at the Asia-Pacific Economic Cooperation summit in Shenzhen, China this week.",
    "link": "https://www.npr.org/2026/11/15/nx-s1-6038814/what-to-expect-from-trump-and-xis-upcoming-meeting-in-china",
    "published": "2026-11-15T22:11:26.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Fuel crisis and protests pressure Chile's far-right president",
-   "summary": "Chile's far-right President José Antonio Kast is facing mounting public anger, as rising fuel prices trigger transport strikes and protests across the country.",
-   "link": "https://www.npr.org/2026/11/14/nx-s1-6040144/chile-protests-fuel-kast-students",
-   "published": "2026-11-14T16:05:12.000Z",
    "source": "NPR",
    "section": "world"
   }
