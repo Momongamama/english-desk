@@ -1,39 +1,15 @@
 {
- "updated": "2026-11-19T02:42:00.937Z",
+ "updated": "2026-11-19T08:46:30.160Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Claude-maker Anthropic poised for stock market debut worth up to $1.5tn",
-   "summary": "Anthropic started just five years ago an is now one of the biggest names in artificial intelligence.",
+   "title": "Anthropic valued at $1.5 trillion ahead of AI giant's stock market debut",
+   "summary": "The company behind the Claude chatbot will become one of the most valuable firms in the world.",
    "link": "https://www.bbc.co.uk/news/articles/c6742m39xgzxo",
    "published": "2026-11-19T02:20:15.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Can Anthropic's record-breaking IPO stop the AI bubble bursting?",
-   "summary": "Anthropic's hotly anticipated IPO is expected to put it in the top 10 most valuable US companies, but the future is uncertain.",
-   "link": "https://www.bbc.co.uk/news/articles/cj4gnpzll020o",
-   "published": "2026-11-18T21:28:08.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "The seven Anthropic founders who are about to become multi-billionaires",
-   "summary": "The AI company behind Claude is about to sell its shares on the US stock market - making its founders very rich.",
-   "link": "https://www.bbc.co.uk/news/articles/cmd7159vlr85o",
-   "published": "2026-11-18T23:42:07.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Elon Musk says record spending on US midterms was 'pretty foolish'",
-   "summary": "The multi-billionaire also said he was \"not Maga\", distancing himself from the political movement linked to Trump.",
-   "link": "https://www.bbc.co.uk/news/articles/cm9q8j2z3gg8o",
-   "published": "2026-11-19T01:56:28.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -46,10 +22,34 @@
    "section": "business"
   },
   {
-   "title": "Europe plans to catch the next computer chip wave",
-   "summary": "Europe hopes to be a leader in a new generation of computer chips which use light to process data.",
-   "link": "https://www.bbc.co.uk/news/articles/cqglwjd450k0o",
-   "published": "2026-11-18T00:00:24.000Z",
+   "title": "Simon Jack: Can Anthropic's record-breaking IPO stop the AI bubble bursting?",
+   "summary": "Anthropic's hotly anticipated IPO is expected to put it in the top 10 most valuable US companies, but the future is uncertain.",
+   "link": "https://www.bbc.co.uk/news/articles/cj4gnpzll020o",
+   "published": "2026-11-18T21:28:08.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Crew unaware of risks before Mike Lynch's yacht Bayesian sank, say investigators",
+   "summary": "The vessel sank off the coast of northern Sicily, killing seven people including British tech tycoon Mike Lynch.",
+   "link": "https://www.bbc.co.uk/news/articles/c6e9kn15z9d7o",
+   "published": "2026-11-19T00:05:31.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Elon Musk says record $446m spending on US midterms was 'pretty foolish'",
+   "summary": "The multi-billionaire also said he was \"not Maga\", distancing himself from the political movement linked to Trump.",
+   "link": "https://www.bbc.co.uk/news/articles/cm9q8j2z3gg8o",
+   "published": "2026-11-19T02:59:06.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "The seven Anthropic founders who are about to become multi-billionaires",
+   "summary": "The AI company behind Claude is about to sell its shares on the US stock market - making its founders very rich.",
+   "link": "https://www.bbc.co.uk/news/articles/cmd7159vlr85o",
+   "published": "2026-11-18T23:42:07.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -78,6 +78,14 @@
    "section": "tech"
   },
   {
+   "title": "This is a remarkable diplomatic moment for China's Xi - but it comes with pitfalls",
+   "summary": "The meeting comes with challenges as there are things Xi does not appear keen to discuss with Putin and Trump.",
+   "link": "https://www.bbc.co.uk/news/articles/cr9d75we51j1o",
+   "published": "2026-11-19T04:42:52.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
    "title": "Myanmar faces historic genocide verdict at UN court over Rohingya massacres",
    "summary": "No state has ever been found guilty by an international court of committing genocide.",
    "link": "https://www.bbc.co.uk/news/articles/c5m2l90ez144o",
@@ -94,18 +102,18 @@
    "section": "world"
   },
   {
-   "title": "Israeli military launches rare ground operation in Gaza beyond Yellow Line",
-   "summary": "Hamas condemns the incursion, which the Israeli military says is dismantling a \"terror tunnel\", as a \"flagrant\" ceasefire violation.",
-   "link": "https://www.bbc.co.uk/news/articles/cw8r7510degno",
-   "published": "2026-11-18T22:34:56.000Z",
+   "title": "Crimean Bridge attacked again, Russia says",
+   "summary": "The head of Crimea said traffic was suspended after another attack on the link between Russia and the occupied territory.",
+   "link": "https://www.bbc.co.uk/news/articles/cm879dqn3e1jo",
+   "published": "2026-11-19T07:32:06.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Crimean Bridge attacked again, Russian official says",
-   "summary": "The head of Crimea said traffic was suspended after another attack on the link between Russia and the occupied territory.",
-   "link": "https://www.bbc.co.uk/news/articles/cm879dqn3e1jo",
-   "published": "2026-11-19T01:05:03.000Z",
+   "title": "Israeli military launches rare ground operation in Gaza beyond Yellow Line",
+   "summary": "Hamas condemns the incursion, which the Israeli military says is dismantling a \"terror tunnel\", as a \"flagrant\" ceasefire violation.",
+   "link": "https://www.bbc.co.uk/news/articles/cw8r7510degno",
+   "published": "2026-11-18T22:34:56.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -190,14 +198,6 @@
    "section": "tech"
   },
   {
-   "title": "Greetings from a Berlin square, where an artist's statue watches over children at play",
-   "summary": "Children frolic around the ever-watchful and calm Käthe Kollwitz cast in bronze, in a square named after the German artist, whose work often depicted children in the wake of World War I.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6043021/berlin-kollwitzplatz-statue",
-   "published": "2026-11-18T11:00:00.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
    "title": "Mary Peltola flips Alaska's Senate seat. And, Nvidia won't reinstate Jensen Huang",
    "summary": "Former Democratic Rep. Mary Peltola has won one of the U.S.' most watched Senate races. And, Nvidia's board says it doesn't plan to reinstate former CEO Jensen Huang despite pressure from his allies.",
    "link": "https://www.npr.org/2026/11/18/g-s1-154145/up-first-newsletter-mary-peltola-alaska-trump-asia-nvidia-tech-issues-ai",
@@ -218,6 +218,14 @@
    "summary": "NPR's Leila Fadel speaks to Nicholas Burns, former U.S. ambassador to China and NATO, about President Trump's planned meeting with the leaders of China and Russia.",
    "link": "https://www.npr.org/2026/11/18/nx-s1-6044067/former-u-s-ambassador-on-trumps-joint-summit-with-leaders-of-china-and-russia",
    "published": "2026-11-18T11:57:06.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "Greetings from a Berlin square, where an artist's statue watches over children at play",
+   "summary": "Children frolic around the ever-watchful and calm Käthe Kollwitz cast in bronze, in a square named after the German artist, whose work often depicted children in the wake of World War I.",
+   "link": "https://www.npr.org/2026/11/18/nx-s1-6043021/berlin-kollwitzplatz-statue",
+   "published": "2026-11-18T11:00:00.000Z",
    "source": "NPR",
    "section": "world"
   },
