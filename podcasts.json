@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-19T03:21:22.383Z",
+ "updated": "2026-11-19T04:30:44.570Z",
  "shows": [
   {
    "id": "business-daily",
@@ -14,8 +14,7 @@
      "summary": "Dario Amodei runs Anthropic, the company behind the Claude chatbot.",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pnr9gw.mp3",
      "published": "2026-11-18T21:30:00.000Z",
-     "duration": 1634,
-     "apple": "https://podcasts.apple.com/us/podcast/power-players-how-do-you-value-anthropic/id261786876?i=1000802831369&uo=4"
+     "duration": 1634
     },
     {
      "title": "Founders: Can a European AI firm take on Google Translate?",
