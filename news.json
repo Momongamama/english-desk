@@ -1,121 +1,145 @@
 {
- "updated": "2026-11-19T08:46:30.160Z",
+ "updated": "2026-11-20T02:28:02.950Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Anthropic valued at $1.5 trillion ahead of AI giant's stock market debut",
+   "title": "Anthropic becomes one of world's most valuable public companies in stock market debut",
+   "summary": "Anthropic is the first purely AI company to be publicly listed, creating a test for the entire industry.",
+   "link": "https://www.bbc.co.uk/news/articles/c3x29ggenz12o",
+   "published": "2026-11-19T23:33:51.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Tens of thousands of UK fridges secured from hackers in secret nationwide operation",
+   "summary": "Supermarkets, warehouses, restaurants and stadiums have been scrambling to make their devices safe.",
+   "link": "https://www.bbc.co.uk/news/articles/c6eq49zyx7p4o",
+   "published": "2026-11-20T00:02:07.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Airbnb's divisive new house rules come into force",
+   "summary": "New rules on what Airbnb hosts can reasonably ask guests to do could mean fewer chores but higher costs for customers.",
+   "link": "https://www.bbc.co.uk/news/articles/cmx278n2genyo",
+   "published": "2026-11-20T00:12:28.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "GTA 6 breaks records as sales top $2bn - industry estimate",
+   "summary": "Rockstar Games ended a 13-year wait with what is expected to be the biggest entertainment launch ever.",
+   "link": "https://www.bbc.co.uk/news/articles/c9zr5nyv5dj2o",
+   "published": "2026-11-20T02:13:05.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "California targets Nvidia in China AI chip probe",
+   "summary": "The probe by California, where the AI chipmaker has its global headquarters, follows former CEO Jensen Huang's departure.",
+   "link": "https://www.bbc.co.uk/news/articles/cqn70vxp5p4no",
+   "published": "2026-11-19T23:04:30.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Fish and eggs al desko? The dos and don'ts of the lunch break",
+   "summary": "What is acceptable to eat at your desk, without annoying your colleagues?",
+   "link": "https://www.bbc.co.uk/news/articles/cwp8g4092zglo",
+   "published": "2026-11-20T00:08:37.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Dutch watchdog tells people not to buy AI smart glasses",
+   "summary": "Tests of glasses showed some misread medicine instructions or pretended to have called an ambulance",
+   "link": "https://www.bbc.co.uk/news/articles/ckq6eyrzrzy5o",
+   "published": "2026-11-19T16:33:17.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "Anthropic raises $81bn in record-breaking stock market debut",
    "summary": "The company behind the Claude chatbot will become one of the most valuable firms in the world.",
    "link": "https://www.bbc.co.uk/news/articles/c6742m39xgzxo",
-   "published": "2026-11-19T02:20:15.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "McDonald's sex abuse: 'They were waiting for the younger girls to turn 18'",
-   "summary": "A former McDonald's worker calls on the firm to “change the way they treat younger employees” as a judge rules a legal case against the chain can go ahead.",
-   "link": "https://www.bbc.co.uk/news/articles/c6x2eve321jno",
-   "published": "2026-11-19T00:00:59.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Simon Jack: Can Anthropic's record-breaking IPO stop the AI bubble bursting?",
-   "summary": "Anthropic's hotly anticipated IPO is expected to put it in the top 10 most valuable US companies, but the future is uncertain.",
-   "link": "https://www.bbc.co.uk/news/articles/cj4gnpzll020o",
-   "published": "2026-11-18T21:28:08.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Crew unaware of risks before Mike Lynch's yacht Bayesian sank, say investigators",
-   "summary": "The vessel sank off the coast of northern Sicily, killing seven people including British tech tycoon Mike Lynch.",
-   "link": "https://www.bbc.co.uk/news/articles/c6e9kn15z9d7o",
-   "published": "2026-11-19T00:05:31.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Elon Musk says record $446m spending on US midterms was 'pretty foolish'",
-   "summary": "The multi-billionaire also said he was \"not Maga\", distancing himself from the political movement linked to Trump.",
-   "link": "https://www.bbc.co.uk/news/articles/cm9q8j2z3gg8o",
-   "published": "2026-11-19T02:59:06.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "The seven Anthropic founders who are about to become multi-billionaires",
-   "summary": "The AI company behind Claude is about to sell its shares on the US stock market - making its founders very rich.",
-   "link": "https://www.bbc.co.uk/news/articles/cmd7159vlr85o",
-   "published": "2026-11-18T23:42:07.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Grand Theft Auto 6 is a masterpiece, say critics",
-   "summary": "Critics have their say as to whether GTA 6, the most anticipated video game of all time, lives up to the hype.",
-   "link": "https://www.bbc.co.uk/news/articles/cw8r75xm8v4po",
-   "published": "2026-11-18T17:34:25.000Z",
+   "published": "2026-11-19T15:58:58.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "Hacks, AI or just overdue updates - why have there been so many outages?",
-   "summary": "There is no evidence these are linked, but the constant series of tech disruptions can be unnerving.",
-   "link": "https://www.bbc.co.uk/news/articles/c6z0kly2lll7o",
-   "published": "2026-11-18T13:16:53.000Z",
+   "title": "UK joins in GTA 6 frenzy as game becomes available worldwide",
+   "summary": "The game, which was in development for 13 years, is set become one of the world's most popular entertainment products ever.",
+   "link": "https://www.bbc.co.uk/news/articles/c6z74ep2n17zo",
+   "published": "2026-11-19T12:26:39.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "British hacker who stole $11m through text message scheme jailed for six years in US",
-   "summary": "Tyler Buchanan, from Dundee, was a member of the notorious Scattered Spider group and began hacking when he was a teenager.",
-   "link": "https://www.bbc.co.uk/news/articles/cm87987w1qz5o",
-   "published": "2026-11-18T09:28:35.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "This is a remarkable diplomatic moment for China's Xi - but it comes with pitfalls",
-   "summary": "The meeting comes with challenges as there are things Xi does not appear keen to discuss with Putin and Trump.",
-   "link": "https://www.bbc.co.uk/news/articles/cr9d75we51j1o",
-   "published": "2026-11-19T04:42:52.000Z",
+   "title": "'I tell my son it's just fireworks': People inside besieged Yemeni city speak to BBC",
+   "summary": "Orla Guerin speaks to seven people trapped in Taiz by the Houthis who reveal what life is like under siege.",
+   "link": "https://www.bbc.co.uk/news/articles/cx7v2d8q879eo",
+   "published": "2026-11-20T00:13:21.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Myanmar faces historic genocide verdict at UN court over Rohingya massacres",
-   "summary": "No state has ever been found guilty by an international court of committing genocide.",
-   "link": "https://www.bbc.co.uk/news/articles/c5m2l90ez144o",
-   "published": "2026-11-18T23:04:06.000Z",
+   "title": "Europe ready for talks with Russia on ending war in Ukraine, leaders say",
+   "summary": "European allies of Ukraine say they have a \"united\" negotiating position at a summit in Berlin.",
+   "link": "https://www.bbc.co.uk/news/articles/ckzd9nln5e6go",
+   "published": "2026-11-20T00:50:24.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Van Gogh painting sells for record $190.4m after row over its Nazi history",
-   "summary": "Châtaigniers en fleurs was painted in 1890 in the final two months of Vincent van Gogh's life.",
-   "link": "https://www.bbc.co.uk/news/articles/c5dj1dkwzvzwo",
-   "published": "2026-11-19T00:49:19.000Z",
+   "title": "Judge finds Thomas Markle mentally fit to stand trial on child abuse charges",
+   "summary": "Markle, who has denied possessing images of child sex abuse was deemed competent after an evaluation by a court-appointed psychiatrist.",
+   "link": "https://www.bbc.co.uk/news/articles/crgj35ldz2zxo",
+   "published": "2026-11-19T22:48:22.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Crimean Bridge attacked again, Russia says",
-   "summary": "The head of Crimea said traffic was suspended after another attack on the link between Russia and the occupied territory.",
-   "link": "https://www.bbc.co.uk/news/articles/cm879dqn3e1jo",
-   "published": "2026-11-19T07:32:06.000Z",
+   "title": "Myanmar committed genocide against Rohingya minority, top UN court rules",
+   "summary": "The unprecedented International Court of Justice verdict concerns a 2017 military crackdown that killed thousands.",
+   "link": "https://www.bbc.co.uk/news/articles/c804wzp20ddvo",
+   "published": "2026-11-19T20:07:02.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Israeli military launches rare ground operation in Gaza beyond Yellow Line",
-   "summary": "Hamas condemns the incursion, which the Israeli military says is dismantling a \"terror tunnel\", as a \"flagrant\" ceasefire violation.",
-   "link": "https://www.bbc.co.uk/news/articles/cw8r7510degno",
-   "published": "2026-11-18T22:34:56.000Z",
+   "title": "Trump, Putin and Xi release 'peace declaration' after historic meeting",
+   "summary": "While the presidents have previously met for one-on-one meetings, this is their first trilateral discussion.",
+   "link": "https://www.bbc.co.uk/news/articles/c623j4ln97x7o",
+   "published": "2026-11-19T17:38:22.000Z",
    "source": "BBC",
    "section": "world"
+  },
+  {
+   "title": "Investors scramble for a piece of AI giant Anthropic in blockbuster IPO",
+   "summary": "Shares in the maker of the popular Claude artificial intelligence model leapt in first day of trading on the Nasdaq Thursday.",
+   "link": "https://www.npr.org/2026/11/19/nx-s1-6042558/anthropic-ipo-breaks-records-100-billion",
+   "published": "2026-11-19T10:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "AI giant Anthropic's shares pop in debut after blockbuster IPO",
+   "summary": "Shares in the AI juggernaut Anthropic are now trading on the stock market. They debuted Thursday, after a record-breaking IPO.",
+   "link": "https://www.npr.org/2026/11/19/nx-s1-6042560/ai-giant-anthropics-shares-pop-in-debut-after-blockbuster-ipo",
+   "published": "2026-11-19T21:19:56.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Anthropic raises more than $100B in IPO. And, Dems nominate Jeffries for House speaker",
+   "summary": "Despite growing concern over a possible AI bubble, Anthropic had a record-breaking initial public offering. And, Hakeem Jeffries could become the first Black Speaker of the House.",
+   "link": "https://www.npr.org/2026/11/19/g-s1-154344/up-first-newsletter-house-democrats-trump-xi-putin-anthropic",
+   "published": "2026-11-19T12:26:01.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "Anthropic IPO raises record $81.3 billion on strong AI demand",
@@ -138,30 +162,6 @@
    "summary": "Chip giant Nvidia held its first earnings call since the departure of former CEO Jensen Huang, as interim CEO Colette Kress takes over.",
    "link": "https://www.npr.org/2026/11/18/nx-s1-6042563/nvidia-hold-first-earnings-call-since-former-ceos-departure",
    "published": "2026-11-18T09:43:50.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Nvidia needs more than a new CEO. An expert offers a way forward",
-   "summary": "Nvidia needs a new CEO. Keeping its engineers is another story.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6044070/nvidia-jensen-huang-ceo-replacement-engineers",
-   "published": "2026-11-18T09:43:44.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Nvidia tries to get back to business",
-   "summary": "Nvidia quarterly earnings are in. But the biggest question isn't about past business performance it's about the company's future leadership.",
-   "link": "https://www.npr.org/2026/11/17/nx-s1-6044197/nvidia-tries-to-get-back-to-business",
-   "published": "2026-11-17T22:18:51.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Nvidia board says it does not intend to reinstate Jensen Huang as CEO",
-   "summary": "The former Nvidia CEO said he would be \"honored\" to return if the board allowed. But the board says it has no intention of reinstating him.",
-   "link": "https://www.npr.org/2026/11/17/nx-s1-6044213/jensen-huang-nvidia-congress",
-   "published": "2026-11-17T17:36:31.000Z",
    "source": "NPR",
    "section": "business"
   },
@@ -190,50 +190,42 @@
    "section": "tech"
   },
   {
-   "title": "Government Accountability Office IT director discusses the recent tech outages",
-   "summary": "NPR's Leila Fadel speaks with Government Accountability Office IT and cybersecurity director Dave Hinchman about outdated government technology and the risk of system failures.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6042543/government-accountability-office-it-director-discusses-the-recent-tech-outages",
-   "published": "2026-11-18T09:42:54.000Z",
+   "title": "Nvidia needs more than a new CEO. An expert offers a way forward",
+   "summary": "Nvidia needs a new CEO. Keeping its engineers is another story.",
+   "link": "https://www.npr.org/2026/11/18/nx-s1-6044070/nvidia-jensen-huang-ceo-replacement-engineers",
+   "published": "2026-11-18T09:43:44.000Z",
    "source": "NPR",
    "section": "tech"
   },
   {
-   "title": "Mary Peltola flips Alaska's Senate seat. And, Nvidia won't reinstate Jensen Huang",
-   "summary": "Former Democratic Rep. Mary Peltola has won one of the U.S.' most watched Senate races. And, Nvidia's board says it doesn't plan to reinstate former CEO Jensen Huang despite pressure from his allies.",
-   "link": "https://www.npr.org/2026/11/18/g-s1-154145/up-first-newsletter-mary-peltola-alaska-trump-asia-nvidia-tech-issues-ai",
-   "published": "2026-11-18T12:14:28.000Z",
+   "title": "The U.N.'s top court rules Myanmar committed genocide against the Rohingya",
+   "summary": "The International Court of Justice found that Myanmar security forces \"acted with genocidal intent\" against the Rohingya during military operations in the northern Rakhine state in 2017.",
+   "link": "https://www.npr.org/2026/11/19/g-s1-154340/un-court-myanmar-genocide-rohingya",
+   "published": "2026-11-19T12:29:41.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Trump to meet with Russia's Putin and China's Xi for historic joint meeting",
-   "summary": "President Trump will meet with Russian President Vladimir Putin and Chinese President Xi on Thursday for a historic three-way meeting.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6027645/trump-to-meet-with-russias-putin-and-chinas-xi-for-historic-joint-meeting",
-   "published": "2026-11-18T11:57:10.000Z",
+   "title": "Top House Democrat questions what Trump accomplished in Xi-Putin summit",
+   "summary": "Rep. Gregory Meeks raises concerns about U.S. alliances after Trump's summit with Xi and Putin. He also discusses Chinese espionage amid the Nvidia scandal.",
+   "link": "https://www.npr.org/2026/11/19/nx-s1-6046487/gregory-meeks-trump-xi-putin-summit",
+   "published": "2026-11-19T11:20:37.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Former U.S. ambassador on Trump's joint summit with leaders of China and Russia",
-   "summary": "NPR's Leila Fadel speaks to Nicholas Burns, former U.S. ambassador to China and NATO, about President Trump's planned meeting with the leaders of China and Russia.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6044067/former-u-s-ambassador-on-trumps-joint-summit-with-leaders-of-china-and-russia",
-   "published": "2026-11-18T11:57:06.000Z",
+   "title": "Iran's attacks on ships in the Strait of Hormuz escalate",
+   "summary": "Iran takes the offensive with attacks on ships in the Strait of Hormuz and airstrikes on several countries around the Persian Gulf.",
+   "link": "https://www.npr.org/2026/11/19/nx-s1-6044206/irans-attacks-on-ships-in-the-strait-of-hormuz-escalate",
+   "published": "2026-11-19T09:46:24.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Greetings from a Berlin square, where an artist's statue watches over children at play",
-   "summary": "Children frolic around the ever-watchful and calm Käthe Kollwitz cast in bronze, in a square named after the German artist, whose work often depicted children in the wake of World War I.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6043021/berlin-kollwitzplatz-statue",
-   "published": "2026-11-18T11:00:00.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Trump lands in China with key meetings with Xi and Putin on the agenda",
-   "summary": "Xi paid Trump a special honor by greeting him on the tarmac after Air Force One arrived in Shenzhen, reciprocating a gesture made by the U.S. president during Xi's visit to Washington in September.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6045518/trump-china-xi-putin",
-   "published": "2026-11-18T10:32:03.000Z",
+   "title": "Trump, Xi and Putin meet as global alliances hang in the balance",
+   "summary": "President Trump, China's Xi Jinping and Russia's Vladimir Putin have gathered in Shenzhen, China, for a historic trilateral meeting, with Ukraine, Iran and nuclear disarmament on the agenda.",
+   "link": "https://www.npr.org/2026/11/18/nx-s1-6040432/trump-xi-and-putin-shenzhen-china-russia-usa",
+   "published": "2026-11-19T09:44:40.000Z",
    "source": "NPR",
    "section": "world"
   }
