@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T03:08:11.154Z",
+ "updated": "2026-11-20T08:30:54.353Z",
  "shows": [
   {
    "id": "business-daily",
@@ -68,6 +68,13 @@
    "apple": "https://podcasts.apple.com/us/podcast/the-indicator-from-planet-money/id1320118593?uo=4",
    "episodes": [
     {
+     "title": "Tech blackouts, Black Friday fake-outs, and C-suite tariff cash-outs",
+     "summary": "This week’s indicators: Software outages are piling up, Black Friday deals might not actually be Black Friday deals, and companies are cashing in on tariff…",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/ace46736-91bd-469d-9cc8-711ca5b95dd0/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=ace46736-91bd-469d-9cc8-711ca5b95dd0&feed=IFy3imsg&t=podcast&e=nx-s1-6047743&p=510325&d=564&size=9026751",
+     "published": "2026-11-20T08:00:00.000Z",
+     "duration": 564
+    },
+    {
      "title": "Why the 'good old days' of American manufacturing are long gone",
      "summary": "Harvard professor Willy Shih tells us why the manufacturing renaissance President Trump envisioned has not come to pass and how a different type of resurgence…",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/009ca4ad-89b5-4cc6-ba28-884277eaf1ad/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=009ca4ad-89b5-4cc6-ba28-884277eaf1ad&feed=IFy3imsg&t=podcast&e=nx-s1-6045922&p=510325&d=534&size=8547749",
@@ -106,14 +113,6 @@
      "published": "2026-11-13T08:00:00.000Z",
      "duration": 546,
      "apple": "https://podcasts.apple.com/us/podcast/an-inflation-scare-workers-get-their-fair-share/id1320118593?i=1000801640740&uo=4"
-    },
-    {
-     "title": "Should personal finance be part of the liberal arts?",
-     "summary": "We take you inside an AP personal finance class in Alabama where students are learning about Roth IRAs and compound interest.",
-     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/0109a642-aed7-4067-83bd-d7d2b3e528e5/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=0109a642-aed7-4067-83bd-d7d2b3e528e5&feed=IFy3imsg&t=podcast&e=nx-s1-6037729&p=510325&d=561&size=8992039",
-     "published": "2026-11-12T08:00:00.000Z",
-     "duration": 561,
-     "apple": "https://podcasts.apple.com/us/podcast/should-personal-finance-be-part-of-the-liberal-arts/id1320118593?i=1000801336845&uo=4"
     }
    ]
   }
