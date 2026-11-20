@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T17:11:37.786Z",
+ "updated": "2026-11-20T21:16:30.245Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,14 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Power Players: Licence to Bill - James Bond, Robert Pattinson & Amazon Money",
+     "summary": "Rahul Tandon and Will Bain are joined by Matt Belloni, host of 'The Town' podcast to discuss whether Robert Pattinson can bring success to the role of James…",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pp56dw.mp3",
+     "published": "2026-11-20T20:00:00.000Z",
+     "duration": 1742,
+     "apple": "https://podcasts.apple.com/us/podcast/power-players-licence-to-bill-james-bond-robert-pattinson/id261786876?i=1000803187307&uo=4"
+    },
     {
      "title": "Taking stock: Nvidia, Anthropic’s IPO and the launch of GTA",
      "summary": "Trump talks about Nvidia and its former CEO Jensen Huang during a summit with Chinese leader Xi Jinping.",
@@ -48,14 +56,6 @@
      "published": "2026-11-15T21:30:00.000Z",
      "duration": 1049,
      "apple": "https://podcasts.apple.com/us/podcast/bringing-baseball-to-europe/id261786876?i=1000802131365&uo=4"
-    },
-    {
-     "title": "Power Players: What did Trump and the White House know about Nvidia?",
-     "summary": "US Treasury Secretary Scott Bessent accuses Commerce Secretary Howard Lutnick of not acting fast enough over potential leaks of US chip technology getting to…",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pmx48g.mp3",
-     "published": "2026-11-13T16:00:00.000Z",
-     "duration": 1048,
-     "apple": "https://podcasts.apple.com/us/podcast/power-players-what-did-trump-and-the-white-house/id261786876?i=1000801765630&uo=4"
     }
    ]
   },
