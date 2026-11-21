@@ -1,121 +1,145 @@
 {
- "updated": "2026-11-20T08:30:52.577Z",
+ "updated": "2026-11-21T02:39:26.021Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Tinned food and long-life milk boost retail sales after 'Be Ready' campaign launch",
-   "summary": "People stocking up on long-life food drove retail sales higher October, according to official data.",
-   "link": "https://www.bbc.co.uk/news/articles/ck053mzy2qqeo",
-   "published": "2026-11-20T08:09:04.000Z",
+   "title": "Tech stock sell-off drags markets down as Anthropic shares slide",
+   "summary": "Pressures weighed on US markets, with the S&P 500 and the Dow Jones Industrial Average pushed into correction territory.",
+   "link": "https://www.bbc.co.uk/news/articles/c6808ym10vzgo",
+   "published": "2026-11-20T22:42:47.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Mouldy, infested housing for vulnerable people sold as ethical investments abroad",
-   "summary": "The properties are marketed at premium prices with claims of “government-backed” returns, the BBC finds.",
-   "link": "https://www.bbc.co.uk/news/articles/c6evre8j12vno",
-   "published": "2026-11-20T06:00:33.000Z",
+   "title": "UK to explore even closer ties with EU after agreeing deal, says Burnham",
+   "summary": "The UK-EU deal agreed on Friday covers British food exports, emissions trading and a youth experience scheme.",
+   "link": "https://www.bbc.co.uk/news/articles/c6jreyqgw4e9o",
+   "published": "2026-11-20T17:49:48.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "GTA 6 breaks records as estimated sales top $2.3bn",
-   "summary": "Rockstar Games ended a 13-year wait with what is expected to be the biggest entertainment launch ever.",
+   "title": "Faisal Islam: This cost-cutting UK-EU deal doesn't mean lower prices will follow",
+   "summary": "The trade deal is unlikely lower food prices for shoppers, but should boost the economy more than other post-Brexit agreements.",
+   "link": "https://www.bbc.co.uk/news/articles/cm1wr029evnqo",
+   "published": "2026-11-20T16:41:52.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Trump threatens ban on US firms building AI data centres overseas",
+   "summary": "The US president provided little detail on the potential policy, saying others in his team were hearing about it for the first time.",
+   "link": "https://www.bbc.co.uk/news/articles/cmde1lw9y54ko",
+   "published": "2026-11-20T20:54:12.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "GTA 6 sales hit $3.8bn in a single day - the biggest entertainment launch in history",
+   "summary": "The mammoth figure surpasses every video game launch and single-day film box office record.",
    "link": "https://www.bbc.co.uk/news/articles/c9zr5nyv5dj2o",
-   "published": "2026-11-20T02:54:40.000Z",
+   "published": "2026-11-20T22:53:24.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Airbnb's divisive new house rules come into force",
-   "summary": "New rules on what Airbnb hosts can reasonably ask guests to do could mean fewer chores but higher costs for customers.",
-   "link": "https://www.bbc.co.uk/news/articles/cmx278n2genyo",
-   "published": "2026-11-20T00:12:28.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Tens of thousands of UK fridges secured from hackers in secret nationwide operation",
-   "summary": "Supermarkets, warehouses, restaurants and stadiums have been scrambling to make their devices safe.",
-   "link": "https://www.bbc.co.uk/news/articles/c6eq49zyx7p4o",
-   "published": "2026-11-20T00:02:07.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Anthropic becomes one of world's most valuable public companies in stock market debut",
-   "summary": "Anthropic is the first purely AI company to be publicly listed, creating a test for the entire industry.",
-   "link": "https://www.bbc.co.uk/news/articles/c3x29ggenz12o",
-   "published": "2026-11-19T23:33:51.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Should AI be judging our credit worthiness?",
-   "summary": "Would AI be a good judge of whether you should get a mortgage, car loan or mobile phone contract?",
-   "link": "https://www.bbc.co.uk/news/articles/c6d94pzk9vleo",
-   "published": "2026-11-20T07:32:19.000Z",
+   "title": "Can AI really help spot Black Friday deals? We put it to the test",
+   "summary": "We put four AI models to the test to see if they could save us money on a new TV.",
+   "link": "https://www.bbc.co.uk/news/articles/cw8dv4jmnle2o",
+   "published": "2026-11-21T00:06:11.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "Dutch watchdog tells people not to buy AI smart glasses",
-   "summary": "Tests of glasses showed some misread medicine instructions or pretended to have called an ambulance",
-   "link": "https://www.bbc.co.uk/news/articles/ckq6eyrzrzy5o",
-   "published": "2026-11-19T16:33:17.000Z",
+   "title": "In a year of AI solving maths problems, Anthropic may have just solved the biggest",
+   "summary": "A mathematician at Anthropic says he used an AI to prove the famed Riemann hypothesis, though verification will take some time.",
+   "link": "https://www.bbc.co.uk/news/articles/c6pqr2g7w059o",
+   "published": "2026-11-20T23:08:57.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "Anthropic raises $81bn in record-breaking stock market debut",
-   "summary": "The company behind the Claude chatbot will become one of the most valuable firms in the world.",
-   "link": "https://www.bbc.co.uk/news/articles/c6742m39xgzxo",
-   "published": "2026-11-19T15:58:58.000Z",
+   "title": "White House removes cyber-security chief after series of tech outages",
+   "summary": "He has been fired after losing the confidence of new White House chief of staff Stephen Miller, according to reports.",
+   "link": "https://www.bbc.co.uk/news/articles/cwz0k3nn5p5mo",
+   "published": "2026-11-20T19:03:56.000Z",
    "source": "BBC",
    "section": "tech"
   },
   {
-   "title": "'I tell my son it's just fireworks': Life inside Yemeni city besieged by Houthis",
-   "summary": "Orla Guerin speaks to seven people trapped in the key city of Taiz, cut off from the outside world for weeks.",
-   "link": "https://www.bbc.co.uk/news/articles/cx7v2d8q879eo",
-   "published": "2026-11-20T00:13:21.000Z",
+   "title": "Russian missile hits Poland as Ukraine's allies hold military exercise, says Tusk",
+   "summary": "Nobody was hurt and no damage has been reported, but Warsaw described the incident as a \"provocation\" from Moscow.",
+   "link": "https://www.bbc.co.uk/news/articles/cqx2x9dklxnro",
+   "published": "2026-11-21T02:09:46.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Fiona the hippo dies after swallowing a hat at Cincinnati Zoo",
-   "summary": "Fiona, who became an internet star after her premature birth in 2017, \"fought until she couldn’t anymore\", the zoo says.",
-   "link": "https://www.bbc.co.uk/news/articles/cwz0k3172xzko",
-   "published": "2026-11-19T23:40:29.000Z",
+   "title": "French police officers sentenced for beating of music producer Michel Zecler",
+   "summary": "The court has upheld the 2020 beating of the black music producer as an aggravated circumstance of racism.",
+   "link": "https://www.bbc.co.uk/news/articles/ck9d7e9wvvweo",
+   "published": "2026-11-20T22:37:09.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Judge finds Thomas Markle mentally fit to stand trial on child abuse charges",
-   "summary": "Markle, who has denied possessing images of child sex abuse was deemed competent after an evaluation by a court-appointed psychiatrist.",
-   "link": "https://www.bbc.co.uk/news/articles/crgj35ldz2zxo",
-   "published": "2026-11-19T22:48:22.000Z",
+   "title": "Gérard Depardieu and French author investigated over sexual allegations",
+   "summary": "A judicial investigation was launched after a complaint was filed last year over \"allegations of a sexual nature\".",
+   "link": "https://www.bbc.co.uk/news/articles/c9ly43pj10mvo",
+   "published": "2026-11-20T19:45:20.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "UK and EU to agree youth mobility scheme, BBC understands",
-   "summary": "The scheme is expected to be approved at Friday's UK-EU summit, with new deals on food trade and carbon emissions also on the table.",
-   "link": "https://www.bbc.co.uk/news/articles/c623j4kpg94go",
-   "published": "2026-11-20T07:14:46.000Z",
+   "title": "Mamdani announces plan to close New York's Rikers Island jail by 2032",
+   "summary": "Plans to shutter the troubled facility date back to 2019, when the city council first voted to close it but delays arose over where to place inmates.",
+   "link": "https://www.bbc.co.uk/news/articles/cmjeqv89egylo",
+   "published": "2026-11-21T00:01:39.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Myanmar committed genocide against Rohingya minority, top UN court rules",
-   "summary": "The unprecedented International Court of Justice verdict concerns a 2017 military crackdown that killed thousands.",
-   "link": "https://www.bbc.co.uk/news/articles/c804wzp20ddvo",
-   "published": "2026-11-19T20:07:02.000Z",
-   "source": "BBC",
-   "section": "world"
+   "title": "S&P 500 sinks 3.7% and the Nasdaq composite goes negative for the year",
+   "summary": "AI stocks have hefty market values and have a much bigger impact on the market's direction. They were responsible for Wall Street's big gains this year and are now behind the big slide for the market.",
+   "link": "https://www.npr.org/2026/11/20/g-s1-154797/nasdaq-sp500-stock-market-ai-sink-negative",
+   "published": "2026-11-20T22:11:29.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Trump's impact on an Ohio steel plant",
+   "summary": "The giant steel plant in Middletown, Ohio planned to switch away from using coke, a refined form of coal. The switch would have cut hazardous air pollution -- and greenhouse gas emissions.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-5860971/trumps-impact-on-ohio-steel-plant",
+   "published": "2026-11-20T21:38:11.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Just how vulnerable are we to cyberattacks?",
+   "summary": "In a week of outages, we're thinking about the rising threat of AI-powered cyberattacks.",
+   "link": "https://www.npr.org/sections/planet-money/2026/11/20/nx-s1-6047750/just-how-vulnerable-are-we-to-cyberattacks",
+   "published": "2026-11-20T12:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Critics are worried about Anthropic's influence after first day of public trading",
+   "summary": "Anthropic's initial public offering was a success for shareholders, including its founders. But there were also protests about whether the company can be a responsible steward of AI technology.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6047539/critics-are-worried-about-anthropics-influence-after-first-day-of-public-trading",
+   "published": "2026-11-20T11:37:31.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "How exactly did Trump get so rich on crypto? We explain",
+   "summary": "President Trump has made billions of dollars in his second term — most of it in cryptocurrencies. Democrats are vowing to probe his businesses as they gear up to take over Congress next year.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6038969/trump-crypto-profits-corruption-meme-coin-world-liberty-explainer",
+   "published": "2026-11-20T10:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "AI giant Anthropic's shares pop in debut after blockbuster IPO",
@@ -126,106 +150,90 @@
    "section": "business"
   },
   {
-   "title": "Anthropic raises more than $100B in IPO. And, Dems nominate Jeffries for House speaker",
-   "summary": "Despite growing concern over a possible AI bubble, Anthropic had a record-breaking initial public offering. And, Hakeem Jeffries could become the first Black Speaker of the House.",
-   "link": "https://www.npr.org/2026/11/19/g-s1-154344/up-first-newsletter-house-democrats-trump-xi-putin-anthropic",
-   "published": "2026-11-19T12:26:01.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Investors scramble for a piece of AI giant Anthropic in blockbuster IPO",
-   "summary": "Shares in the maker of the popular Claude artificial intelligence model leapt in first day of trading on the Nasdaq Thursday.",
-   "link": "https://www.npr.org/2026/11/19/nx-s1-6042558/anthropic-ipo-breaks-records-100-billion",
-   "published": "2026-11-19T10:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Anthropic IPO raises record $81.3 billion on strong AI demand",
-   "summary": "The five-year-old artificial intelligence powerhouse priced its initial public offering at $83 a share, shrugging off growing concern about a possible AI bubble and volatility in tech stocks.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6046212/anthropic-record-ipo-price",
-   "published": "2026-11-18T23:54:56.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Karl Kani dressed hip-hop royalty for decades. Now he's telling his own story",
-   "summary": "On NPR's Morning Edition , fashion designer Karl Kani talks about his new memoir, dressing some of hip-hop's biggest stars and why skinny jeans aren't for everyone.",
-   "link": "https://www.npr.org/2026/11/18/g-s1-154227/karl-kani-a-life-by-design",
-   "published": "2026-11-18T18:15:59.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Nvidia hold first earnings call since former CEO's departure",
-   "summary": "Chip giant Nvidia held its first earnings call since the departure of former CEO Jensen Huang, as interim CEO Colette Kress takes over.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6042563/nvidia-hold-first-earnings-call-since-former-ceos-departure",
-   "published": "2026-11-18T09:43:50.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Grand Theft Auto VI is a grounded love story, a gonzo crime thriller and a gaming triumph",
-   "summary": "An inspired synthesis of violent satire and contemplative storytelling, Grand Theft Auto VI is more mature and ambitious than any prior game in the record-breaking franchise.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6040326/grand-theft-auto-6-review-vice-city-masterpiece",
-   "published": "2026-11-18T11:00:00.000Z",
+   "title": "Tech stocks end the week on a down note, despite Anthropic's mega-IPO",
+   "summary": "The stock market is ending the week down despite Anthropic's blockbuster IPO and a strong Nvidia earnings report, largely thanks to investor jitters about the future of AI.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6048645/tech-stocks-end-the-week-on-a-down-note-despite-anthropics-mega-ipo",
+   "published": "2026-11-20T21:38:32.000Z",
    "source": "NPR",
    "section": "tech"
   },
   {
-   "title": "Project Gryffindor: Meta's plan to get more school kids using Instagram",
-   "summary": "Meta said it launched its \"school partnership program\" to keep teens safe, but internal documents tell a different story.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6037808/meta-instagram-schools-teens-safety",
-   "published": "2026-11-18T10:00:00.000Z",
+   "title": "Machine Gods: Anthropic's early days",
+   "summary": "In the wake of AI giant Anthropic's record-breaking IPO, Machine Gods hosts Kevin Roose and Casey Newton look back on the early days of the company, when less than 200 workers in a cramped office…",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6047503/machine-gods-anthropics-early-days",
+   "published": "2026-11-20T21:38:14.000Z",
    "source": "NPR",
    "section": "tech"
   },
   {
-   "title": "OpenAI announces new AI safety program; researchers worry it won't be enough",
-   "summary": "OpenAI CEO Sam Altman said he would grant \"employee level\" access to outside researchers to evaluate AI safety. The pilot program appears much more restrictive.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6044223/openai-embedded-evaluators-program-critics",
-   "published": "2026-11-18T10:00:00.000Z",
+   "title": "Experts say powering data centers uses more water than cooling them",
+   "summary": "Fears about data center water use are especially acute in Arizona. But keeping servers cool uses a lot less water than generating the electricity for which data centers are so thirsty.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6045780/experts-say-powering-data-centers-uses-more-water-than-cooling-them",
+   "published": "2026-11-20T09:43:39.000Z",
    "source": "NPR",
    "section": "tech"
   },
   {
-   "title": "Nvidia needs more than a new CEO. An expert offers a way forward",
-   "summary": "Nvidia needs a new CEO. Keeping its engineers is another story.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6044070/nvidia-jensen-huang-ceo-replacement-engineers",
-   "published": "2026-11-18T09:43:44.000Z",
+   "title": "AI models are propelling rapid growth and revealing vulnerabilities",
+   "summary": "AI models are exposing the internet's longstanding insecurity, driving rapid change and technical outages.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6047374/ai-models-are-propelling-rapid-growth-and-revealing-vulnerabilities",
+   "published": "2026-11-20T09:43:11.000Z",
    "source": "NPR",
    "section": "tech"
+  },
+  {
+   "title": "Business opportunity or security threat? Nvidia case raises questions about China",
+   "summary": "The Nvidia case illustrates the friction between Silicon Valley, which wants to sell high-tech products to China, and the national security community, which aims to restrict U.S. tech to China.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6043838/business-opportunity-or-security-threat-nvidia-case-raises-questions-about-china",
+   "published": "2026-11-20T09:42:24.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
+   "title": "Trump touts meeting with Xi and Putin but offers little results",
+   "summary": "At a White House press conference Friday, Trump offered little in actual results of the meetings, beyond a joint statement on unity over some issues.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6047594/trump-asia-trip-xi-putin-press-conference",
+   "published": "2026-11-20T15:00:00.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "Another day of survival for a family in Ukraine",
+   "summary": "On the outskirts of Kyiv, one family prepares for the fifth winter of war against Russia -- stockpiling food and fuel and trying to maintain as much a sense of normalcy as possible.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6042206/another-day-of-survival-for-a-family-in-ukraine",
+   "published": "2026-11-20T21:32:31.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "Dems aim to block Iran war funding. And, Army delays lead azide detonation in Iowa",
+   "summary": "Congress needs to pass a funding measure to avoid a shutdown next month, providing Dems an opportunity to leverage power. And, the Army says waiting to detonate lead azide could become dangerous.",
+   "link": "https://www.npr.org/2026/11/20/g-s1-154582/up-first-newsletter-democrats-iran-war-trump-xi-jinping-iowa-army",
+   "published": "2026-11-20T12:04:57.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "GOP Sen. Johnson rejects tying government funding to an end to the Iran war",
+   "summary": "\"We're not going to shut down the war,\" Sen. Ron Johnson said as Republicans and Democrats struggle to reach a government funding deal.",
+   "link": "https://www.npr.org/2026/11/20/nx-s1-6047473/iran-war-funding-congress",
+   "published": "2026-11-20T11:37:35.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "The U.K. and EU hold a rare summit to strengthen ties",
+   "summary": "A decade after the people of Britain voted to leave the European Union, top EU officials are meeting with Prime Minister Andy Burnham on Friday, looking to mend more fences.",
+   "link": "https://www.npr.org/2026/11/20/g-s1-154576/uk-eu-summit",
+   "published": "2026-11-20T09:14:41.000Z",
+   "source": "NPR",
+   "section": "world"
   },
   {
    "title": "The U.N.'s top court rules Myanmar committed genocide against the Rohingya",
    "summary": "The International Court of Justice found that Myanmar security forces \"acted with genocidal intent\" against the Rohingya during military operations in the northern Rakhine state in 2017.",
    "link": "https://www.npr.org/2026/11/19/g-s1-154340/un-court-myanmar-genocide-rohingya",
    "published": "2026-11-19T12:29:41.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Top House Democrat questions what Trump accomplished in Xi-Putin summit",
-   "summary": "Rep. Gregory Meeks raises concerns about U.S. alliances after Trump's summit with Xi and Putin. He also discusses Chinese espionage amid the Nvidia scandal.",
-   "link": "https://www.npr.org/2026/11/19/nx-s1-6046487/gregory-meeks-trump-xi-putin-summit",
-   "published": "2026-11-19T11:20:37.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Iran's attacks on ships in the Strait of Hormuz escalate",
-   "summary": "Iran takes the offensive with attacks on ships in the Strait of Hormuz and airstrikes on several countries around the Persian Gulf.",
-   "link": "https://www.npr.org/2026/11/19/nx-s1-6044206/irans-attacks-on-ships-in-the-strait-of-hormuz-escalate",
-   "published": "2026-11-19T09:46:24.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Trump, Xi and Putin meet as global alliances hang in the balance",
-   "summary": "President Trump, China's Xi Jinping and Russia's Vladimir Putin have gathered in Shenzhen, China, for a historic trilateral meeting, with Ukraine, Iran and nuclear disarmament on the agenda.",
-   "link": "https://www.npr.org/2026/11/18/nx-s1-6040432/trump-xi-and-putin-shenzhen-china-russia-usa",
-   "published": "2026-11-19T09:44:40.000Z",
    "source": "NPR",
    "section": "world"
   }
