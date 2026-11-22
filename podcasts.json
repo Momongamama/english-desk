@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-20T21:16:30.245Z",
+ "updated": "2026-11-22T01:28:19.127Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,14 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Recommending... Inheritance: Fiat",
+     "summary": "Gianni Agnelli is the head of the family that controls Fiat, and the vast business empire beyond the carmaker that helped shape modern Italy.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pn7s86.mp3",
+     "published": "2026-11-22T00:01:00.000Z",
+     "duration": 1463,
+     "apple": "https://podcasts.apple.com/us/podcast/recommending-inheritance-fiat/id261786876?i=1000803353997&uo=4"
+    },
     {
      "title": "Power Players: Licence to Bill - James Bond, Robert Pattinson & Amazon Money",
      "summary": "Rahul Tandon and Will Bain are joined by Matt Belloni, host of 'The Town' podcast to discuss whether Robert Pattinson can bring success to the role of James…",
@@ -48,14 +56,6 @@
      "published": "2026-11-16T21:30:00.000Z",
      "duration": 1048,
      "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-who-pays-for-the-ai-boom-now/id261786876?i=1000802352132&uo=4"
-    },
-    {
-     "title": "Bringing baseball to Europe",
-     "summary": "Baseball is a multi-billion-dollar sport in the US and has a following elsewhere, from Japan to Venezuela, but it’s never really taken off in Europe.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pmxz5c.mp3",
-     "published": "2026-11-15T21:30:00.000Z",
-     "duration": 1049,
-     "apple": "https://podcasts.apple.com/us/podcast/bringing-baseball-to-europe/id261786876?i=1000802131365&uo=4"
     }
    ]
   },

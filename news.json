@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-21T02:39:26.021Z",
+ "updated": "2026-11-22T01:28:17.673Z",
  "sources": [
   "BBC",
   "NPR"
@@ -46,6 +46,14 @@
    "section": "business"
   },
   {
+   "title": "Should AI be judging our credit worthiness?",
+   "summary": "Would AI be a good judge of whether you should get a mortgage, car loan or mobile phone contract?",
+   "link": "https://www.bbc.co.uk/news/articles/c6d94pzk9vleo",
+   "published": "2026-11-20T07:32:19.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
    "title": "Can AI really help spot Black Friday deals? We put it to the test",
    "summary": "We put four AI models to the test to see if they could save us money on a new TV.",
    "link": "https://www.bbc.co.uk/news/articles/cw8dv4jmnle2o",
@@ -54,7 +62,7 @@
    "section": "tech"
   },
   {
-   "title": "In a year of AI solving maths problems, Anthropic may have just solved the biggest",
+   "title": "In a year of AI solving maths problems, an Anthropic worker says he may have cracked the biggest",
    "summary": "A mathematician at Anthropic says he used an AI to prove the famed Riemann hypothesis, though verification will take some time.",
    "link": "https://www.bbc.co.uk/news/articles/c6pqr2g7w059o",
    "published": "2026-11-20T23:08:57.000Z",
@@ -70,36 +78,68 @@
    "section": "tech"
   },
   {
-   "title": "Russian missile hits Poland as Ukraine's allies hold military exercise, says Tusk",
-   "summary": "Nobody was hurt and no damage has been reported, but Warsaw described the incident as a \"provocation\" from Moscow.",
-   "link": "https://www.bbc.co.uk/news/articles/cqx2x9dklxnro",
-   "published": "2026-11-21T02:09:46.000Z",
+   "title": "Zelensky says Crimean Bridge strikes 'fair response' as he meets UK's Streeting",
+   "summary": "Ukraine's president says Kyiv acted after 109 separate Russian aerial attacks on bridges in Ukraine.",
+   "link": "https://www.bbc.co.uk/news/articles/c6wy0qj7w5zqo",
+   "published": "2026-11-21T13:17:38.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "French police officers sentenced for beating of music producer Michel Zecler",
-   "summary": "The court has upheld the 2020 beating of the black music producer as an aggravated circumstance of racism.",
-   "link": "https://www.bbc.co.uk/news/articles/ck9d7e9wvvweo",
-   "published": "2026-11-20T22:37:09.000Z",
+   "title": "Russia-bound ship attacked in Gulf of Finland",
+   "summary": "Finnish defence forces say that Ukraine was likely behind the drone attack on the vessel.",
+   "link": "https://www.bbc.co.uk/news/articles/cj752ddve27ko",
+   "published": "2026-11-21T19:20:22.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Gérard Depardieu and French author investigated over sexual allegations",
-   "summary": "A judicial investigation was launched after a complaint was filed last year over \"allegations of a sexual nature\".",
-   "link": "https://www.bbc.co.uk/news/articles/c9ly43pj10mvo",
-   "published": "2026-11-20T19:45:20.000Z",
+   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
+   "summary": "Countries from nearly 200 countries are in a deadlock to try and get a new global climate agreement.",
+   "link": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o",
+   "published": "2026-11-21T22:19:43.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Mamdani announces plan to close New York's Rikers Island jail by 2032",
-   "summary": "Plans to shutter the troubled facility date back to 2019, when the city council first voted to close it but delays arose over where to place inmates.",
-   "link": "https://www.bbc.co.uk/news/articles/cmjeqv89egylo",
-   "published": "2026-11-21T00:01:39.000Z",
+   "title": "How a teen gamer and his mother helped rescue a missing girl",
+   "summary": "When 16-year-old Landon Tresp met a teenage girl in an online game, it led to him and his mother helping the FBI rescue her from kidnapping.",
+   "link": "https://www.bbc.co.uk/news/articles/cmq8lyv8lkjwo",
+   "published": "2026-11-22T00:09:58.000Z",
    "source": "BBC",
    "section": "world"
+  },
+  {
+   "title": "Mexican drug lord on FBI's 10 most wanted list arrested in shoot-out",
+   "summary": "Fausto Isidro \"Chapo Idisro\" Meza Flores, who is accused of drug trafficking and torture, is detained after gun fight with authorities.",
+   "link": "https://www.bbc.co.uk/news/articles/ckz749ey0r75o",
+   "published": "2026-11-22T01:25:03.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "FBI reportedly investigating apparent hack of its criminal database",
+   "summary": "The National Crime Information Center database is used by federal and local law enforcement to share information.",
+   "link": "https://www.bbc.co.uk/news/articles/cvze7de86pk3o",
+   "published": "2026-11-22T00:10:44.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "The AI boom had a really bad week — and it's raising loud alarms",
+   "summary": "AI stocks — and the broader markets — got pummeled this week, raising major concerns about the financial system and the wider economy. Here's what to know.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6048729/ai-stock-markets-anthropic-nvidia",
+   "published": "2026-11-21T10:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Anthropic says it will put humanity first. Will its IPO change that?",
+   "summary": "Critics say now that the AI giant is a public company, its commitment to put safety ahead of commercial success will be tested.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6048678/anthropic-ipo-mission-ai-safety",
+   "published": "2026-11-21T10:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "S&P 500 sinks 3.7% and the Nasdaq composite goes negative for the year",
@@ -134,20 +174,20 @@
    "section": "business"
   },
   {
-   "title": "How exactly did Trump get so rich on crypto? We explain",
-   "summary": "President Trump has made billions of dollars in his second term — most of it in cryptocurrencies. Democrats are vowing to probe his businesses as they gear up to take over Congress next year.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6038969/trump-crypto-profits-corruption-meme-coin-world-liberty-explainer",
-   "published": "2026-11-20T10:00:00.000Z",
+   "title": "Killer robots: U.N. talks fall short of hopes for legally binding rules",
+   "summary": "U.N. talks in Geneva have failed to deliver binding rules on autonomous weapons, as humanitarian groups warn that military AI is advancing far faster than diplomacy.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6047916/killer-robots-un-drones",
+   "published": "2026-11-21T14:18:17.000Z",
    "source": "NPR",
-   "section": "business"
+   "section": "tech"
   },
   {
-   "title": "AI giant Anthropic's shares pop in debut after blockbuster IPO",
-   "summary": "Shares in the AI juggernaut Anthropic are now trading on the stock market. They debuted Thursday, after a record-breaking IPO.",
-   "link": "https://www.npr.org/2026/11/19/nx-s1-6042560/ai-giant-anthropics-shares-pop-in-debut-after-blockbuster-ipo",
-   "published": "2026-11-19T21:19:56.000Z",
+   "title": "Google employees protest AI in schools policy",
+   "summary": "More than 550 Google employees signed a petition to allow schools access to Search without AI. Parents and educators protested outside Google offices in 6 cities last week for the same ask.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6048599/google-employees-protest-ai-in-schools-policy",
+   "published": "2026-11-21T22:01:40.000Z",
    "source": "NPR",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "Tech stocks end the week on a down note, despite Anthropic's mega-IPO",
@@ -158,82 +198,42 @@
    "section": "tech"
   },
   {
-   "title": "Machine Gods: Anthropic's early days",
-   "summary": "In the wake of AI giant Anthropic's record-breaking IPO, Machine Gods hosts Kevin Roose and Casey Newton look back on the early days of the company, when less than 200 workers in a cramped office…",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6047503/machine-gods-anthropics-early-days",
-   "published": "2026-11-20T21:38:14.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Experts say powering data centers uses more water than cooling them",
-   "summary": "Fears about data center water use are especially acute in Arizona. But keeping servers cool uses a lot less water than generating the electricity for which data centers are so thirsty.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6045780/experts-say-powering-data-centers-uses-more-water-than-cooling-them",
-   "published": "2026-11-20T09:43:39.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "AI models are propelling rapid growth and revealing vulnerabilities",
-   "summary": "AI models are exposing the internet's longstanding insecurity, driving rapid change and technical outages.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6047374/ai-models-are-propelling-rapid-growth-and-revealing-vulnerabilities",
-   "published": "2026-11-20T09:43:11.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Business opportunity or security threat? Nvidia case raises questions about China",
-   "summary": "The Nvidia case illustrates the friction between Silicon Valley, which wants to sell high-tech products to China, and the national security community, which aims to restrict U.S. tech to China.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6043838/business-opportunity-or-security-threat-nvidia-case-raises-questions-about-china",
-   "published": "2026-11-20T09:42:24.000Z",
-   "source": "NPR",
-   "section": "tech"
-  },
-  {
-   "title": "Trump touts meeting with Xi and Putin but offers little results",
-   "summary": "At a White House press conference Friday, Trump offered little in actual results of the meetings, beyond a joint statement on unity over some issues.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6047594/trump-asia-trip-xi-putin-press-conference",
-   "published": "2026-11-20T15:00:00.000Z",
+   "title": "Cartel leader captured in northern Mexico in a bloody firefight that left 11 dead",
+   "summary": "Fausto Isidro Meza Flores, better known as \"El Chapo Isidro,\" was one of the FBI's most wanted fugitives. His arrest in northwest Mexico on Saturday has sparked violence in the region.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6049672/cartel-boss-el-chapo-isidro-detained",
+   "published": "2026-11-21T18:08:55.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Another day of survival for a family in Ukraine",
-   "summary": "On the outskirts of Kyiv, one family prepares for the fifth winter of war against Russia -- stockpiling food and fuel and trying to maintain as much a sense of normalcy as possible.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6042206/another-day-of-survival-for-a-family-in-ukraine",
-   "published": "2026-11-20T21:32:31.000Z",
+   "title": "Anthropic worker claims to have solved a Holy Grail of math problems with the help of AI",
+   "summary": "A mathematician who works for artificial intelligence giant Anthropic claims he has solved a Holy Grail of math problems with the help of the company's AI tool Claude.",
+   "link": "https://www.npr.org/2026/11/21/g-s1-154922/anthropic-worker-claims-to-have-solved-a-holy-grail-of-math-problems-with-the-help-of-ai",
+   "published": "2026-11-21T12:30:16.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Dems aim to block Iran war funding. And, Army delays lead azide detonation in Iowa",
-   "summary": "Congress needs to pass a funding measure to avoid a shutdown next month, providing Dems an opportunity to leverage power. And, the Army says waiting to detonate lead azide could become dangerous.",
-   "link": "https://www.npr.org/2026/11/20/g-s1-154582/up-first-newsletter-democrats-iran-war-trump-xi-jinping-iowa-army",
-   "published": "2026-11-20T12:04:57.000Z",
+   "title": "What did Xi Jinping get from the bear hug with Trump at the Shenzhen summit?",
+   "summary": "NPR's Rob Schmitz speaks with Robert Daly, director of the program on US China relations at University of Maryland's School of Public Policy, about President Trump's trip to China this week.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6048741/what-did-xi-jinping-get-from-the-bear-hug-with-trump-at-the-shenzhen-summit",
+   "published": "2026-11-21T22:01:42.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "GOP Sen. Johnson rejects tying government funding to an end to the Iran war",
-   "summary": "\"We're not going to shut down the war,\" Sen. Ron Johnson said as Republicans and Democrats struggle to reach a government funding deal.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6047473/iran-war-funding-congress",
-   "published": "2026-11-20T11:37:35.000Z",
+   "title": "Highlights and challenges from covering an historic month in South America",
+   "summary": "NPR's South America Correspondent discusses her work covering an historic election upset and a papal visit.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6044647/highlights-and-challenges-from-covering-an-historic-month-in-south-america",
+   "published": "2026-11-21T22:01:35.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "The U.K. and EU hold a rare summit to strengthen ties",
-   "summary": "A decade after the people of Britain voted to leave the European Union, top EU officials are meeting with Prime Minister Andy Burnham on Friday, looking to mend more fences.",
-   "link": "https://www.npr.org/2026/11/20/g-s1-154576/uk-eu-summit",
-   "published": "2026-11-20T09:14:41.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "The U.N.'s top court rules Myanmar committed genocide against the Rohingya",
-   "summary": "The International Court of Justice found that Myanmar security forces \"acted with genocidal intent\" against the Rohingya during military operations in the northern Rakhine state in 2017.",
-   "link": "https://www.npr.org/2026/11/19/g-s1-154340/un-court-myanmar-genocide-rohingya",
-   "published": "2026-11-19T12:29:41.000Z",
+   "title": "A grieving family in Lebanon returns to their village",
+   "summary": "In Southern Lebanon, the Army is taking over after Israeli forces withdraw. One grieving family returns to their village to find almost everything in their house destroyed.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6012085/a-grieving-family-in-lebanon-returns-to-their-village",
+   "published": "2026-11-21T22:01:32.000Z",
    "source": "NPR",
    "section": "world"
   }
