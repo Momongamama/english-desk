@@ -1,23 +1,31 @@
 {
- "updated": "2026-11-22T01:28:17.673Z",
+ "updated": "2026-11-22T07:58:46.455Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Tech stock sell-off drags markets down as Anthropic shares slide",
-   "summary": "Pressures weighed on US markets, with the S&P 500 and the Dow Jones Industrial Average pushed into correction territory.",
-   "link": "https://www.bbc.co.uk/news/articles/c6808ym10vzgo",
-   "published": "2026-11-20T22:42:47.000Z",
+   "title": "Employers are being asked to give interview feedback - here's what applicants want",
+   "summary": "People say they often hear nothing back after applying for jobs. But could employers be forced to respond to every applicant?",
+   "link": "https://www.bbc.co.uk/news/articles/cm2d94le23xyo",
+   "published": "2026-11-22T00:04:07.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "UK to explore even closer ties with EU after agreeing deal, says Burnham",
-   "summary": "The UK-EU deal agreed on Friday covers British food exports, emissions trading and a youth experience scheme.",
-   "link": "https://www.bbc.co.uk/news/articles/c6jreyqgw4e9o",
-   "published": "2026-11-20T17:49:48.000Z",
+   "title": "Can AI really help spot Black Friday deals? We put it to the test",
+   "summary": "We put four AI models to the test to see if they could save us money on a new TV.",
+   "link": "https://www.bbc.co.uk/news/articles/cw8dv4jmnle2o",
+   "published": "2026-11-21T00:06:11.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Tech stock sell-off drags markets down as Anthropic shares slide",
+   "summary": "Pressures weighed on US markets, with the S&P 500 and the Dow Jones Industrial Average pushed into correction territory.",
+   "link": "https://www.bbc.co.uk/news/articles/c6808ym10vzgo",
+   "published": "2026-11-20T22:42:47.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -30,36 +38,20 @@
    "section": "business"
   },
   {
-   "title": "Trump threatens ban on US firms building AI data centres overseas",
-   "summary": "The US president provided little detail on the potential policy, saying others in his team were hearing about it for the first time.",
-   "link": "https://www.bbc.co.uk/news/articles/cmde1lw9y54ko",
-   "published": "2026-11-20T20:54:12.000Z",
+   "title": "Italian jeweller and businessman Paolo Bulgari dies aged 89",
+   "summary": "In a statement to Italian media, his family remember him as \"the greatest jeweller of our time\".",
+   "link": "https://www.bbc.co.uk/news/articles/c8e39qk5vrpdo",
+   "published": "2026-11-22T07:12:41.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "GTA 6 sales hit $3.8bn in a single day - the biggest entertainment launch in history",
-   "summary": "The mammoth figure surpasses every video game launch and single-day film box office record.",
-   "link": "https://www.bbc.co.uk/news/articles/c9zr5nyv5dj2o",
-   "published": "2026-11-20T22:53:24.000Z",
+   "title": "MP criticises Guernsey and Jersey company ownership register plans",
+   "summary": "Sir Andrew Mitchell says access should be easier for people tackling financial crime.",
+   "link": "https://www.bbc.co.uk/news/articles/cqkgmy2nxy4lo",
+   "published": "2026-11-22T07:22:05.000Z",
    "source": "BBC",
    "section": "business"
-  },
-  {
-   "title": "Should AI be judging our credit worthiness?",
-   "summary": "Would AI be a good judge of whether you should get a mortgage, car loan or mobile phone contract?",
-   "link": "https://www.bbc.co.uk/news/articles/c6d94pzk9vleo",
-   "published": "2026-11-20T07:32:19.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Can AI really help spot Black Friday deals? We put it to the test",
-   "summary": "We put four AI models to the test to see if they could save us money on a new TV.",
-   "link": "https://www.bbc.co.uk/news/articles/cw8dv4jmnle2o",
-   "published": "2026-11-21T00:06:11.000Z",
-   "source": "BBC",
-   "section": "tech"
   },
   {
    "title": "In a year of AI solving maths problems, an Anthropic worker says he may have cracked the biggest",
@@ -70,12 +62,36 @@
    "section": "tech"
   },
   {
+   "title": "GTA 6 sales hit $3.8bn in a single day - the biggest entertainment launch in history",
+   "summary": "The mammoth figure surpasses every video game launch and single-day film box office record.",
+   "link": "https://www.bbc.co.uk/news/articles/c9zr5nyv5dj2o",
+   "published": "2026-11-20T22:53:24.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "Trump threatens ban on US firms building AI data centres overseas",
+   "summary": "The US president provided little detail on the potential policy, saying others in his team were hearing about it for the first time.",
+   "link": "https://www.bbc.co.uk/news/articles/cmde1lw9y54ko",
+   "published": "2026-11-20T20:54:12.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
    "title": "White House removes cyber-security chief after series of tech outages",
    "summary": "He has been fired after losing the confidence of new White House chief of staff Stephen Miller, according to reports.",
    "link": "https://www.bbc.co.uk/news/articles/cwz0k3nn5p5mo",
    "published": "2026-11-20T19:03:56.000Z",
    "source": "BBC",
    "section": "tech"
+  },
+  {
+   "title": "New draft deal aims to avert collapse of talks at COP31 climate summit",
+   "summary": "The UN COP31 meeting in Turkey enters a second day of overtime as countries struggle to reach an agreement.",
+   "link": "https://www.bbc.co.uk/news/articles/cq7827z2841zo",
+   "published": "2026-11-22T06:54:06.000Z",
+   "source": "BBC",
+   "section": "world"
   },
   {
    "title": "Zelensky says Crimean Bridge strikes 'fair response' as he meets UK's Streeting",
@@ -94,10 +110,10 @@
    "section": "world"
   },
   {
-   "title": "Fight over fossil fuels leaves COP31 climate talks in deadlock",
-   "summary": "Countries from nearly 200 countries are in a deadlock to try and get a new global climate agreement.",
-   "link": "https://www.bbc.co.uk/news/articles/c6ly5w40eg07o",
-   "published": "2026-11-21T22:19:43.000Z",
+   "title": "Mexican drug lord on FBI's 10 most wanted list arrested in shoot-out",
+   "summary": "Fausto Isidro \"Chapo Idisro\" Meza Flores, who is accused of drug trafficking and torture, is detained after gun fight with authorities.",
+   "link": "https://www.bbc.co.uk/news/articles/ckz749ey0r75o",
+   "published": "2026-11-22T01:25:03.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -106,14 +122,6 @@
    "summary": "When 16-year-old Landon Tresp met a teenage girl in an online game, it led to him and his mother helping the FBI rescue her from kidnapping.",
    "link": "https://www.bbc.co.uk/news/articles/cmq8lyv8lkjwo",
    "published": "2026-11-22T00:09:58.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Mexican drug lord on FBI's 10 most wanted list arrested in shoot-out",
-   "summary": "Fausto Isidro \"Chapo Idisro\" Meza Flores, who is accused of drug trafficking and torture, is detained after gun fight with authorities.",
-   "link": "https://www.bbc.co.uk/news/articles/ckz749ey0r75o",
-   "published": "2026-11-22T01:25:03.000Z",
    "source": "BBC",
    "section": "world"
   },
