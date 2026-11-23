@@ -1,26 +1,10 @@
 {
- "updated": "2026-11-23T01:53:11.843Z",
+ "updated": "2026-11-23T08:59:40.298Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
-  {
-   "title": "Centrica boss says he is 'hugely concerned' over impact of soaring energy bills",
-   "summary": "Chris O'Shea says the number of people unable or unwilling to pay their energy bills will increase when prices jump in the new year.",
-   "link": "https://www.bbc.co.uk/news/articles/c6jre7gpdw13o",
-   "published": "2026-11-22T13:50:21.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "What is going on with Poundland?",
-   "summary": "Poundland has a matter of days to find a buyer or face collapsing into administration. Why?",
-   "link": "https://www.bbc.co.uk/news/articles/cm4g10p2r0g9o",
-   "published": "2026-11-23T00:22:27.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
   {
    "title": "Energy bills will soar - here's how you can ease the pain",
    "summary": "Household energy bills are about to increase but there are ways to keep a lid on your expenditure.",
@@ -30,18 +14,34 @@
    "section": "business"
   },
   {
-   "title": "San Francisco is enjoying an AI boom, but worries about a crash are growing",
-   "summary": "AI employees in the industry's epicentre - San Francisco - worry that the sector is overheated.",
-   "link": "https://www.bbc.co.uk/news/articles/cqe9k09j9jv4o",
-   "published": "2026-11-23T00:08:00.000Z",
+   "title": "Poundland is facing collapse - what's gone wrong?",
+   "summary": "Poundland has a matter of days to find a buyer or face collapsing into administration. Why?",
+   "link": "https://www.bbc.co.uk/news/articles/cm4g10p2r0g9o",
+   "published": "2026-11-23T08:00:20.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Centrica boss 'hugely concerned' over impact of soaring energy bills",
+   "title": "Pip assessments need 'fundamental overhaul', report to say",
+   "summary": "Disability Minister Sir Stephen Timms says he will recommend major reforms to the personal independence payment.",
+   "link": "https://www.bbc.co.uk/news/articles/cvlyj3rn201xo",
+   "published": "2026-11-23T08:19:13.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Centrica boss says he is 'hugely concerned' over impact of soaring energy bills",
    "summary": "Chris O'Shea says the number of people unable or unwilling to pay their energy bills will increase when prices jump in the new year.",
    "link": "https://www.bbc.co.uk/news/articles/c6jre7gpdw13o",
    "published": "2026-11-22T13:50:21.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "San Francisco is enjoying an AI boom, but worries about a crash are growing",
+   "summary": "AI employees in the industry's epicentre - San Francisco - worry that the sector is overheated.",
+   "link": "https://www.bbc.co.uk/news/articles/cqe9k09j9jv4o",
+   "published": "2026-11-23T00:08:00.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -86,18 +86,34 @@
    "section": "tech"
   },
   {
-   "title": "COP31 fails to reach major climate deal as talks expose deep divisions",
-   "summary": "Hopes for an agreement on tackling climate change collapsed after a row about mentioning fossil fuels",
-   "link": "https://www.bbc.co.uk/news/articles/cqwy06zrd26lo",
-   "published": "2026-11-23T00:50:35.000Z",
+   "title": "Five takeaways from the failed climate talks COP31",
+   "summary": "The COP31 summit in Antalya was the longest-running climate talks in UN history.",
+   "link": "https://www.bbc.co.uk/news/articles/cm75237wlp3lo",
+   "published": "2026-11-23T06:33:50.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Explosion on Russian ship at Libya port caused by suspected drone attack, officials say",
-   "summary": "Libya's eastern government says the ship had stopped for fuel and supplies on its way back to Russia.",
+   "title": "Boy, 7, pulled alive from rubble hours after Russian strike on Ukraine, rescuers say",
+   "summary": "Eleven people are dead in the attack on Dymer, with rescue efforts ongoing to find those still missing from the residential building.",
+   "link": "https://www.bbc.co.uk/news/articles/cqdr15l32d3go",
+   "published": "2026-11-23T05:33:17.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Russian ships hit by Ukrainian drones off Libya coast, Zelensky says",
+   "summary": "Libya's eastern government says a sunken warship had stopped for fuel and supplies on its way back to Russia.",
    "link": "https://www.bbc.co.uk/news/articles/cr894gjz0j0yo",
-   "published": "2026-11-22T20:28:09.000Z",
+   "published": "2026-11-23T08:36:57.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Burnham to tell MPs 'landmark' EU deal could make next decade 'much better'",
+   "summary": "The prime minister will tell MPs the deal agreed on Friday is a \"choice between a broken status quo or change\".",
+   "link": "https://www.bbc.co.uk/news/articles/cmde1dy82lepo",
+   "published": "2026-11-23T08:41:08.000Z",
    "source": "BBC",
    "section": "world"
   },
@@ -106,30 +122,6 @@
    "summary": "Finnish defence forces say that Ukraine was likely behind the drone strike on Saturday. Kyiv has yet to comment.",
    "link": "https://www.bbc.co.uk/news/articles/cj752ddve27ko",
    "published": "2026-11-22T17:18:26.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "South Korea education minister resigns over exam cheating scandal",
-   "summary": "Choi Kyo-jin admits last-minute measures to stop AI-assisted cheating during the college entrance exam caused chaos.",
-   "link": "https://www.bbc.co.uk/news/articles/cw3dgk29d37no",
-   "published": "2026-11-22T09:20:45.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
-   "summary": "Democrats have now won at least 258 seats in the midterms compared to Republicans, who hold at least 173 seats.",
-   "link": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno",
-   "published": "2026-11-23T01:23:43.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "US Army to detonate tonnes of unstable explosives in Iowa despite court order",
-   "summary": "The Army says \"swift action\" is necessary to protect its personnel and nearby communities around its ammunition plant in Iowa.",
-   "link": "https://www.bbc.co.uk/news/articles/cvglrx764gdxo",
-   "published": "2026-11-22T18:29:46.000Z",
    "source": "BBC",
    "section": "world"
   },

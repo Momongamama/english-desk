@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-22T01:28:19.127Z",
+ "updated": "2026-11-23T08:59:42.977Z",
  "shows": [
   {
    "id": "business-daily",
@@ -68,6 +68,14 @@
    "apple": "https://podcasts.apple.com/us/podcast/the-indicator-from-planet-money/id1320118593?uo=4",
    "episodes": [
     {
+     "title": "How American money is changing Europe's defense strategy",
+     "summary": "European Union countries are boosting their defense spending while billions of dollars in private American investment pour in.",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/684789e8-f22c-4d22-b71b-2e4288fcdc59/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=684789e8-f22c-4d22-b71b-2e4288fcdc59&feed=IFy3imsg&t=podcast&e=nx-s1-6048592&p=510325&d=548&size=8776811",
+     "published": "2026-11-23T08:00:00.000Z",
+     "duration": 548,
+     "apple": "https://podcasts.apple.com/us/podcast/how-american-money-is-changing-europes-defense-strategy/id1320118593?i=1000803207274&uo=4"
+    },
+    {
      "title": "Tech blackouts, Black Friday fake-outs, and C-suite tariff cash-outs",
      "summary": "This week’s indicators: Software outages are piling up, Black Friday deals might not actually be Black Friday deals, and companies are cashing in on tariff…",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/ace46736-91bd-469d-9cc8-711ca5b95dd0/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=ace46736-91bd-469d-9cc8-711ca5b95dd0&feed=IFy3imsg&t=podcast&e=nx-s1-6047743&p=510325&d=564&size=9026751",
@@ -106,14 +114,6 @@
      "published": "2026-11-16T08:00:00.000Z",
      "duration": 553,
      "apple": "https://podcasts.apple.com/us/podcast/three-influencer-types-and-how-they-generate-money/id1320118593?i=1000801804595&uo=4"
-    },
-    {
-     "title": "An inflation scare, workers get their fair share, and Nvidia’s billion-dollar affairs",
-     "summary": "This week’s indicators: Inflation is disturbing, workers are getting their stolen wages back, and NVIDIA ex-CEO’s alleged affairs become a $465 billion…",
-     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/4513547c-5843-494d-bdc6-023a020ea17d/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=4513547c-5843-494d-bdc6-023a020ea17d&feed=IFy3imsg&t=podcast&e=nx-s1-6039338&p=510325&d=546&size=8744608",
-     "published": "2026-11-13T08:00:00.000Z",
-     "duration": 546,
-     "apple": "https://podcasts.apple.com/us/podcast/an-inflation-scare-workers-get-their-fair-share/id1320118593?i=1000801640740&uo=4"
     }
    ]
   }
