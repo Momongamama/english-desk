@@ -1,15 +1,47 @@
 {
- "updated": "2026-11-22T07:58:46.455Z",
+ "updated": "2026-11-23T01:53:11.843Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Employers are being asked to give interview feedback - here's what applicants want",
-   "summary": "People say they often hear nothing back after applying for jobs. But could employers be forced to respond to every applicant?",
-   "link": "https://www.bbc.co.uk/news/articles/cm2d94le23xyo",
-   "published": "2026-11-22T00:04:07.000Z",
+   "title": "Centrica boss says he is 'hugely concerned' over impact of soaring energy bills",
+   "summary": "Chris O'Shea says the number of people unable or unwilling to pay their energy bills will increase when prices jump in the new year.",
+   "link": "https://www.bbc.co.uk/news/articles/c6jre7gpdw13o",
+   "published": "2026-11-22T13:50:21.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "What is going on with Poundland?",
+   "summary": "Poundland has a matter of days to find a buyer or face collapsing into administration. Why?",
+   "link": "https://www.bbc.co.uk/news/articles/cm4g10p2r0g9o",
+   "published": "2026-11-23T00:22:27.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Energy bills will soar - here's how you can ease the pain",
+   "summary": "Household energy bills are about to increase but there are ways to keep a lid on your expenditure.",
+   "link": "https://www.bbc.co.uk/news/articles/crm4rygl4m3o",
+   "published": "2026-11-23T01:05:07.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "San Francisco is enjoying an AI boom, but worries about a crash are growing",
+   "summary": "AI employees in the industry's epicentre - San Francisco - worry that the sector is overheated.",
+   "link": "https://www.bbc.co.uk/news/articles/cqe9k09j9jv4o",
+   "published": "2026-11-23T00:08:00.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Centrica boss 'hugely concerned' over impact of soaring energy bills",
+   "summary": "Chris O'Shea says the number of people unable or unwilling to pay their energy bills will increase when prices jump in the new year.",
+   "link": "https://www.bbc.co.uk/news/articles/c6jre7gpdw13o",
+   "published": "2026-11-22T13:50:21.000Z",
    "source": "BBC",
    "section": "business"
   },
@@ -19,39 +51,7 @@
    "link": "https://www.bbc.co.uk/news/articles/cw8dv4jmnle2o",
    "published": "2026-11-21T00:06:11.000Z",
    "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Tech stock sell-off drags markets down as Anthropic shares slide",
-   "summary": "Pressures weighed on US markets, with the S&P 500 and the Dow Jones Industrial Average pushed into correction territory.",
-   "link": "https://www.bbc.co.uk/news/articles/c6808ym10vzgo",
-   "published": "2026-11-20T22:42:47.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Faisal Islam: This cost-cutting UK-EU deal doesn't mean lower prices will follow",
-   "summary": "The trade deal is unlikely lower food prices for shoppers, but should boost the economy more than other post-Brexit agreements.",
-   "link": "https://www.bbc.co.uk/news/articles/cm1wr029evnqo",
-   "published": "2026-11-20T16:41:52.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Italian jeweller and businessman Paolo Bulgari dies aged 89",
-   "summary": "In a statement to Italian media, his family remember him as \"the greatest jeweller of our time\".",
-   "link": "https://www.bbc.co.uk/news/articles/c8e39qk5vrpdo",
-   "published": "2026-11-22T07:12:41.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "MP criticises Guernsey and Jersey company ownership register plans",
-   "summary": "Sir Andrew Mitchell says access should be easier for people tackling financial crime.",
-   "link": "https://www.bbc.co.uk/news/articles/cqkgmy2nxy4lo",
-   "published": "2026-11-22T07:22:05.000Z",
-   "source": "BBC",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "In a year of AI solving maths problems, an Anthropic worker says he may have cracked the biggest",
@@ -70,6 +70,14 @@
    "section": "tech"
   },
   {
+   "title": "Tech stock sell-off drags markets down as Anthropic shares slide",
+   "summary": "Pressures weighed on US markets, with the S&P 500 and the Dow Jones Industrial Average pushed into correction territory.",
+   "link": "https://www.bbc.co.uk/news/articles/c6808ym10vzgo",
+   "published": "2026-11-20T22:42:47.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
    "title": "Trump threatens ban on US firms building AI data centres overseas",
    "summary": "The US president provided little detail on the potential policy, saying others in his team were hearing about it for the first time.",
    "link": "https://www.bbc.co.uk/news/articles/cmde1lw9y54ko",
@@ -78,66 +86,58 @@
    "section": "tech"
   },
   {
-   "title": "White House removes cyber-security chief after series of tech outages",
-   "summary": "He has been fired after losing the confidence of new White House chief of staff Stephen Miller, according to reports.",
-   "link": "https://www.bbc.co.uk/news/articles/cwz0k3nn5p5mo",
-   "published": "2026-11-20T19:03:56.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "New draft deal aims to avert collapse of talks at COP31 climate summit",
-   "summary": "The UN COP31 meeting in Turkey enters a second day of overtime as countries struggle to reach an agreement.",
-   "link": "https://www.bbc.co.uk/news/articles/cq7827z2841zo",
-   "published": "2026-11-22T06:54:06.000Z",
+   "title": "COP31 fails to reach major climate deal as talks expose deep divisions",
+   "summary": "Hopes for an agreement on tackling climate change collapsed after a row about mentioning fossil fuels",
+   "link": "https://www.bbc.co.uk/news/articles/cqwy06zrd26lo",
+   "published": "2026-11-23T00:50:35.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Zelensky says Crimean Bridge strikes 'fair response' as he meets UK's Streeting",
-   "summary": "Ukraine's president says Kyiv acted after 109 separate Russian aerial attacks on bridges in Ukraine.",
-   "link": "https://www.bbc.co.uk/news/articles/c6wy0qj7w5zqo",
-   "published": "2026-11-21T13:17:38.000Z",
+   "title": "Explosion on Russian ship at Libya port caused by suspected drone attack, officials say",
+   "summary": "Libya's eastern government says the ship had stopped for fuel and supplies on its way back to Russia.",
+   "link": "https://www.bbc.co.uk/news/articles/cr894gjz0j0yo",
+   "published": "2026-11-22T20:28:09.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Russia-bound ship attacked in Gulf of Finland",
-   "summary": "Finnish defence forces say that Ukraine was likely behind the drone attack on the vessel.",
+   "title": "Russia-bound ship towed away after it was attacked in Gulf of Finland",
+   "summary": "Finnish defence forces say that Ukraine was likely behind the drone strike on Saturday. Kyiv has yet to comment.",
    "link": "https://www.bbc.co.uk/news/articles/cj752ddve27ko",
-   "published": "2026-11-21T19:20:22.000Z",
+   "published": "2026-11-22T17:18:26.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Mexican drug lord on FBI's 10 most wanted list arrested in shoot-out",
-   "summary": "Fausto Isidro \"Chapo Idisro\" Meza Flores, who is accused of drug trafficking and torture, is detained after gun fight with authorities.",
-   "link": "https://www.bbc.co.uk/news/articles/ckz749ey0r75o",
-   "published": "2026-11-22T01:25:03.000Z",
+   "title": "South Korea education minister resigns over exam cheating scandal",
+   "summary": "Choi Kyo-jin admits last-minute measures to stop AI-assisted cheating during the college entrance exam caused chaos.",
+   "link": "https://www.bbc.co.uk/news/articles/cw3dgk29d37no",
+   "published": "2026-11-22T09:20:45.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "How a teen gamer and his mother helped rescue a missing girl",
-   "summary": "When 16-year-old Landon Tresp met a teenage girl in an online game, it led to him and his mother helping the FBI rescue her from kidnapping.",
-   "link": "https://www.bbc.co.uk/news/articles/cmq8lyv8lkjwo",
-   "published": "2026-11-22T00:09:58.000Z",
+   "title": "Democrats win largest House majority since 1992 after flipping North Carolina seat",
+   "summary": "Democrats have now won at least 258 seats in the midterms compared to Republicans, who hold at least 173 seats.",
+   "link": "https://www.bbc.co.uk/news/articles/c6vg29g7dlyno",
+   "published": "2026-11-23T01:23:43.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "FBI reportedly investigating apparent hack of its criminal database",
-   "summary": "The National Crime Information Center database is used by federal and local law enforcement to share information.",
-   "link": "https://www.bbc.co.uk/news/articles/cvze7de86pk3o",
-   "published": "2026-11-22T00:10:44.000Z",
+   "title": "US Army to detonate tonnes of unstable explosives in Iowa despite court order",
+   "summary": "The Army says \"swift action\" is necessary to protect its personnel and nearby communities around its ammunition plant in Iowa.",
+   "link": "https://www.bbc.co.uk/news/articles/cvglrx764gdxo",
+   "published": "2026-11-22T18:29:46.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "The AI boom had a really bad week — and it's raising loud alarms",
-   "summary": "AI stocks — and the broader markets — got pummeled this week, raising major concerns about the financial system and the wider economy. Here's what to know.",
-   "link": "https://www.npr.org/2026/11/21/nx-s1-6048729/ai-stock-markets-anthropic-nvidia",
-   "published": "2026-11-21T10:00:00.000Z",
+   "title": "He expected a small-business loan. He got a 7-year nightmare",
+   "summary": "America's fastest-growing source of funding for small businesses is also one of the least regulated. One man has waged a long, lonely fight to recoup its punishing cost.",
+   "link": "https://www.npr.org/2026/11/22/nx-s1-5752261/small-business-loan-merchant-cash-advance",
+   "published": "2026-11-22T10:00:00.000Z",
    "source": "NPR",
    "section": "business"
   },
@@ -150,44 +150,12 @@
    "section": "business"
   },
   {
-   "title": "S&P 500 sinks 3.7% and the Nasdaq composite goes negative for the year",
-   "summary": "AI stocks have hefty market values and have a much bigger impact on the market's direction. They were responsible for Wall Street's big gains this year and are now behind the big slide for the market.",
-   "link": "https://www.npr.org/2026/11/20/g-s1-154797/nasdaq-sp500-stock-market-ai-sink-negative",
-   "published": "2026-11-20T22:11:29.000Z",
+   "title": "The AI boom had a really bad week — and it's raising loud alarms",
+   "summary": "AI stocks — and the broader markets — got pummeled this week, raising major concerns about the financial system and the wider economy. Here's what to know.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6048729/ai-stock-markets-anthropic-nvidia",
+   "published": "2026-11-21T10:00:00.000Z",
    "source": "NPR",
    "section": "business"
-  },
-  {
-   "title": "Trump's impact on an Ohio steel plant",
-   "summary": "The giant steel plant in Middletown, Ohio planned to switch away from using coke, a refined form of coal. The switch would have cut hazardous air pollution -- and greenhouse gas emissions.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-5860971/trumps-impact-on-ohio-steel-plant",
-   "published": "2026-11-20T21:38:11.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Just how vulnerable are we to cyberattacks?",
-   "summary": "In a week of outages, we're thinking about the rising threat of AI-powered cyberattacks.",
-   "link": "https://www.npr.org/sections/planet-money/2026/11/20/nx-s1-6047750/just-how-vulnerable-are-we-to-cyberattacks",
-   "published": "2026-11-20T12:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Critics are worried about Anthropic's influence after first day of public trading",
-   "summary": "Anthropic's initial public offering was a success for shareholders, including its founders. But there were also protests about whether the company can be a responsible steward of AI technology.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6047539/critics-are-worried-about-anthropics-influence-after-first-day-of-public-trading",
-   "published": "2026-11-20T11:37:31.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Killer robots: U.N. talks fall short of hopes for legally binding rules",
-   "summary": "U.N. talks in Geneva have failed to deliver binding rules on autonomous weapons, as humanitarian groups warn that military AI is advancing far faster than diplomacy.",
-   "link": "https://www.npr.org/2026/11/21/nx-s1-6047916/killer-robots-un-drones",
-   "published": "2026-11-21T14:18:17.000Z",
-   "source": "NPR",
-   "section": "tech"
   },
   {
    "title": "Google employees protest AI in schools policy",
@@ -198,26 +166,42 @@
    "section": "tech"
   },
   {
-   "title": "Tech stocks end the week on a down note, despite Anthropic's mega-IPO",
-   "summary": "The stock market is ending the week down despite Anthropic's blockbuster IPO and a strong Nvidia earnings report, largely thanks to investor jitters about the future of AI.",
-   "link": "https://www.npr.org/2026/11/20/nx-s1-6048645/tech-stocks-end-the-week-on-a-down-note-despite-anthropics-mega-ipo",
-   "published": "2026-11-20T21:38:32.000Z",
+   "title": "Killer robots: U.N. talks fall short of hopes for legally binding rules",
+   "summary": "U.N. talks in Geneva have failed to deliver binding rules on autonomous weapons, as humanitarian groups warn that military AI is advancing far faster than diplomacy.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6047916/killer-robots-un-drones",
+   "published": "2026-11-21T14:18:17.000Z",
    "source": "NPR",
    "section": "tech"
   },
   {
-   "title": "Cartel leader captured in northern Mexico in a bloody firefight that left 11 dead",
-   "summary": "Fausto Isidro Meza Flores, better known as \"El Chapo Isidro,\" was one of the FBI's most wanted fugitives. His arrest in northwest Mexico on Saturday has sparked violence in the region.",
-   "link": "https://www.npr.org/2026/11/21/nx-s1-6049672/cartel-boss-el-chapo-isidro-detained",
-   "published": "2026-11-21T18:08:55.000Z",
+   "title": "Lebanese villagers return to wrecked homes as the Israeli army pulls back",
+   "summary": "In a pilot project in a village in southern Lebanon, Israeli forces have left and the Lebanese army moved it. But villagers who return find their houses wrecked.",
+   "link": "https://www.npr.org/2026/11/22/nx-s1-6048710/lebanon-israel-army-conflict-homes",
+   "published": "2026-11-22T17:44:52.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Anthropic worker claims to have solved a Holy Grail of math problems with the help of AI",
-   "summary": "A mathematician who works for artificial intelligence giant Anthropic claims he has solved a Holy Grail of math problems with the help of the company's AI tool Claude.",
-   "link": "https://www.npr.org/2026/11/21/g-s1-154922/anthropic-worker-claims-to-have-solved-a-holy-grail-of-math-problems-with-the-help-of-ai",
-   "published": "2026-11-21T12:30:16.000Z",
+   "title": "Climate change talks fall apart in final hours over fossil fuels",
+   "summary": "Some 200 countries gathered in Antalya, Turkey, for COP31, the annual climate negotiations. Countries failed to reach an agreement over fossil fuels - the primary driver of global warming.",
+   "link": "https://www.npr.org/2026/11/22/nx-s1-6046195/cop31-climate-talks-close-disappointment",
+   "published": "2026-11-22T16:33:22.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "Ukraine war spilling into NATO territory",
+   "summary": "The war between Russia and Ukraine once again creeps onto European territory – from attacks on ships to missiles in Poland and fresh allegations of Russian operations inside Denmark.",
+   "link": "https://www.npr.org/2026/11/22/nx-s1-6050236/ukraine-war-spilling-into-nato-territory",
+   "published": "2026-11-22T22:40:22.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "Luxury development planned on land some Albanians say is theirs, not Jared Kushner's",
+   "summary": "A company working for President Trump's son-in-law Jared Kushner purchased 300 acres of Albanian land for more than $130 million in April.",
+   "link": "https://www.npr.org/2026/11/22/nx-s1-6012022/luxury-development-planned-on-land-some-albanians-say-is-theirs-not-jared-kushners",
+   "published": "2026-11-22T22:39:47.000Z",
    "source": "NPR",
    "section": "world"
   },
@@ -234,14 +218,6 @@
    "summary": "NPR's South America Correspondent discusses her work covering an historic election upset and a papal visit.",
    "link": "https://www.npr.org/2026/11/21/nx-s1-6044647/highlights-and-challenges-from-covering-an-historic-month-in-south-america",
    "published": "2026-11-21T22:01:35.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "A grieving family in Lebanon returns to their village",
-   "summary": "In Southern Lebanon, the Army is taking over after Israeli forces withdraw. One grieving family returns to their village to find almost everything in their house destroyed.",
-   "link": "https://www.npr.org/2026/11/21/nx-s1-6012085/a-grieving-family-in-lebanon-returns-to-their-village",
-   "published": "2026-11-21T22:01:32.000Z",
    "source": "NPR",
    "section": "world"
   }
