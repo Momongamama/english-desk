@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23T08:59:42.977Z",
+ "updated": "2026-11-23T20:29:39.540Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,14 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Can Chile turn methane into money?",
+     "summary": "Methane emissions from farm waste and landfill sites are being turned into fuel in Chile.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0ppf6j7.mp3",
+     "published": "2026-11-22T21:30:00.000Z",
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/can-chile-turn-methane-into-money/id261786876?i=1000803561854&uo=4"
+    },
     {
      "title": "Recommending... Inheritance: Fiat",
      "summary": "Gianni Agnelli is the head of the family that controls Fiat, and the vast business empire beyond the carmaker that helped shape modern Italy.",
@@ -48,14 +56,6 @@
      "published": "2026-11-17T21:30:00.000Z",
      "duration": 1049,
      "apple": "https://podcasts.apple.com/us/podcast/founders-can-a-european-ai-firm-take-on-google-translate/id261786876?i=1000802554195&uo=4"
-    },
-    {
-     "title": "Follow the Money: Who pays for the AI boom now?",
-     "summary": "Jensen Huang has left Nvidia, but the money behind AI chips is still flowing to a handful of firms. What's changed is who's paying.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pn9b1m.mp3",
-     "published": "2026-11-16T21:30:00.000Z",
-     "duration": 1048,
-     "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-who-pays-for-the-ai-boom-now/id261786876?i=1000802352132&uo=4"
     }
    ]
   },
