@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T19:40:22.371Z",
+ "updated": "2026-11-24T23:05:46.745Z",
  "shows": [
   {
    "id": "business-daily",
@@ -10,11 +10,19 @@
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
     {
+     "title": "Founders: How Whatnot built a live shopping giant",
+     "summary": "Grant LaFontaine is the co-founder and CEO of Whatnot, the live shopping platform where independent sellers generated more than $8 billion in sales last year.",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pppbbh.mp3",
+     "published": "2026-11-24T21:30:00.000Z",
+     "duration": 1048
+    },
+    {
      "title": "Follow the Money: Where did Trump's tariff refunds go?",
      "summary": "After the US Supreme Court ruled that President Trump's emergency tariffs were illegal, around $128 billion was refunded. But where did the money go?",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0ppgczr.mp3",
      "published": "2026-11-23T21:30:00.000Z",
-     "duration": 1048
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-where-did-trumps-tariff-refunds-go/id261786876?i=1000803671936&uo=4"
     },
     {
      "title": "Can Chile turn methane into money?",
@@ -47,14 +55,6 @@
      "published": "2026-11-19T21:30:00.000Z",
      "duration": 1459,
      "apple": "https://podcasts.apple.com/us/podcast/taking-stock-nvidia-anthropics-ipo-and-the-launch-of-gta/id261786876?i=1000803005077&uo=4"
-    },
-    {
-     "title": "Power players: Is Anthropic IPO a defining moment for AI?",
-     "summary": "Dario Amodei runs Anthropic, the company behind the Claude chatbot.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pnr9gw.mp3",
-     "published": "2026-11-18T21:30:00.000Z",
-     "duration": 1634,
-     "apple": "https://podcasts.apple.com/us/podcast/power-players-is-anthropic-ipo-a-defining-moment-for-ai/id261786876?i=1000802831369&uo=4"
     }
    ]
   },
@@ -71,7 +71,8 @@
      "summary": "A couple of weeks ago, Jensen Huang resigned as CEO of Nvidia due to a flurry of scandals. Now, Huang is back at the helm. So… what happened?",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/847a48ee-4e48-47d5-9d3a-ae9acac40684/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=847a48ee-4e48-47d5-9d3a-ae9acac40684&feed=IFy3imsg&t=podcast&e=nx-s1-6051562&p=510325&d=569&size=9111994",
      "published": "2026-11-24T08:00:07.000Z",
-     "duration": 569
+     "duration": 569,
+     "apple": "https://podcasts.apple.com/us/podcast/is-jensen-huang-too-big-to-fail/id1320118593?i=1000803699172&uo=4"
     },
     {
      "title": "How American money is changing Europe's defense strategy",
