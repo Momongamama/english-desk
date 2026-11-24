@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-23T20:29:39.540Z",
+ "updated": "2026-11-24T01:00:50.990Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,14 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Follow the Money: Where did Trump's tariff refunds go?",
+     "summary": "After the US Supreme Court ruled that President Trump's emergency tariffs were illegal, around $128 billion was refunded. But where did the money go?",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0ppgczr.mp3",
+     "published": "2026-11-23T21:30:00.000Z",
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/follow-the-money-where-did-trumps-tariff-refunds-go/id261786876?i=1000803671936&uo=4"
+    },
     {
      "title": "Can Chile turn methane into money?",
      "summary": "Methane emissions from farm waste and landfill sites are being turned into fuel in Chile.",
@@ -48,14 +56,6 @@
      "published": "2026-11-18T21:30:00.000Z",
      "duration": 1634,
      "apple": "https://podcasts.apple.com/us/podcast/power-players-is-anthropic-ipo-a-defining-moment-for-ai/id261786876?i=1000802831369&uo=4"
-    },
-    {
-     "title": "Founders: Can a European AI firm take on Google Translate?",
-     "summary": "Jarek Kutylowski is the founder and chief executive of DeepL, the AI translation company taking on tech giants including Google.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pnh0fm.mp3",
-     "published": "2026-11-17T21:30:00.000Z",
-     "duration": 1049,
-     "apple": "https://podcasts.apple.com/us/podcast/founders-can-a-european-ai-firm-take-on-google-translate/id261786876?i=1000802554195&uo=4"
     }
    ]
   },
