@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-24T05:58:23.270Z",
+ "updated": "2026-11-24T10:53:57.649Z",
  "shows": [
   {
    "id": "business-daily",
@@ -68,6 +68,14 @@
    "apple": "https://podcasts.apple.com/us/podcast/the-indicator-from-planet-money/id1320118593?uo=4",
    "episodes": [
     {
+     "title": "Is Jensen Huang too big to fail?",
+     "summary": "A couple of weeks ago, Jensen Huang resigned as CEO of Nvidia due to a flurry of scandals. Now, Huang is back at the helm. So… what happened?",
+     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/847a48ee-4e48-47d5-9d3a-ae9acac40684/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=847a48ee-4e48-47d5-9d3a-ae9acac40684&feed=IFy3imsg&t=podcast&e=nx-s1-6051562&p=510325&d=569&size=9111994",
+     "published": "2026-11-24T08:00:07.000Z",
+     "duration": 569,
+     "apple": "https://podcasts.apple.com/us/podcast/is-jensen-huang-too-big-to-fail/id1320118593?i=1000803699172&uo=4"
+    },
+    {
      "title": "How American money is changing Europe's defense strategy",
      "summary": "European Union countries are boosting their defense spending while billions of dollars in private American investment pour in.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/684789e8-f22c-4d22-b71b-2e4288fcdc59/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=684789e8-f22c-4d22-b71b-2e4288fcdc59&feed=IFy3imsg&t=podcast&e=nx-s1-6048592&p=510325&d=548&size=8776811",
@@ -106,14 +114,6 @@
      "published": "2026-11-17T08:00:00.000Z",
      "duration": 557,
      "apple": "https://podcasts.apple.com/us/podcast/how-a-tribal-water-deal-could-put-a-price-tag/id1320118593?i=1000802366505&uo=4"
-    },
-    {
-     "title": "Three influencer types and how they generate money",
-     "summary": "Influencers are a pervasive aspect of the creator economy and one of the most desired career paths for young Americans today.",
-     "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/06d8a97d-bcac-42e3-a843-fcd15e3eba00/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=06d8a97d-bcac-42e3-a843-fcd15e3eba00&feed=IFy3imsg&t=podcast&e=nx-s1-6040377&p=510325&d=553&size=8857040",
-     "published": "2026-11-16T08:00:00.000Z",
-     "duration": 553,
-     "apple": "https://podcasts.apple.com/us/podcast/three-influencer-types-and-how-they-generate-money/id1320118593?i=1000801804595&uo=4"
     }
    ]
   }
