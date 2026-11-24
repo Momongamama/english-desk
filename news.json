@@ -1,41 +1,73 @@
 {
- "updated": "2026-11-23T08:59:40.298Z",
+ "updated": "2026-11-24T05:24:11.974Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Energy bills will soar - here's how you can ease the pain",
-   "summary": "Household energy bills are about to increase but there are ways to keep a lid on your expenditure.",
-   "link": "https://www.bbc.co.uk/news/articles/crm4rygl4m3o",
-   "published": "2026-11-23T01:05:07.000Z",
+   "title": "Faisal Islam: Why Jensen Huang proved too big to fire",
+   "summary": "Huang's role at the centre of his company's journey to lynchpin of AI proved crucial.",
+   "link": "https://www.bbc.co.uk/news/articles/ckr5g8edl94eo",
+   "published": "2026-11-23T17:11:58.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Poundland is facing collapse - what's gone wrong?",
-   "summary": "Poundland has a matter of days to find a buyer or face collapsing into administration. Why?",
-   "link": "https://www.bbc.co.uk/news/articles/cm4g10p2r0g9o",
-   "published": "2026-11-23T08:00:20.000Z",
+   "title": "I pay £250 a month for someone else to do my life admin - it's worth it",
+   "summary": "Busy mothers on both sides of the Atlantic are paying companies to handle their to-do lists.",
+   "link": "https://www.bbc.co.uk/news/articles/c6zjr3g13zkno",
+   "published": "2026-11-24T00:01:04.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Pip assessments need 'fundamental overhaul', report to say",
-   "summary": "Disability Minister Sir Stephen Timms says he will recommend major reforms to the personal independence payment.",
-   "link": "https://www.bbc.co.uk/news/articles/cvlyj3rn201xo",
-   "published": "2026-11-23T08:19:13.000Z",
+   "title": "Trump faces backlash after saying he 'convinced' Nvidia to reinstate CEO Jensen Huang",
+   "summary": "Nvidia had come under pressure from President Trump to reappoint Huang, whose comeback helped add $1tn to the company's stock value.",
+   "link": "https://www.bbc.co.uk/news/articles/cq5y1k8ez407o",
+   "published": "2026-11-24T04:36:31.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Centrica boss says he is 'hugely concerned' over impact of soaring energy bills",
-   "summary": "Chris O'Shea says the number of people unable or unwilling to pay their energy bills will increase when prices jump in the new year.",
-   "link": "https://www.bbc.co.uk/news/articles/c6jre7gpdw13o",
-   "published": "2026-11-22T13:50:21.000Z",
+   "title": "Nvidia value climbs by almost $1tn and tech stocks rally after Jensen Huang returns",
+   "summary": "The jump in Nvidia shares has also lifted stock markets, with the tech-heavy Nasdaq up 6.5%.",
+   "link": "https://www.bbc.co.uk/news/articles/cq62pn6j42jko",
+   "published": "2026-11-23T21:23:42.000Z",
    "source": "BBC",
    "section": "business"
+  },
+  {
+   "title": "How important are Nvidia and Jensen Huang to the US economy?",
+   "summary": "The Nvidia chief executive has been at the centre of the artificial intelligence boom.",
+   "link": "https://www.bbc.co.uk/news/articles/c68798vdprwpo",
+   "published": "2026-11-23T16:12:35.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "The rise and fall and rise again of Jensen Huang",
+   "summary": "Days after resigning while mired in scandal of extra-marital affairs, Nvidia's Jensen Huang is making a remarkable return.",
+   "link": "https://www.bbc.co.uk/news/articles/cmze750zg0jeo",
+   "published": "2026-11-23T15:49:52.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "US to blacklist Asian AI firm Megaspeed after Nvidia scandal",
+   "summary": "Megaspeed has been accused of funneling AI chips to China after a former executive's affair with Jensen Huang became public.",
+   "link": "https://www.bbc.co.uk/news/articles/cv98xpg5dg5zo",
+   "published": "2026-11-23T23:16:08.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "GTA 6 hacker released on licence with warning 'don't let this happen again'",
+   "summary": "21-year-old Arion Kurtaj pleaded guilty to the Rockstar Games hack and others he carried out when he was a teenager.",
+   "link": "https://www.bbc.co.uk/news/articles/cqpv9kr7pxmro",
+   "published": "2026-11-23T14:08:50.000Z",
+   "source": "BBC",
+   "section": "tech"
   },
   {
    "title": "San Francisco is enjoying an AI boom, but worries about a crash are growing",
@@ -43,109 +75,93 @@
    "link": "https://www.bbc.co.uk/news/articles/cqe9k09j9jv4o",
    "published": "2026-11-23T00:08:00.000Z",
    "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "Nato chief vows defence against space threat after Russian nuclear satellite reports",
+   "summary": "German media said Russia planned to launch a satellite with a nuclear warhead into space in coming weeks.",
+   "link": "https://www.bbc.co.uk/news/articles/c9x2er1ry2mzo",
+   "published": "2026-11-24T02:15:59.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "What strike on Russian ship in Libya says about spread of Ukraine war",
+   "summary": "Ukraine's sinking of a Russian battleship at a port in Libya raises the stakes of the war a notch, writes Frank Gardner.",
+   "link": "https://www.bbc.co.uk/news/articles/cm894p88jzxpo",
+   "published": "2026-11-23T20:48:35.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Gisèle Pelicot 'humiliated' after nude photos sent to media to promote book",
+   "summary": "The publisher of an essay on coercive control apologises for \"an unfortunate and inappropriate communication\".",
+   "link": "https://www.bbc.co.uk/news/articles/cm3eg502nxw2o",
+   "published": "2026-11-23T21:24:47.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Israeli attacks have turned Gaza into 'toxic wasteland', Oxfam says",
+   "summary": "The report says there are signs of possible contamination across almost all of Gaza as a result of Israel's actions.",
+   "link": "https://www.bbc.co.uk/news/articles/c8r4gzzxvxl3o",
+   "published": "2026-11-23T17:07:25.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "What failure of COP31 reveals about a divided world",
+   "summary": "Interests of oil-producing countries, a US boycott and a dispute over finance may have torpedoed climate talks.",
+   "link": "https://www.bbc.co.uk/news/articles/cky970n83rvjo",
+   "published": "2026-11-23T17:24:25.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Iranian authorities flog singer who performed without hijab, lawyers say",
+   "summary": "Parastoo Ahmadi, three musicians and a producer were reportedly given 74 lashes in Qom.",
+   "link": "https://www.bbc.co.uk/news/articles/cq1j6585l5g6o",
+   "published": "2026-11-23T18:04:20.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Some women in tech have concerns about Huang's return",
+   "summary": "Women who have advocated for DEI in tech say Jensen Huang's return to NVIDIA as CEO sends a message that in Silicon Valley, all that matters is money. s",
+   "link": "https://www.npr.org/2026/11/23/nx-s1-6045799/how-some-women-in-tech-are-responding-to-jensen-huangs-return-to-nvidia",
+   "published": "2026-11-23T22:03:57.000Z",
+   "source": "NPR",
    "section": "business"
   },
   {
-   "title": "Can AI really help spot Black Friday deals? We put it to the test",
-   "summary": "We put four AI models to the test to see if they could save us money on a new TV.",
-   "link": "https://www.bbc.co.uk/news/articles/cw8dv4jmnle2o",
-   "published": "2026-11-21T00:06:11.000Z",
-   "source": "BBC",
-   "section": "tech"
+   "title": "Trump claims credit as Jensen Huang returns to Nvidia",
+   "summary": "President Trump endorsed the announcement, calling it essential for the success of the company and the economy. He added that the government does not see Huang's return as a national security risk.",
+   "link": "https://www.npr.org/2026/11/23/nx-s1-6050910/nvidias-jensen-huang-trump",
+   "published": "2026-11-23T14:53:41.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
-   "title": "In a year of AI solving maths problems, an Anthropic worker says he may have cracked the biggest",
-   "summary": "A mathematician at Anthropic says he used an AI to prove the famed Riemann hypothesis, though verification will take some time.",
-   "link": "https://www.bbc.co.uk/news/articles/c6pqr2g7w059o",
-   "published": "2026-11-20T23:08:57.000Z",
-   "source": "BBC",
-   "section": "tech"
+   "title": "They attended Trump's controversial meme coin dinner. It didn't go well",
+   "summary": "Trump held another meme coin dinner for top holders of his cryptocurrency — an event that has raised intense controversy. Here's an inside account from two guests who attended.",
+   "link": "https://www.npr.org/2026/11/23/nx-s1-6045883/they-attended-trumps-controversial-meme-coin-dinner-it-didnt-go-well",
+   "published": "2026-11-23T22:17:59.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
-   "title": "GTA 6 sales hit $3.8bn in a single day - the biggest entertainment launch in history",
-   "summary": "The mammoth figure surpasses every video game launch and single-day film box office record.",
-   "link": "https://www.bbc.co.uk/news/articles/c9zr5nyv5dj2o",
-   "published": "2026-11-20T22:53:24.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Tech stock sell-off drags markets down as Anthropic shares slide",
-   "summary": "Pressures weighed on US markets, with the S&P 500 and the Dow Jones Industrial Average pushed into correction territory.",
-   "link": "https://www.bbc.co.uk/news/articles/c6808ym10vzgo",
-   "published": "2026-11-20T22:42:47.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Trump threatens ban on US firms building AI data centres overseas",
-   "summary": "The US president provided little detail on the potential policy, saying others in his team were hearing about it for the first time.",
-   "link": "https://www.bbc.co.uk/news/articles/cmde1lw9y54ko",
-   "published": "2026-11-20T20:54:12.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Five takeaways from the failed climate talks COP31",
-   "summary": "The COP31 summit in Antalya was the longest-running climate talks in UN history.",
-   "link": "https://www.bbc.co.uk/news/articles/cm75237wlp3lo",
-   "published": "2026-11-23T06:33:50.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Boy, 7, pulled alive from rubble hours after Russian strike on Ukraine, rescuers say",
-   "summary": "Eleven people are dead in the attack on Dymer, with rescue efforts ongoing to find those still missing from the residential building.",
-   "link": "https://www.bbc.co.uk/news/articles/cqdr15l32d3go",
-   "published": "2026-11-23T05:33:17.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Russian ships hit by Ukrainian drones off Libya coast, Zelensky says",
-   "summary": "Libya's eastern government says a sunken warship had stopped for fuel and supplies on its way back to Russia.",
-   "link": "https://www.bbc.co.uk/news/articles/cr894gjz0j0yo",
-   "published": "2026-11-23T08:36:57.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Burnham to tell MPs 'landmark' EU deal could make next decade 'much better'",
-   "summary": "The prime minister will tell MPs the deal agreed on Friday is a \"choice between a broken status quo or change\".",
-   "link": "https://www.bbc.co.uk/news/articles/cmde1dy82lepo",
-   "published": "2026-11-23T08:41:08.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Russia-bound ship towed away after it was attacked in Gulf of Finland",
-   "summary": "Finnish defence forces say that Ukraine was likely behind the drone strike on Saturday. Kyiv has yet to comment.",
-   "link": "https://www.bbc.co.uk/news/articles/cj752ddve27ko",
-   "published": "2026-11-22T17:18:26.000Z",
-   "source": "BBC",
-   "section": "world"
+   "title": "Seniors embrace Tesla automated driving technology despite questions about safety",
+   "summary": "Older drivers are using Tesla's automated driving technology to stay on the road longer. But safety experts warn the company may be over-selling what its cars can do.",
+   "link": "https://www.npr.org/2026/11/23/nx-s1-6020559/senior-drivers-tesla-automated-driving-safety",
+   "published": "2026-11-23T10:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
   },
   {
    "title": "He expected a small-business loan. He got a 7-year nightmare",
    "summary": "America's fastest-growing source of funding for small businesses is also one of the least regulated. One man has waged a long, lonely fight to recoup its punishing cost.",
    "link": "https://www.npr.org/2026/11/22/nx-s1-5752261/small-business-loan-merchant-cash-advance",
    "published": "2026-11-22T10:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Anthropic says it will put humanity first. Will its IPO change that?",
-   "summary": "Critics say now that the AI giant is a public company, its commitment to put safety ahead of commercial success will be tested.",
-   "link": "https://www.npr.org/2026/11/21/nx-s1-6048678/anthropic-ipo-mission-ai-safety",
-   "published": "2026-11-21T10:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "The AI boom had a really bad week — and it's raising loud alarms",
-   "summary": "AI stocks — and the broader markets — got pummeled this week, raising major concerns about the financial system and the wider economy. Here's what to know.",
-   "link": "https://www.npr.org/2026/11/21/nx-s1-6048729/ai-stock-markets-anthropic-nvidia",
-   "published": "2026-11-21T10:00:00.000Z",
    "source": "NPR",
    "section": "business"
   },
@@ -166,18 +182,50 @@
    "section": "tech"
   },
   {
-   "title": "Lebanese villagers return to wrecked homes as the Israeli army pulls back",
-   "summary": "In a pilot project in a village in southern Lebanon, Israeli forces have left and the Lebanese army moved it. But villagers who return find their houses wrecked.",
-   "link": "https://www.npr.org/2026/11/22/nx-s1-6048710/lebanon-israel-army-conflict-homes",
-   "published": "2026-11-22T17:44:52.000Z",
+   "title": "Anthropic says it will put humanity first. Will its IPO change that?",
+   "summary": "Critics say now that the AI giant is a public company, its commitment to put safety ahead of commercial success will be tested.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6048678/anthropic-ipo-mission-ai-safety",
+   "published": "2026-11-21T10:00:00.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
+   "title": "The AI boom had a really bad week — and it's raising loud alarms",
+   "summary": "AI stocks — and the broader markets — got pummeled this week, raising major concerns about the financial system and the wider economy. Here's what to know.",
+   "link": "https://www.npr.org/2026/11/21/nx-s1-6048729/ai-stock-markets-anthropic-nvidia",
+   "published": "2026-11-21T10:00:00.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
+   "title": "S&P 500 sinks 3.7% and the Nasdaq composite goes negative for the year",
+   "summary": "AI stocks have hefty market values and have a much bigger impact on the market's direction. They were responsible for Wall Street's big gains this year and are now behind the big slide for the market.",
+   "link": "https://www.npr.org/2026/11/20/g-s1-154797/nasdaq-sp500-stock-market-ai-sink-negative",
+   "published": "2026-11-20T22:11:29.000Z",
+   "source": "NPR",
+   "section": "tech"
+  },
+  {
+   "title": "Russian incursions into NATO territory are increasing",
+   "summary": "NATO Secretary General Mark Rutte is seeking to reassure the alliance's eastern European members after three Russian cruise missiles landed in Poland on Friday.",
+   "link": "https://www.npr.org/2026/11/23/nx-s1-6051013/russian-incursions-into-nato-territory-are-increasing",
+   "published": "2026-11-23T23:08:51.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Climate change talks fall apart in final hours over fossil fuels",
-   "summary": "Some 200 countries gathered in Antalya, Turkey, for COP31, the annual climate negotiations. Countries failed to reach an agreement over fossil fuels - the primary driver of global warming.",
-   "link": "https://www.npr.org/2026/11/22/nx-s1-6046195/cop31-climate-talks-close-disappointment",
-   "published": "2026-11-22T16:33:22.000Z",
+   "title": "Democrats win House by largest margin in 50 years. And, COP31 ends with no deal",
+   "summary": "Democrats have currently flipped 47 House seats and could flip 49 total. And, climate change talks at COP31 ran two days longer than expected, becoming the longest conference in the summit's history.",
+   "link": "https://www.npr.org/2026/11/23/g-s1-155021/up-first-newsletter-midterms-house-ai-stocks-poland-nato-cop31",
+   "published": "2026-11-23T12:42:03.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "Zelenskyy hails Ukraine's attack on a Russian warship docked at a naval base in Libya",
+   "summary": "Ukraine carried out an attack on a Russian warship moored at a port in Libya, President Volodymyr Zelenskyy said, claiming that sea drones sank the navy vessel in a surprise assault.",
+   "link": "https://www.npr.org/2026/11/23/g-s1-155017/ukraine-attack-russian-warship-libya",
+   "published": "2026-11-23T10:16:33.000Z",
    "source": "NPR",
    "section": "world"
   },
@@ -198,18 +246,10 @@
    "section": "world"
   },
   {
-   "title": "What did Xi Jinping get from the bear hug with Trump at the Shenzhen summit?",
-   "summary": "NPR's Rob Schmitz speaks with Robert Daly, director of the program on US China relations at University of Maryland's School of Public Policy, about President Trump's trip to China this week.",
-   "link": "https://www.npr.org/2026/11/21/nx-s1-6048741/what-did-xi-jinping-get-from-the-bear-hug-with-trump-at-the-shenzhen-summit",
-   "published": "2026-11-21T22:01:42.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Highlights and challenges from covering an historic month in South America",
-   "summary": "NPR's South America Correspondent discusses her work covering an historic election upset and a papal visit.",
-   "link": "https://www.npr.org/2026/11/21/nx-s1-6044647/highlights-and-challenges-from-covering-an-historic-month-in-south-america",
-   "published": "2026-11-21T22:01:35.000Z",
+   "title": "Lebanese villagers return to wrecked homes as the Israeli army pulls back",
+   "summary": "In a pilot project in a village in southern Lebanon, Israeli forces have left and the Lebanese army moved it. But villagers who return find their houses wrecked.",
+   "link": "https://www.npr.org/2026/11/22/nx-s1-6048710/lebanon-israel-army-conflict-homes",
+   "published": "2026-11-22T17:44:52.000Z",
    "source": "NPR",
    "section": "world"
   }
