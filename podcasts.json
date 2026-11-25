@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T09:50:13.670Z",
+ "updated": "2026-11-25T18:48:53.618Z",
  "shows": [
   {
    "id": "business-daily",
@@ -14,7 +14,8 @@
      "summary": "Grant LaFontaine is the co-founder and CEO of Whatnot, the live shopping platform where independent sellers generated more than $8 billion in sales last year.",
      "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pppbbh.mp3",
      "published": "2026-11-24T21:30:00.000Z",
-     "duration": 1048
+     "duration": 1048,
+     "apple": "https://podcasts.apple.com/us/podcast/founders-how-whatnot-built-a-live-shopping-giant/id261786876?i=1000803866216&uo=4"
     },
     {
      "title": "Follow the Money: Where did Trump's tariff refunds go?",
@@ -71,7 +72,8 @@
      "summary": "Why have prices for budget groceries risen faster than name brands? Meet cheapflation. Fact checking by Sierra Juarez .",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/708e74fd-2bbd-4840-8e8d-97da6ea423f9/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=708e74fd-2bbd-4840-8e8d-97da6ea423f9&feed=IFy3imsg&t=podcast&e=nx-s1-6053235&p=510325&d=508&size=8129393",
      "published": "2026-11-25T08:00:00.000Z",
-     "duration": 508
+     "duration": 508,
+     "apple": "https://podcasts.apple.com/us/podcast/sorry-even-store-brands-are-expensive-now/id1320118593?i=1000803898709&uo=4"
     },
     {
      "title": "Is Jensen Huang too big to fail?",
