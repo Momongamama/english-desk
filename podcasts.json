@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-25T18:48:53.618Z",
+ "updated": "2026-11-26T03:41:28.008Z",
  "shows": [
   {
    "id": "business-daily",
@@ -9,6 +9,14 @@
    "cors": false,
    "apple": "https://podcasts.apple.com/us/podcast/business-daily/id261786876?uo=4",
    "episodes": [
+    {
+     "title": "Power Players: Why did Trump want Jensen Huang back at Nvidia?",
+     "summary": "President Trump says America needs to \"protect our geniuses\" and claims he helped bring Nvidia CEO Jensen Huang back, highlighting Nvidia's growing importance…",
+     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0ppyl03.mp3",
+     "published": "2026-11-25T21:30:00.000Z",
+     "duration": 1503,
+     "apple": "https://podcasts.apple.com/us/podcast/power-players-why-did-trump-want-jensen-huang-back-at-nvidia/id261786876?i=1000804088595&uo=4"
+    },
     {
      "title": "Founders: How Whatnot built a live shopping giant",
      "summary": "Grant LaFontaine is the co-founder and CEO of Whatnot, the live shopping platform where independent sellers generated more than $8 billion in sales last year.",
@@ -48,14 +56,6 @@
      "published": "2026-11-20T20:00:00.000Z",
      "duration": 1742,
      "apple": "https://podcasts.apple.com/us/podcast/power-players-licence-to-bill-james-bond-robert-pattinson/id261786876?i=1000803187307&uo=4"
-    },
-    {
-     "title": "Taking stock: Nvidia, Anthropic’s IPO and the launch of GTA",
-     "summary": "Trump talks about Nvidia and its former CEO Jensen Huang during a summit with Chinese leader Xi Jinping.",
-     "url": "https://open.live.bbc.co.uk/mediaselector/6/redir/version/2.0/mediaset/audio-nondrm-download-rss-low/proto/https/vpid/p0pnwmpx.mp3",
-     "published": "2026-11-19T21:30:00.000Z",
-     "duration": 1459,
-     "apple": "https://podcasts.apple.com/us/podcast/taking-stock-nvidia-anthropics-ipo-and-the-launch-of-gta/id261786876?i=1000803005077&uo=4"
     }
    ]
   },

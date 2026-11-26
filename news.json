@@ -1,63 +1,87 @@
 {
- "updated": "2026-11-25T04:24:58.012Z",
+ "updated": "2026-11-26T03:41:25.062Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "Households braced for soaring energy bills with new price cap to be announced",
-   "summary": "Domestic gas prices will rise significantly in January under regulator Ofgem's new price cap.",
+   "title": "UK government set to publish new treaties agreed with EU",
+   "summary": "The BBC understands the treaties contain a 10-year termination clause to reimburse costs of any need to rebuild border checks infrastructure.",
+   "link": "https://www.bbc.co.uk/news/articles/c98r7p65edvgo",
+   "published": "2026-11-26T02:13:00.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Poundland collapses putting 11,000 jobs at risk",
+   "summary": "The discount chain has fallen into administration after its owners failed to find a buyer.",
+   "link": "https://www.bbc.co.uk/news/articles/cm3vgdn037z4o",
+   "published": "2026-11-25T21:31:10.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "US approves SpaceX plan to send a million data satellites to space",
+   "summary": "The Starmind constellation aims to be the most cost and energy-efficient way to meet the growing demand for AI computing power.",
+   "link": "https://www.bbc.co.uk/news/articles/cwp836l8n1jgo",
+   "published": "2026-11-26T00:07:51.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Energy bills to rise by 26% from January after gas prices surge",
+   "summary": "A household using a typical amount of energy would see its annual bill rise from £1,723 to £2,166 if this level was sustained for a year.",
    "link": "https://www.bbc.co.uk/news/articles/cm20qnq33e90o",
-   "published": "2026-11-25T00:29:58.000Z",
+   "published": "2026-11-25T13:42:08.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "US preparing to unveil plan for new tariffs on global trading partners",
-   "summary": "The new levies would hit many of America's biggest trading partners, including China and the EU.",
-   "link": "https://www.bbc.co.uk/news/articles/c893r9ke5p97o",
-   "published": "2026-11-25T00:38:01.000Z",
+   "title": "Trump's accounts traded Nvidia shares 44 times this year, records show",
+   "summary": "A review of the US president's financial disclosures shows Donald Trump's investment portfolios have regularly traded shares in the tech giant.",
+   "link": "https://www.bbc.co.uk/news/articles/cq772vk664yvo",
+   "published": "2026-11-25T16:42:11.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "With Huang rescue, Trump riskily ties his political fortunes to Nvidia",
-   "summary": "The US president's intercession to reinstate CEO Jensen Huang has inextricably linked their fates.",
-   "link": "https://www.bbc.co.uk/news/articles/ckj05m2zdyryo",
-   "published": "2026-11-25T01:03:05.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "'I only use the washing machine on a Sunday' - how we're keeping our energy bills down",
-   "summary": "The BBC speaks to three people about steps they take to keep their energy bills under control.",
-   "link": "https://www.bbc.co.uk/news/articles/c820qnznkrn4o",
-   "published": "2026-11-25T00:30:52.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Why tiny cars are taking off across Europe",
-   "summary": "Once seen as a car for elderly, rural people, tiny cars are being embraced by a younger demographic.",
-   "link": "https://www.bbc.co.uk/news/articles/cmwy9jne0g7qo",
-   "published": "2026-11-25T00:34:05.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Huawei found guilty of stealing trade secrets but acquitted of racketeering",
+   "title": "Huawei found guilty of stealing US trade secrets but acquitted of racketeering",
    "summary": "The verdict follows a months-long trial in New York.",
    "link": "https://www.bbc.co.uk/news/articles/cmy49ngydqzpo",
-   "published": "2026-11-25T02:59:27.000Z",
+   "published": "2026-11-25T10:52:09.000Z",
    "source": "BBC",
-   "section": "business"
+   "section": "tech"
+  },
+  {
+   "title": "EA adds AI-generated John Motson to FC 27 video game",
+   "summary": "The AI-generated Motson will appear in the game on 26 November, with the consent of his son and wife.",
+   "link": "https://www.bbc.co.uk/news/articles/c65y10j841jpo",
+   "published": "2026-11-25T10:11:34.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "Zoe Kleinman: Nobody is irreplaceable - unless you're Jensen Huang",
+   "summary": "The BBC's technology and AI editor on how Nvidia's boss made himself impossible to fire.",
+   "link": "https://www.bbc.co.uk/news/articles/c3rrgqj2zx5yo",
+   "published": "2026-11-25T10:03:12.000Z",
+   "source": "BBC",
+   "section": "tech"
   },
   {
    "title": "US attorney general dodges questions about Nvidia investigation",
    "summary": "Nvidia's share price have fallen 7% as lawmakers demand answers about President Donald Trump's involvement in Huang's reinstatement.",
    "link": "https://www.bbc.co.uk/news/articles/crpdw1qx7jgxo",
    "published": "2026-11-25T03:44:07.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "Why tiny cars are taking off across Europe",
+   "summary": "Once seen as a car for elderly, rural people, tiny cars are being embraced by a younger demographic.",
+   "link": "https://www.bbc.co.uk/news/articles/cmwy9jne0g7qo",
+   "published": "2026-11-25T00:34:05.000Z",
    "source": "BBC",
    "section": "tech"
   },
@@ -70,108 +94,100 @@
    "section": "tech"
   },
   {
-   "title": "Helpful but awkward: My week with Meta's Muse ahead of its UK launch",
-   "summary": "Meta wants Muse to do for AI what WhatsApp did for messaging - here's what the BBC's technology editor found when she used it.",
-   "link": "https://www.bbc.co.uk/news/articles/c9gkld2l38y6o",
-   "published": "2026-11-24T09:33:00.000Z",
+   "title": "Thirty-one killed in massive fire as fuel tanker crashes on Cairo highway",
+   "summary": "Another 21 are injured after the tanker reportedly overturns on a busy ring road in the Egyptian capital.",
+   "link": "https://www.bbc.co.uk/news/articles/cqy7rn30v314o",
+   "published": "2026-11-25T22:18:06.000Z",
    "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "Has global jihadism failed, or is it simply changing shape?",
+   "summary": "Jihadist groups appear to be focusing on local issues rather than global terror. Does it signify a real change?",
+   "link": "https://www.bbc.co.uk/news/articles/cmx2x4e0n5jro",
+   "published": "2026-11-26T00:22:18.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "The US pastor who wants to see women's right to vote overturned",
+   "summary": "The movement to repeal women's right to vote has gained traction amongst some very conservative Christians.",
+   "link": "https://www.bbc.co.uk/news/articles/cwe89jyz4012o",
+   "published": "2026-11-26T00:24:25.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "France's political mainstream risks presidential vote debacle with no clear candidate",
+   "summary": "Hard-right and hard-left candidates dominate the polls ahead of next year's presidential election.",
+   "link": "https://www.bbc.co.uk/news/articles/cq772vedgepro",
+   "published": "2026-11-26T00:23:27.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "A renovation was meant to improve these Hong Kong homes - it ended in a blaze that killed 168",
+   "summary": "A year after one of Hong Kong's deadliest fires, families left behind are still waiting for justice.",
+   "link": "https://www.bbc.co.uk/news/articles/cqx2wrkyrdn8o",
+   "published": "2026-11-25T23:26:50.000Z",
+   "source": "BBC",
+   "section": "world"
+  },
+  {
+   "title": "What to know before using AI agents for Black Friday shopping",
+   "summary": "59% of U.S. shoppers plan to use AI for holiday shopping this weekend, according to the National Retail Federation",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6048524/what-to-know-before-using-ai-agents-for-black-friday-shopping",
+   "published": "2026-11-25T13:51:56.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Buying new things feels wonderful. But it can also be a trap",
+   "summary": "Constantly buying new things can be problematic, says journalist Eric Athas, author of the new book \"Saying No to New.\" Here's how to break the cycle and find joy in what you already have.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6052361/buying-new-things-feels-wonderful-can-be-trap-break-the-cycle",
+   "published": "2026-11-25T10:02:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "How Jensen Huang's return as NVIDIA's CEO is going over in China",
+   "summary": "In China, Jensen Huang's return as Nvidia CEO is being met with a mixed reaction – as Beijing weighs whether it wants the US company's chips at all.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6053915/how-jensen-huangs-return-as-nvidias-ceo-is-going-over-in-china",
+   "published": "2026-11-25T23:01:09.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Credit card perks are fueling airline profitability",
+   "summary": "Flying during the holidays can be pricey. So, airlines are pitching more and more specialty brand credit cards on your flight.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-5860846/credit-card-perks-are-fueling-airline-profitability",
+   "published": "2026-11-25T21:29:57.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "In a time of rising costs, one Thanksgiving commodity is cheaper: cannabis",
+   "summary": "Steep discounts for \"Green Wednesday,\" one of the highest-selling days for cannabis, help customers keep costs down. But experts say retailers are feeling the pinch.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6046173/cannabis-marijuana-prices-retailers-discounts",
+   "published": "2026-11-25T10:00:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Nvidia's board under fire for handling of CEO's alleged affairs",
+   "summary": "Even as Jensen Huang has returned to work, Nvidia's board is facing criticism over how it handled the crisis brought on by the CEO's alleged affairs.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6052342/nvidias-board-under-fire-for-handling-of-ceos-alleged-affairs",
+   "published": "2026-11-25T09:39:52.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "How to talk AI around the Thanksgiving table",
+   "summary": "You're gathered with family this Thanksgiving when the topic of AI comes up. How can you have a productive, fact-based conversation?",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6053216/how-to-talk-ai-around-the-thanksgiving-table",
+   "published": "2026-11-25T21:33:59.000Z",
+   "source": "NPR",
    "section": "tech"
-  },
-  {
-   "title": "US to blacklist Asian AI firm Megaspeed after Nvidia scandal",
-   "summary": "Megaspeed has been accused of funneling AI chips to China after a former executive's affair with Jensen Huang became public.",
-   "link": "https://www.bbc.co.uk/news/articles/cv98xpg5dg5zo",
-   "published": "2026-11-23T23:16:08.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Russia's own figures show almost 500,000 deaths in war in Ukraine",
-   "summary": "Leaked data reveal how the full-scale invasion of Ukraine has fundamentally changed mortality patterns in Russia.",
-   "link": "https://www.bbc.co.uk/news/articles/cmx27g533zwyo",
-   "published": "2026-11-25T00:56:51.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Kilmar Ábrego García leaving US for Spain, ending Trump deportation battle",
-   "summary": "His deportation to El Salvador and return to the US became a flash point in the debate over President Donald Trump's immigration agenda.",
-   "link": "https://www.bbc.co.uk/news/articles/c6808pyy5dl9o",
-   "published": "2026-11-25T03:54:43.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Thomas Markle indicted in US for possessing child sex abuse images",
-   "summary": "The FBI arrested Markle on 6 November after a search of a storage unit he had allegedly rented in Los Angeles uncovered the abuse material.",
-   "link": "https://www.bbc.co.uk/news/articles/crwy4egxn592o",
-   "published": "2026-11-25T01:40:42.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "These North Koreans say they were spied on, beaten and jailed for being Christian",
-   "summary": "A new report has testimonies from hundreds of defectors who say they were persecuted because of their faith.",
-   "link": "https://www.bbc.co.uk/news/articles/cqgkv8kp7145o",
-   "published": "2026-11-24T23:03:59.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "China-linked network using AI fakes to smear Taiwan election candidates, BBC Verify finds",
-   "summary": "The network attacked key figures in the ruling DPP, including President Lai and mayoral candidate Shen.",
-   "link": "https://www.bbc.co.uk/news/articles/cv702rw7dzx5o",
-   "published": "2026-11-24T23:05:11.000Z",
-   "source": "BBC",
-   "section": "world"
-  },
-  {
-   "title": "Unpacking President Trump's financial stake in Nvidia",
-   "summary": "NPR's Scott Detrow speaks with Dan Alexander, a senior editor at Forbes and author of a book about President Trump's businesses, about the president's holdings in Nvidia given recent news.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6052402/unpacking-president-trumps-financial-stake-in-nvidia",
-   "published": "2026-11-24T23:48:14.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "What should it cost to insure a home in wildfire country?",
-   "summary": "Some California homeowners have spent thousands making their homes safer from wildfires. Yet all that work has barely made a dent in their insurance bills. Should they be getting a bigger break?",
-   "link": "https://www.npr.org/sections/planet-money/2026/11/24/g-s1-154477/what-should-it-cost-to-insure-a-home-in-wildfire-country",
-   "published": "2026-11-24T11:30:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "They attended Trump's meme coin dinner. It didn't go well",
-   "summary": "Trump's meme coin dinners have sparked intense controversy. These two guests attended his latest on Sunday — and agreed to provide NPR inside access.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6051604/trump-crypto-corruption-meme-coin-dinner",
-   "published": "2026-11-24T10:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "For workplace culture champions, Jensen Huang's return is 'unfathomable'",
-   "summary": "Some who have worked to promote diversity and inclusion in Silicon Valley say Jensen Huang's reinstatement as Nvidia's CEO sends a message that all that matters is money.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6051583/nvidia-huang-dei-trump-women",
-   "published": "2026-11-24T10:00:00.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Jensen Huang returns to Nvidia as CEO after scandal",
-   "summary": "Jensen Huang's return to Nvidia as CEO was followed by to a surge in the tech company's stock -- and the stock market.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6051532/jensen-huang-returns-to-nvidia-as-ceo-after-scandal",
-   "published": "2026-11-24T09:52:34.000Z",
-   "source": "NPR",
-   "section": "business"
-  },
-  {
-   "title": "Yale professor discusses Jensen Huang's return as Nvidia's CEO",
-   "summary": "NPR's Steve Inskeep asks Jeffrey Sonnenfeld of Yale's School of Management what Jensen Huang's return as CEO of Nvidia means for the future of the company.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6051030/yale-professor-discusses-jensen-huangs-return-as-nvidias-ceo",
-   "published": "2026-11-24T09:52:29.000Z",
-   "source": "NPR",
-   "section": "business"
   },
   {
    "title": "How high technology is changing cargo crime",
@@ -182,58 +198,58 @@
    "section": "tech"
   },
   {
-   "title": "Trump claims credit as Jensen Huang returns to Nvidia",
-   "summary": "President Trump endorsed the announcement, calling it essential for the success of the company and the economy. He added that the government does not see Huang's return as a national security risk.",
-   "link": "https://www.npr.org/2026/11/23/nx-s1-6050910/nvidias-jensen-huang-trump",
-   "published": "2026-11-23T14:53:41.000Z",
+   "title": "For workplace culture champions, Jensen Huang's return is 'unfathomable'",
+   "summary": "Some who have worked to promote diversity and inclusion in Silicon Valley say Jensen Huang's reinstatement as Nvidia's CEO sends a message that all that matters is money.",
+   "link": "https://www.npr.org/2026/11/24/nx-s1-6051583/nvidia-huang-dei-trump-women",
+   "published": "2026-11-24T10:00:00.000Z",
    "source": "NPR",
    "section": "tech"
   },
   {
-   "title": "Who really owns the Albanian land Jared Kushner wants to turn into a 5-star resort?",
-   "summary": "Albania's Prime Minister Edi Rama has vowed that Kushner's resort project will go ahead as planned.",
-   "link": "https://www.npr.org/2026/11/24/g-s1-154623/albania-jared-kushner-land-deal-protests",
-   "published": "2026-11-24T14:24:04.000Z",
+   "title": "How American Thanksgiving took root -- and evolved -- in Liberia",
+   "summary": "The first settlers of Liberia were African Americans who brought along the holiday of Thanksgiving — which has evolved to reflect the history and identity of this new nation.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6048614/thanksgiving-liberia-gratitude-prayer",
+   "published": "2026-11-25T14:14:34.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Jensen Huang returns to Nvidia. And, Rep. Gomez resigns amid alleged sexual misconduct",
-   "summary": "President Trump took credit for negotiating Jensen Huang's return as CEO of Nvidia. And, Rep. Jimmy Gomez, D-Calif., says his resignation will be effective Dec. 1.",
-   "link": "https://www.npr.org/2026/11/24/g-s1-155227/up-first-newsletter-nvidia-jensen-huang-trump-ukraine-russia-jimmy-gomez",
-   "published": "2026-11-24T12:12:25.000Z",
+   "title": "Republican wants FBI and CIA answers before questioning Nvidia chief",
+   "summary": "\"The public is rightly concerned,\" says the Republican lawmaker, who wants to know what the FBI and CIA knew about potential national security threats and whether Jensen Huang was warned.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6052417/nvidia-jensen-huang-reaction-republicans-congress-investigation",
+   "published": "2026-11-25T11:50:05.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "The human cost of the electric vehicle boom is at the center of a lawsuit in Congo",
-   "summary": "A landmark lawsuit in Congo sees 27 residents accuse a Chinese-owned copper and cobalt mine of poisoning their community and the government of failing to protect them.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6042912/drc-congo-mining-china-copper-colbalt-critical-minerals",
-   "published": "2026-11-24T10:00:00.000Z",
+   "title": "Greetings from Mount Kilimanjaro, Africa's highest point in all its splendor",
+   "summary": "Climbing tall mountains like Kilimanjaro is a study in contrasts — from beating sun to freezing nights, fire and snow.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6051429/mount-kilimanjaro-africa-tanzania",
+   "published": "2026-11-25T11:00:00.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Meet Colombia's fuzzy 'water guardians'",
-   "summary": "High in the Colombian Andes, a growing number of volunteers are racing to save an unusual plant that helps supply water to millions — one tiny seedling at a time.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6038806/colombia-water-plants-frailejons",
-   "published": "2026-11-24T10:00:00.000Z",
+   "title": "Army to detonate tons of lead azide after delays. And, Abrego Garcia leaves U.S.",
+   "summary": "Authorities have evacuated a 5-mile radius to prepare to dispose of thousands of pounds of lead azide. And, after a nearly two-year legal battle, Kilmar Abrego Garcia's has voluntarily left the U.S.",
+   "link": "https://www.npr.org/2026/11/25/g-s1-155493/up-first-newsletter-iowa-detonation-kilmar-abrego-garcia-nvidia-jensen-huang",
+   "published": "2026-11-25T12:18:09.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Fighting between Russia and Ukraine has expanded geographically, drawing concerns",
-   "summary": "In recent days, Ukraine has sunk a Russian warship docked in port in Libya, and Russian missiles have landed in Poland. The Kremlin has not commented on the missiles.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6051564/fighting-between-russia-and-ukraine-has-expanded-geographically-drawing-concerns",
-   "published": "2026-11-24T09:52:03.000Z",
+   "title": "China investigates Politburo member and Shanghai party chief Chen Jining",
+   "summary": "The Politburo member is the latest senior official targeted in President Xi Jinping's long-running anti-corruption campaign, which has shown no signs of letting up in scope or depth.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6053801/china-investigation-politburo-shanghai-party",
+   "published": "2026-11-25T09:44:13.000Z",
    "source": "NPR",
    "section": "world"
   },
   {
-   "title": "Russian incursions into NATO territory are increasing",
-   "summary": "NATO Secretary General Mark Rutte is seeking to reassure the alliance's eastern European members after three Russian cruise missiles landed in Poland on Friday.",
-   "link": "https://www.npr.org/2026/11/23/nx-s1-6051013/russian-incursions-into-nato-territory-are-increasing",
-   "published": "2026-11-23T23:08:51.000Z",
+   "title": "Africa Cup title given back to Senegal after sports court rules against Morocco",
+   "summary": "Senegal won the Africa Cup on the field in Morocco in January and then lost it in a legal case in March because its players walked off the field in protest in second-half stoppage time.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6053783/africa-cup-senegal-morocco",
+   "published": "2026-11-25T06:43:23.000Z",
    "source": "NPR",
    "section": "world"
   }
