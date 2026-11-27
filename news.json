@@ -1,49 +1,73 @@
 {
- "updated": "2026-11-26T03:41:25.062Z",
+ "updated": "2026-11-27T03:42:04.041Z",
  "sources": [
   "BBC",
   "NPR"
  ],
  "items": [
   {
-   "title": "UK government set to publish new treaties agreed with EU",
-   "summary": "The BBC understands the treaties contain a 10-year termination clause to reimburse costs of any need to rebuild border checks infrastructure.",
-   "link": "https://www.bbc.co.uk/news/articles/c98r7p65edvgo",
-   "published": "2026-11-26T02:13:00.000Z",
+   "title": "UK to pay 'participation' fee to deliver EU deals",
+   "summary": "Details of the contribution towards EU running costs have been revealed in new legal documents.",
+   "link": "https://www.bbc.co.uk/news/articles/ck2057x387ego",
+   "published": "2026-11-26T23:17:12.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "Poundland collapses putting 11,000 jobs at risk",
-   "summary": "The discount chain has fallen into administration after its owners failed to find a buyer.",
-   "link": "https://www.bbc.co.uk/news/articles/cm3vgdn037z4o",
-   "published": "2026-11-25T21:31:10.000Z",
+   "title": "I spend £200 a month on fancy meals by myself - would you dine solo?",
+   "summary": "Solo-dining is being embraced as a self-care trend and it's reshaping the restaurant industry.",
+   "link": "https://www.bbc.co.uk/news/articles/cw8dv11dp2yeo",
+   "published": "2026-11-27T00:54:45.000Z",
    "source": "BBC",
    "section": "business"
   },
   {
-   "title": "US approves SpaceX plan to send a million data satellites to space",
+   "title": "Faisal Islam: Why Trump's new tariffs are less of a threat",
+   "summary": "Other countries have rerouted trade in response to his first tariff salvo, now they are looking beyond Trump's tenure.",
+   "link": "https://www.bbc.co.uk/news/articles/c6r7g4e3yep1o",
+   "published": "2026-11-26T19:55:58.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Asia made a big AI bet on Nvidia. What happens now?",
+   "summary": "Asian stocks have been on a rollercoaster ride after Jensen Huang's shock return as Nvidia CEO.",
+   "link": "https://www.bbc.co.uk/news/articles/cqevr4lnd1nxo",
+   "published": "2026-11-26T23:08:12.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Millions of people to see average monthly mortgage payments rise by £100",
+   "summary": "More people face higher mortgage repayments when they roll off a fixed deal than previously estimated.",
+   "link": "https://www.bbc.co.uk/news/articles/cwg5r02zel9qo",
+   "published": "2026-11-26T14:00:20.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Simon Jack: Is Poundland's US owner to blame for its collapse?",
+   "summary": "Poundland's management and MPs blame the retailer's owners, Gordon Brothers, but the US firm says without them the chain would have collapsed last year.",
+   "link": "https://www.bbc.co.uk/news/articles/c62klzxvyzyqo",
+   "published": "2026-11-26T13:40:46.000Z",
+   "source": "BBC",
+   "section": "business"
+  },
+  {
+   "title": "Why is there a shortage of 'wizard' elevator mechanics?",
+   "summary": "The pay is good and there's lots of work, so what's behind the shortage of elevator mechanics?",
+   "link": "https://www.bbc.co.uk/news/articles/c52e8k19y94mo",
+   "published": "2026-11-27T00:02:19.000Z",
+   "source": "BBC",
+   "section": "tech"
+  },
+  {
+   "title": "Musk's plan to send a million SpaceX data satellites into space approved",
    "summary": "The Starmind constellation aims to be the most cost and energy-efficient way to meet the growing demand for AI computing power.",
    "link": "https://www.bbc.co.uk/news/articles/cwp836l8n1jgo",
-   "published": "2026-11-26T00:07:51.000Z",
+   "published": "2026-11-26T09:27:44.000Z",
    "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Energy bills to rise by 26% from January after gas prices surge",
-   "summary": "A household using a typical amount of energy would see its annual bill rise from £1,723 to £2,166 if this level was sustained for a year.",
-   "link": "https://www.bbc.co.uk/news/articles/cm20qnq33e90o",
-   "published": "2026-11-25T13:42:08.000Z",
-   "source": "BBC",
-   "section": "business"
-  },
-  {
-   "title": "Trump's accounts traded Nvidia shares 44 times this year, records show",
-   "summary": "A review of the US president's financial disclosures shows Donald Trump's investment portfolios have regularly traded shares in the tech giant.",
-   "link": "https://www.bbc.co.uk/news/articles/cq772vk664yvo",
-   "published": "2026-11-25T16:42:11.000Z",
-   "source": "BBC",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "Huawei found guilty of stealing US trade secrets but acquitted of racketeering",
@@ -70,82 +94,58 @@
    "section": "tech"
   },
   {
-   "title": "US attorney general dodges questions about Nvidia investigation",
-   "summary": "Nvidia's share price have fallen 7% as lawmakers demand answers about President Donald Trump's involvement in Huang's reinstatement.",
-   "link": "https://www.bbc.co.uk/news/articles/crpdw1qx7jgxo",
-   "published": "2026-11-25T03:44:07.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Why tiny cars are taking off across Europe",
-   "summary": "Once seen as a car for elderly, rural people, tiny cars are being embraced by a younger demographic.",
-   "link": "https://www.bbc.co.uk/news/articles/cmwy9jne0g7qo",
-   "published": "2026-11-25T00:34:05.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Faisal Islam: Fears over the AI boom haven't gone away",
-   "summary": "There were legitimate fears before Huang's abrupt exit from Nvidia - and his return won't fix it",
-   "link": "https://www.bbc.co.uk/news/articles/c6894evgpel5o",
-   "published": "2026-11-24T18:21:43.000Z",
-   "source": "BBC",
-   "section": "tech"
-  },
-  {
-   "title": "Thirty-one killed in massive fire as fuel tanker crashes on Cairo highway",
-   "summary": "Another 21 are injured after the tanker reportedly overturns on a busy ring road in the Egyptian capital.",
-   "link": "https://www.bbc.co.uk/news/articles/cqy7rn30v314o",
-   "published": "2026-11-25T22:18:06.000Z",
+   "title": "US too focused on Middle East and not pushing Russia hard enough, Zelensky tells BBC",
+   "summary": "Ukraine's president voices frustration with US and says it is \"strange\" Trump has described Vladimir Putin as a friend.",
+   "link": "https://www.bbc.co.uk/news/articles/c820q9wgrpyyo",
+   "published": "2026-11-26T22:49:27.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "Has global jihadism failed, or is it simply changing shape?",
-   "summary": "Jihadist groups appear to be focusing on local issues rather than global terror. Does it signify a real change?",
-   "link": "https://www.bbc.co.uk/news/articles/cmx2x4e0n5jro",
-   "published": "2026-11-26T00:22:18.000Z",
+   "title": "Diesel tanker carrying up to 7,000 tonnes capsizes near Ibiza, killing one",
+   "summary": "The possible environmental damage is still being assessed by Spain's sea rescue service.",
+   "link": "https://www.bbc.co.uk/news/articles/c9gklryvj24do",
+   "published": "2026-11-26T22:01:22.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "The US pastor who wants to see women's right to vote overturned",
-   "summary": "The movement to repeal women's right to vote has gained traction amongst some very conservative Christians.",
-   "link": "https://www.bbc.co.uk/news/articles/cwe89jyz4012o",
-   "published": "2026-11-26T00:24:25.000Z",
+   "title": "Two Italians killed in strike in Kuwait, as Iran denies responsibility",
+   "summary": "The pair were technicians for German company Rheinmetall, according to Italy's foreign ministry.",
+   "link": "https://www.bbc.co.uk/news/articles/c39w9y5dx4k5o",
+   "published": "2026-11-26T21:17:53.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "France's political mainstream risks presidential vote debacle with no clear candidate",
-   "summary": "Hard-right and hard-left candidates dominate the polls ahead of next year's presidential election.",
-   "link": "https://www.bbc.co.uk/news/articles/cq772vedgepro",
-   "published": "2026-11-26T00:23:27.000Z",
+   "title": "Met Police ruined my life, says Kenyan man wrongly sentenced over attack on UK couple",
+   "summary": "Evidence from a British police officer helped convict Ali Kololo over a 2011 attack in the Kenyan resort of Lamu.",
+   "link": "https://www.bbc.co.uk/news/articles/cqvg2nlr8kd8o",
+   "published": "2026-11-27T00:48:11.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "A renovation was meant to improve these Hong Kong homes - it ended in a blaze that killed 168",
-   "summary": "A year after one of Hong Kong's deadliest fires, families left behind are still waiting for justice.",
-   "link": "https://www.bbc.co.uk/news/articles/cqx2wrkyrdn8o",
-   "published": "2026-11-25T23:26:50.000Z",
+   "title": "Major Thanksgiving storm brings flooding, flight delays across US",
+   "summary": "Almost one million customers in the US had no power on Thursday evening as storms descended on both US coasts, bringing wind gusts, heavy rain and flooding.",
+   "link": "https://www.bbc.co.uk/news/articles/ckm2mz3prq77o",
+   "published": "2026-11-27T00:52:11.000Z",
    "source": "BBC",
    "section": "world"
   },
   {
-   "title": "What to know before using AI agents for Black Friday shopping",
-   "summary": "59% of U.S. shoppers plan to use AI for holiday shopping this weekend, according to the National Retail Federation",
-   "link": "https://www.npr.org/2026/11/25/nx-s1-6048524/what-to-know-before-using-ai-agents-for-black-friday-shopping",
-   "published": "2026-11-25T13:51:56.000Z",
-   "source": "NPR",
-   "section": "business"
+   "title": "New Zealand's ruling coalition falls short of parliamentary majority by one seat",
+   "summary": "The right-leaning ruling bloc led by the National Party has fallen short of the majority needed to govern.",
+   "link": "https://www.bbc.co.uk/news/articles/c670278qk879o",
+   "published": "2026-11-27T03:28:15.000Z",
+   "source": "BBC",
+   "section": "world"
   },
   {
-   "title": "Buying new things feels wonderful. But it can also be a trap",
-   "summary": "Constantly buying new things can be problematic, says journalist Eric Athas, author of the new book \"Saying No to New.\" Here's how to break the cycle and find joy in what you already have.",
-   "link": "https://www.npr.org/2026/11/25/nx-s1-6052361/buying-new-things-feels-wonderful-can-be-trap-break-the-cycle",
-   "published": "2026-11-25T10:02:00.000Z",
+   "title": "U.S. Judge rules FCC violated ABC's free speech rights to please Trump",
+   "summary": "A federal judge has blocked the Trump administration from moving to review all local broadcast licenses held by ABC. The stations air in six of the largest U.S. markets.",
+   "link": "https://www.npr.org/2026/11/26/nx-s1-6000576/fcc-disney-abc-first-amendment-trump-brendan-carr",
+   "published": "2026-11-26T05:23:18.000Z",
    "source": "NPR",
    "section": "business"
   },
@@ -166,6 +166,22 @@
    "section": "business"
   },
   {
+   "title": "What to know before using AI agents for Black Friday shopping",
+   "summary": "59% of U.S. shoppers plan to use AI for holiday shopping this weekend, according to the National Retail Federation",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6048524/what-to-know-before-using-ai-agents-for-black-friday-shopping",
+   "published": "2026-11-25T13:51:56.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
+   "title": "Buying new things feels wonderful. But it can also be a trap",
+   "summary": "Constantly buying new things can be problematic, says journalist Eric Athas, author of the new book \"Saying No to New.\" Here's how to break the cycle and find joy in what you already have.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6052361/buying-new-things-feels-wonderful-can-be-trap-break-the-cycle",
+   "published": "2026-11-25T10:02:00.000Z",
+   "source": "NPR",
+   "section": "business"
+  },
+  {
    "title": "In a time of rising costs, one Thanksgiving commodity is cheaper: cannabis",
    "summary": "Steep discounts for \"Green Wednesday,\" one of the highest-selling days for cannabis, help customers keep costs down. But experts say retailers are feeling the pinch.",
    "link": "https://www.npr.org/2026/11/25/nx-s1-6046173/cannabis-marijuana-prices-retailers-discounts",
@@ -174,12 +190,12 @@
    "section": "business"
   },
   {
-   "title": "Nvidia's board under fire for handling of CEO's alleged affairs",
-   "summary": "Even as Jensen Huang has returned to work, Nvidia's board is facing criticism over how it handled the crisis brought on by the CEO's alleged affairs.",
-   "link": "https://www.npr.org/2026/11/25/nx-s1-6052342/nvidias-board-under-fire-for-handling-of-ceos-alleged-affairs",
-   "published": "2026-11-25T09:39:52.000Z",
+   "title": "FCC says SpaceX can deploy 1 million satellites for data centers in space. Scientists are skeptical",
+   "summary": "The Trump administration gave Elon Musk's SpaceX the green light to deploy 1 million satellites that it said would create data centers in space, a move that has raised skepticism among scientists.",
+   "link": "https://www.npr.org/2026/11/26/g-s1-155940/fcc-spacex-satellites-data-centers-in-space",
+   "published": "2026-11-26T06:53:09.000Z",
    "source": "NPR",
-   "section": "business"
+   "section": "tech"
   },
   {
    "title": "How to talk AI around the Thanksgiving table",
@@ -190,42 +206,34 @@
    "section": "tech"
   },
   {
-   "title": "How high technology is changing cargo crime",
-   "summary": "Truckloads of turkey and bourbon are getting stolen in transit. Cargo theft of food and beverages are on the rise in part because the goods are hard to trace.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6051029/how-high-technology-is-changing-cargo-crime",
-   "published": "2026-11-24T22:49:10.000Z",
+   "title": "Congo Ebola outbreak reaches 12,000 cases as some responders evacuate",
+   "summary": "As the fast-moving outbreak continues to spread in eastern Congo, fighting between rebels and the army is disrupting efforts to contain the spread of the disease.",
+   "link": "https://www.npr.org/2026/11/26/g-s1-155957/congo-ebola-responders",
+   "published": "2026-11-26T13:47:09.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "For workplace culture champions, Jensen Huang's return is 'unfathomable'",
-   "summary": "Some who have worked to promote diversity and inclusion in Silicon Valley say Jensen Huang's reinstatement as Nvidia's CEO sends a message that all that matters is money.",
-   "link": "https://www.npr.org/2026/11/24/nx-s1-6051583/nvidia-huang-dei-trump-women",
-   "published": "2026-11-24T10:00:00.000Z",
+   "title": "North Korea's Kim vows to build more nuclear weapons after ignoring Trump's overture",
+   "summary": "Leader Kim Jong Un reportedly visited facilities that produce nuclear ingredients and called for building more nuclear weapons to cope with threats from the U.S. and South Korea.",
+   "link": "https://www.npr.org/2026/11/26/g-s1-155955/north-korea-kim-nuclear-weapons-trump",
+   "published": "2026-11-26T13:31:28.000Z",
    "source": "NPR",
-   "section": "tech"
+   "section": "world"
   },
   {
-   "title": "How American Thanksgiving took root -- and evolved -- in Liberia",
+   "title": "Storms disrupt Thanksgiving travel. And, FCC violated ABC's free speech, judge says",
+   "summary": "The East Coast's weather is a major concern this holiday, as it could lead to coastal flooding. And, the judge says the FCC can't punish ABC for satire Trump doesn't like.",
+   "link": "https://www.npr.org/2026/11/26/g-s1-155950/up-first-newsletter-thanksgiving-weather-travel-trump-tariffs-iowa-detonation-fcc-free-speech",
+   "published": "2026-11-26T12:24:29.000Z",
+   "source": "NPR",
+   "section": "world"
+  },
+  {
+   "title": "How American Thanksgiving took root — and evolved — in Liberia",
    "summary": "The first settlers of Liberia were African Americans who brought along the holiday of Thanksgiving — which has evolved to reflect the history and identity of this new nation.",
    "link": "https://www.npr.org/2026/11/25/nx-s1-6048614/thanksgiving-liberia-gratitude-prayer",
    "published": "2026-11-25T14:14:34.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Republican wants FBI and CIA answers before questioning Nvidia chief",
-   "summary": "\"The public is rightly concerned,\" says the Republican lawmaker, who wants to know what the FBI and CIA knew about potential national security threats and whether Jensen Huang was warned.",
-   "link": "https://www.npr.org/2026/11/25/nx-s1-6052417/nvidia-jensen-huang-reaction-republicans-congress-investigation",
-   "published": "2026-11-25T11:50:05.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Greetings from Mount Kilimanjaro, Africa's highest point in all its splendor",
-   "summary": "Climbing tall mountains like Kilimanjaro is a study in contrasts — from beating sun to freezing nights, fire and snow.",
-   "link": "https://www.npr.org/2026/11/25/nx-s1-6051429/mount-kilimanjaro-africa-tanzania",
-   "published": "2026-11-25T11:00:00.000Z",
    "source": "NPR",
    "section": "world"
   },
@@ -238,18 +246,10 @@
    "section": "world"
   },
   {
-   "title": "China investigates Politburo member and Shanghai party chief Chen Jining",
-   "summary": "The Politburo member is the latest senior official targeted in President Xi Jinping's long-running anti-corruption campaign, which has shown no signs of letting up in scope or depth.",
-   "link": "https://www.npr.org/2026/11/25/nx-s1-6053801/china-investigation-politburo-shanghai-party",
-   "published": "2026-11-25T09:44:13.000Z",
-   "source": "NPR",
-   "section": "world"
-  },
-  {
-   "title": "Africa Cup title given back to Senegal after sports court rules against Morocco",
-   "summary": "Senegal won the Africa Cup on the field in Morocco in January and then lost it in a legal case in March because its players walked off the field in protest in second-half stoppage time.",
-   "link": "https://www.npr.org/2026/11/25/nx-s1-6053783/africa-cup-senegal-morocco",
-   "published": "2026-11-25T06:43:23.000Z",
+   "title": "Republican wants FBI and CIA answers before questioning Nvidia chief",
+   "summary": "\"The public is rightly concerned,\" says the Republican lawmaker, who wants to know what the FBI and CIA knew about potential national security threats and whether Jensen Huang was warned.",
+   "link": "https://www.npr.org/2026/11/25/nx-s1-6052417/nvidia-jensen-huang-reaction-republicans-congress-investigation",
+   "published": "2026-11-25T11:50:05.000Z",
    "source": "NPR",
    "section": "world"
   }
