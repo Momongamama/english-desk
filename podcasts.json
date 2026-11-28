@@ -1,5 +1,5 @@
 {
- "updated": "2026-11-28T03:53:18.577Z",
+ "updated": "2026-11-28T04:57:35.145Z",
  "shows": [
   {
    "id": "business-daily",
@@ -72,8 +72,7 @@
      "summary": "Today we're bringing you an episode from our friends at Short Wave on the economic toll this year's El Niño could have.",
      "url": "https://prfx.byspotify.com/e/play.podtrac.com/npr-510325/npr.simplecastaudio.com/0a4e8d3b-fe23-4948-9e39-20fcf16f9331/episodes/56259755-0133-4d54-9752-66b9f8d2f49e/audio/128/default.mp3?awCollectionId=0a4e8d3b-fe23-4948-9e39-20fcf16f9331&awEpisodeId=56259755-0133-4d54-9752-66b9f8d2f49e&feed=IFy3imsg&t=podcast&e=nx-s1-6048521&p=510325&d=605&size=9688777",
      "published": "2026-11-27T08:00:00.000Z",
-     "duration": 605,
-     "apple": "https://podcasts.apple.com/us/podcast/how-a-record-el-ni%C3%B1o-is-hitting-your-wallet/id1320118593?i=1000803140301&uo=4"
+     "duration": 605
     },
     {
      "title": "Sorry, even store brands are expensive now",
